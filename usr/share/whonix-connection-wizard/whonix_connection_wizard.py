@@ -25,6 +25,7 @@ class Common:
     bridges_default_path = '/usr/share/whonix-setup-wizard/bridges_default'
     use_bridges = False
     use_proxy = False
+    bridge_type = ''
 
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done'):
         ## "not whonix_connection.done" is required once at first run to get a copy of the original torrc.
@@ -532,7 +533,6 @@ class WhonixConnectionWizard(QtGui.QWizard):
         #self.bootstrap_thread = TorBootstrap(self)
         #self.bootstrap_thread.finished.connect(app.exit)
         #self.connect(self.bootstrap_thread, self.bootstrap_thread.signal, self.update_bootstrap)
-        self.bridge_type = ''
         self.bridges = []
         self.proxy_type = ''
         self.tor_status = ''
@@ -598,11 +598,11 @@ class WhonixConnectionWizard(QtGui.QWizard):
                 with open('/etc/tor/torrc', 'a') as f:
                     f.write('UseBridges 1\n')
 
-                    if self.bridge_type == 'obfs3':
+                    if Common.bridge_type == 'obfs3':
                         f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
-                    elif self.bridge_type == 'scramblesuit':
+                    elif Common.bridge_type == 'scramblesuit':
                         f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
-                    elif self.bridge_type == 'obfs4':
+                    elif Common.bridge_type == 'obfs4':
                         f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
 
                     for bridge in bridges['bridges'][Common.bridge_type]:
