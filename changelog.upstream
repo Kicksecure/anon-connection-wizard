@@ -1,3 +1,22 @@
+commit 13ecc5e34bd7e1e1d800934793ae15daad5ac63c
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Nov 30 19:56:54 2015 +0000
+
+    implement "Disable Tor" option
+
+commit 652c4edc51ed2c096846bbc73a1d71b737e6fa20
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Nov 29 21:22:29 2015 +0000
+
+    bug fix
+
+commit 7920ac73a10b706e8526968b11b95ab5d3d346bc
+Author: troubadoour <trobador@riseup.net>
+Date:   Sun Nov 29 19:22:08 2015 +0000
+
+    move files from home/user/whonix-connection-wizard/
+    to  usr/share/whonix-connection-wizard/
+
 commit 086cd9a714f71564a29d576c8d6c727aef094041
 Author: troubadoour <trobador@riseup.net>
 Date:   Sun Nov 29 18:57:43 2015 +0000

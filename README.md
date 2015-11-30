@@ -1,14 +1,13 @@
 # First Time Connection Setup #
 
-When Whonix starts for the first time, it won't automatically connect to the
-public Tor network. This is useful for users who want to hide Tor from their
-ISP. whonixsetup is automatically started, which educates about different
-methods to connect (public Tor network, bridges, etc.).
-
-Also automatically starts the Whonix Repository Tool (if installed), so the
-user can decide whether to use Whonix's Repository and if yes, choose which
-one.
-
+ When the gateway starts for the first time, it won't automatically connect to 
+ the public Tor network. This is useful for users who want to hide Tor from
+ their ISP. anon-connection-wizard is automatically started, which let the 
+ user choose  from  different methods to connect (public Tor network,
+ bridges, etc.).
+ 
+ The wizard can be run at any time to change the connection configuration.
+ 
 (This package description has been [automatically](https://github.com/Whonix/whonix-developer-meta-files/blob/master/debug-steps/packaging-helper-script) extracted and mirrored from `debian/control`.)
 
 # Manual Page #
