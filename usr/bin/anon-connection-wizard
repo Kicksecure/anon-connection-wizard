@@ -1,0 +1,4 @@
+#! /usr/bin/python
+
+from anon_connection_wizard import anon_connection_wizard
+anon_connection_wizard.main()
