@@ -26,6 +26,7 @@ class Common:
     use_bridges = False
     use_proxy = False
     bridge_type = ''
+    disable_tor = False
 
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done'):
         ## "not whonix_connection.done" is required once at first run to get a copy of the original torrc.
@@ -106,7 +107,7 @@ class ConnectionMainPage(QtGui.QWizardPage):
 
         self.label_5.setGeometry(QtCore.QRect(10, 250, 500, 31))
         self.label_5.setWordWrap(True)
-        self.label_5.setText('I do not want to connect automatically to the Tor network next time I boot Whonix. This wizard will be started.')
+        self.label_5.setText('I do not want to connect automatically to the Tor network next time I boot.<br> This wizard will be started.')
         self.label_5.setVisible(False)
 
         self.pushButton.setGeometry(QtCore.QRect(453, 285, 80, 25))
@@ -124,9 +125,14 @@ class ConnectionMainPage(QtGui.QWizardPage):
 
     def nextId(self):
         if self.pushButton_1.isChecked():
+            Common.disable_tor = False
             return self.steps.index('tor_status_page')
         elif self.pushButton_2.isChecked():
+            Common.disable_tor = False
             return self.steps.index('bridge_wizard_page_1')
+        elif self.pushButton_3.isChecked():
+            Common.disable_tor = True
+            return self.steps.index('tor_status_page')
 
 
 class BridgesWizardPage1(QtGui.QWizardPage):
@@ -611,7 +617,10 @@ class WhonixConnectionWizard(QtGui.QWizard):
             if Common.use_proxy:
                 pass
 
-            self.tor_status = tor_status.set_enabled()
+            if not Common.disable_tor:
+                self.tor_status = tor_status.set_enabled()
+            else:
+                self.tor_status = tor_status.set_disabled()
 
             if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                 self.tor_status_page.bootstrap_progress.setVisible(True)
@@ -619,6 +628,17 @@ class WhonixConnectionWizard(QtGui.QWizard):
                 self.connect(self.bootstrap_thread, self.bootstrap_thread.signal, self.update_bootstrap)
                 self.bootstrap_thread.finished.connect(self.finish)
                 self.bootstrap_thread.start()
+
+            elif self.tor_status == 'tor_disabled':
+                self.tor_status_page.bootstrap_progress.setVisible(False)
+                self.tor_status_page.text.setText('<b>Tor is disabled.</b> You will not be able to use any \
+                                                   network facing application.<p> If you shut down the gateway \
+                                                   now, this wizard will be run automatically next time you boot. \
+                                                   </p><p>You can run it at any moment using <i>Anon Connection Wizard</i> \
+                                                   from your application launcher, or from a terminal:<blockquote> \
+                                                   <code>kdesudo anon-connection-wizard</code></blockquote> \
+                                                   or press the Back button and select another option.')
+
 
     def back_button_clicked(self):
         try:
