@@ -514,9 +514,9 @@ class TorStatusPage(QtGui.QWizardPage):
 app = QtGui.QApplication(sys.argv)
 
 
-class WhonixConnectionWizard(QtGui.QWizard):
+class AnonConnectionWizard(QtGui.QWizard):
     def __init__(self):
-        super(WhonixConnectionWizard, self).__init__()
+        super(AnonConnectionWizard, self).__init__()
 
         translation = _translations(Common.translations_path, 'whonixsetup')
         self._ = translation.gettext
@@ -696,7 +696,7 @@ def main():
         print 'ERROR: This must be run as root!\nUse "kdesudo".'
         not_root = gui_message(Common.translations_path, 'not_root')
         sys.exit(1)
-    wizard = WhonixConnectionWizard()
+    wizard = AnonConnectionWizard()
 
     sys.exit(0)
 
