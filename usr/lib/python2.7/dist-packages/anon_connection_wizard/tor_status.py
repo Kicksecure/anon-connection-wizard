@@ -67,6 +67,9 @@ def set_disabled():
 
     line_exists = False
 
+    command = 'service tor@default stop'
+    call(command, shell=True)
+
     for line in lines:
         if line.strip() == '#DisableNetwork 0':
             line_exists = True
@@ -77,9 +80,6 @@ def set_disabled():
 
             for i, line in enumerate(fileinput.input('/etc/tor/torrc', inplace=1)):
                 sys.stdout.write(line.replace('DisableNetwork 0', '#DisableNetwork 0'))
-
-            command = 'service tor@default stop'
-            call(command, shell=True)
 
             return 'tor_disabled'
 
