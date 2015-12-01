@@ -619,17 +619,16 @@ class AnonConnectionWizard(QtGui.QWizard):
 
             if not Common.disable_tor:
                 self.tor_status = tor_status.set_enabled()
+                if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
+                    self.tor_status_page.bootstrap_progress.setVisible(True)
+                    self.bootstrap_thread = TorBootstrap(self)
+                    self.connect(self.bootstrap_thread, self.bootstrap_thread.signal, self.update_bootstrap)
+                    self.bootstrap_thread.finished.connect(self.show_finish_button)
+                    self.bootstrap_thread.start()
+                else:
+                    pass
             else:
                 self.tor_status = tor_status.set_disabled()
-
-            if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
-                self.tor_status_page.bootstrap_progress.setVisible(True)
-                self.bootstrap_thread = TorBootstrap(self)
-                self.connect(self.bootstrap_thread, self.bootstrap_thread.signal, self.update_bootstrap)
-                self.bootstrap_thread.finished.connect(self.finish)
-                self.bootstrap_thread.start()
-
-            elif self.tor_status == 'tor_disabled':
                 self.tor_status_page.bootstrap_progress.setVisible(False)
                 self.tor_status_page.text.setText('<b>Tor is disabled.</b> You will not be able to use any \
                                                    network facing application.<p> If you shut down the gateway \
@@ -638,7 +637,7 @@ class AnonConnectionWizard(QtGui.QWizard):
                                                    from your application launcher, or from a terminal:<blockquote> \
                                                    <code>kdesudo anon-connection-wizard</code></blockquote> \
                                                    or press the Back button and select another option.')
-
+                self.show_finish_button()
 
     def back_button_clicked(self):
         try:
@@ -659,8 +658,8 @@ class AnonConnectionWizard(QtGui.QWizard):
             self.button(QtGui.QWizard.FinishButton).setVisible(False)
             self.button(QtGui.QWizard.CancelButton).setVisible(True)
 
-    def finish(self):
-        if self.bootstrap_done:
+    def show_finish_button(self):
+        if self.bootstrap_done or Common.disable_tor:
             self.button(QtGui.QWizard.CancelButton).setVisible(False)
             self.button(QtGui.QWizard.FinishButton).setVisible(True)
             self.button(QtGui.QWizard.FinishButton).setFocus()
