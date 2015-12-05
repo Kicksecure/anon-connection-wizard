@@ -22,7 +22,7 @@ class Common:
     '''
     translations_path ='/usr/share/translations/whonix_setup.yaml'
 
-    bridges_default_path = '/usr/share/whonix-setup-wizard/bridges_default'
+    bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     use_bridges = False
     use_proxy = False
     bridge_type = ''
