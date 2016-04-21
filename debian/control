@@ -19,9 +19,9 @@ Depends: ${misc:Depends}, ${python:Depends}, python-yaml,
  python-guimessages
 Recommends: anon-icon-pack
 Description: First Time Connection Setup
- When the gateway starts for the first time, it won't automatically connect to 
+ When the gateway starts for the first time, it won't automatically connect to
  the public Tor network. This is useful for users who want to hide Tor from
- their ISP. anon-connection-wizard is automatically started, which let the 
- user choose  from  different methods to connect (public Tor network,
+ their ISP. anon-connection-wizard is automatically started, which let the
+ user choose from  different methods to connect (public Tor network,
  bridges, etc.).
  The wizard can be run at any time to change the connection configuration.
