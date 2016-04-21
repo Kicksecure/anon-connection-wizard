@@ -28,15 +28,15 @@ class Common:
     bridge_type = ''
     disable_tor = False
 
+    if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
+        os.makedirs('/var/cache/whonix-setup-wizard/status-files')
+
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done'):
         ## "not whonix_connection.done" is required once at first run to get a copy of the original torrc.
         ## It does not matter whether the wizard is completed or not, so we can write it here.
         f = open('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done', 'w')
         f.close()
         shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.orig')
-
-    if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
-        os.mkdir('/var/cache/whonix-setup-wizard/status-files')
 
     wizard_steps = ['connection_main_page',
                     'bridge_wizard_page_1',
