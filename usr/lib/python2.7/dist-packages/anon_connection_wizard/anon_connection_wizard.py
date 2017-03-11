@@ -23,10 +23,20 @@ class Common:
     translations_path ='/usr/share/translations/whonix_setup.yaml'
 
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
+    #well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
     use_bridges = False
     use_proxy = False
+    use_default_bridge = True
     bridge_type = ''
+    bridge_custom = ''
+    proxy_type = ''
+    proxy_ip = ''
+    proxy_port = ''
+    proxy_username = ''
+    proxy_password = ''#Q: Do we need special care for password? Like encryption? A: No. At least tor_launcher does not do that.
+    
     disable_tor = False
+    
 
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
         os.makedirs('/var/cache/whonix-setup-wizard/status-files')
@@ -213,8 +223,8 @@ class BridgesWizardPage2(QtGui.QWizardPage):
 
         self.steps = Common.wizard_steps
 
-        self.bridges = ['obfs3 (recommended)',
-                        'obfs4',
+        self.bridges = ['obfs4 (recommended)',
+                        'obfs3',
                         'scramblesuit']
 
         self.layout = QtGui.QVBoxLayout(self)
@@ -267,6 +277,8 @@ class BridgesWizardPage2(QtGui.QWizardPage):
         self.label_3.setGeometry(QtCore.QRect(38, 25, 106, 20))
         self.label_3.setText('Transport type:')
 
+        #This is the how to make a comboBox. The variable bridges is defined above.
+        #The proxy type selection in ProxyWizardPage2 can also use this method.
         self.comboBox.setGeometry(QtCore.QRect(135, 22, 181, 27))
         for bridge in self.bridges:
             self.comboBox.addItem(bridge)
@@ -279,9 +291,15 @@ class BridgesWizardPage2(QtGui.QWizardPage):
         self.pushButton.setText('&Help')
         self.pushButton.clicked.connect(self.show_help)
 
-        self.custom_bridges.setEnabled(False)
+        # TODO: The boolean value of this should be the same with self.custom_button.isChecked() Q: How to do it dynamically?
+        # Notice that this feature is not in Tor launcher, this can be an improvement which also benifits upstream.
+        # TODO: Make this QTextEdit support syntax to make it even more clear to users what should be input: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
+        self.custom_bridges.setEnabled(True)
         self.custom_bridges.setGeometry(QtCore.QRect(38, 103, 500, 76))
         self.custom_bridges.setStyleSheet("background-color:white;")
+        # TODO: The next statement can not be used yet, this is because the QTextEdit does not supprot setPlaceholderText.
+        # More functions need to be added to implement that: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
+        #self.custom_bridges.setPlaceholderText('type address:port')
 
         self.label_5.setGeometry(0, 220, 500, 15)
         self.label_5.setText('For assistance, contact help@rt.torproject.org')
@@ -291,10 +309,27 @@ class BridgesWizardPage2(QtGui.QWizardPage):
             bridge_type = str(self.comboBox.currentText())
             if bridge_type.startswith('obfs3'):
                 bridge_type = 'obfs3'
+            #Implement other options
+            elif bridge_type.startswith('obfs4'):
+                bridge_type = 'obfs4'
+            # Notice that the scramblesuit is even not supproted in offcial 6.5.1 TBB
+            # Is this option still useful or safe?
+            elif bridge_type.startswith('scramblesuit'):
+                bridge_type = 'scramblesuit'
+            ''' Other options can be implemented once whonix support them
+            elif bridge_type.startswith('flashproxy'):
+                bridge_type = 'flashproxy'
+            elif bridge_type.startswith('meek-amazon'):
+                bridge_type = 'meek-amazon'
+            elif bridge_type.startswith(''):
+                bridge_type = 'flashproxy'
+            '''
             Common.bridge_type = bridge_type
+            Common.use_default_bridge = True
 
         elif self.custom_button.isChecked():
-            pass
+            Common.bridge_custom = str(self.custom_bridges.toPlainText())
+            Common.use_default_bridge = False
 
         return self.steps.index('proxy_wizard_page_1')
 
@@ -368,7 +403,7 @@ class ProxyWizardPage1(QtGui.QWizardPage):
         font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setWordWrap(True)
-        self.label_2.setText('Does this computer need tot use a local proxy to access the Internet?')
+        self.label_2.setText('Does this computer need to use a local proxy to access the Internet?')
 
         self.group_box.setMinimumSize(QtCore.QSize(16777215, 250))
         self.group_box.setFlat(True)
@@ -407,6 +442,11 @@ class ProxyWizardPage2(QtGui.QWizardPage):
         self._ = translation.gettext
         self.steps = Common.wizard_steps
 
+        self.proxies = ['-',
+                        'SOCKS4',
+                        'SOCKS5',
+                        'HTTP / HTTPS']
+
         self.layout = QtGui.QVBoxLayout(self)
         self.label = QtGui.QLabel(self)
         self.layout.addWidget(self.label)
@@ -417,11 +457,11 @@ class ProxyWizardPage2(QtGui.QWizardPage):
         self.label_2 = QtGui.QLabel(self.groupBox)
         self.label_5 = QtGui.QLabel(self.groupBox)
         self.label_6 = QtGui.QLabel(self.groupBox)
-        self.lineEdit = QtGui.QLineEdit(self.groupBox)
+        self.lineEdit = QtGui.QLineEdit(self.groupBox)#IP TODO: An inputmask() will make user more clear about what to input: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
         self.label_7 = QtGui.QLabel(self.groupBox)
-        self.lineEdit_2 = QtGui.QLineEdit(self.groupBox)
-        self.lineEdit_3 = QtGui.QLineEdit(self.groupBox)
-        self.lineEdit_4 = QtGui.QLineEdit(self.groupBox)
+        self.lineEdit_2 = QtGui.QLineEdit(self.groupBox)#Port
+        self.lineEdit_3 = QtGui.QLineEdit(self.groupBox)#Username
+        self.lineEdit_4 = QtGui.QLineEdit(self.groupBox)#Password TODO: password should be covered: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
         self.label_8 = QtGui.QLabel(self.groupBox)
         self.label_4 = QtGui.QLabel(self.groupBox)
         self.layout.addWidget(self.groupBox)
@@ -444,7 +484,11 @@ class ProxyWizardPage2(QtGui.QWizardPage):
         self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_3.setText("Proxy type:")
 
-        self.comboBox.setGeometry(QtCore.QRect(118, 38, 111, 27))
+        #Here we are going to implement the proxy type selection
+        #Change it to larger so  that all options fit
+        self.comboBox.setGeometry(QtCore.QRect(118, 38, 121, 27))
+        for proxy in self.proxies:
+            self.comboBox.addItem(proxy)
 
         self.label_2.setGeometry(QtCore.QRect(4, 10, 201, 16))
         self.label_2.setText("Enter the proxy settings.")
@@ -453,6 +497,10 @@ class ProxyWizardPage2(QtGui.QWizardPage):
         self.label_5.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_5.setText("Address:")
 
+        '''
+        Username and Password options should be hide using "advance" button becuase it is not used rarely,
+        according to recommendation from previous research.
+        '''
         self.label_6.setGeometry(QtCore.QRect(10, 101, 106, 20))
         self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_6.setText("Username:")
@@ -465,6 +513,12 @@ class ProxyWizardPage2(QtGui.QWizardPage):
         self.label_8.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_8.setText("Password:")
 
+
+        ''' More instruction should be given as default. For example, 127.0.0.1. 
+        Other help may also be give in different ways:
+        1. tooltip for each option
+        2. option for users to configure well-known third party automatically (We can take foxyproxy's default setting as references.)
+        '''
         self.lineEdit.setGeometry(QtCore.QRect(118, 68, 260, 25))
         self.lineEdit.setStyleSheet("background-color:white;")
         self.lineEdit.setPlaceholderText('IP address or hostname')
@@ -479,6 +533,41 @@ class ProxyWizardPage2(QtGui.QWizardPage):
 
         self.label_4.setGeometry(QtCore.QRect(0, 255, 391, 16))
         self.label_4.setText("For assistance, contact help@rt.torproject.org'")
+
+    #Q: Why there is no nextId function in orinal script? Unnecessary or Incomplete?
+    #Q: Where is the nextId function called? It seems we can still go to next page without it.
+    #
+
+    '''
+    The default_button and custom_button are not implemented in proxy setting now.
+    The button can be used as well_known_proxy_setting auto-configuration or enter info manually by users
+    Please uncomment it to use the function in the future.
+    '''
+    def nextId(self):
+        #if self.default_button.isChecked():
+        proxy_type = str(self.comboBox.currentText())
+        if proxy_type.startswith('-'):
+            proxy_type = '-'
+        elif proxy_type.startswith('SOCKS4'):
+            proxy_type = 'SOCKS4'
+        elif proxy_type.startswith('SOCKS5'):
+            proxy_type = 'SOCKS5'
+        elif proxy_type.startswith('HTTP / HTTPS'):
+            proxy_type = 'HTTP/HTTPS'
+            
+        Common.proxy_type = proxy_type
+
+        Common.proxy_ip = str(self.lineEdit.text())
+        Common.proxy_port = str(self.lineEdit_2.text())
+        Common.proxy_username = str(self.lineEdit_3.text())
+        Common.proxy_password = str(self.lineEdit_4.text())
+        '''
+        elif self.custom_button.isChecked():
+            pass
+        '''
+        #Q: Where should I turn it to?
+        #A: Done! Notice it is not TorStatusPage but tor_status_page
+        return self.steps.index('tor_status_page')
 
 
 class TorStatusPage(QtGui.QWizardPage):
@@ -554,7 +643,7 @@ class AnonConnectionWizard(QtGui.QWizard):
         self.button(QtGui.QWizard.BackButton).clicked.connect(self.back_button_clicked)
         self.button(QtGui.QWizard.NextButton).clicked.connect(self.next_button_clicked)
 
-        self.button(QtGui.QWizard.BackButton).setVisible(False)
+        self.button(QtGui.QWizard.BackButton).setVisible(False) #Since this is the index page, no back_button is needed.
         self.CancelButtonOnLeft
         self.button(QtGui.QWizard.CancelButton).setVisible(True)
         self.button(QtGui.QWizard.CancelButton).setEnabled(True)
@@ -600,23 +689,73 @@ class AnonConnectionWizard(QtGui.QWizard):
             shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
 
             if Common.use_bridges:
-                bridges = json.loads(open(Common.bridges_default_path).read())
                 with open('/etc/tor/torrc', 'a') as f:
                     f.write('UseBridges 1\n')
+                    if Common.use_default_bridge:
+                        # Q: Why there is no those lines in torrc after using Torlauncher to configure that?
+                        # Do we really need these?
+                        # If so, can we just input them as default and mange them only use UseBridges 0/1 to control it?
+                        if Common.bridge_type == 'obfs3':
+                            f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
+                        elif Common.bridge_type == 'scramblesuit':
+                            f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
+                        elif Common.bridge_type == 'obfs4':
+                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
+                            ''' More types of bridges will be availble once Whonix support them: meek, flashproxy'''
+                        #elif Common.bridge_type == '':
+                        bridges = json.loads(open(Common.bridges_default_path).read())# default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
+                        # Q: What does json.load do?
+                        # TODO: use .format instead of %s, because the later one will become default in python3 in the future
+                        for bridge in bridges['bridges'][Common.bridge_type]:# What does this line mean? A: The briges are more like a multilayer-dictionary
+                            f.write('Bridge %s\n' %bridge) #This is the format to configure a bridge in torrc
+                    else:# Use costom bridges
+                            # TODO: we should preserve the costom bridge setting for the next time use.
+                            # Unfinishde for different type of bridge:
+                        if Common.bridge_custom.startswith('obfs4'):
+                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
+                        elif Common.bridge_custom.startswith('obfs3'):
+                            f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
+                        elif Common.bridge_custom.startswith('scramblesuit'):
+                            f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
+                        # Write the specific bridge address, port, cert etc.
+                        f.write('Bridge {0}\n'.format(Common.bridge_custom))
+                            
 
-                    if Common.bridge_type == 'obfs3':
-                        f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
-                    elif Common.bridge_type == 'scramblesuit':
-                        f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
-                    elif Common.bridge_type == 'obfs4':
-                        f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
-
-                    for bridge in bridges['bridges'][Common.bridge_type]:
-                        f.write('Bridge %s\n' % bridge)
-
+            ''' The part is the IO to torrc for proxy settings.'''
             if Common.use_proxy:
-                pass
+                #pass
+                with open('/etc/tor/torrc', 'a') as f:
 
+                    # TODO: Both proxy_ip and proxy_port are not implemented yet.
+                    # Done.
+                    # TODO: Check tor docs to know how to configure proxy username and password in torrc:
+                    # https://www.torproject.org/docs/tor-manual.html.en
+                    # Notice that if SOCKS4 is selected, the proxy username and password shold be disabled
+                    # This is because SOCKS4 does not supprot that.
+                    if Common.proxy_type == 'HTTP/HTTPS':
+                        f.write('HTTPSProxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                        if (Common.proxy_username != ''):# Q: It seems there is no need to check password because username is essetial, not password, right?
+                            f.write('HTTPSProxyAuthenticator {0}:{1}\n'.format(Common.proxy_username, Common.proxy_password))
+                    elif Common.proxy_type == 'SOCKS4':
+                        f.write('Socks4Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                        # The two statements below are even not needed, because the inputLine should be disabled in future implementation
+                        #if (Common.proxy_username != ''):
+                        #    f.write('HTTPSProxy\b%s:%s\n' %Common.proxy_ip %Common.proxy_port)
+                    elif Common.proxy_type == 'SOCKS5':
+                        f.write('Socks5Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                        if (Common.proxy_username != ''):
+                            f.write('Socks5ProxyUsername %s\n' %Common.proxy_username)
+                            f.write('Socks5ProxyPassword %s\n' %Common.proxy_password)
+                    
+                    ''' Another feature can be implemented in the future is auto-configure for well-known third party proxy-based censorship circumvention tools, like Lantern.
+                    Uncommon the all fragments to enable it.                    
+                    '''
+
+                    '''
+                    proxies = json.loads(open(Common.well_known_proxy_setting_default_path).read())# default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
+                    for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
+                        f.write('%s\n' % proxy)
+                    '''
             if not Common.disable_tor:
                 self.tor_status = tor_status.set_enabled()
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
@@ -692,7 +831,7 @@ def main():
     QtGui.QApplication.setStyle('cleanlooks')
     # root check.
     if os.getuid() != 0:
-        print 'ERROR: This must be run as root!\nUse "kdesudo".'
+        print 'ERROR: This must be run as root!\nUse "kdesudo".'# Q: But why?
         not_root = gui_message(Common.translations_path, 'not_root')
         sys.exit(1)
     wizard = AnonConnectionWizard()
