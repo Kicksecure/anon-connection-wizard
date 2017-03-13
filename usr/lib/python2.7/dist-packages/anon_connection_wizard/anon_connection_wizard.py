@@ -225,7 +225,14 @@ class BridgesWizardPage2(QtGui.QWizardPage):
 
         self.bridges = ['obfs4 (recommended)',
                         'obfs3',
-                        'scramblesuit']
+                        '''
+                        The following will be uncommented as soon as being implemented.
+                        Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
+                        '''
+                        #'fte',
+                        #'meek-amazon',
+                        #'meek-azure'
+    ]
 
         self.layout = QtGui.QVBoxLayout(self)
         self.label = QtGui.QLabel(self)
@@ -314,15 +321,17 @@ class BridgesWizardPage2(QtGui.QWizardPage):
                 bridge_type = 'obfs4'
             # Notice that the scramblesuit is even not supproted in offcial 6.5.1 TBB
             # Is this option still useful or safe?
-            elif bridge_type.startswith('scramblesuit'):
-                bridge_type = 'scramblesuit'
+            # No. Do not use it anymore.
+            #elif bridge_type.startswith('scramblesuit'):
+            #    bridge_type = 'scramblesuit'
             ''' Other options can be implemented once whonix support them
-            elif bridge_type.startswith('flashproxy'):
-                bridge_type = 'flashproxy'
+                Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
+            elif bridge_type.startswith('fte'):
+                bridge_type = 'fte'
             elif bridge_type.startswith('meek-amazon'):
                 bridge_type = 'meek-amazon'
-            elif bridge_type.startswith(''):
-                bridge_type = 'flashproxy'
+            elif bridge_type.startswith('meek-azure'):
+                bridge_type = 'meek-azure'
             '''
             Common.bridge_type = bridge_type
             Common.use_default_bridge = True
@@ -715,8 +724,16 @@ class AnonConnectionWizard(QtGui.QWizard):
                             f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
                         elif Common.bridge_custom.startswith('obfs3'):
                             f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
-                        elif Common.bridge_custom.startswith('scramblesuit'):
-                            f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
+                        #elif Common.bridge_custom.startswith('scramblesuit'):
+                        #     f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
+                        # Wait to be implemented in Whonix
+                        elif Common.bridge_custom.startswith('fte'):
+                            f.write('ClientTransportPlugin fte exec /usr/bin/fteproxy --managed\n')
+                        elif Common.bridge_custom.startswith('meek-amazon'):
+                            pass
+                        elif Common.bridge_custom.startswith('meek-azure'):
+                            pass
+
                         # Write the specific bridge address, port, cert etc.
                         f.write('Bridge {0}\n'.format(Common.bridge_custom))
                             
