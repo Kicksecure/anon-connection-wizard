@@ -642,7 +642,7 @@ class AnonConnectionWizard(QtGui.QWizard):
 
     def setupUi(self):
         self.setWindowIcon(QtGui.QIcon("/usr/share/icons/anon-icon-pack/whonix.ico"))
-        self.setWindowTitle('Whonix Connection Wizard')
+        self.setWindowTitle('Anon Connection Wizard')  # Do not know if anon is Whonix-related or not?
         self.resize(580, 400)
 
         self.button(QtGui.QWizard.BackButton).clicked.connect(self.back_button_clicked)
