@@ -1,7 +1,13 @@
-#!/usr/bin/python
+#!/usr/bin/python3 -u
 # -*- coding: utf-8 -*-
 
-from PyQt4 import QtCore, QtGui
+# The next two blocks are similar to whonix-setup-wizard. However, it seems to be repetitive, isn't it?
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 from subprocess import call, Popen
 import os, yaml
 import json
@@ -13,6 +19,7 @@ import distutils.spawn
 
 from guimessages.translations import _translations
 from guimessages.guimessage import gui_message
+
 import tor_status
 
 
@@ -56,21 +63,21 @@ class Common:
                     'tor_status_page']
 
 
-class ConnectionMainPage(QtGui.QWizardPage):
+class ConnectionMainPage(QtWidgets.QWizardPage):
     def __init__(self):
         super(ConnectionMainPage, self).__init__()
 
         self.steps = Common.wizard_steps
 
-        self.verticalLayout = QtGui.QVBoxLayout(self)
-        self.groupBox = QtGui.QGroupBox(self)
+        self.verticalLayout = QtWidgets.QVBoxLayout(self)
+        self.groupBox = QtWidgets.QGroupBox(self)
         self.label = QtGui.QLabel(self.groupBox)
         self.label_2 = QtGui.QLabel(self.groupBox)
-        self.pushButton_1 = QtGui.QRadioButton(self.groupBox)
+        self.pushButton_1 = QtWidgets.QRadioButton(self.groupBox)
         self.label_4 = QtGui.QLabel(self.groupBox)
-        self.pushButton_2 = QtGui.QRadioButton(self.groupBox)
+        self.pushButton_2 = QtWidgets.QRadioButton(self.groupBox)
         self.label_5 = QtGui.QLabel(self.groupBox)
-        self.pushButton_3 = QtGui.QRadioButton(self.groupBox)
+        self.pushButton_3 = QtWidgets.QRadioButton(self.groupBox)
 
         self.pushButton = QtGui.QPushButton(self.groupBox)
         self.show_disable = False
@@ -145,7 +152,7 @@ class ConnectionMainPage(QtGui.QWizardPage):
             return self.steps.index('tor_status_page')
 
 
-class BridgesWizardPage1(QtGui.QWizardPage):
+class BridgesWizardPage1(QtWidgets.QWizardPage):
     def __init__(self):
         super(BridgesWizardPage1, self).__init__()
 
@@ -154,16 +161,16 @@ class BridgesWizardPage1(QtGui.QWizardPage):
 
         self.steps = Common.wizard_steps
 
-        self.layout = QtGui.QVBoxLayout(self)
+        self.layout = QtWidgets.QVBoxLayout(self)
         self.label = QtGui.QLabel(self)
         self.layout.addWidget(self.label)
 
         self.label_2 = QtGui.QLabel(self)
         self.layout.addWidget(self.label_2)
 
-        self.group_box = QtGui.QGroupBox(self)
-        self.yes_button = QtGui.QRadioButton(self.group_box)
-        self.no_button = QtGui.QRadioButton(self.group_box)
+        self.group_box = QtWidgets.QGroupBox(self)
+        self.yes_button = QtWidgets.QRadioButton(self.group_box)
+        self.no_button = QtWidgets.QRadioButton(self.group_box)
         self.label_3 = QtGui.QLabel(self.group_box)
         self.label_4 = QtGui.QLabel(self.group_box)
         self.layout.addWidget(self.group_box)
@@ -217,7 +224,7 @@ class BridgesWizardPage1(QtGui.QWizardPage):
             return self.steps.index('proxy_wizard_page_1')
 
 
-class BridgesWizardPage2(QtGui.QWizardPage):
+class BridgesWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
         super(BridgesWizardPage2, self).__init__()
 
@@ -234,16 +241,16 @@ class BridgesWizardPage2(QtGui.QWizardPage):
                         # 'meek-azure'
                        ]
 
-        self.layout = QtGui.QVBoxLayout(self)
+        self.layout = QtWidgets.QVBoxLayout(self)
         self.label = QtGui.QLabel(self)
         self.layout.addWidget(self.label)
 
         self.label_2 = QtGui.QLabel(self)
         self.layout.addWidget(self.label_2)
 
-        self.groupBox = QtGui.QGroupBox(self)
-        self.default_button = QtGui.QRadioButton(self.groupBox)
-        self.custom_button = QtGui.QRadioButton(self.groupBox)
+        self.groupBox = QtWidgets.QGroupBox(self)
+        self.default_button = QtWidgets.QRadioButton(self.groupBox)
+        self.custom_button = QtWidgets.QRadioButton(self.groupBox)
         self.label_3 = QtGui.QLabel(self.groupBox)
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.label_4 = QtGui.QLabel(self.groupBox)
@@ -367,7 +374,7 @@ to each request.</blockquote>''', QtGui.QMessageBox.Ok)
         reply.exec_()
 
 
-class ProxyWizardPage1(QtGui.QWizardPage):
+class ProxyWizardPage1(QtWidgets.QWizardPage):
     def __init__(self):
         super(ProxyWizardPage1, self).__init__()
 
@@ -377,16 +384,16 @@ class ProxyWizardPage1(QtGui.QWizardPage):
         self.Common = Common()
         self.steps = self.Common.wizard_steps
 
-        self.layout = QtGui.QVBoxLayout(self)
+        self.layout = QtWidgets.QVBoxLayout(self)
         self.label = QtGui.QLabel(self)
         self.layout.addWidget(self.label)
 
         self.label_2 = QtGui.QLabel(self)
         self.layout.addWidget(self.label_2)
 
-        self.group_box = QtGui.QGroupBox(self)
-        self.yes_button = QtGui.QRadioButton(self.group_box)
-        self.no_button = QtGui.QRadioButton(self.group_box)
+        self.group_box = QtWidgets.QGroupBox(self)
+        self.yes_button = QtWidgets.QRadioButton(self.group_box)
+        self.no_button = QtWidgets.QRadioButton(self.group_box)
         self.label_3 = QtGui.QLabel(self.group_box)
         self.label_4 = QtGui.QLabel(self.group_box)
         self.layout.addWidget(self.group_box)
@@ -439,7 +446,7 @@ class ProxyWizardPage1(QtGui.QWizardPage):
             return self.steps.index('tor_status_page')
 
 
-class ProxyWizardPage2(QtGui.QWizardPage):
+class ProxyWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
         super(ProxyWizardPage2, self).__init__()
 
@@ -453,11 +460,14 @@ class ProxyWizardPage2(QtGui.QWizardPage):
                         'SOCKS5',
                         'HTTP / HTTPS']
 
-        self.layout = QtGui.QVBoxLayout(self)
+
+
+        
+        self.layout = QtWidgets.QVBoxLayout(self)
         self.label = QtGui.QLabel(self)
         self.layout.addWidget(self.label)
 
-        self.groupBox = QtGui.QGroupBox(self)
+        self.groupBox = QtWidgets.QGroupBox(self)
         self.label_3 = QtGui.QLabel(self.groupBox)
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.label_2 = QtGui.QLabel(self.groupBox)
@@ -575,7 +585,7 @@ class ProxyWizardPage2(QtGui.QWizardPage):
         return self.steps.index('tor_status_page')
 
 
-class TorStatusPage(QtGui.QWizardPage):
+class TorStatusPage(QtWidgets.QWizardPage):
     def __init__(self):
         super(TorStatusPage, self).__init__()
 
@@ -584,14 +594,14 @@ class TorStatusPage(QtGui.QWizardPage):
         # self.icon = QtGui.QLabel(self)
         self.bootstrap_text = QtGui.QLabel(self)
         self.text = QtGui.QLabel(self)
-        # self.torrc = QtGui.QPlainTextEdit(self)
+        # self.torrc = QtWidgets.QPlainTextEdit(self)
         self.bootstrap_progress = QtGui.QProgressBar(self)
 
-        self.layout = QtGui.QGridLayout()
+        self.layout = QtWidgets.QGridLayout()
         self.setupUi()
 
     def setupUi(self):
-        # self.text.setFrameShape(QtGui.QFrame.NoFrame)
+        # self.text.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.text.setWordWrap(True)
         self.text.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.text.setMinimumSize(0, 290)
@@ -605,7 +615,7 @@ class TorStatusPage(QtGui.QWizardPage):
         self.layout.addWidget(self.bootstrap_progress, 1, 1, 1, 1)
         self.setLayout(self.layout)
 
-app = QtGui.QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 
 
 class AnonConnectionWizard(QtGui.QWizard):
@@ -838,10 +848,10 @@ class TorBootstrap(QtCore.QThread):
             time.sleep(0.2)
 
 def main():
-    QtGui.QApplication.setStyle('cleanlooks')
+    QtWidgets.QApplication.setStyle('cleanlooks')
     # root check.
     if os.getuid() != 0:
-        print 'ERROR: This must be run as root!\nUse "kdesudo".'  # Q: But why?
+        print('ERROR: This must be run as root!\nUse "kdesudo".')
         not_root = gui_message(Common.translations_path, 'not_root')
         sys.exit(1)
     wizard = AnonConnectionWizard()
