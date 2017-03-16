@@ -34,9 +34,9 @@ class Common:
     proxy_port = ''
     proxy_username = ''
     proxy_password = ''
-    
+
     disable_tor = False
-    
+
 
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
         os.makedirs('/var/cache/whonix-setup-wizard/status-files')
@@ -520,8 +520,8 @@ class ProxyWizardPage2(QtGui.QWizardPage):
         self.label_8.setText("Password:")
 
 
-        ''' More instruction should be given as default. 
-        For example, 127.0.0.1. 
+        ''' More instruction should be given as default.
+        For example, 127.0.0.1.
         Other help may also be give in different ways:
         1. tooltip for each option
         2. option for users to configure well-known third party automatically (We can take foxyproxy's default setting as references.)
@@ -559,7 +559,7 @@ class ProxyWizardPage2(QtGui.QWizardPage):
             proxy_type = 'SOCKS5'
         elif proxy_type.startswith('HTTP / HTTPS'):
             proxy_type = 'HTTP/HTTPS'
-            
+
         Common.proxy_type = proxy_type
 
         Common.proxy_ip = str(self.lineEdit.text())
@@ -732,7 +732,7 @@ class AnonConnectionWizard(QtGui.QWizard):
 
                         # Write the specific bridge address, port, cert etc.
                         f.write('Bridge {0}\n'.format(Common.bridge_custom))
-                            
+
 
             ''' The part is the IO to torrc for proxy settings.'''
             if Common.use_proxy:
@@ -756,16 +756,16 @@ class AnonConnectionWizard(QtGui.QWizard):
                         if (Common.proxy_username != ''):
                             f.write('Socks5ProxyUsername %s\n' %Common.proxy_username)
                             f.write('Socks5ProxyPassword %s\n' %Common.proxy_password)
-                    
+
                     ''' Another feature can be implemented in the future is auto-configure for well-known third party proxy-based censorship circumvention tools, like Lantern.
-                    Uncomment all the fragments to enable it.                    
+                    Uncomment all the fragments to enable it.
                     '''
 
-                    
+
                     # proxies = json.loads(open(Common.well_known_proxy_setting_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
                     # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
                     #    f.write('%s\n' % proxy)
-                    
+
             if not Common.disable_tor:
                 self.tor_status = tor_status.set_enabled()
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
