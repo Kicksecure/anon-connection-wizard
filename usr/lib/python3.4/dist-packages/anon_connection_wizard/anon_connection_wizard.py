@@ -20,8 +20,8 @@ import distutils.spawn
 from guimessages.translations import _translations
 from guimessages.guimessage import gui_message
 
-from anon_connection_wizard import tor_status
-
+#from anon_connection_wizard import tor_status
+import tor_status
 
 class Common:
     '''
@@ -71,15 +71,15 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
 
         self.verticalLayout = QtWidgets.QVBoxLayout(self)
         self.groupBox = QtWidgets.QGroupBox(self)
-        self.label = QtGui.QLabel(self.groupBox)
-        self.label_2 = QtGui.QLabel(self.groupBox)
+        self.label = QtWidgets.QLabel(self.groupBox)
+        self.label_2 = QtWidgets.QLabel(self.groupBox)
         self.pushButton_1 = QtWidgets.QRadioButton(self.groupBox)
-        self.label_4 = QtGui.QLabel(self.groupBox)
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
         self.pushButton_2 = QtWidgets.QRadioButton(self.groupBox)
-        self.label_5 = QtGui.QLabel(self.groupBox)
+        self.label_5 = QtWidgets.QLabel(self.groupBox)
         self.pushButton_3 = QtWidgets.QRadioButton(self.groupBox)
 
-        self.pushButton = QtGui.QPushButton(self.groupBox)
+        self.pushButton = QtWidgets.QPushButton(self.groupBox)
         self.show_disable = False
 
         self.verticalLayout.addWidget(self.groupBox)
@@ -101,7 +101,7 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.label_2.setFont(font)
         self.label_2.setText('Which of the following best describes your situation?')
 
-        self.label_3 = QtGui.QLabel(self.groupBox)
+        self.label_3 = QtWidgets.QLabel(self.groupBox)
         self.label_3.setGeometry(QtCore.QRect(10, 85, 321, 41))
         self.label_3.setWordWrap(True)
         self.label_3.setText('I would like to connect directly to the Tor network. This will work in most situations.')
@@ -162,17 +162,17 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         self.steps = Common.wizard_steps
 
         self.layout = QtWidgets.QVBoxLayout(self)
-        self.label = QtGui.QLabel(self)
+        self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
 
-        self.label_2 = QtGui.QLabel(self)
+        self.label_2 = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label_2)
 
         self.group_box = QtWidgets.QGroupBox(self)
         self.yes_button = QtWidgets.QRadioButton(self.group_box)
         self.no_button = QtWidgets.QRadioButton(self.group_box)
-        self.label_3 = QtGui.QLabel(self.group_box)
-        self.label_4 = QtGui.QLabel(self.group_box)
+        self.label_3 = QtWidgets.QLabel(self.group_box)
+        self.label_4 = QtWidgets.QLabel(self.group_box)
         self.layout.addWidget(self.group_box)
 
         self.setupUi()
@@ -242,21 +242,21 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                        ]
 
         self.layout = QtWidgets.QVBoxLayout(self)
-        self.label = QtGui.QLabel(self)
+        self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
 
-        self.label_2 = QtGui.QLabel(self)
+        self.label_2 = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label_2)
 
         self.groupBox = QtWidgets.QGroupBox(self)
         self.default_button = QtWidgets.QRadioButton(self.groupBox)
         self.custom_button = QtWidgets.QRadioButton(self.groupBox)
-        self.label_3 = QtGui.QLabel(self.groupBox)
-        self.comboBox = QtGui.QComboBox(self.groupBox)
-        self.label_4 = QtGui.QLabel(self.groupBox)
-        self.custom_bridges = QtGui.QTextEdit(self.groupBox)
-        self.pushButton = QtGui.QPushButton(self.groupBox)
-        self.label_5 = QtGui.QLabel(self.groupBox)
+        self.label_3 = QtWidgets.QLabel(self.groupBox)
+        self.comboBox = QtWidgets.QComboBox(self.groupBox)
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
+        self.custom_bridges = QtWidgets.QTextEdit(self.groupBox)
+        self.pushButton = QtWidgets.QPushButton(self.groupBox)
+        self.label_5 = QtWidgets.QLabel(self.groupBox)
 
         self.layout.addWidget(self.groupBox)
         self.setupUi()
@@ -385,17 +385,17 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         self.steps = self.Common.wizard_steps
 
         self.layout = QtWidgets.QVBoxLayout(self)
-        self.label = QtGui.QLabel(self)
+        self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
 
-        self.label_2 = QtGui.QLabel(self)
+        self.label_2 = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label_2)
 
         self.group_box = QtWidgets.QGroupBox(self)
         self.yes_button = QtWidgets.QRadioButton(self.group_box)
         self.no_button = QtWidgets.QRadioButton(self.group_box)
-        self.label_3 = QtGui.QLabel(self.group_box)
-        self.label_4 = QtGui.QLabel(self.group_box)
+        self.label_3 = QtWidgets.QLabel(self.group_box)
+        self.label_4 = QtWidgets.QLabel(self.group_box)
         self.layout.addWidget(self.group_box)
 
         self.setupUi()
@@ -464,22 +464,22 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
         
         self.layout = QtWidgets.QVBoxLayout(self)
-        self.label = QtGui.QLabel(self)
+        self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
 
         self.groupBox = QtWidgets.QGroupBox(self)
-        self.label_3 = QtGui.QLabel(self.groupBox)
-        self.comboBox = QtGui.QComboBox(self.groupBox)
-        self.label_2 = QtGui.QLabel(self.groupBox)
-        self.label_5 = QtGui.QLabel(self.groupBox)
-        self.label_6 = QtGui.QLabel(self.groupBox)
-        self.lineEdit = QtGui.QLineEdit(self.groupBox)  # IP TODO: An inputmask() will make user more clear about what to input: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
-        self.label_7 = QtGui.QLabel(self.groupBox)
-        self.lineEdit_2 = QtGui.QLineEdit(self.groupBox)  # Port
-        self.lineEdit_3 = QtGui.QLineEdit(self.groupBox)  # Username
-        self.lineEdit_4 = QtGui.QLineEdit(self.groupBox)  # Password TODO: password should be covered: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
-        self.label_8 = QtGui.QLabel(self.groupBox)
-        self.label_4 = QtGui.QLabel(self.groupBox)
+        self.label_3 = QtWidgets.QLabel(self.groupBox)
+        self.comboBox = QtWidgets.QComboBox(self.groupBox)
+        self.label_2 = QtWidgets.QLabel(self.groupBox)
+        self.label_5 = QtWidgets.QLabel(self.groupBox)
+        self.label_6 = QtWidgets.QLabel(self.groupBox)
+        self.lineEdit = QtWidgets.QLineEdit(self.groupBox)  # IP TODO: An inputmask() will make user more clear about what to input: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
+        self.label_7 = QtWidgets.QLabel(self.groupBox)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.groupBox)  # Port
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox)  # Username
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)  # Password TODO: password should be covered: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
+        self.label_8 = QtWidgets.QLabel(self.groupBox)
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
         self.layout.addWidget(self.groupBox)
 
         self.setupUi()
@@ -591,11 +591,11 @@ class TorStatusPage(QtWidgets.QWizardPage):
 
         self.steps = Common.wizard_steps
 
-        # self.icon = QtGui.QLabel(self)
-        self.bootstrap_text = QtGui.QLabel(self)
-        self.text = QtGui.QLabel(self)
+        # self.icon = QtWidgets.QLabel(self)
+        self.bootstrap_text = QtWidgets.QLabel(self)
+        self.text = QtWidgets.QLabel(self)
         # self.torrc = QtWidgets.QPlainTextEdit(self)
-        self.bootstrap_progress = QtGui.QProgressBar(self)
+        self.bootstrap_progress = QtWidgets.QProgressBar(self)
 
         self.layout = QtWidgets.QGridLayout()
         self.setupUi()
@@ -618,7 +618,7 @@ class TorStatusPage(QtWidgets.QWizardPage):
 app = QtWidgets.QApplication(sys.argv)
 
 
-class AnonConnectionWizard(QtGui.QWizard):
+class AnonConnectionWizard(QtWidgets.QWizard):
     def __init__(self):
         super(AnonConnectionWizard, self).__init__()
 
@@ -655,15 +655,15 @@ class AnonConnectionWizard(QtGui.QWizard):
         self.setWindowTitle('Anon Connection Wizard')  # Do not know if anon is Whonix-related or not?
         self.resize(580, 400)
 
-        self.button(QtGui.QWizard.BackButton).clicked.connect(self.back_button_clicked)
-        self.button(QtGui.QWizard.NextButton).clicked.connect(self.next_button_clicked)
+        self.button(QtWidgets.QWizard.BackButton).clicked.connect(self.back_button_clicked)
+        self.button(QtWidgets.QWizard.NextButton).clicked.connect(self.next_button_clicked)
 
-        self.button(QtGui.QWizard.BackButton).setVisible(False)   # Since this is the index page, no back_button is needed.
+        self.button(QtWidgets.QWizard.BackButton).setVisible(False)   # Since this is the index page, no back_button is needed.
         self.CancelButtonOnLeft
-        self.button(QtGui.QWizard.CancelButton).setVisible(True)
-        self.button(QtGui.QWizard.CancelButton).setEnabled(True)
-        #self.button(QtGui.QWizard.CancelButton).setFocus()
-        self.button(QtGui.QWizard.CancelButton).clicked.connect(self.cancel_button_clicked)
+        self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
+        self.button(QtWidgets.QWizard.CancelButton).setEnabled(True)
+        #self.button(QtWidgets.QWizard.CancelButton).setFocus()
+        self.button(QtWidgets.QWizard.CancelButton).clicked.connect(self.cancel_button_clicked)
         self.exec_()
 
 
@@ -692,14 +692,14 @@ class AnonConnectionWizard(QtGui.QWizard):
         """
         if self.currentId() == self.steps.index('connection_main_page'):
             self.resize(580, 400)
-            self.button(QtGui.QWizard.CancelButton).setVisible(True)
-            self.button(QtGui.QWizard.FinishButton).setVisible(False)
+            self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
+            self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
 
         if self.currentId() == self.steps.index('tor_status_page'):
-            self.button(QtGui.QWizard.BackButton).setVisible(True)
-            self.button(QtGui.QWizard.CancelButton).setVisible(True)
-            self.button(QtGui.QWizard.FinishButton).setVisible(False)
+            self.button(QtWidgets.QWizard.BackButton).setVisible(True)
+            self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
+            self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             ## Get a fresh torrc
             shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
 
@@ -809,19 +809,19 @@ class AnonConnectionWizard(QtGui.QWizard):
             Common.use_bridges = False
             shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
             self.bootstrap_done = False
-            self.button(QtGui.QWizard.FinishButton).setVisible(False)
-            self.button(QtGui.QWizard.CancelButton).setVisible(True)
+            self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
+            self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
 
         if self.currentId() == self.steps.index('proxy_wizard_page_1'):
             self.bootstrap_done = False
-            self.button(QtGui.QWizard.FinishButton).setVisible(False)
-            self.button(QtGui.QWizard.CancelButton).setVisible(True)
+            self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
+            self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
 
     def show_finish_button(self):
         if self.bootstrap_done or Common.disable_tor:
-            self.button(QtGui.QWizard.CancelButton).setVisible(False)
-            self.button(QtGui.QWizard.FinishButton).setVisible(True)
-            self.button(QtGui.QWizard.FinishButton).setFocus()
+            self.button(QtWidgets.QWizard.CancelButton).setVisible(False)
+            self.button(QtWidgets.QWizard.FinishButton).setVisible(True)
+            self.button(QtWidgets.QWizard.FinishButton).setFocus()
 
 
 class TorBootstrap(QtCore.QThread):
