@@ -20,7 +20,7 @@ import distutils.spawn
 from guimessages.translations import _translations
 from guimessages.guimessage import gui_message
 
-import tor_status
+from anon_connection_wizard import tor_status
 
 
 class Common:
