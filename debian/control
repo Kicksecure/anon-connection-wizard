@@ -7,7 +7,7 @@ Section: misc
 Priority: optional
 Maintainer: Iry Koon <irykoon@riseup.net>
 Uploaders: Patrick Schleizer <adrelanos@riseup.net>
-Build-Depends: debhelper (>= 9), genmkfile, ruby-ronn (>= 0.7.3), python3
+Build-Depends: debhelper (>= 9), genmkfile, ruby-ronn, python3
 Homepage: https://www.whonix.org/
 Vcs-Browser: https://github.com/troubadoour/anon-connection-wizard
 Vcs-Git: https://github.com/troubadoour/anon-connection-wizard.git
