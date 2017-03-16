@@ -5,7 +5,7 @@
 Source: anon-connection-wizard
 Section: misc
 Priority: optional
-Maintainer: troubadour <trobador@riseup.net>
+Maintainer: Iry Koon <irykoon@riseup.net>
 Uploaders: Patrick Schleizer <adrelanos@riseup.net>
 Build-Depends: debhelper (>= 9), faketime, genmkfile, ruby-ronn (>= 0.7.3), python (>= 2.6)
 Homepage: https://www.whonix.org/
@@ -15,8 +15,8 @@ Standards-Version: 3.9.6
 
 Package: anon-connection-wizard
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, python-yaml,
- python-guimessages
+Depends: ${misc:Depends}, ${python:Depends}, python3-yaml,
+ python3-guimessages, python3
 Recommends: anon-icon-pack
 Description: First Time Connection Setup
  When the gateway starts for the first time, it won't automatically connect to
