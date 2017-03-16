@@ -699,7 +699,7 @@ class AnonConnectionWizard(QtGui.QWizard):
                     if Common.use_default_bridge:
                         # Q: Why there is no those lines in torrc after using Torlauncher to configure that?
                         # Do we really need these?
-                        # If so, can we just input them as default and mange them only use UseBridges 0/1 to control it?
+                        # If so, can we just input them as default and manage them only use UseBridges 0/1 to control it?
                         if Common.bridge_type == 'obfs3':
                             f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
                         elif Common.bridge_type == 'scramblesuit':
@@ -744,7 +744,7 @@ class AnonConnectionWizard(QtGui.QWizard):
                     # This is because SOCKS4 does not support that.
                     if Common.proxy_type == 'HTTP/HTTPS':
                         f.write('HTTPSProxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                        if (Common.proxy_username != ''):# Q: It seems there is no need to check password because username is essential, not password, right?
+                        if (Common.proxy_username != ''):  # Q: It seems there is no need to check password because username is essential, not password, right?
                             f.write('HTTPSProxyAuthenticator {0}:{1}\n'.format(Common.proxy_username, Common.proxy_password))
                     elif Common.proxy_type == 'SOCKS4':
                         f.write('Socks4Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
