@@ -51,10 +51,10 @@ class Common:
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done'):
         ## "not whonix_connection.done" is required once at first run to get a copy of the original torrc.
         ## It does not matter whether the wizard is completed or not, so we can write it here.
+        shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.orig')
         f = open('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done', 'w')
         f.close()
-        shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.orig')
-
+        
     wizard_steps = ['connection_main_page',
                     'bridge_wizard_page_1',
                     'bridge_wizard_page_2',
