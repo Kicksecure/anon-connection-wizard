@@ -231,11 +231,10 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.steps = Common.wizard_steps
 
         self.bridges = ['obfs4 (recommended)',
-                        'obfs3'
-                        '''
-                        The following will be uncommented as soon as being implemented.
-                        Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
-                        '''
+                        'obfs3',
+
+                        #The following will be uncommented as soon as being implemented.
+                        #Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
                         # 'fte',
                         # 'meek-amazon',
                         # 'meek-azure'
@@ -788,7 +787,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                     self.tor_status_page.bootstrap_progress.setVisible(True)
                     self.bootstrap_thread = TorBootstrap(self)
-                    self.connect(self.bootstrap_thread, self.bootstrap_thread.signal, self.update_bootstrap)
+                    self.bootstrap_thread.signal.connect(self.update_bootstrap)
                     self.bootstrap_thread.finished.connect(self.show_finish_button)
                     self.bootstrap_thread.start()
                 else:
@@ -832,13 +831,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
 
 class TorBootstrap(QtCore.QThread):
+    signal = QtCore.pyqtSignal(str)
     def __init__(self, main):
         from stem.connection import connect
         #super(TorBootstrap, self).__init__(main)
         QtCore.QThread.__init__(self, parent=None)
         self.controller = connect()
+        if not self.controller:
+            print("no tor control connected!!!")
         #self.signal = QtCore.SIGNAL("signal")
-        self.signal = QtCore.pyqtSignal("signal")
         self.previous_status = ''
         self.bootstrap_percent = 0
         #self.is_running = False
@@ -852,7 +853,7 @@ class TorBootstrap(QtCore.QThread):
                 sys.stdout.write('{0}\n'.format(bootstrap_status))
                 sys.stdout.flush()
                 self.previous_status = bootstrap_status
-                self.emit(self.signal, bootstrap_status)
+                self.signal.emit(bootstrap_status)
             time.sleep(0.2)
 
 def main():
