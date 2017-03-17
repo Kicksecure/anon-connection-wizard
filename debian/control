@@ -5,7 +5,7 @@
 Source: anon-connection-wizard
 Section: misc
 Priority: optional
-Maintainer: Iry Koon <irykoon@riseup.net>
+Maintainer: Iry Koon <irykoon@gmail.com>
 Uploaders: Patrick Schleizer <adrelanos@riseup.net>
 Build-Depends: debhelper (>= 9), genmkfile, ruby-ronn, python3
 Homepage: https://www.whonix.org/
