@@ -672,7 +672,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.button(QtWidgets.QWizard.BackButton).clicked.connect(self.back_button_clicked)
         self.button(QtWidgets.QWizard.NextButton).clicked.connect(self.next_button_clicked)
 
-        self.button(QtWidgets.QWizard.BackButton).setVisible(False)   # Since this is the index page, no back_button is needed.
+        self.button(QtWidgets.QWizard.BackButton).setVisible(False)  # Since this is the index page, no back_button is needed.
         self.CancelButtonOnLeft
         self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
         self.button(QtWidgets.QWizard.CancelButton).setEnabled(True)
@@ -861,11 +861,13 @@ class TorBootstrap(QtCore.QThread):
 def main():
     # Available styles: "windows", "motif", "cde", "sgi", "plastique" and "cleanlooks"
     QtWidgets.QApplication.setStyle('cleanlooks')
+    
     # root check.
     if os.getuid() != 0:
         print('ERROR: This must be run as root!\nUse "kdesudo".')
         not_root = gui_message(Common.translations_path, 'not_root')
         sys.exit(1)
+        
     wizard = AnonConnectionWizard()
 
     sys.exit(0)
