@@ -348,7 +348,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         return self.steps.index('proxy_wizard_page_1')
 
     def show_help(self):
-        reply = QtGui.QMessageBox(QtGui.QMessageBox.NoIcon, 'Bridges Configuration Help',
+        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Bridges Configuration Help',
                                   '''<p><b>  Bridge Relay Help</b></p>
 
 <p>If you are unable to connect to the Tor network, it could be that your Internet Service
@@ -371,7 +371,7 @@ https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</bloc
 <blockquote>3. <b>Through the Help Desk</b><br>
 As a last resort, you can request bridge addresses by sending a polite email
 message to help@rt.torproject.org.  Please note that a person will need to respond
-to each request.</blockquote>''', QtGui.QMessageBox.Ok)
+to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
         reply.exec_()
 
 
