@@ -253,7 +253,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.label_3 = QtWidgets.QLabel(self.groupBox)
         self.comboBox = QtWidgets.QComboBox(self.groupBox)
         self.label_4 = QtWidgets.QLabel(self.groupBox)
-        self.custom_bridges = QtWidgets.QTextEdit(self.groupBox)  # TODO: Do not let custom_bridges change line until see '\n'.
+        self.custom_bridges = QtWidgets.QTextEdit(self.groupBox)  # This is the QTextEdit box for bridges.
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
         self.label_5 = QtWidgets.QLabel(self.groupBox)
 
@@ -298,22 +298,24 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.label_4.setEnabled(False)
         self.label_4.setGeometry(QtCore.QRect(38, 83, 300, 20))
-        self.label_4.setText('Enter one ore more bridge relay (one per line).')
+        self.label_4.setText('Enter one or more bridge relay (one per line).')
+
+        # TODO: The boolean value of this should be the same with self.custom_button.isChecked() Q: How to do it dynamically? A: signal-and-slot.
+        # Notice that this feature is not in Tor launcher, this can be an improvement which also benefits upstream.
+        # TODO: Make this QTextEdit support syntax to make it even more clear to users what should be input: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
+        self.custom_bridges.setEnabled(True)
+        self.custom_bridges.setGeometry(QtCore.QRect(38, 103, 500, 76))
+        self.custom_bridges.setStyleSheet("background-color:white;")
+        # Allow long input appears in one line.
+        self.custom_bridges.setLineWrapColumnOrWidth(1800)
+        self.custom_bridges.setLineWrapMode(QtWidgets.QTextEdit.FixedPixelWidth)
+        # TODO: The next statement can not be used yet, this is because the QTextEdit does not supprot setPlaceholderText.
+        # More functions need to be added to implement that: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
+        # self.custom_bridges.setPlaceholderText('type address:port')
 
         self.pushButton.setGeometry(QtCore.QRect(450, 70, 86, 25))
         self.pushButton.setText('&Help')
         self.pushButton.clicked.connect(self.show_help)
-
-        # TODO: The boolean value of this should be the same with self.custom_button.isChecked() Q: How to do it dynamically?
-        # Notice that this feature is not in Tor launcher, this can be an improvement which also benefits upstream.
-        # TODO: Make this QTextEdit support syntax to make it even more clear to users what should be input: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
-        # TODO: Do not let custom_bridges change line until see '\n'.
-        self.custom_bridges.setEnabled(True)
-        self.custom_bridges.setGeometry(QtCore.QRect(38, 103, 500, 76))
-        self.custom_bridges.setStyleSheet("background-color:white;")
-        # TODO: The next statement can not be used yet, this is because the QTextEdit does not supprot setPlaceholderText.
-        # More functions need to be added to implement that: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
-        # self.custom_bridges.setPlaceholderText('type address:port')
 
         self.label_5.setGeometry(0, 220, 500, 15)
         self.label_5.setText('For assistance, contact help@rt.torproject.org')
@@ -857,6 +859,7 @@ class TorBootstrap(QtCore.QThread):
             time.sleep(0.2)
 
 def main():
+    # Available styles: "windows", "motif", "cde", "sgi", "plastique" and "cleanlooks"
     QtWidgets.QApplication.setStyle('cleanlooks')
     # root check.
     if os.getuid() != 0:
