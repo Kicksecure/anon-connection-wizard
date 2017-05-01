@@ -860,6 +860,7 @@ class TorBootstrap(QtCore.QThread):
 
 def main():
     # Available styles: "windows", "motif", "cde", "sgi", "plastique" and "cleanlooks"
+    # TODO: use customized css instead. Take Tor Launcher's css as a reference
     QtWidgets.QApplication.setStyle('cleanlooks')
     
     # root check.
