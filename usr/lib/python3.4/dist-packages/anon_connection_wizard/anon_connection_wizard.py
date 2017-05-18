@@ -88,11 +88,11 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
 
     def setupUi(self):
         self.groupBox.setFlat(True)
-        self.groupBox.setMinimumSize(QtCore.QSize(500, 320))
+        self.groupBox.setMinimumSize(QtCore.QSize(530, 320))
 
-        self.label.setGeometry(QtCore.QRect(20, 0, 510, 41))
+        self.label.setGeometry(QtCore.QRect(10, 20, 530, 41))
         self.label.setWordWrap(True)
-        self.label.setText('Before you connect to the Tor network, you need to provide information about this computer Internet connection.')
+        self.label.setText('Before you connect to the Tor network, you need to provide information about this computer\'s Internet connection.')
 
         self.label_2.setGeometry(QtCore.QRect(10, 60, 431, 21))
         font = QtGui.QFont()
@@ -127,7 +127,7 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.label_5.setText('I do not want to connect automatically to the Tor network next time I boot.<br> This wizard will be started.')
         self.label_5.setVisible(False)
 
-        self.pushButton.setGeometry(QtCore.QRect(453, 285, 80, 25))
+        self.pushButton.setGeometry(QtCore.QRect(430, 285, 80, 25))
         self.pushButton.setText('&Advanced')
         self.pushButton.clicked.connect(self.show_disable_tor)
 
@@ -169,8 +169,9 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         self.layout.addWidget(self.label_2)
 
         self.group_box = QtWidgets.QGroupBox(self)
+        self.no_button_1 = QtWidgets.QRadioButton(self.group_box)
+        self.no_button_2 = QtWidgets.QRadioButton(self.group_box)
         self.yes_button = QtWidgets.QRadioButton(self.group_box)
-        self.no_button = QtWidgets.QRadioButton(self.group_box)
         self.label_3 = QtWidgets.QLabel(self.group_box)
         self.label_4 = QtWidgets.QLabel(self.group_box)
         self.layout.addWidget(self.group_box)
@@ -193,35 +194,41 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setWordWrap(True)
-        self.label_2.setText('Does your Internet Service Provider (ISP) block or otherwise censor connections to the Tor network?')
+        #self.label_2.setText('Does your Internet Service Provider (ISP) block or otherwise censor connections to the Tor network?')
+        self.label_2.setText('Do you want to configure Tor bridges?')
 
         self.group_box.setMinimumSize(QtCore.QSize(16777215, 244))
         self.group_box.setFlat(True)
-        self.yes_button.setGeometry(QtCore.QRect(25, 0, 350, 21))
-        self.yes_button.setText('Yes')
-        self.no_button.setGeometry(QtCore.QRect(25, 20, 350, 21))
-        self.no_button.setText('No')
-        self.no_button.setChecked(True)
+        
+        self.no_button_1.setGeometry(QtCore.QRect(25, 20, 550, 30))
+        self.no_button_1.setText('No. My ISP does not censor my connections to the Tor network.')
+        self.no_button_1.setChecked(True)
+        
+        self.no_button_2.setGeometry(QtCore.QRect(25, 50, 550, 30))
+        self.no_button_2.setText('No. I will use some third party censorship circumvention tools instead.')
+
+        self.yes_button.setGeometry(QtCore.QRect(25, 80, 550, 30))
+        self.yes_button.setText('Yes. I need Tor bridges to help me bypass the Tor censorship.')
+        
 
         # self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_3.setGeometry(10, 55, 520, 60)
+        self.label_3.setGeometry(10, 110, 520, 160)
         self.label_3.setTextFormat(QtCore.Qt.RichText)
         self.label_3.setWordWrap(True)
-        self.label_3.setText('If you are not sure how to answer this question, choose No. \
-            If you choose Yes, you will be asked to configure Tor bridges, \
-            which are unlisted relays that make it more difficult to block connections \
-            to the Tor network.')
-
-        self.label_4.setGeometry(0, 220, 500, 15)
+        self.label_3.setText('Tor bridges are unlisted relays that may be able to help you bypass the Tor censorship conducted by your Internet Service Provider (ISP).\n')
+        self.label_4.setGeometry(10, 220, 500, 15)
         self.label_4.setText('For assistance, contact help@rt.torproject.org')
 
     def nextId(self):
         if self.yes_button.isChecked():
             Common.use_bridges = True
             return self.steps.index('bridge_wizard_page_2')
-        elif self.no_button.isChecked():
+        elif self.no_button_1.isChecked():
             Common.use_bridges = False
             return self.steps.index('proxy_wizard_page_1')
+        elif self.no_button_2.isChecked():
+            Common.use_bridges = False
+            return self.steps.index('proxy_wizard_page_2')
 
 
 class BridgesWizardPage2(QtWidgets.QWizardPage):
@@ -280,31 +287,31 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.groupBox.setMinimumSize(QtCore.QSize(16777215, 243))
         self.groupBox.setFlat(True)
-        self.default_button.setGeometry(QtCore.QRect(18, 3, 500, 24))
+        self.default_button.setGeometry(QtCore.QRect(18, 25, 500, 24))
         self.default_button.setChecked(True)
         self.default_button.setText('Connect with provided bridges')
 
-        self.custom_button.setGeometry(QtCore.QRect(18, 60, 500, 25))
+        self.custom_button.setGeometry(QtCore.QRect(18, 82, 500, 25))
         self.custom_button.setText('Enter custom bridges')
 
-        self.label_3.setGeometry(QtCore.QRect(38, 25, 106, 20))
+        self.label_3.setGeometry(QtCore.QRect(38, 47, 106, 20))
         self.label_3.setText('Transport type:')
 
         # This is the how to make a comboBox. The variable bridges is defined above.
         # The proxy type selection in ProxyWizardPage2 can also use this method.
-        self.comboBox.setGeometry(QtCore.QRect(135, 22, 181, 27))
+        self.comboBox.setGeometry(QtCore.QRect(135, 44, 181, 27))
         for bridge in self.bridges:
             self.comboBox.addItem(bridge)
 
         self.label_4.setEnabled(False)
-        self.label_4.setGeometry(QtCore.QRect(38, 83, 300, 20))
+        self.label_4.setGeometry(QtCore.QRect(38, 105, 300, 20))
         self.label_4.setText('Enter one or more bridge relay (one per line).')
 
         # TODO: The boolean value of this should be the same with self.custom_button.isChecked() Q: How to do it dynamically? A: signal-and-slot.
         # Notice that this feature is not in Tor launcher, this can be an improvement which also benefits upstream.
         # TODO: Make this QTextEdit support syntax to make it even more clear to users what should be input: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         self.custom_bridges.setEnabled(True)
-        self.custom_bridges.setGeometry(QtCore.QRect(38, 103, 500, 76))
+        self.custom_bridges.setGeometry(QtCore.QRect(38, 125, 500, 76))
         self.custom_bridges.setStyleSheet("background-color:white;")
         # Allow long input appears in one line.
         self.custom_bridges.setLineWrapColumnOrWidth(1800)
@@ -317,7 +324,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.pushButton.setText('&Help')
         self.pushButton.clicked.connect(self.show_help)
 
-        self.label_5.setGeometry(0, 220, 500, 15)
+        self.label_5.setGeometry(10, 220, 500, 15)
         self.label_5.setText('For assistance, contact help@rt.torproject.org')
 
     def nextId(self):
@@ -346,6 +353,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             Common.use_default_bridge = False
 
         return self.steps.index('proxy_wizard_page_1')
+
 
     def show_help(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Bridges Configuration Help',
@@ -421,21 +429,21 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
 
         self.group_box.setMinimumSize(QtCore.QSize(16777215, 250))
         self.group_box.setFlat(True)
-        self.yes_button.setGeometry(QtCore.QRect(25, 0, 350, 21))
+        self.yes_button.setGeometry(QtCore.QRect(25, 30, 350, 21))
         self.yes_button.setText('Yes')
-        self.no_button.setGeometry(QtCore.QRect(25, 20, 350, 21))
+        self.no_button.setGeometry(QtCore.QRect(25, 50, 350, 21))
         self.no_button.setText('No')
         self.no_button.setChecked(True)
 
         # self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_3.setGeometry(10, 45, 520, 60)
+        self.label_3.setGeometry(10, 75, 520, 60)
         self.label_3.setTextFormat(QtCore.Qt.RichText)
         self.label_3.setWordWrap(True)
         self.label_3.setText('If you are not sure how to answer this question, look at the Internet \
                               settings in your host browser to see whether it is configured to use \
                               a local proxy')
 
-        self.label_4.setGeometry(0, 235, 500, 15)
+        self.label_4.setGeometry(0, 265, 500, 15)
         self.label_4.setText('For assistance, contact help@rt.torproject.org')
 
     def nextId(self):
@@ -494,20 +502,20 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.groupBox.setMinimumSize(QtCore.QSize(16777215, 300))
         self.groupBox.setFlat(True)
 
-        self.label_3.setGeometry(QtCore.QRect(10, 40, 106, 20))
+        self.label_3.setGeometry(QtCore.QRect(10, 60, 106, 20))
         self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_3.setText("Proxy type:")
 
         # Here we are going to implement the proxy type selection
         # Change it to larger so  that all options fit
-        self.comboBox.setGeometry(QtCore.QRect(118, 38, 121, 27))
+        self.comboBox.setGeometry(QtCore.QRect(118, 58, 121, 27))
         for proxy in self.proxies:
             self.comboBox.addItem(proxy)
 
-        self.label_2.setGeometry(QtCore.QRect(4, 10, 201, 16))
+        self.label_2.setGeometry(QtCore.QRect(4, 30, 201, 16))
         self.label_2.setText("Enter the proxy settings.")
 
-        self.label_5.setGeometry(QtCore.QRect(10, 71, 106, 20))
+        self.label_5.setGeometry(QtCore.QRect(10, 101, 106, 20))
         self.label_5.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_5.setText("Address:")
 
@@ -515,15 +523,15 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         using "advance" button because it is not used rarely,
         according to recommendation from previous research.
         '''
-        self.label_6.setGeometry(QtCore.QRect(10, 101, 106, 20))
+        self.label_6.setGeometry(QtCore.QRect(10, 131, 106, 20))
         self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_6.setText("Username:")
 
-        self.label_7.setGeometry(QtCore.QRect(394, 71, 41, 20))
+        self.label_7.setGeometry(QtCore.QRect(394, 101, 41, 20))
         self.label_7.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_7.setText("Port:")
 
-        self.label_8.setGeometry(QtCore.QRect(280, 101, 70, 20))
+        self.label_8.setGeometry(QtCore.QRect(280, 131, 70, 20))
         self.label_8.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_8.setText("Password:")
 
@@ -534,15 +542,15 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         1. tooltip for each option
         2. option for users to configure well-known third party automatically (We can take foxyproxy's default setting as references.)
         '''
-        self.lineEdit.setGeometry(QtCore.QRect(118, 68, 260, 25))
+        self.lineEdit.setGeometry(QtCore.QRect(118, 98, 260, 25))
         self.lineEdit.setStyleSheet("background-color:white;")
         self.lineEdit.setPlaceholderText('IP address or hostname')
-        self.lineEdit_2.setGeometry(QtCore.QRect(437, 68, 60, 25))
+        self.lineEdit_2.setGeometry(QtCore.QRect(437, 98, 60, 25))
         self.lineEdit_2.setStyleSheet("background-color:white;")
-        self.lineEdit_3.setGeometry(QtCore.QRect(118, 98, 150, 25))
+        self.lineEdit_3.setGeometry(QtCore.QRect(118, 128, 150, 25))
         self.lineEdit_3.setStyleSheet("background-color:white;")
         self.lineEdit_3.setPlaceholderText('Optional')
-        self.lineEdit_4.setGeometry(QtCore.QRect(352, 98, 145, 25))
+        self.lineEdit_4.setGeometry(QtCore.QRect(352, 128, 145, 25))
         self.lineEdit_4.setStyleSheet("background-color:white;")
         self.lineEdit_4.setPlaceholderText('Optional')
 
@@ -560,8 +568,9 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         # if self.default_button.isChecked():
         proxy_type = str(self.comboBox.currentText())
         if proxy_type.startswith('-'):
+            use_proxy = False
             proxy_type = '-'
-        elif proxy_type.startswith('SOCKS4'):
+        if proxy_type.startswith('SOCKS4'):
             proxy_type = 'SOCKS4'
         elif proxy_type.startswith('SOCKS5'):
             proxy_type = 'SOCKS5'
@@ -640,17 +649,20 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self._ = translation.gettext
 
         self.steps = Common.wizard_steps
-
+        # The sequence of adding a page will also be the sequence the pages are shown in a wizard.
         self.connection_main_page = ConnectionMainPage()
         self.addPage(self.connection_main_page)
+
         self.bridge_wizard_page_1 = BridgesWizardPage1()
         self.addPage(self.bridge_wizard_page_1)
         self.bridge_wizard_page_2 = BridgesWizardPage2()
         self.addPage(self.bridge_wizard_page_2)
+
         self.proxy_wizard_page_1 = ProxyWizardPage1()
         self.addPage(self.proxy_wizard_page_1)
         self.proxy_wizard_page_2 = ProxyWizardPage2()
         self.addPage(self.proxy_wizard_page_2)
+        
         self.tor_status_page = TorStatusPage()
         self.addPage(self.tor_status_page)
 
@@ -760,7 +772,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             Related official docs: https://www.torproject.org/docs/tor-manual.html.en
             '''
             if Common.use_proxy:
-                #pass
                 with open('/etc/tor/torrc', 'a') as f:
                     # TODO: Notice that if SOCKS4 is selected, the proxy username and password inputLine should be disabled
                     # This is because SOCKS4 does not support that.
@@ -824,6 +835,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
+
+            ## BUG: Once disable_tor is true, it will never be able to toggole it.
+        #if self.currentId() == self.steps.index('connection_main_page'):
+        #    Common.use_bridges = False
+         #   shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
+          #  self.bootstrap_done = False
+           # self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
+            #self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
 
     def show_finish_button(self):
         if self.bootstrap_done or Common.disable_tor:
