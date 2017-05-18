@@ -486,8 +486,9 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)  # Password TODO: password should be covered: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
         self.label_8 = QtWidgets.QLabel(self.groupBox)
         self.label_4 = QtWidgets.QLabel(self.groupBox)
-        self.layout.addWidget(self.groupBox)
+        self.pushButton = QtWidgets.QPushButton(self.groupBox)
 
+        self.layout.addWidget(self.groupBox)
         self.setupUi()
 
     def setupUi(self):
@@ -557,6 +558,11 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.label_4.setGeometry(QtCore.QRect(0, 255, 391, 16))
         self.label_4.setText("For assistance, contact help@rt.torproject.org'")
 
+        self.pushButton.setGeometry(QtCore.QRect(400, 200, 86, 25))
+        self.pushButton.setText('&Help')
+        self.pushButton.clicked.connect(self.show_help)
+
+
     # Q: Why there is no nextId function in original script? Unnecessary or Incomplete?
     # Q: Where is the nextId function called? It seems we can still go to next page without it.
 
@@ -599,6 +605,34 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     #        self.button(QtWidgets.QWizard.NextButton).setEnabled(False)
     #    else:
     #        self.button(QtWidgets.QWizard.NextButton).setEnabled(True)
+
+    
+    def show_help(self):
+        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Bridges Configuration Help',
+                                  '''<p><b>  Proxy Help</b></p>
+
+<p>If you are unable to connect to the Tor network, it could be that your Internet Service
+Provider (ISP) or another agency is blocking Tor.  Often, you can work around this problem
+                                  by using Tor Bridges, which are unlisted relays that are more difficult to block. However, sometimes people may also use some third party censorship circumvention tools instead when all the Tor Bridges are not effective.</p>
+
+<p>You may use the preconfigured, provided set of bridge addresses or you may obtain a
+custom set of addresses by using one of these three methods:</p>
+
+<blockquote>1.<b>Through the Web</b><br>
+Use a web browser to visit https://bridges.torproject.org</blockquote>
+
+<blockquote>2. <b>Through the Email Autoresponder</b><br>
+Send email to bridges@torproject.org with the line 'get bridges' by itself in the body
+of the message.  However, to make it harder for an attacker to learn a lot of bridge
+addresses, you must send this request from one of the following email providers
+(listed in order of preference):<br><br>
+https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</blockquote>
+
+<blockquote>3. <b>Through the Help Desk</b><br>
+As a last resort, you can request bridge addresses by sending a polite email
+message to help@rt.torproject.org.  Please note that a person will need to respond
+to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
+        reply.exec_()
 
 
 class TorStatusPage(QtWidgets.QWizardPage):
