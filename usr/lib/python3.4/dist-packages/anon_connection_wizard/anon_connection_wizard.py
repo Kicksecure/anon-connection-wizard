@@ -797,6 +797,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
                 self.tor_status = tor_status.set_enabled()
+                self.tor_status_page.text.setText('')  # This will clear the text left by different Tor status statement
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                     self.tor_status_page.bootstrap_progress.setVisible(True)
                     self.bootstrap_thread = TorBootstrap(self)
@@ -825,7 +826,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             pass
 
         if self.currentId() == self.steps.index('connection_main_page'):
-            Common.use_bridges = False
             shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
@@ -836,7 +836,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
 
-            ## BUG: Once disable_tor is true, it will never be able to toggole it.
         #if self.currentId() == self.steps.index('connection_main_page'):
         #    Common.use_bridges = False
          #   shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
