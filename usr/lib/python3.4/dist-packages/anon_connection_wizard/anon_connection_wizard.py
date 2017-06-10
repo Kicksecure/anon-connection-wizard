@@ -44,12 +44,14 @@ class Common:
 
     disable_tor = False
 
+    original_torrc = True  # This shows the state where we need to inform user the torrc is not the orginal one, like what Tor launcher has been doing
+
 
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
         os.makedirs('/var/cache/whonix-setup-wizard/status-files')
 
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done'):
-        ## "not whonix_connection.done" is required once at first run to get a copy of the original torrc.
+        ## "not whonix_connection.done" is required once at first run to backup the current torrc into torrc.orig
         ## It does not matter whether the wizard is completed or not, so we can write it here.
         shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.orig')
         f = open('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done', 'w')
@@ -238,7 +240,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.steps = Common.wizard_steps
 
         self.bridges = ['obfs4 (recommended)',
-                        'obfs3',
+                        'obfs3'
 
                         # The following will be uncommented as soon as being implemented.
                         # Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
@@ -712,18 +714,20 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
     def setupUi(self):
         self.setWindowIcon(QtGui.QIcon("/usr/share/icons/anon-icon-pack/whonix.ico"))
-        self.setWindowTitle('Anon Connection Wizard')  # Do not know if anon is Whonix-related or not?
+        self.setWindowTitle('Anon Connection Wizard')
         self.resize(580, 400)
 
+        # signal-and-slot
         self.button(QtWidgets.QWizard.BackButton).clicked.connect(self.back_button_clicked)
         self.button(QtWidgets.QWizard.NextButton).clicked.connect(self.next_button_clicked)
-
+        self.button(QtWidgets.QWizard.CancelButton).clicked.connect(self.cancel_button_clicked)
+        
         self.button(QtWidgets.QWizard.BackButton).setVisible(False)  # Since this is the index page, no back_button is needed.
+        self.button(QtWidgets.QWizard.BackButton).setEnabled(False)  # Since this is the index page, no back_button is needed.
         self.CancelButtonOnLeft
         self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
         self.button(QtWidgets.QWizard.CancelButton).setEnabled(True)
         #self.button(QtWidgets.QWizard.CancelButton).setFocus()
-        self.button(QtWidgets.QWizard.CancelButton).clicked.connect(self.cancel_button_clicked)
         self.exec_()
 
 
@@ -760,22 +764,54 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.BackButton).setVisible(True)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
-            ## Get a fresh torrc
-            shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
 
+            edit_mark_start = '### START anon-connection-wizard ###'
+            edit_mark_end = '### END anon-connection-wizard ###'
+
+            ## Get a fresh torrc
+            if not os.path.exists('/etc/tor/torrc'):
+                if os.path.exists('/etc/tor/torrc.orig'):
+                    shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
+                else:
+                    pass  # Q: Should we care about the case where torrc.orig does not exist? If the answer is yes, what's the soltution?
+
+            else:
+                shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.tmp') # TODO: need to examine if there is any bug
+                # TODO: please notice that this may not be a good implementation, since:
+                # 1. we should not rely on torrc.orig, instead, we may use torrc
+                # 2. using re to delete everything between edit_mark_start and edit_mark_end (if there is any)
+                #      edit_mark_end should also be deleted and only be appended when all the IO is done
+                #      will be a more elegant implementation
+
+            edit_mark_flag = True
+            with open("/etc/tor/torrc.tmp","r") as input:
+                with open("/etc/tor/torrc","w") as output:
+                    for line in input:
+                        if edit_mark_start in line:
+                            edit_mark_flag = False
+                        if edit_mark_flag:
+                            output.write(line)
+                        if edit_mark_end in line:
+                            edit_mark_flag = True
+
+            # print the starting edit mark
+            with open('/etc/tor/torrc', 'a') as f:
+                f.write(edit_mark_start + '\n')
+
+            
+            ''' The part is the IO to torrc for bridges settings.
+            Related official docs: https://www.torproject.org/docs/tor-manual.html.en
+            '''
             if Common.use_bridges:
                 with open('/etc/tor/torrc', 'a') as f:
                     f.write('UseBridges 1\n')
                     if Common.use_default_bridge:
-                        # Q: Why there is no those lines in torrc after using Torlauncher to configure that?
-                        # Do we really need these?
-                        # If so, can we just input them as default and manage them only use UseBridges 0/1 to control it?
                         if Common.bridge_type == 'obfs3':
                             f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
                         elif Common.bridge_type == 'scramblesuit':
                             f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
                         elif Common.bridge_type == 'obfs4':
-                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
+                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
                             ''' More types of bridges will be availble once Whonix support them: meek, flashproxy'''
                         #elif Common.bridge_type == '':
                         bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
@@ -786,7 +822,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         # TODO: we should preserve the custom bridge setting for the next time use.
                         # TODO: Unfinished for different types of bridges:
                         if Common.bridge_custom.startswith('obfs4'):
-                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
+                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
                         elif Common.bridge_custom.startswith('obfs3'):
                             f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
                         elif Common.bridge_custom.startswith('fte'):
@@ -797,6 +833,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                             pass
 
                         # Write the specific bridge address, port, cert etc.
+                        # TODO: may be we can save this setting for future use by saving it into a file?
                         bridge_custom_list = Common.bridge_custom.split('\n')
                         for bridge in bridge_custom_list:
                             f.write('Bridge {0}\n'.format(bridge))
@@ -851,6 +888,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                                                    <code>kdesudo anon-connection-wizard</code></blockquote> \
                                                    or press the Back button and select another option.')
                 self.show_finish_button()
+
+            # since all the setting has been output, we can append the edit_mark_end now
+            with open('/etc/tor/torrc', 'a') as f:            
+                f.write(edit_mark_end)
 
     def back_button_clicked(self):
         try:
