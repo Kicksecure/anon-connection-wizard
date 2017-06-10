@@ -777,7 +777,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         elif Common.bridge_type == 'scramblesuit':
                             f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
                         elif Common.bridge_type == 'obfs4':
-                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
+                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
                             ''' More types of bridges will be availble once Whonix support them: meek, flashproxy'''
                         #elif Common.bridge_type == '':
                         bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
@@ -788,7 +788,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         # TODO: we should preserve the custom bridge setting for the next time use.
                         # TODO: Unfinished for different types of bridges:
                         if Common.bridge_custom.startswith('obfs4'):
-                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed\n')
+                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
                         elif Common.bridge_custom.startswith('obfs3'):
                             f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
                         elif Common.bridge_custom.startswith('fte'):
