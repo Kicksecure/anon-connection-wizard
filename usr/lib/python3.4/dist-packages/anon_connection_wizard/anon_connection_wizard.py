@@ -608,9 +608,9 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     #    else:
     #        self.button(QtWidgets.QWizard.NextButton).setEnabled(True)
 
-    
+    # TODO: write a Proxy Configuration Help
     def show_help(self):
-        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Bridges Configuration Help',
+        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Proxy Configuration Help',
                                   '''<p><b>  Proxy Help</b></p>
 
 <p>If you are unable to connect to the Tor network, it could be that your Internet Service
@@ -776,12 +776,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     pass  # Q: Should we care about the case where torrc.orig does not exist? If the answer is yes, what's the soltution?
 
             else:
-                shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.tmp') # TODO: need to examine if there is any bug
-                # TODO: please notice that this may not be a good implementation, since:
-                # 1. we should not rely on torrc.orig, instead, we may use torrc
-                # 2. using re to delete everything between edit_mark_start and edit_mark_end (if there is any)
-                #      edit_mark_end should also be deleted and only be appended when all the IO is done
-                #      will be a more elegant implementation
+                # TODO: torrc serves as a backup of users' previous setting
+                # we need discuss if this file is a good design
+                # we also need to know where should we put it.
+                shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.tmp')
 
             edit_mark_flag = True
             with open("/etc/tor/torrc.tmp","r") as input:
