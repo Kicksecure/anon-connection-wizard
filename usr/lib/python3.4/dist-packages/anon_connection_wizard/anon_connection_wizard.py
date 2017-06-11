@@ -62,6 +62,7 @@ class Common:
                     'bridge_wizard_page_2',
                     'proxy_wizard_page_1',
                     'proxy_wizard_page_2',
+                    'torrc_page',
                     'tor_status_page']
 
 
@@ -145,13 +146,13 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
     def nextId(self):
         if self.pushButton_1.isChecked():
             Common.disable_tor = False
-            return self.steps.index('tor_status_page')
+            return self.steps.index('torrc_page')
         elif self.pushButton_2.isChecked():
             Common.disable_tor = False
             return self.steps.index('bridge_wizard_page_1')
         elif self.pushButton_3.isChecked():
             Common.disable_tor = True
-            return self.steps.index('tor_status_page')
+            return self.steps.index('torrc_page')
 
 
 class BridgesWizardPage1(QtWidgets.QWizardPage):
@@ -454,7 +455,7 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
             return self.steps.index('proxy_wizard_page_2')
         elif self.no_button.isChecked():
             Common.use_proxy = False
-            return self.steps.index('tor_status_page')
+            return self.steps.index('torrc_page')
 
 
 class ProxyWizardPage2(QtWidgets.QWizardPage):
@@ -595,7 +596,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         elif self.custom_button.isChecked():
             pass
         '''
-        return self.steps.index('tor_status_page')
+        return self.steps.index('torrc_page')
 
     # TODO: Disable lineEdit_3 and lineEdit_4 which are username and password options when socks4 is selected.
     # Actvation signal: self.connection_page.censored.toggled.connect(self.set_next_button_state)
@@ -635,6 +636,46 @@ As a last resort, you can request bridge addresses by sending a polite email
 message to help@rt.torproject.org.  Please note that a person will need to respond
 to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
         reply.exec_()
+
+
+class TorrcPage(QtWidgets.QWizardPage):
+    def __init__(self):
+        super(TorrcPage, self).__init__()
+
+        self.steps = Common.wizard_steps
+
+        self.icon = QtWidgets.QLabel(self)
+        self.text = QtWidgets.QTextBrowser(self)
+        self.torrc = QtWidgets.QTextEdit(self)
+
+        self.layout = QtWidgets.QGridLayout()
+        self.setupUi()
+
+    def setupUi(self):
+        self.icon.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.icon.setMinimumSize(50, 0)
+
+        self.text.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.text.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+
+        # This is the QTextEdit that shows torrc files
+        self.torrc.setEnabled(True)
+        self.torrc.setMinimumSize(0, 185)
+        self.torrc.setStyleSheet("background-color:white;")
+        self.torrc.setReadOnly(True)
+        # Allow long input appears in one line.
+        self.torrc.setLineWrapColumnOrWidth(1800)
+        self.torrc.setLineWrapMode(QtWidgets.QTextEdit.FixedPixelWidth)
+
+
+        self.layout.addWidget(self.icon, 0, 0, 1, 1)
+        self.layout.addWidget(self.text, 0, 1, 1, 2)
+        self.layout.addWidget(self.torrc, 1, 1, 1, 1)
+        self.setLayout(self.layout)
+
+    def nextId(self):
+        return self.steps.index('tor_status_page')
+
 
 
 class TorStatusPage(QtWidgets.QWizardPage):
@@ -677,6 +718,7 @@ class TorStatusPage(QtWidgets.QWizardPage):
 app = QtWidgets.QApplication(sys.argv)
 
 
+
 class AnonConnectionWizard(QtWidgets.QWizard):
     def __init__(self):
         super(AnonConnectionWizard, self).__init__()
@@ -698,6 +740,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.addPage(self.proxy_wizard_page_1)
         self.proxy_wizard_page_2 = ProxyWizardPage2()
         self.addPage(self.proxy_wizard_page_2)
+        
+        self.torrc_page = TorrcPage()
+        self.addPage(self.torrc_page)
         
         self.tor_status_page = TorStatusPage()
         self.addPage(self.tor_status_page)
@@ -759,11 +804,13 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
-
-        if self.currentId() == self.steps.index('tor_status_page'):
+            
+        if self.currentId() == self.steps.index('torrc_page'):
+            self.resize(580, 400)
             self.button(QtWidgets.QWizard.BackButton).setVisible(True)
-            self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
+            self.button(QtWidgets.QWizard.CancelButton).setVisible(False)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
+            #self.center()
 
             edit_mark_start = '### START anon-connection-wizard ###'
             edit_mark_end = '### END anon-connection-wizard ###'
@@ -864,6 +911,39 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
                     #    f.write('{0}\n'.format(proxy))
 
+            # since all the setting has been output, we can append the edit_mark_end now
+            with open('/etc/tor/torrc', 'a') as f:            
+                f.write(edit_mark_end)
+
+            ## displace the torrc file and icon used on the page
+            if not Common.disable_tor:
+                ## Although we will call this function again in the TorStatusPage, we call it this time to comment the "DisableNetwork 0" so that users will see the final status of torrc. This also gives us the hint that a good design will be never modifying the torrc file after this page
+                tor_status.set_enabled()
+                #self.torrc_page.text.setText(self._('tor_enabled'))  # Q: how does this line work?
+                self.torrc_page.text.setText('Tor will be enabled.')  # TODO: add more detailed instructions
+                torrc_text = open('/etc/tor/torrc').read()
+                self.torrc_page.torrc.setPlainText(torrc_text)
+                self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
+                    '/usr/share/icons/oxygen/48x48/status/task-complete.png'))
+            else:
+                ## Although we will call this function again in the TorStatusPage, we call it this time to comment the "DisableNetwork 0" so that users will see the final status of torrc. This also gives us the hint that a good design will be never modifying the torrc file after this page
+                tor_status.set_disabled()
+                #self.torrc_page.text.setText(self._('tor_disabled'))
+                self.torrc_page.text.setText('Tor will be diabled.')
+                torrc_text = open('/etc/tor/torrc').read()
+                self.torrc_page.torrc.setPlainText(torrc_text)
+                self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
+                    '/usr/share/icons/oxygen/48x48/status/task-attention.png'))
+
+        if self.currentId() == self.steps.index('tor_status_page'):
+            self.tor_status_page.text.setText('')  # This will clear the text left by different Tor status statement
+            if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
+                self.tor_status_page.bootstrap_progress.setVisible(True)
+
+            self.button(QtWidgets.QWizard.BackButton).setVisible(True)
+            self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
+            self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
+
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
                 self.tor_status = tor_status.set_enabled()
@@ -888,9 +968,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                                                    or press the Back button and select another option.')
                 self.show_finish_button()
 
-            # since all the setting has been output, we can append the edit_mark_end now
-            with open('/etc/tor/torrc', 'a') as f:            
-                f.write(edit_mark_end)
+
 
     def back_button_clicked(self):
         try:
@@ -900,6 +978,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             pass
 
         if self.currentId() == self.steps.index('connection_main_page'):
+            # TODO: should we do this?
+            # Won't that overide the user's setting in torrc?
             shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
