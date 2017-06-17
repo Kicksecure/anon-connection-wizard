@@ -173,7 +173,7 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
 
         self.group_box = QtWidgets.QGroupBox(self)
         self.no_button_1 = QtWidgets.QRadioButton(self.group_box)
-        self.no_button_2 = QtWidgets.QRadioButton(self.group_box)
+        #self.no_button_2 = QtWidgets.QRadioButton(self.group_box)
         self.yes_button = QtWidgets.QRadioButton(self.group_box)
         self.label_3 = QtWidgets.QLabel(self.group_box)
         self.label_4 = QtWidgets.QLabel(self.group_box)
@@ -207,10 +207,10 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         self.no_button_1.setText('No. My ISP does not censor my connections to the Tor network.')
         self.no_button_1.setChecked(True)
         
-        self.no_button_2.setGeometry(QtCore.QRect(25, 50, 550, 30))
-        self.no_button_2.setText('No. I will use some third party censorship circumvention tools instead.')
+        #self.no_button_2.setGeometry(QtCore.QRect(25, 50, 550, 30))
+        #self.no_button_2.setText('No. I will use some third party censorship circumvention tools instead.')
 
-        self.yes_button.setGeometry(QtCore.QRect(25, 80, 550, 30))
+        self.yes_button.setGeometry(QtCore.QRect(25, 50, 550, 30))
         self.yes_button.setText('Yes. I need Tor bridges to help me bypass the Tor censorship.')
         
 
@@ -229,9 +229,9 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         elif self.no_button_1.isChecked():
             Common.use_bridges = False
             return self.steps.index('proxy_wizard_page_1')
-        elif self.no_button_2.isChecked():
-            Common.use_bridges = False
-            return self.steps.index('proxy_wizard_page_2')
+        #elif self.no_button_2.isChecked():
+         #   Common.use_bridges = False
+          #  return self.steps.index('proxy_wizard_page_2')
 
 
 class BridgesWizardPage2(QtWidgets.QWizardPage):
