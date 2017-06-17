@@ -486,7 +486,8 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.label_7 = QtWidgets.QLabel(self.groupBox)
         self.lineEdit_2 = QtWidgets.QLineEdit(self.groupBox)  # Port
         self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox)  # Username
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)  # Password TODO: password should be covered: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)  # password
+        self.lineEdit_4.setEchoMode(QLineEdit.Password)  # password mask
         self.label_8 = QtWidgets.QLabel(self.groupBox)
         self.label_4 = QtWidgets.QLabel(self.groupBox)
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
