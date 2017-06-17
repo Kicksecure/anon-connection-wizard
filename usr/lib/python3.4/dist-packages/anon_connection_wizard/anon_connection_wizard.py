@@ -370,7 +370,7 @@ by using Tor Bridges, which are unlisted relays that are more difficult to block
 custom set of addresses by using one of these three methods:</p>
 
 <blockquote>1.<b>Through the Web</b><br>
-Use a web browser to visit https://bridges.torproject.org</blockquote>
+Use a web browser to visit https://bridges.torproject.org/options</blockquote>
 
 <blockquote>2. <b>Through the Email Autoresponder</b><br>
 Send email to bridges@torproject.org with the line 'get bridges' by itself in the body
