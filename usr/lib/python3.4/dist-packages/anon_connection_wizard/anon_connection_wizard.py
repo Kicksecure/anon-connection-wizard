@@ -46,7 +46,6 @@ class Common:
 
     original_torrc = True  # This shows the state where we need to inform user the torrc is not the orginal one, like what Tor launcher has been doing
 
-
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
         os.makedirs('/var/cache/whonix-setup-wizard/status-files')
 
@@ -65,6 +64,7 @@ class Common:
                     'torrc_page',
                     'tor_status_page']
 
+    assistance = 'For assistance, visit torproject.org/about/contact.html#support'
 
 class ConnectionMainPage(QtWidgets.QWizardPage):
     def __init__(self):
@@ -220,7 +220,7 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         self.label_3.setWordWrap(True)
         self.label_3.setText('Tor bridges are unlisted relays that may be able to help you bypass the Tor censorship conducted by your Internet Service Provider (ISP).\n')
         self.label_4.setGeometry(10, 220, 500, 15)
-        self.label_4.setText('For assistance, contact help@rt.torproject.org')
+        self.label_4.setText(Common.assistance)
 
     def nextId(self):
         if self.yes_button.isChecked():
@@ -328,7 +328,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.pushButton.clicked.connect(self.show_help)
 
         self.label_5.setGeometry(10, 220, 500, 15)
-        self.label_5.setText('For assistance, contact help@rt.torproject.org')
+        self.label_5.setText(Common.assistance)
 
     def nextId(self):
         if self.default_button.isChecked():
@@ -446,8 +446,8 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
                               settings in your host browser to see whether it is configured to use \
                               a local proxy')
 
-        self.label_4.setGeometry(0, 265, 500, 15)
-        self.label_4.setText('For assistance, contact help@rt.torproject.org')
+        self.label_4.setGeometry(10, 265, 500, 15)
+        self.label_4.setText(Common.assistance)
 
     def nextId(self):
         if self.yes_button.isChecked():
@@ -516,7 +516,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         for proxy in self.proxies:
             self.comboBox.addItem(proxy)
 
-        self.label_2.setGeometry(QtCore.QRect(4, 30, 201, 16))
+        self.label_2.setGeometry(QtCore.QRect(10, 30, 201, 16))
         self.label_2.setText("Enter the proxy settings.")
 
         self.label_5.setGeometry(QtCore.QRect(10, 101, 106, 20))
@@ -558,8 +558,8 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.lineEdit_4.setStyleSheet("background-color:white;")
         self.lineEdit_4.setPlaceholderText('Optional')
 
-        self.label_4.setGeometry(QtCore.QRect(0, 255, 391, 16))
-        self.label_4.setText("For assistance, contact help@rt.torproject.org'")
+        self.label_4.setGeometry(QtCore.QRect(10, 255, 500, 15))
+        self.label_4.setText(Common.assistance)
 
         self.pushButton.setGeometry(QtCore.QRect(400, 200, 86, 25))
         self.pushButton.setText('&Help')
@@ -577,8 +577,11 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         # if self.default_button.isChecked():
         proxy_type = str(self.comboBox.currentText())
         if proxy_type.startswith('-'):
+            # TODO: fix bug when messgeBox pop up
+            #QMessageBox.about(self, "Title", "Message")
             use_proxy = False
             proxy_type = '-'
+            return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected
         if proxy_type.startswith('SOCKS4'):
             proxy_type = 'SOCKS4'
         elif proxy_type.startswith('SOCKS5'):
@@ -918,7 +921,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             ## displace the torrc file and icon used on the page
             if not Common.disable_tor:
                 ## Although we will call this function again in the TorStatusPage, we call it this time to comment the "DisableNetwork 0" so that users will see the final status of torrc. This also gives us the hint that a good design will be never modifying the torrc file after this page
-                tor_status.set_enabled()
+                #tor_status.set_enabled()
                 #self.torrc_page.text.setText(self._('tor_enabled'))  # Q: how does this line work?
                 self.torrc_page.text.setText('Tor will be enabled.')  # TODO: add more detailed instructions
                 torrc_text = open('/etc/tor/torrc').read()
@@ -927,7 +930,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     '/usr/share/icons/oxygen/48x48/status/task-complete.png'))
             else:
                 ## Although we will call this function again in the TorStatusPage, we call it this time to comment the "DisableNetwork 0" so that users will see the final status of torrc. This also gives us the hint that a good design will be never modifying the torrc file after this page
-                tor_status.set_disabled()
+                ## TODO: tor_status.set_enabled/diabled will not only (un)comment the line, but also enable the tor without users hitting the NextButton
+                ## we need to comment that out so far and split the tor_status module if necessary
+                #tor_status.set_disabled()
+
                 #self.torrc_page.text.setText(self._('tor_disabled'))
                 self.torrc_page.text.setText('Tor will be diabled.')
                 torrc_text = open('/etc/tor/torrc').read()
