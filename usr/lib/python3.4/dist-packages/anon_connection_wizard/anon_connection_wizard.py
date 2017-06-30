@@ -29,6 +29,8 @@ class Common:
     '''
     translations_path ='/usr/share/translations/whonix_setup.yaml'
 
+    torrc_file_path = '/etc/torrc.d/anon_connection_wizard.torrc'
+
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
     use_bridges = False
@@ -52,7 +54,7 @@ class Common:
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done'):
         ## "not whonix_connection.done" is required once at first run to get a copy of the original torrc.
         ## It does not matter whether the wizard is completed or not, so we can write it here.
-        shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.orig')
+        #shutil.copy(torrc_file_path, '/etc/tor/torrc.orig')
         f = open('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done', 'w')
         f.close()
         
@@ -63,7 +65,7 @@ class Common:
                     'proxy_wizard_page_2',
                     'torrc_page',
                     'tor_status_page']
-
+    # TODO: may replace the URL with a better one for usability and accessibility
     assistance = 'For assistance, visit torproject.org/about/contact.html#support'
 
 class ConnectionMainPage(QtWidgets.QWizardPage):
@@ -801,143 +803,40 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             pass
 
     def next_button_clicked(self):
-        """
-        """
         if self.currentId() == self.steps.index('connection_main_page'):
             self.resize(580, 400)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
             
+            
         if self.currentId() == self.steps.index('torrc_page'):
             self.resize(580, 400)
             self.button(QtWidgets.QWizard.BackButton).setVisible(True)
-            self.button(QtWidgets.QWizard.CancelButton).setVisible(False)
+            self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
 
-            edit_mark_start = '### START anon-connection-wizard ###'
-            edit_mark_end = '### END anon-connection-wizard ###'
-
-            ## Get a fresh torrc
-            if not os.path.exists('/etc/tor/torrc'):
-                if os.path.exists('/etc/tor/torrc.orig'):
-                    shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
-                else:
-                    pass  # Q: Should we care about the case where torrc.orig does not exist? If the answer is yes, what's the soltution?
-
-            else:
-                # TODO: torrc serves as a backup of users' previous setting
-                # we need discuss if this file is a good design
-                # we also need to know where should we put it.
-                shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.tmp')
-
-            edit_mark_flag = True
-            with open("/etc/tor/torrc.tmp","r") as input:
-                with open("/etc/tor/torrc","w") as output:
-                    for line in input:
-                        if edit_mark_start in line:
-                            edit_mark_flag = False
-                        if edit_mark_flag:
-                            output.write(line)
-                        if edit_mark_end in line:
-                            edit_mark_flag = True
-                    output.write("\n")
-
-            # print the starting edit mark
-            with open('/etc/tor/torrc', 'a') as f:
-                f.write(edit_mark_start + '\n')
-
+            ''' io() will wirte lines to /etc/torrc.d/anon_connection_wizard.torrc
+            basing on user's selection in anon_connection_wizard
+            '''
+            io()
             
-            ''' The part is the IO to torrc for bridges settings.
-            Related official docs: https://www.torproject.org/docs/tor-manual.html.en
+            ''' displace the torrc file and icon used on the page
+            notice that anon_connection_wizard.torrc will not have line about DisableNetwork 0
+            That line will be changed by tor_status module in /etc/torrc
             '''
-            if Common.use_bridges:
-                with open('/etc/tor/torrc', 'a') as f:
-                    f.write('UseBridges 1\n')
-                    if Common.use_default_bridge:
-                        if Common.bridge_type == 'obfs3':
-                            f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
-                        elif Common.bridge_type == 'scramblesuit':
-                            f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
-                        elif Common.bridge_type == 'obfs4':
-                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
-                            ''' More types of bridges will be availble once Whonix support them: meek, flashproxy'''
-                        #elif Common.bridge_type == '':
-                        bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
-                        # Q: What does json.load do?
-                        for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
-                            f.write('Bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
-                    else:  # Use custom bridges
-                        # TODO: we should preserve the custom bridge setting for the next time use.
-                        # TODO: Unfinished for different types of bridges:
-                        if Common.bridge_custom.startswith('obfs4'):
-                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
-                        elif Common.bridge_custom.startswith('obfs3'):
-                            f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
-                        elif Common.bridge_custom.startswith('fte'):
-                            f.write('ClientTransportPlugin fte exec /usr/bin/fteproxy --managed\n')
-                        elif Common.bridge_custom.startswith('meek-amazon'):
-                            pass  # Wait to be implemented in Whonix.
-                        elif Common.bridge_custom.startswith('meek-azure'):
-                            pass
-
-                        # Write the specific bridge address, port, cert etc.
-                        # TODO: may be we can save this setting for future use by saving it into a file?
-                        bridge_custom_list = Common.bridge_custom.split('\n')
-                        for bridge in bridge_custom_list:
-                            f.write('Bridge {0}\n'.format(bridge))
-
-
-            ''' The part is the IO to torrc for proxy settings.
-            Related official docs: https://www.torproject.org/docs/tor-manual.html.en
-            '''
-            if Common.use_proxy:
-                with open('/etc/tor/torrc', 'a') as f:
-                    # TODO: Notice that if SOCKS4 is selected, the proxy username and password inputLine should be disabled
-                    # This is because SOCKS4 does not support that.
-                    if Common.proxy_type == 'HTTP/HTTPS':
-                        f.write('HTTPSProxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                        if (Common.proxy_username != ''):  # Q: It seems there is no need to check password because username is essential, not password, right?
-                            f.write('HTTPSProxyAuthenticator {0}:{1}\n'.format(Common.proxy_username, Common.proxy_password))
-                    elif Common.proxy_type == 'SOCKS4':
-                        f.write('Socks4Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                    elif Common.proxy_type == 'SOCKS5':
-                        f.write('Socks5Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                        if (Common.proxy_username != ''):
-                            f.write('Socks5ProxyUsername {0}\n'.format(Common.proxy_username))
-                            f.write('Socks5ProxyPassword {0}\n'.format(Common.proxy_password))
-
-                    ''' TODO: Another feature can be implemented in the future is auto-configure for well-known third party proxy-based censorship circumvention tools, like Lantern.
-                    Uncomment all the fragments to enable it.
-                    '''
-                    # proxies = json.loads(open(Common.well_known_proxy_setting_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
-                    # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
-                    #    f.write('{0}\n'.format(proxy))
-
-            # since all the setting has been output, we can append the edit_mark_end now
-            with open('/etc/tor/torrc', 'a') as f:            
-                f.write(edit_mark_end)
-
-            ## displace the torrc file and icon used on the page
             if not Common.disable_tor:
-                ## Although we will call this function again in the TorStatusPage, we call it this time to comment the "DisableNetwork 0" so that users will see the final status of torrc. This also gives us the hint that a good design will be never modifying the torrc file after this page
-                #tor_status.set_enabled()
                 #self.torrc_page.text.setText(self._('tor_enabled'))  # Q: how does this line work?
                 self.torrc_page.text.setText('Tor will be enabled.')  # TODO: add more detailed instructions
-                torrc_text = open('/etc/tor/torrc').read()
+                torrc_text = open(Common.torrc_file_path).read()
                 self.torrc_page.torrc.setPlainText(torrc_text)
                 self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
                     '/usr/share/icons/oxygen/48x48/status/task-complete.png'))
             else:
-                ## Although we will call this function again in the TorStatusPage, we call it this time to comment the "DisableNetwork 0" so that users will see the final status of torrc. This also gives us the hint that a good design will be never modifying the torrc file after this page
-                ## TODO: tor_status.set_enabled/diabled will not only (un)comment the line, but also enable the tor without users hitting the NextButton
-                ## we need to comment that out so far and split the tor_status module if necessary
-                #tor_status.set_disabled()
-
                 #self.torrc_page.text.setText(self._('tor_disabled'))
-                self.torrc_page.text.setText('Tor will be diabled.')
-                torrc_text = open('/etc/tor/torrc').read()
+                self.torrc_page.text.setText('Tor will be disabled.')
+                torrc_text = open(Common.torrc_file_path).read()
                 self.torrc_page.torrc.setPlainText(torrc_text)
                 self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
                     '/usr/share/icons/oxygen/48x48/status/task-attention.png'))
@@ -985,9 +884,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             pass
 
         if self.currentId() == self.steps.index('connection_main_page'):
-            # TODO: should we do this?
-            # Won't that overide the user's setting in torrc?
-            shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
+            Common.use_bridges = False
+            Common.use_proxy = False
+            shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
+            
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
@@ -996,13 +896,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
-
-        #if self.currentId() == self.steps.index('connection_main_page'):
-        #    Common.use_bridges = False
-         #   shutil.copy('/etc/tor/torrc.orig', '/etc/tor/torrc')
-          #  self.bootstrap_done = False
-           # self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
-            #self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
 
     def show_finish_button(self):
         if self.bootstrap_done or Common.disable_tor:
@@ -1036,6 +929,97 @@ class TorBootstrap(QtCore.QThread):
                 self.previous_status = bootstrap_status
                 self.signal.emit(bootstrap_status)
             time.sleep(0.2)
+
+''' 
+'''
+def io():
+            ## Get a fresh anon-connection-wizard.torrc
+            if not os.path.exists('/etc/torrc.d'):
+                os.makedirs('/etc/torrc.d')
+            if not os.path.exists(Common.torrc_file_path):
+                pass
+                '''
+                if os.path.exists('/etc/tor/torrc.orig'):
+                    shutil.copy('/etc/tor/torrc.orig', Common.torrc_file_path)
+                else:
+                    pass  # Q: Should we care about the case where torrc.orig does not exist? If the answer is yes, what's the soltution?
+                '''
+            else:
+                # TODO: torrc.tmp serves as a backup of users' previous setting
+                # we need discuss if this file is a good design
+                # we also need to know where should we put it.
+                ##shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.tmp')
+                pass
+
+            # TODO: we may add how to open anon_connection_wizard in instructions below
+            shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
+
+            ''' This part is the IO to torrc for bridges settings.
+            Related official docs: https://www.torproject.org/docs/tor-manual.html.en
+            '''
+            if Common.use_bridges:
+                with open(Common.torrc_file_path, 'a') as f:
+                    f.write('UseBridges 1\n')
+                    if Common.use_default_bridge:
+                        if Common.bridge_type == 'obfs3':
+                            f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
+                        elif Common.bridge_type == 'scramblesuit':
+                            f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
+                        elif Common.bridge_type == 'obfs4':
+                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
+                            # More types of bridges will be availble once Whonix support them: meek, flashproxy
+                        #elif Common.bridge_type == '':
+                        bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
+                        # Q: What does json.load do?
+                        for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
+                            f.write('Bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
+                    else:  # Use custom bridges
+                        # TODO: we should preserve the custom bridge setting for the next time use.
+                        # TODO: Unfinished for different types of bridges:
+                        if Common.bridge_custom.startswith('obfs4'):
+                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
+                        elif Common.bridge_custom.startswith('obfs3'):
+                            f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
+                        elif Common.bridge_custom.startswith('fte'):
+                            f.write('ClientTransportPlugin fte exec /usr/bin/fteproxy --managed\n')
+                        elif Common.bridge_custom.startswith('meek-amazon'):
+                            pass  # Wait to be implemented in Whonix.
+                        elif Common.bridge_custom.startswith('meek-azure'):
+                            pass
+
+                        # Write the specific bridge address, port, cert etc.
+                        # TODO: may be we can save this setting for future use by saving it into a file?
+                        bridge_custom_list = Common.bridge_custom.split('\n')
+                        for bridge in bridge_custom_list:
+                            f.write('Bridge {0}\n'.format(bridge))
+
+
+            ''' The part is the IO to torrc for proxy settings.
+            Related official docs: https://www.torproject.org/docs/tor-manual.html.en
+            '''
+            if Common.use_proxy:
+                with open(Common.torrc_file_path, 'a') as f:
+                    # TODO: Notice that if SOCKS4 is selected, the proxy username and password inputLine should be disabled
+                    # This is because SOCKS4 does not support that.
+                    if Common.proxy_type == 'HTTP/HTTPS':
+                        f.write('HTTPSProxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                        if (Common.proxy_username != ''):  # Q: It seems there is no need to check password because username is essential, not password, right?
+                            f.write('HTTPSProxyAuthenticator {0}:{1}\n'.format(Common.proxy_username, Common.proxy_password))
+                    elif Common.proxy_type == 'SOCKS4':
+                        f.write('Socks4Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                    elif Common.proxy_type == 'SOCKS5':
+                        f.write('Socks5Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                        if (Common.proxy_username != ''):
+                            f.write('Socks5ProxyUsername {0}\n'.format(Common.proxy_username))
+                            f.write('Socks5ProxyPassword {0}\n'.format(Common.proxy_password))
+
+                    ''' TODO: Another feature can be implemented in the future is auto-configure for well-known third party proxy-based censorship circumvention tools, like Lantern.
+                    Uncomment all the fragments to enable it.
+                    '''
+                    # proxies = json.loads(open(Common.well_known_proxy_setting_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
+                    # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
+                    #    f.write('{0}\n'.format(proxy))
+
 
 def main():
     # Available styles: "windows", "motif", "cde", "sgi", "plastique" and "cleanlooks"
