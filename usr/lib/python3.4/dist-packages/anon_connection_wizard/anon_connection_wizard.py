@@ -31,6 +31,9 @@ class Common:
 
     torrc_file_path = '/etc/torrc.d/anon_connection_wizard.torrc'
 
+    ## TODO: this file path may not be standard
+    torrc_tmp_file_path = '/etc/tor/anon_connection_wizard.torrc.tmp'
+
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
     use_bridges = False
@@ -761,7 +764,19 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.tor_status = ''
         self.bootstrap_done = False
 
+        ## Keep /etc/tor/anon_connection_wizard.torrc.tmp clear at start so that even if
+        ## user clicked cancel button before making any changes,
+        ## the anon_connection_wizard.torrc will not be polluted.
+        if os.path.exists(Common.torrc_tmp_file_path):
+            if os.path.exists('/etc/tor/anon-connection-wizard.torrc.orig'):
+                shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_tmp_file_path)
+            else:
+                print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
+
+
+        
         self.setupUi()
+
 
     def setupUi(self):
         self.setWindowIcon(QtGui.QIcon("/usr/share/icons/anon-icon-pack/whonix.ico"))
@@ -796,6 +811,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.bootstrap_timeout = True
 
     def cancel_button_clicked(self):
+        ## sometimes the changes have been made to anon_connection_wizard.torrc but aborted
+        if os.path.exists(Common.torrc_tmp_file_path):
+            shutil.copy(Common.torrc_tmp_file_path , Common.torrc_file_path)
+
         try:
             if self.bootstrap_thread:
                 self.bootstrap_thread.terminate()
@@ -936,23 +955,19 @@ def io():
             ## Get a fresh anon-connection-wizard.torrc
             if not os.path.exists('/etc/torrc.d'):
                 os.makedirs('/etc/torrc.d')
-            if not os.path.exists(Common.torrc_file_path):
-                pass
-                '''
-                if os.path.exists('/etc/tor/torrc.orig'):
-                    shutil.copy('/etc/tor/torrc.orig', Common.torrc_file_path)
-                else:
-                    pass  # Q: Should we care about the case where torrc.orig does not exist? If the answer is yes, what's the soltution?
-                '''
-            else:
+            if os.path.exists(Common.torrc_file_path):
                 # TODO: torrc.tmp serves as a backup of users' previous setting
                 # we need discuss if this file is a good design
                 # we also need to know where should we put it.
-                ##shutil.copy('/etc/tor/torrc', '/etc/tor/torrc.tmp')
+                shutil.copy(Common.torrc_file_path, Common.torrc_tmp_file_path)
+            else:
                 pass
 
-            # TODO: we may add how to open anon_connection_wizard in instructions below
-            shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
+            # TODO: we may add how to open anon_connection_wizard in the instruction in .orig
+            if os.path.exists('/etc/tor/anon-connection-wizard.torrc.orig'):
+                shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
+            else:
+                print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
 
             ''' This part is the IO to torrc for bridges settings.
             Related official docs: https://www.torproject.org/docs/tor-manual.html.en
@@ -988,7 +1003,6 @@ def io():
                             pass
 
                         # Write the specific bridge address, port, cert etc.
-                        # TODO: may be we can save this setting for future use by saving it into a file?
                         bridge_custom_list = Common.bridge_custom.split('\n')
                         for bridge in bridge_custom_list:
                             f.write('Bridge {0}\n'.format(bridge))
@@ -1019,7 +1033,6 @@ def io():
                     # proxies = json.loads(open(Common.well_known_proxy_setting_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
                     # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
                     #    f.write('{0}\n'.format(proxy))
-
 
 def main():
     # Available styles: "windows", "motif", "cde", "sgi", "plastique" and "cleanlooks"
