@@ -87,9 +87,11 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.label_5 = QtWidgets.QLabel(self.groupBox)
         self.pushButton_3 = QtWidgets.QRadioButton(self.groupBox)
 
+        '''
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
         self.show_disable = False
-
+        '''
+        
         self.verticalLayout.addWidget(self.groupBox)
 
         self.setupUi()
@@ -124,7 +126,7 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.pushButton_2.setText('Configure')
         self.pushButton_3.setFont(font)
         self.pushButton_3.setText('Disable Tor')
-        self.pushButton_3.setVisible(False)
+        self.pushButton_3.setVisible(True)
 
         self.label_4.setGeometry(QtCore.QRect(10, 165, 381, 41))
         self.label_4.setWordWrap(True)
@@ -132,9 +134,10 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
 
         self.label_5.setGeometry(QtCore.QRect(10, 250, 500, 31))
         self.label_5.setWordWrap(True)
-        self.label_5.setText('I do not want to connect automatically to the Tor network next time I boot.<br> This wizard will be started.')
-        self.label_5.setVisible(False)
+        self.label_5.setText('I do not want to connect automatically to the Tor network.<br>Next time I boot, this wizard will be started.')
+        self.label_5.setVisible(True)
 
+        '''
         self.pushButton.setGeometry(QtCore.QRect(430, 285, 80, 25))
         self.pushButton.setText('&Advanced')
         self.pushButton.clicked.connect(self.show_disable_tor)
@@ -147,6 +150,7 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
             self.pushButton.setText('&Less')
         else:
             self.pushButton.setText('&Advanced')
+        '''
 
     def nextId(self):
         if self.pushButton_1.isChecked():
@@ -773,8 +777,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             else:
                 print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
 
-
-        
         self.setupUi()
 
 
@@ -783,6 +785,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.setWindowTitle('Anon Connection Wizard')
         self.resize(580, 400)
 
+        ## TODO: hide the close button so that cancel button will be used when quit
+        ## Otherwise try to connect the close button to cancel_button_clicked function
+        # enable custom window hint
+        self.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+        # disable (but not hide) close button
+        self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+
+        
         # signal-and-slot
         self.button(QtWidgets.QWizard.BackButton).clicked.connect(self.back_button_clicked)
         self.button(QtWidgets.QWizard.NextButton).clicked.connect(self.next_button_clicked)
@@ -793,6 +803,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.CancelButtonOnLeft
         self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
         self.button(QtWidgets.QWizard.CancelButton).setEnabled(True)
+        self.button(QtWidgets.QWizard.CancelButton).setText('Quit')
         #self.button(QtWidgets.QWizard.CancelButton).setFocus()
         self.exec_()
 
@@ -892,8 +903,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                                                    <code>kdesudo anon-connection-wizard</code></blockquote> \
                                                    or press the Back button and select another option.')
                 self.show_finish_button()
-
-
 
     def back_button_clicked(self):
         try:
