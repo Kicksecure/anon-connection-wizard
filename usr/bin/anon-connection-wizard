@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/python3 -u
 
 from anon_connection_wizard import anon_connection_wizard
 anon_connection_wizard.main()
