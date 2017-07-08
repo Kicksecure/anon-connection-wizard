@@ -16,6 +16,7 @@ import time
 import re
 import shutil
 import distutils.spawn
+import tempfile
 
 from guimessages.translations import _translations
 from guimessages.guimessage import gui_message
@@ -27,23 +28,23 @@ class Common:
     '''
     Variables and constants used through all the classes
     '''
-    translations_path ='/usr/share/translations/whonix_setup.yaml'
+    translations_path = '/usr/share/translations/whonix_setup.yaml'
 
     torrc_file_path = '/etc/torrc.d/anon_connection_wizard.torrc'
 
     ## TODO: this file path may not be standard
-    torrc_tmp_file_path = '/etc/tor/anon_connection_wizard.torrc.tmp'
+    torrc_tmp_file_path = ''
 
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
     use_bridges = False
     use_default_bridge = True
-    bridge_type = ''
+    bridge_type = 'obfs4 (recommended)'  # defualt value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
     bridge_custom = ''  # the bridges info lines
     
     use_proxy = False
     proxy_type = '-'  # defualt is '-', not blank
-    proxy_ip = ''
+    proxy_ip = '566.56.55'
     proxy_port = ''
     proxy_username = ''
     proxy_password = ''
@@ -55,7 +56,9 @@ class Common:
     ''' The following is command lines availble to be added to .torrc,
     since they are used more than once in the code, 
     it is easier for later maintainance of the code to write them all here and refer them when used
-    Notice that they do not include '\n'
+    Notice that:
+    1. they do not include '\n' 
+    2. the ' ' appended at last should not be eliminate
     '''
     command_useBridges = 'UseBridges 1'
     command_use_custom_bridge = '# Custom Bridge is used:'
@@ -67,8 +70,8 @@ class Common:
     
     command_http = 'HTTPSProxy '
     command_httpAuth = 'HTTPSProxyAuthenticator'
-    command_sock4 = 'Socks4Proxy'
-    command_sock5 = 'Socks5Proxy'
+    command_sock4 = 'Socks4Proxy '
+    command_sock5 = 'Socks5Proxy '
     command_sock5Username = 'Socks5ProxyUsername'
     command_sock5Password = 'Socks5ProxyPassword'
 
@@ -90,6 +93,7 @@ class Common:
                     'proxy_wizard_page_2',
                     'torrc_page',
                     'tor_status_page']
+    
     # TODO: may replace the URL with a better one for usability and accessibility
     assistance = 'For assistance, visit torproject.org/about/contact.html#support'
 
@@ -173,6 +177,12 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         else:
             self.pushButton.setText('&Advanced')
         '''
+
+        if Common.use_bridges or Common.use_proxy:
+            self.pushButton_2.setChecked(True)
+        else:
+            self.pushButton_1.setChecked(True)
+
 
     def nextId(self):
         if self.pushButton_1.isChecked():
@@ -278,7 +288,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.bridges = ['obfs4 (recommended)',
                         'obfs3'
-
                         # The following will be uncommented as soon as being implemented.
                         # Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
                         # 'fte',
@@ -363,13 +372,16 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # Allow long input appears in one line.
         self.custom_bridges.setLineWrapColumnOrWidth(1800)
         self.custom_bridges.setLineWrapMode(QtWidgets.QTextEdit.FixedPixelWidth)
-        self.custom_bridges.setText(Common.custom)  # adjust the line according to value in Common
+        
+        if not Common.use_default_bridge:
+            self.custom_bridges.setText(Common.bridge_custom)  # adjust the line according to value in Common
 
         
         # TODO: The next statement can not be used yet, this is because the QTextEdit does not supprot setPlaceholderText.
         # More functions need to be added to implement that: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         # self.custom_bridges.setPlaceholderText('type address:port')
 
+        self.pushButton.setEnabled(True)
         self.pushButton.setGeometry(QtCore.QRect(450, 70, 86, 25))
         self.pushButton.setText('&Help')
         self.pushButton.clicked.connect(self.show_help)
@@ -608,7 +620,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.lineEdit.setGeometry(QtCore.QRect(118, 98, 260, 25))
         self.lineEdit.setStyleSheet("background-color:white;")
         self.lineEdit.setPlaceholderText('IP address or hostname')
-        self.lineEdit.setText(Common.proxy_ip)
+        self.lineEdit.setText(Common.proxy_ip)  # TODO: investigate why it does not work
         # TODO: may exchange the sequence of setText and setPlaceholderText
         
         self.lineEdit_2.setGeometry(QtCore.QRect(437, 98, 60, 25))
@@ -796,6 +808,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         translation = _translations(Common.translations_path, 'whonixsetup')
         self._ = translation.gettext
 
+        self.parseTorrc()
+
+
         self.steps = Common.wizard_steps
         # The sequence of adding a page will also be the sequence the pages are shown in a wizard.
         self.connection_main_page = ConnectionMainPage()
@@ -825,6 +840,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.tor_status = ''
         self.bootstrap_done = False
 
+        '''
         ## Keep /etc/tor/anon_connection_wizard.torrc.tmp clear at start so that even if
         ## user clicked cancel button before making any changes,
         ## the anon_connection_wizard.torrc will not be polluted.
@@ -833,8 +849,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_tmp_file_path)
             else:
                 print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
+        '''
 
-        self.parseTorrc()
         self.setupUi()
 
 
@@ -901,7 +917,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
             
-            
         if self.currentId() == self.steps.index('torrc_page'):
             self.resize(580, 400)
             self.button(QtWidgets.QWizard.BackButton).setVisible(True)
@@ -921,7 +936,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             if not Common.disable_tor:
                 #self.torrc_page.text.setText(self._('tor_enabled'))  # Q: how does this line work?
                 self.torrc_page.text.setText('Tor will be enabled.')  # TODO: add more detailed instructions
-                torrc_text = open(Common.torrc_file_path).read()
+                torrc_text = open(Common.torrc_tmp_file_path).read()
                 self.torrc_page.torrc.setPlainText(torrc_text)
                 self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
                     '/usr/share/icons/oxygen/48x48/status/task-complete.png'))
@@ -993,10 +1008,17 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setFocus()
 
-    def io():
-        ## Get a fresh anon-connection-wizard.torrc
+    def io(self):
         if not os.path.exists('/etc/torrc.d'):
             os.makedirs('/etc/torrc.d')
+
+        # Creates a file and returns a tuple containing both the handle and the path.
+        # TODO: we are sponsible for removing tmp file when finished
+        handle, Common.torrc_tmp_file_path = tempfile.mkstemp()
+        with open(handle, "w") as f:
+            f.write("# Hello, World!\n")
+        
+        '''
         if os.path.exists(Common.torrc_file_path):
             # TODO: torrc.tmp serves as a backup of users' previous setting
             # we need discuss if this file is a good design
@@ -1005,17 +1027,19 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         else:
             pass
         
+
         # TODO: we may add how to open anon_connection_wizard in the instruction in .orig
         if os.path.exists('/etc/tor/anon-connection-wizard.torrc.orig'):
             shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
         else:
             print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
+        '''
 
         ''' This part is the IO to torrc for bridges settings.
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
         '''
         if Common.use_bridges:
-            with open(Common.torrc_file_path, 'a') as f:
+            with open(Common.torrc_tmp_file_path, 'a') as f:
                 f.write(Common.command_useBridges + '\n')
                 if Common.use_default_bridge:
                     if Common.bridge_type == 'obfs3':
@@ -1025,13 +1049,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif Common.bridge_type == 'obfs4':
                         f.write(Common.command_obfs4 + '\n')
                         # More types of bridges will be availble once Whonix support them: meek, flashproxy
-                    #elif Common.bridge_type == '':
+                    elif Common.bridge_type == '':
+                        pass
                     bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
                     # Q: What does json.load do?
                     for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
                         f.write('Bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
                 else:  # Use custom bridges
-                    f.write(Common.command_use_custom_bridge + '\n')
+                    f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
+                    
                     if Common.bridge_custom.startswith('obfs4'):
                         f.write(Common.command_obfs4 + '\n')
                     elif Common.bridge_custom.startswith('obfs3'):
@@ -1053,7 +1079,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
         '''
         if Common.use_proxy:
-            with open(Common.torrc_file_path, 'a') as f:
+            with open(Common.torrc_tmp_file_path, 'a') as f:
                 # TODO: Notice that if SOCKS4 is selected, the proxy username and password inputLine should be disabled
                 # This is because SOCKS4 does not support that.
                 if Common.proxy_type == 'HTTP/HTTPS':
@@ -1075,37 +1101,51 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
                 #    f.write('{0}\n'.format(proxy))
 
+        # make the tmp file become the real .torrc
+        # this may overwrite the previous .torrc, but it does not matter
+        shutil.copy(Common.torrc_tmp_file_path, Common.torrc_file_path)
 
-    def parseTorrc():
+
+    def parseTorrc(self):
         if os.path.exists(Common.torrc_file_path):
             with open(Common.torrc_file_path, 'r') as f:
                 for line in f:
-                    if line.startswith(Common.command_useBridges):
-                        Common.use_bridges = True
-                    elif line.startswith(Common.command_use_custom_bridge):
+                    if line.startswith(Common.command_use_custom_bridge): # this condition must be above '#' condition, because it also contains '#'
                         Common.use_default_bridge = False
+                    elif line.startswith('#'):
+                        pass  # add this line to improve efficiency
+                    elif line.startswith(Common.command_useBridges):
+                        Common.use_bridges = True
                     elif line.startswith(Common.command_obfs3):
                         Common.bridge_type = 'obfs3'
                     elif line.startswith(Common.command_obfs4):
-                        Common.bridge_type = 'obfs4'
+                        Common.bridge_type = 'obfs4 (recommended)'
                     elif line.startswith(Common.command_fte):
                         Common.bridge_type = 'fte'
                     elif line.startswith(Common.command_scramblesuit):
                         Common.bridge_type = 'scramblesuit'
                     elif line.startswith(Common.command_bridgeInfo):
-                        Common.bridge_custom += line  # not sure if line contains a '\n' or not
-                    elif line.startswith(Common.http):
+                        Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
+                    elif line.startswith(Common.command_http):
                         Common.use_proxy = True
-                        Common.proxy_type = 'HTTP/HTTPS'
+                        Common.proxy_type = 'HTTP / HTTPS'
+                        Common.proxy_ip = line.split(' ')[1].split(':')[0]
+                        Common.proxy_port = line.split(' ')[1].split(':')[1]
+
                     elif line.startswith(Common.command_httpAuth):
-                        Common.proxy_username = line.split(' ')[1]
-                        Common.proxy_password = line.split(' ')[2]
+                        Common.proxy_username = line.split(' ')[1].split(':')[0]
+                        Common.proxy_password = line.split(' ')[1].split(':')[1]
                     elif line.startswith(Common.command_sock4):
                         Common.use_proxy = True
                         Common.proxy_type = 'SOCKS4'
+                        Common.proxy_ip = line.split(' ')[1].split(':')[0]
+                        Common.proxy_port = line.split(' ')[1].split(':')[1]
                     elif line.startswith(Common.command_sock5):
                         Common.use_proxy = True
                         Common.proxy_type = 'SOCKS5'
+                        Common.proxy_ip = line.split(' ')[1].split(':')[0]
+                        Common.proxy_port = line.split(' ')[1].split(':')[1]
+
                     elif line.startswith(Common.command_sock5Username):
                         Common.proxy_username = line.split(' ')[1]
                     elif line.startswith(Common.command_sock5Password):
