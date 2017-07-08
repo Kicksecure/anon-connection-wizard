@@ -51,8 +51,6 @@ class Common:
 
     disable_tor = False
 
-    original_torrc = True  # This shows the state where we need to inform user the torrc is not the orginal one, like what Tor launcher has been doing
-
     ''' The following is command lines availble to be added to .torrc,
     since they are used more than once in the code, 
     it is easier for later maintainance of the code to write them all here and refer them when used
@@ -81,8 +79,6 @@ class Common:
 
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done'):
         ## "not whonix_connection.done" is required once at first run to get a copy of the original torrc.
-        ## It does not matter whether the wizard is completed or not, so we can write it here.
-        #shutil.copy(torrc_file_path, '/etc/tor/torrc.orig')
         f = open('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done', 'w')
         f.close()
         
@@ -256,7 +252,7 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         #self.no_button_2.setGeometry(QtCore.QRect(25, 50, 550, 30))
         #self.no_button_2.setText('No. I will use some third party censorship circumvention tools instead.')
 
-        ## This is an example of how to adjust UI according to Common values
+        ## This is an example of how to adjust UI according to Common.value
         ## which are changed according to .torrc at the start of anon_connection_wizard
         if Common.use_bridges:
             self.yes_button.setChecked(True)
@@ -842,17 +838,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.proxy_type = ''
         self.tor_status = ''
         self.bootstrap_done = False
-
-        '''
-        ## Keep /etc/tor/anon_connection_wizard.torrc.tmp clear at start so that even if
-        ## user clicked cancel button before making any changes,
-        ## the anon_connection_wizard.torrc will not be polluted.
-        if os.path.exists(Common.torrc_tmp_file_path):
-            if os.path.exists('/etc/tor/anon-connection-wizard.torrc.orig'):
-                shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_tmp_file_path)
-            else:
-                print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
-        '''
 
         self.setupUi()
 
