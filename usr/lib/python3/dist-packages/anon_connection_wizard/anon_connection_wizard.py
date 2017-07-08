@@ -37,11 +37,12 @@ class Common:
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
     use_bridges = False
-    use_proxy = False
     use_default_bridge = True
     bridge_type = ''
-    bridge_custom = ''
-    proxy_type = ''
+    bridge_custom = ''  # the bridges info lines
+    
+    use_proxy = False
+    proxy_type = '-'  # defualt is '-', not blank
     proxy_ip = ''
     proxy_port = ''
     proxy_username = ''
@@ -51,6 +52,27 @@ class Common:
 
     original_torrc = True  # This shows the state where we need to inform user the torrc is not the orginal one, like what Tor launcher has been doing
 
+    ''' The following is command lines availble to be added to .torrc,
+    since they are used more than once in the code, 
+    it is easier for later maintainance of the code to write them all here and refer them when used
+    Notice that they do not include '\n'
+    '''
+    command_useBridges = 'UseBridges 1'
+    command_use_custom_bridge = '# Custom Bridge is used:'
+    command_obfs3 = 'ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed'
+    command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
+    command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
+    command_scramblesuit = 'ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed'
+    command_bridgeInfo = 'Bridge '
+    
+    command_http = 'HTTPSProxy '
+    command_httpAuth = 'HTTPSProxyAuthenticator'
+    command_sock4 = 'Socks4Proxy'
+    command_sock5 = 'Socks5Proxy'
+    command_sock5Username = 'Socks5ProxyUsername'
+    command_sock5Password = 'Socks5ProxyPassword'
+
+    
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
         os.makedirs('/var/cache/whonix-setup-wizard/status-files')
 
@@ -211,17 +233,22 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
 
         self.group_box.setMinimumSize(QtCore.QSize(16777215, 244))
         self.group_box.setFlat(True)
+
+        self.yes_button.setGeometry(QtCore.QRect(25, 20, 550, 30))
+        self.yes_button.setText('Yes. I need Tor bridges to help me bypass the Tor censorship.')
         
-        self.no_button_1.setGeometry(QtCore.QRect(25, 20, 550, 30))
-        self.no_button_1.setText('No. My ISP does not censor my connections to the Tor network.')
-        self.no_button_1.setChecked(True)
+        self.no_button_1.setGeometry(QtCore.QRect(25, 50, 550, 30))
+        self.no_button_1.setText('No. My ISP does not censor my connections to the Tor network or I will use other censorship circumvention methods instead.')
         
         #self.no_button_2.setGeometry(QtCore.QRect(25, 50, 550, 30))
         #self.no_button_2.setText('No. I will use some third party censorship circumvention tools instead.')
 
-        self.yes_button.setGeometry(QtCore.QRect(25, 50, 550, 30))
-        self.yes_button.setText('Yes. I need Tor bridges to help me bypass the Tor censorship.')
-        
+        ## This is an example of how to adjust UI according to Common values
+        ## which are changed according to .torrc at the start of anon_connection_wizard
+        if Common.use_bridges:
+            self.yes_button.setChecked(True)
+        else:
+            self.no_button_1.setChecked(True)
 
         # self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_3.setGeometry(10, 110, 520, 160)
@@ -300,11 +327,15 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.groupBox.setMinimumSize(QtCore.QSize(16777215, 243))
         self.groupBox.setFlat(True)
         self.default_button.setGeometry(QtCore.QRect(18, 25, 500, 24))
-        self.default_button.setChecked(True)
         self.default_button.setText('Connect with provided bridges')
 
         self.custom_button.setGeometry(QtCore.QRect(18, 82, 500, 25))
         self.custom_button.setText('Enter custom bridges')
+
+        if Common.use_default_bridge:
+            self.default_button.setChecked(True)
+        else:
+            self.custom_button.setChecked(True)
 
         self.label_3.setGeometry(QtCore.QRect(38, 47, 106, 20))
         self.label_3.setText('Transport type:')
@@ -314,6 +345,10 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.comboBox.setGeometry(QtCore.QRect(135, 44, 181, 27))
         for bridge in self.bridges:
             self.comboBox.addItem(bridge)
+            
+        # The default value is adjust according to Common.bridge_type
+        if Common.use_default_bridge:
+            self.comboBox.setCurrentIndex(self.bridges.index(Common.bridge_type))
 
         self.label_4.setEnabled(False)
         self.label_4.setGeometry(QtCore.QRect(38, 105, 300, 20))
@@ -328,6 +363,9 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # Allow long input appears in one line.
         self.custom_bridges.setLineWrapColumnOrWidth(1800)
         self.custom_bridges.setLineWrapMode(QtWidgets.QTextEdit.FixedPixelWidth)
+        self.custom_bridges.setText(Common.custom)  # adjust the line according to value in Common
+
+        
         # TODO: The next statement can not be used yet, this is because the QTextEdit does not supprot setPlaceholderText.
         # More functions need to be added to implement that: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         # self.custom_bridges.setPlaceholderText('type address:port')
@@ -447,6 +485,12 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         self.no_button.setText('No')
         self.no_button.setChecked(True)
 
+        if Common.use_proxy:
+            self.yes_button.setChecked(True)
+        else:
+            self.no_button.setChecked(True)
+
+
         # self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_3.setGeometry(10, 75, 520, 60)
         self.label_3.setTextFormat(QtCore.Qt.RichText)
@@ -526,6 +570,11 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         for proxy in self.proxies:
             self.comboBox.addItem(proxy)
 
+        # The default value is adjust according to Common.proxy_type
+        if Common.use_proxy:
+            self.comboBox.setCurrentIndex(self.proxies.index(Common.proxy_type))
+
+
         self.label_2.setGeometry(QtCore.QRect(10, 30, 201, 16))
         self.label_2.setText("Enter the proxy settings.")
 
@@ -559,14 +608,22 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.lineEdit.setGeometry(QtCore.QRect(118, 98, 260, 25))
         self.lineEdit.setStyleSheet("background-color:white;")
         self.lineEdit.setPlaceholderText('IP address or hostname')
+        self.lineEdit.setText(Common.proxy_ip)
+        # TODO: may exchange the sequence of setText and setPlaceholderText
+        
         self.lineEdit_2.setGeometry(QtCore.QRect(437, 98, 60, 25))
         self.lineEdit_2.setStyleSheet("background-color:white;")
+        self.lineEdit_2.setText(Common.proxy_port)
+        
         self.lineEdit_3.setGeometry(QtCore.QRect(118, 128, 150, 25))
         self.lineEdit_3.setStyleSheet("background-color:white;")
         self.lineEdit_3.setPlaceholderText('Optional')
+        self.lineEdit_3.setText(Common.proxy_username)
+        
         self.lineEdit_4.setGeometry(QtCore.QRect(352, 128, 145, 25))
         self.lineEdit_4.setStyleSheet("background-color:white;")
         self.lineEdit_4.setPlaceholderText('Optional')
+        self.lineEdit_4.setText(Common.proxy_password)
 
         self.label_4.setGeometry(QtCore.QRect(10, 255, 500, 15))
         self.label_4.setText(Common.assistance)
@@ -777,6 +834,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             else:
                 print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
 
+        self.parseTorrc()
         self.setupUi()
 
 
@@ -788,6 +846,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         ## TODO: hide the close button so that cancel button will be used when quit
         ## Otherwise try to connect the close button to cancel_button_clicked function
         # enable custom window hint
+        ## A: new implementation will not need this
         self.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
         # disable (but not hide) close button
         self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
@@ -797,9 +856,11 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.button(QtWidgets.QWizard.BackButton).clicked.connect(self.back_button_clicked)
         self.button(QtWidgets.QWizard.NextButton).clicked.connect(self.next_button_clicked)
         self.button(QtWidgets.QWizard.CancelButton).clicked.connect(self.cancel_button_clicked)
+
+        # Since this is the index page, no back_button is needed.
+        self.button(QtWidgets.QWizard.BackButton).setVisible(False)
+        self.button(QtWidgets.QWizard.BackButton).setEnabled(False)
         
-        self.button(QtWidgets.QWizard.BackButton).setVisible(False)  # Since this is the index page, no back_button is needed.
-        self.button(QtWidgets.QWizard.BackButton).setEnabled(False)  # Since this is the index page, no back_button is needed.
         self.CancelButtonOnLeft
         self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
         self.button(QtWidgets.QWizard.CancelButton).setEnabled(True)
@@ -823,6 +884,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
     def cancel_button_clicked(self):
         ## sometimes the changes have been made to anon_connection_wizard.torrc but aborted
+        ## TODO: new implementation will not need this
         if os.path.exists(Common.torrc_tmp_file_path):
             shutil.copy(Common.torrc_tmp_file_path , Common.torrc_file_path)
 
@@ -850,7 +912,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             ''' io() will wirte lines to /etc/torrc.d/anon_connection_wizard.torrc
             basing on user's selection in anon_connection_wizard
             '''
-            io()
+            self.io()
             
             ''' displace the torrc file and icon used on the page
             notice that anon_connection_wizard.torrc will not have line about DisableNetwork 0
@@ -931,6 +993,123 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setFocus()
 
+    def io():
+        ## Get a fresh anon-connection-wizard.torrc
+        if not os.path.exists('/etc/torrc.d'):
+            os.makedirs('/etc/torrc.d')
+        if os.path.exists(Common.torrc_file_path):
+            # TODO: torrc.tmp serves as a backup of users' previous setting
+            # we need discuss if this file is a good design
+            # we also need to know where should we put it.
+            shutil.copy(Common.torrc_file_path, Common.torrc_tmp_file_path)
+        else:
+            pass
+        
+        # TODO: we may add how to open anon_connection_wizard in the instruction in .orig
+        if os.path.exists('/etc/tor/anon-connection-wizard.torrc.orig'):
+            shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
+        else:
+            print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
+
+        ''' This part is the IO to torrc for bridges settings.
+        Related official docs: https://www.torproject.org/docs/tor-manual.html.en
+        '''
+        if Common.use_bridges:
+            with open(Common.torrc_file_path, 'a') as f:
+                f.write(Common.command_useBridges + '\n')
+                if Common.use_default_bridge:
+                    if Common.bridge_type == 'obfs3':
+                        f.write(Common.command_obfs3 + '\n')
+                    elif Common.bridge_type == 'scramblesuit':
+                        f.write(Common.command_scramblesuit + '\n')
+                    elif Common.bridge_type == 'obfs4':
+                        f.write(Common.command_obfs4 + '\n')
+                        # More types of bridges will be availble once Whonix support them: meek, flashproxy
+                    #elif Common.bridge_type == '':
+                    bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
+                    # Q: What does json.load do?
+                    for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
+                        f.write('Bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
+                else:  # Use custom bridges
+                    f.write(Common.command_use_custom_bridge + '\n')
+                    if Common.bridge_custom.startswith('obfs4'):
+                        f.write(Common.command_obfs4 + '\n')
+                    elif Common.bridge_custom.startswith('obfs3'):
+                        f.write(Common.command_obfs3 + '\n')
+                    elif Common.bridge_custom.startswith('fte'):
+                        f.write(Common.command_fte + '\n')
+                    elif Common.bridge_custom.startswith('meek-amazon'):
+                        pass  # Wait to be implemented in Whonix.
+                    elif Common.bridge_custom.startswith('meek-azure'):
+                        pass
+
+                    # Write the specific bridge address, port, cert etc.
+                    bridge_custom_list = Common.bridge_custom.split('\n')
+                    for bridge in bridge_custom_list:
+                        f.write('Bridge {0}\n'.format(bridge))
+
+
+        ''' The part is the IO to torrc for proxy settings.
+        Related official docs: https://www.torproject.org/docs/tor-manual.html.en
+        '''
+        if Common.use_proxy:
+            with open(Common.torrc_file_path, 'a') as f:
+                # TODO: Notice that if SOCKS4 is selected, the proxy username and password inputLine should be disabled
+                # This is because SOCKS4 does not support that.
+                if Common.proxy_type == 'HTTP/HTTPS':
+                    f.write('HTTPSProxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                    if (Common.proxy_username != ''):  # there is no need to check password because username is essential
+                        f.write('HTTPSProxyAuthenticator {0}:{1}\n'.format(Common.proxy_username, Common.proxy_password))
+                elif Common.proxy_type == 'SOCKS4':
+                    f.write('Socks4Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                elif Common.proxy_type == 'SOCKS5':
+                    f.write('Socks5Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
+                    if (Common.proxy_username != ''):
+                        f.write('Socks5ProxyUsername {0}\n'.format(Common.proxy_username))
+                        f.write('Socks5ProxyPassword {0}\n'.format(Common.proxy_password))
+
+                ''' TODO: Another feature can be implemented in the future is auto-configure for well-known third party proxy-based censorship circumvention tools, like Lantern.
+                Uncomment all the fragments to enable it.
+                '''
+                # proxies = json.loads(open(Common.well_known_proxy_setting_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
+                # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
+                #    f.write('{0}\n'.format(proxy))
+
+
+    def parseTorrc():
+        if os.path.exists(Common.torrc_file_path):
+            with open(Common.torrc_file_path, 'r') as f:
+                for line in f:
+                    if line.startswith(Common.command_useBridges):
+                        Common.use_bridges = True
+                    elif line.startswith(Common.command_use_custom_bridge):
+                        Common.use_default_bridge = False
+                    elif line.startswith(Common.command_obfs3):
+                        Common.bridge_type = 'obfs3'
+                    elif line.startswith(Common.command_obfs4):
+                        Common.bridge_type = 'obfs4'
+                    elif line.startswith(Common.command_fte):
+                        Common.bridge_type = 'fte'
+                    elif line.startswith(Common.command_scramblesuit):
+                        Common.bridge_type = 'scramblesuit'
+                    elif line.startswith(Common.command_bridgeInfo):
+                        Common.bridge_custom += line  # not sure if line contains a '\n' or not
+                    elif line.startswith(Common.http):
+                        Common.use_proxy = True
+                        Common.proxy_type = 'HTTP/HTTPS'
+                    elif line.startswith(Common.command_httpAuth):
+                        Common.proxy_username = line.split(' ')[1]
+                        Common.proxy_password = line.split(' ')[2]
+                    elif line.startswith(Common.command_sock4):
+                        Common.use_proxy = True
+                        Common.proxy_type = 'SOCKS4'
+                    elif line.startswith(Common.command_sock5):
+                        Common.use_proxy = True
+                        Common.proxy_type = 'SOCKS5'
+                    elif line.startswith(Common.command_sock5Username):
+                        Common.proxy_username = line.split(' ')[1]
+                    elif line.startswith(Common.command_sock5Password):
+                        Common.proxy_password = line.split(' ')[1]
 
 class TorBootstrap(QtCore.QThread):
     signal = QtCore.pyqtSignal(str)
@@ -958,90 +1137,6 @@ class TorBootstrap(QtCore.QThread):
                 self.signal.emit(bootstrap_status)
             time.sleep(0.2)
 
-''' 
-'''
-def io():
-            ## Get a fresh anon-connection-wizard.torrc
-            if not os.path.exists('/etc/torrc.d'):
-                os.makedirs('/etc/torrc.d')
-            if os.path.exists(Common.torrc_file_path):
-                # TODO: torrc.tmp serves as a backup of users' previous setting
-                # we need discuss if this file is a good design
-                # we also need to know where should we put it.
-                shutil.copy(Common.torrc_file_path, Common.torrc_tmp_file_path)
-            else:
-                pass
-
-            # TODO: we may add how to open anon_connection_wizard in the instruction in .orig
-            if os.path.exists('/etc/tor/anon-connection-wizard.torrc.orig'):
-                shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
-            else:
-                print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
-
-            ''' This part is the IO to torrc for bridges settings.
-            Related official docs: https://www.torproject.org/docs/tor-manual.html.en
-            '''
-            if Common.use_bridges:
-                with open(Common.torrc_file_path, 'a') as f:
-                    f.write('UseBridges 1\n')
-                    if Common.use_default_bridge:
-                        if Common.bridge_type == 'obfs3':
-                            f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
-                        elif Common.bridge_type == 'scramblesuit':
-                            f.write('ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed\n')
-                        elif Common.bridge_type == 'obfs4':
-                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
-                            # More types of bridges will be availble once Whonix support them: meek, flashproxy
-                        #elif Common.bridge_type == '':
-                        bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
-                        # Q: What does json.load do?
-                        for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
-                            f.write('Bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
-                    else:  # Use custom bridges
-                        # TODO: we should preserve the custom bridge setting for the next time use.
-                        # TODO: Unfinished for different types of bridges:
-                        if Common.bridge_custom.startswith('obfs4'):
-                            f.write('ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy\n')
-                        elif Common.bridge_custom.startswith('obfs3'):
-                            f.write('ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed\n')
-                        elif Common.bridge_custom.startswith('fte'):
-                            f.write('ClientTransportPlugin fte exec /usr/bin/fteproxy --managed\n')
-                        elif Common.bridge_custom.startswith('meek-amazon'):
-                            pass  # Wait to be implemented in Whonix.
-                        elif Common.bridge_custom.startswith('meek-azure'):
-                            pass
-
-                        # Write the specific bridge address, port, cert etc.
-                        bridge_custom_list = Common.bridge_custom.split('\n')
-                        for bridge in bridge_custom_list:
-                            f.write('Bridge {0}\n'.format(bridge))
-
-
-            ''' The part is the IO to torrc for proxy settings.
-            Related official docs: https://www.torproject.org/docs/tor-manual.html.en
-            '''
-            if Common.use_proxy:
-                with open(Common.torrc_file_path, 'a') as f:
-                    # TODO: Notice that if SOCKS4 is selected, the proxy username and password inputLine should be disabled
-                    # This is because SOCKS4 does not support that.
-                    if Common.proxy_type == 'HTTP/HTTPS':
-                        f.write('HTTPSProxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                        if (Common.proxy_username != ''):  # Q: It seems there is no need to check password because username is essential, not password, right?
-                            f.write('HTTPSProxyAuthenticator {0}:{1}\n'.format(Common.proxy_username, Common.proxy_password))
-                    elif Common.proxy_type == 'SOCKS4':
-                        f.write('Socks4Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                    elif Common.proxy_type == 'SOCKS5':
-                        f.write('Socks5Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                        if (Common.proxy_username != ''):
-                            f.write('Socks5ProxyUsername {0}\n'.format(Common.proxy_username))
-                            f.write('Socks5ProxyPassword {0}\n'.format(Common.proxy_password))
-
-                    ''' TODO: Another feature can be implemented in the future is auto-configure for well-known third party proxy-based censorship circumvention tools, like Lantern.
-                    Uncomment all the fragments to enable it.
-                    '''
-                    # proxies = json.loads(open(Common.well_known_proxy_setting_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
-                    # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
-                    #    f.write('{0}\n'.format(proxy))
 
 def main():
     # Available styles: "windows", "motif", "cde", "sgi", "plastique" and "cleanlooks"
