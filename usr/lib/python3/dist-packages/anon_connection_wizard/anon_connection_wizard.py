@@ -1072,7 +1072,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     # Write the specific bridge address, port, cert etc.
                     bridge_custom_list = Common.bridge_custom.split('\n')
                     for bridge in bridge_custom_list:
-                        f.write('Bridge {0}\n'.format(bridge))
+                        if bridge != '':  # check if the line is actually empty
+                            f.write('Bridge {0}\n'.format(bridge))
 
 
         ''' The part is the IO to torrc for proxy settings.
@@ -1129,8 +1130,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif line.startswith(Common.command_http):
                         Common.use_proxy = True
                         Common.proxy_type = 'HTTP / HTTPS'
-                        Common.proxy_ip = line.split(' ')[1].split(':')[0]
-                        Common.proxy_port = line.split(' ')[1].split(':')[1]
+                        Common.proxy_ip = line.split(' ')[1].split(':')[0] # this is too fixed, which is not good implementation. But as long as leave .torrc untouched by user, it will be Okay. We should also be caureful when changing the command line format in this app
+                        Common.proxy_port = line.split(' ')[1].split(':')[1].split('\n')[0]
 
                     elif line.startswith(Common.command_httpAuth):
                         Common.proxy_username = line.split(' ')[1].split(':')[0]
@@ -1139,12 +1140,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         Common.use_proxy = True
                         Common.proxy_type = 'SOCKS4'
                         Common.proxy_ip = line.split(' ')[1].split(':')[0]
-                        Common.proxy_port = line.split(' ')[1].split(':')[1]
+                        Common.proxy_port = line.split(' ')[1].split(':')[1].split('\n')[0]
                     elif line.startswith(Common.command_sock5):
                         Common.use_proxy = True
                         Common.proxy_type = 'SOCKS5'
                         Common.proxy_ip = line.split(' ')[1].split(':')[0]
-                        Common.proxy_port = line.split(' ')[1].split(':')[1]
+                        Common.proxy_port = line.split(' ')[1].split(':')[1].split('\n')[0]
 
                     elif line.startswith(Common.command_sock5Username):
                         Common.proxy_username = line.split(' ')[1]
