@@ -992,10 +992,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             pass
 
         if self.currentId() == self.steps.index('connection_main_page'):
-            Common.use_bridges = False
-            Common.use_proxy = False
-            shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
-            
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
