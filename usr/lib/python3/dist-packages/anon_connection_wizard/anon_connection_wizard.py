@@ -44,7 +44,7 @@ class Common:
     
     use_proxy = False
     proxy_type = '-'  # defualt is '-', not blank
-    proxy_ip = '566.56.55'
+    proxy_ip = ''
     proxy_port = ''
     proxy_username = ''
     proxy_password = ''
@@ -186,7 +186,10 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
 
     def nextId(self):
         if self.pushButton_1.isChecked():
+            # clear all setting
             Common.disable_tor = False
+            Common.use_bridges = False
+            Common.use_proxy = False
             return self.steps.index('torrc_page')
         elif self.pushButton_2.isChecked():
             Common.disable_tor = False
@@ -1018,22 +1021,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         with open(handle, "w") as f:
             f.write("# Hello, World!\n")
         
-        '''
-        if os.path.exists(Common.torrc_file_path):
-            # TODO: torrc.tmp serves as a backup of users' previous setting
-            # we need discuss if this file is a good design
-            # we also need to know where should we put it.
-            shutil.copy(Common.torrc_file_path, Common.torrc_tmp_file_path)
-        else:
-            pass
         
-
-        # TODO: we may add how to open anon_connection_wizard in the instruction in .orig
-        if os.path.exists('/etc/tor/anon-connection-wizard.torrc.orig'):
-            shutil.copy('/etc/tor/anon-connection-wizard.torrc.orig', Common.torrc_file_path)
-        else:
-            print('Warning: /etc/tor/anon-connection-wizard.torrc.orig is missing.')
-        '''
 
         ''' This part is the IO to torrc for bridges settings.
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
