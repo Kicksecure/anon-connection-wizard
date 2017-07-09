@@ -1134,6 +1134,12 @@ class TorBootstrap(QtCore.QThread):
         self.controller = connect()
         if not self.controller:
             print("no tor control connected!!!")
+            ## TODO: a more clear instruction on how to open tor control port may needed
+            ## the case where no tor control connected should be taken more care of
+            ## otherwise, strange symptoms may happen, eg: kde accessibility application is opened
+        else:
+            print("Tor is running version {0}\n".format(self.controller.get_version()))
+
         #self.signal = QtCore.SIGNAL("signal")
         self.previous_status = ''
         self.bootstrap_percent = 0
