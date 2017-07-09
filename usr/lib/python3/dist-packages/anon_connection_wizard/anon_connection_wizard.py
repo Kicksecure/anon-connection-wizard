@@ -936,6 +936,11 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
                     '/usr/share/icons/oxygen/48x48/status/task-attention.png'))
 
+            # move the tmp file to the real .torrc
+            # this may overwrite the previous .torrc, but it does not matter
+            shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
+
+
         if self.currentId() == self.steps.index('tor_status_page'):
             self.tor_status_page.text.setText('')  # This will clear the text left by different Tor status statement
             if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
@@ -1074,11 +1079,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 # proxies = json.loads(open(Common.well_known_proxy_setting_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
                 # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
                 #    f.write('{0}\n'.format(proxy))
-
-        # move the tmp file to the real .torrc
-        # this may overwrite the previous .torrc, but it does not matter
-        shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
-
 
     def parseTorrc(self):
         if os.path.exists(Common.torrc_file_path):
