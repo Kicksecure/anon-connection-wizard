@@ -29,14 +29,14 @@ class Common:
     Variables and constants used through all the classes
     '''
     translations_path = '/usr/share/translations/whonix_setup.yaml'
-
     torrc_file_path = '/etc/torrc.d/anon_connection_wizard.torrc'
-
-    ## TODO: this file path may not be standard
     torrc_tmp_file_path = ''
-
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
+    
+    control_cookie_path = '/run/tor/control.authcookie'
+    control_socket_path = '/run/tor/control'
+    
     use_bridges = False
     use_default_bridge = True
     bridge_type = 'obfs4 (recommended)'  # defualt value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
@@ -73,6 +73,8 @@ class Common:
     command_sock5Username = 'Socks5ProxyUsername'
     command_sock5Password = 'Socks5ProxyPassword'
 
+
+
     
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
         os.makedirs('/var/cache/whonix-setup-wizard/status-files')
@@ -92,6 +94,11 @@ class Common:
     
     # TODO: may replace the URL with a better one for usability and accessibility
     assistance = 'For assistance, visit torproject.org/about/contact.html#support'
+
+    control_cookie_path = '/run/tor/control.authcookie'
+    control_socket_path = '/run/tor/control'
+
+
 
 class ConnectionMainPage(QtWidgets.QWizardPage):
     def __init__(self):
@@ -952,16 +959,35 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
+                # tor_status.set_disabled() does two things:
+                # 1. change the line '#DisableNetwork 0' to 'DisableNetwork 0' in /etc/tor/torrc
+                # 2. restart Tor
                 self.tor_status = tor_status.set_enabled()
+                
                 self.tor_status_page.text.setText('')  # This will clear the text left by different Tor status statement
+                
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                     self.tor_status_page.bootstrap_progress.setVisible(True)
+                    '''This line below will create a Tor Bootstrap instance,
+                    which will try to connect to Tor's socket '/run/tor/control'.
+                    Since the socket will only exist when Tor is started,
+                    we should be careful that this line should always be placed behind tor_status.setEnabled().
+                    Additionally, since the generation of /run/tor/control takes a little bit time,
+                    we may have to wait until the file is generated. 
+                    Otherwise, a '/run/tor/control not found' bug will raise.
+
+                    Although it makes sense to implement the "wait for /run/tor/control generated"
+                    here, we do the implementation in connect_to_control_port() in TorBootstrap Class.
+                    This is because of usability concern, we don't want users feel nothing happened,
+                    after they clicked the NextButton.
+                    '''
+                    
                     self.bootstrap_thread = TorBootstrap(self)
                     self.bootstrap_thread.signal.connect(self.update_bootstrap)
                     self.bootstrap_thread.finished.connect(self.show_finish_button)
                     self.bootstrap_thread.start()
                 else:
-                    pass
+                    print('Unexpected tor_status: ' + self.tor_status)
             else:
                 self.tor_status = tor_status.set_disabled()
                 self.tor_status_page.bootstrap_progress.setVisible(False)
@@ -1084,7 +1110,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         if os.path.exists(Common.torrc_file_path):
             with open(Common.torrc_file_path, 'r') as f:
                 for line in f:
-                    if line.startswith(Common.command_use_custom_bridge): # this condition must be above '#' condition, because it also contains '#'
+                    if line.startswith(Common.command_use_custom_bridge):  # this condition must be above '#' condition, because it also contains '#'
                         Common.use_default_bridge = False
                     elif line.startswith('#'):
                         pass  # add this line to improve efficiency
@@ -1128,10 +1154,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 class TorBootstrap(QtCore.QThread):
     signal = QtCore.pyqtSignal(str)
     def __init__(self, main):
-        from stem.connection import connect
         #super(TorBootstrap, self).__init__(main)
         QtCore.QThread.__init__(self, parent=None)
+
+        ''' # Previous implementation
         self.controller = connect()
+
         if not self.controller:
             print("no tor control connected!!!")
             ## TODO: a more clear instruction on how to open tor control port may needed
@@ -1139,16 +1167,59 @@ class TorBootstrap(QtCore.QThread):
             ## otherwise, strange symptoms may happen, eg: kde accessibility application is opened
         else:
             print("Tor is running version {0}\n".format(self.controller.get_version()))
+        '''
 
-        #self.signal = QtCore.SIGNAL("signal")
+        #self.signal = QtCore.SIGNAL("signal")  # Not usable in PyQt5 anymore
         self.previous_status = ''
         self.bootstrap_percent = 0
         #self.is_running = False
+        self.tor_controller = self.connect_to_control_port()
 
+    def connect_to_control_port(self):
+        import stem
+        import stem.control
+        import stem.socket
+        from stem.connection import connect        
+
+        '''
+        In case something wrong happened when trying to start Tor,
+        causing /run/tor/control never be generated.
+        We set up a time counter and hardcode the wait time limitation as 15s.
+        '''
+        self.count_time = 0
+        while(not os.path.exists(Common.control_socket_path) and self.count_time < 15):
+            self.previous_status = 'Waiting for /run/tor/control...'
+            time.sleep(0.2)
+            self.count_time += 0.2
+
+        if os.path.exists(Common.control_socket_path):
+            self.tor_controller = stem.control.Controller.from_socket_file(Common.control_socket_path)
+        else:
+            print(Common.control_socket_path + ' not found!!!')
+
+        if not os.path.exists(Common.control_cookie_path):
+            # TODO: can we let Tor generate a cookie to fix this situiation?
+            print(Common.control_cookie_path + ' not found!!!')
+        else:
+            with open(Common.control_cookie_path, "rb") as f:
+                cookie = f.read()
+            try:
+                self.tor_controller.authenticate(cookie)
+            except stem.connection.IncorrectCookieSize:
+                pass  #if the cookie file's size is wrong
+            except stem.connection.UnreadableCookieFile:
+                pass  #if # TODO: he cookie file doesn't exist or we're unable to read it
+            except stem.connection.CookieAuthRejected:
+                pass  #if cookie authentication is attempted but the socket doesn't accept it
+            except stem.connection.IncorrectCookieValue:
+                pass  #if the cookie file's value is rejected
+        return self.tor_controller
+
+    
     def run(self):
         #self.is_running = True
         while self.bootstrap_percent < 100:
-            bootstrap_status = self.controller.get_info("status/bootstrap-phase")
+            bootstrap_status = self.tor_controller.get_info("status/bootstrap-phase")
             self.bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', bootstrap_status).group(1))
             if bootstrap_status != self.previous_status:
                 sys.stdout.write('{0}\n'.format(bootstrap_status))
