@@ -95,13 +95,17 @@ def set_disabled():
 
 '''_repair_torrc() function will be called when we want to gurantee there will be 
 a /etc/tor/torrc file with a "#DisableNetwork 0" and "%include /etc/torrc.d" line.
+It will also gurantee there is an existing /etc/torrc.d/ directory
 
 It will return:
 'fixed_nothing' if everything is good in torrc
-'fixed_missing_torrc' if missing /etc/tor/torrc is fixed 
+fixed_missing_torrc' if missing /etc/tor/torrc is fixed 
 'fixed_missing_line' if the missing "#DisableNetwork 0" or/and "%include /etc/torrc.d" line is fixed
 '''
 def _repair_torrc():
+    if not os.path.exists('/etc/torrc.d/'):
+        os.makedirs('/etc/torrc.d/')
+
     if not os.path.exists('/etc/tor/torrc'):
         ## When /etc/tor/torrc is missing, Tor should work not very well, which means Tor is disabled.
         ## Therefore, we can safely append "#DisableNetwork 0", rather than "DisableNetwork 0".
