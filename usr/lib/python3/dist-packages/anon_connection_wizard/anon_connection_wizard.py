@@ -22,6 +22,7 @@ from guimessages.translations import _translations
 from guimessages.guimessage import gui_message
 
 from anon_connection_wizard import tor_status
+from anon_connection_wizard import repair_torrc
 #import tor_status
 
 class Common:
@@ -1024,8 +1025,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setFocus()
 
     def io(self):
-        if not os.path.exists('/etc/torrc.d'):
-            os.makedirs('/etc/torrc.d')
+        repair_torrc.repair_torrc()  # This gurantees a good torrc and the existence of /etc/torrc.d
 
         # Creates a file and returns a tuple containing both the handle and the path.
         # we are sponsible for removing tmp file when finished which is the reason we use shutil.move(), not shutil.copy(), below
