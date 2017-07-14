@@ -94,21 +94,19 @@ def set_disabled():
             return 'tor_disabled'
 
 '''_repair_torrc() function will be called when we want to gurantee there will be 
-a /etc/tor/torrc file with a "#DisableNetwork 0" or "DisableNetwork 0" line.
+a /etc/tor/torrc file with a "#DisableNetwork 0" and "%include /etc/torrc.d" line.
 
 It will return:
 'fixed_nothing' if everything is good in torrc
-'fixed_missing_torrc' and 'fixed_missing_disable_line'
-
-TODO: if "%include /etc/torrc.d\n" line is decided in to add into /etc/tor/torrc in the future,
-we should also try to repair it if it is missing.
+'fixed_missing_torrc' if missing /etc/tor/torrc is fixed 
+'fixed_missing_line' if the missing "#DisableNetwork 0" or/and "%include /etc/torrc.d" line is fixed
 '''
 def _repair_torrc():
     if not os.path.exists('/etc/tor/torrc'):
-    ## When /etc/tor/torrc is missing, Tor should work not very well, which means Tor is disabled.
-    ## Therefore, we can safely append "#DisableNetwork 0", rather than "DisableNetwork 0".
-    ## We intended to wirte three parts of the text separately so that 
-    ## each of them will be easier to find in the future.
+        ## When /etc/tor/torrc is missing, Tor should work not very well, which means Tor is disabled.
+        ## Therefore, we can safely append "#DisableNetwork 0", rather than "DisableNetwork 0".
+        ## We intended to wirte three parts of the text separately so that 
+        ## each of them will be easier to find in the future.
 
         with open('/etc/tor/torrc', "a") as f:
             f.write("# This file is part of Whonix\n\
@@ -123,7 +121,7 @@ def _repair_torrc():
 \n\
 # Enable Tor through anon-connection-wizard or manually uncomment \"DisableNetwork 0\" by\n\
 # removing the # in front of it.\n")
-            #f.write("%include /etc/torrc.d\n")  # TODO: uncomment this when needed 
+            f.write("%include /etc/torrc.d\n")
             f.write("#DisableNetwork 0\n")
         return 'fixed_missing_torrc'
     else:
@@ -131,17 +129,28 @@ def _repair_torrc():
         lines = fh.readlines()
         fh.close()
 
+        disable_line_exists = False
+        torrcd_line_exists = False
         for line in lines:
-            if (line.strip() == '#DisableNetwork 0') or (line.strip() == 'DisableNetwork 0'):
-                return 'fixed_nothing'
+            str = line.strip()
+            if (str == '#DisableNetwork 0') or (str == 'DisableNetwork 0'):
+                disable_line_exists = True
+            elif (str == '%include /etc/torrc.d'):
+                torrcd_line_exists = True
 
-        ## Notice that from now on, '#DisableNetwork 0' or 'DisableNetwork 0' must not be in torrc
-        ## So we need to append it
         with open('/etc/tor/torrc', "a") as f:
-            #f.write("\n%include /etc/torrc.d\n")  # TODO: uncomment this when needed 
-            f.write("\n#DisableNetwork 0\n")  # it is important to prefix a \n in case torrc does not contain \n at file end
-        return 'fixed_missing_disable_line'
-            
+            f.write("\n")  # it is important to prefix a \n in case torrc does not contain \n at file end
+        
+        if not torrcd_line_exists:
+            with open('/etc/tor/torrc', "a") as f:
+                f.write("%include /etc/torrc.d\n")
 
-                
+        if not disable_line_exists:
+            with open('/etc/tor/torrc', "a") as f:
+                f.write("#DisableNetwork 0\n")
+
+        if torrcd_line_exists and disable_line_exists:
+            return 'fixed_nothing'
+        else:
+            return 'fixed_missing_line'
 
