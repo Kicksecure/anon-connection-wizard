@@ -23,7 +23,6 @@ from guimessages.guimessage import gui_message
 
 from anon_connection_wizard import tor_status
 from anon_connection_wizard import repair_torrc
-#import tor_status
 
 class Common:
     '''

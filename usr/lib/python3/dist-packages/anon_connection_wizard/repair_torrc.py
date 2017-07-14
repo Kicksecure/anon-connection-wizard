@@ -2,7 +2,7 @@
 
 import sys, fileinput, os
 
-'''_repair_torrc() function will be called when we want to gurantee there will be 
+'''repair_torrc() function will be called when we want to gurantee there will be 
 a /etc/tor/torrc file with a "#DisableNetwork 0" and "%include /etc/torrc.d" line.
 It will also gurantee there is an existing /etc/torrc.d/ directory
 
