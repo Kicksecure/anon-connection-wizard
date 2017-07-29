@@ -567,10 +567,10 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         self.group_box.setMinimumSize(QtCore.QSize(16777215, 250))
         self.group_box.setFlat(True)
         self.yes_button.setGeometry(QtCore.QRect(25, 30, 350, 21))
-        self.yes_button.setText('Yes')
+        self.yes_button.setText('Yes.')
         self.yes_button.setFont(font_option)
-        self.no_button.setGeometry(QtCore.QRect(25, 50, 350, 21))
-        self.no_button.setText('No')
+        self.no_button.setGeometry(QtCore.QRect(25, 55, 350, 21))
+        self.no_button.setText('No.')
         self.no_button.setChecked(True)
         self.no_button.setFont(font_option)
 
@@ -586,7 +586,7 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         self.label_3.setWordWrap(True)
         self.label_3.setText('If you are not sure how to answer this question, look at the Internet \
                               settings in your host browser to see whether it is configured to use \
-                              a local proxy')
+                              a local proxy.')
         self.label_3.setFont(font_description_minor)
 
         self.label_4.setGeometry(10, 265, 500, 15)
