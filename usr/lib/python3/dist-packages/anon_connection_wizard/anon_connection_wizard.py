@@ -73,6 +73,29 @@ class Common:
     command_sock5Username = 'Socks5ProxyUsername'
     command_sock5Password = 'Socks5ProxyPassword'
 
+    ''' The following is the fonts used throughout the anon_connection_wizard.
+    Since we need the consistence in fonts settings to create a better UI,
+    '''
+
+    font_title = QtGui.QFont()
+    font_title.setPointSize(13)
+    font_title.setBold(True)
+    font_title.setWeight(95)
+
+    font_description_main = QtGui.QFont()
+    font_description_main.setPointSize(11)
+    font_description_main.setBold(True)
+    font_description_main.setWeight(85)
+
+    font_description_minor = QtGui.QFont()
+    font_description_minor.setPointSize(10)
+    font_description_minor.setBold(False)
+    font_description_minor.setWeight(30)
+
+    font_option = QtGui.QFont()
+    font_option.setPointSize(11)
+    font_option.setBold(True)
+    font_option.setWeight(65)
 
 
     
@@ -129,42 +152,49 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.groupBox.setFlat(True)
         self.groupBox.setMinimumSize(QtCore.QSize(530, 320))
 
+        font_description_minor = Common.font_description_minor
+        font_description_main = Common.font_description_main
+        font_option = Common.font_option
+        
         self.label.setGeometry(QtCore.QRect(10, 20, 530, 41))
         self.label.setWordWrap(True)
         self.label.setText('Before you connect to the Tor network, you need to provide information about this computer\'s Internet connection.')
+        self.label.setFont(font_description_minor)
 
-        self.label_2.setGeometry(QtCore.QRect(10, 60, 431, 21))
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_2.setFont(font)
+
+        self.label_2.setGeometry(QtCore.QRect(10, 65, 431, 21))
+        self.label_2.setFont(font_description_main)
         self.label_2.setText('Which of the following best describes your situation?')
 
         self.label_3 = QtWidgets.QLabel(self.groupBox)
-        self.label_3.setGeometry(QtCore.QRect(10, 85, 321, 41))
+        self.label_3.setGeometry(QtCore.QRect(10, 90, 321, 41))
         self.label_3.setWordWrap(True)
         self.label_3.setText('I would like to connect directly to the Tor network. This will work in most situations.')
+        self.label_3.setFont(font_description_minor)
 
-        self.pushButton_1.setGeometry(QtCore.QRect(20, 123, 110, 26))
-        self.pushButton_2.setGeometry(QtCore.QRect(20, 203, 110, 26))
-        self.pushButton_3.setGeometry(QtCore.QRect(20, 283, 110, 26))
-        self.pushButton_1.setFont(font)
+        self.pushButton_1.setGeometry(QtCore.QRect(20, 133, 110, 26))
+        self.pushButton_2.setGeometry(QtCore.QRect(20, 213, 110, 26))
+        self.pushButton_3.setGeometry(QtCore.QRect(20, 288, 110, 26))
+        self.pushButton_1.setFont(font_option)
         self.pushButton_1.setText('Connect')
         self.pushButton_1.setChecked(True)
-        self.pushButton_2.setFont(font)
+        self.pushButton_2.setFont(font_option)
         self.pushButton_2.setText('Configure')
-        self.pushButton_3.setFont(font)
+        self.pushButton_3.setFont(font_option)
         self.pushButton_3.setText('Disable Tor')
         self.pushButton_3.setVisible(True)
 
-        self.label_4.setGeometry(QtCore.QRect(10, 165, 381, 41))
+        self.label_4.setGeometry(QtCore.QRect(10, 166, 381, 41))
         self.label_4.setWordWrap(True)
         self.label_4.setText('This computer\'s Internet connection is censored or proxied. I need to configure bridges or local proxy settings.')
+        self.label_4.setFont(font_description_minor)
 
         self.label_5.setGeometry(QtCore.QRect(10, 250, 500, 31))
         self.label_5.setWordWrap(True)
         self.label_5.setText('I do not want to connect automatically to the Tor network.<br>Next time I boot, this wizard will be started.')
+        self.label_5.setFont(font_description_minor)
         self.label_5.setVisible(True)
+        
 
         '''
         self.pushButton.setGeometry(QtCore.QRect(430, 285, 80, 25))
@@ -224,25 +254,24 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         self.yes_button = QtWidgets.QRadioButton(self.group_box)
         self.label_3 = QtWidgets.QLabel(self.group_box)
         self.label_4 = QtWidgets.QLabel(self.group_box)
+        self.pushButton = QtWidgets.QPushButton(self.group_box)
         self.layout.addWidget(self.group_box)
 
         self.setupUi()
 
     def setupUi(self):
         self.label.setMinimumSize(QtCore.QSize(16777215, 35))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label.setFont(font)
+
+        font_title = Common.font_title
+        font_description_main = Common.font_description_main
+        font_description_minor = Common.font_description_minor
+        font_option = Common.font_option
+        
+        self.label.setFont(font_title)
         self.label.setText('   Tor Bridges Configuration')
 
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_2.setFont(font)
+        self.label_2.setFont(font_description_main)
         self.label_2.setWordWrap(True)
         #self.label_2.setText('Does your Internet Service Provider (ISP) block or otherwise censor connections to the Tor network?')
         self.label_2.setText('Do you want to configure Tor bridges?')
@@ -250,11 +279,14 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         self.group_box.setMinimumSize(QtCore.QSize(16777215, 244))
         self.group_box.setFlat(True)
 
-        self.yes_button.setGeometry(QtCore.QRect(25, 20, 550, 30))
-        self.yes_button.setText('Yes. I need Tor bridges to help me bypass the Tor censorship.')
+        self.yes_button.setGeometry(QtCore.QRect(25, 30, 550, 30))
+        self.yes_button.setText('Yes. I need Tor bridges to bypass the Tor censorship.')
+        self.yes_button.setFont(font_option)
         
-        self.no_button_1.setGeometry(QtCore.QRect(25, 50, 550, 30))
-        self.no_button_1.setText('No. My ISP does not censor my connections to the Tor network or I will use other censorship circumvention methods instead.')
+        self.no_button_1.setGeometry(QtCore.QRect(25, 60, 550, 30))
+        #self.no_button_1.setText('No. My ISP does not censor my connections to the Tor network or I will use other censorship circumvention methods instead.')
+        self.no_button_1.setText('No.')
+        self.no_button_1.setFont(font_option)
         
         #self.no_button_2.setGeometry(QtCore.QRect(25, 50, 550, 30))
         #self.no_button_2.setText('No. I will use some third party censorship circumvention tools instead.')
@@ -267,12 +299,22 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
             self.no_button_1.setChecked(True)
 
         # self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_3.setGeometry(10, 110, 520, 160)
+        self.label_3.setGeometry(10, 110, 500, 160)
         self.label_3.setTextFormat(QtCore.Qt.RichText)
         self.label_3.setWordWrap(True)
-        self.label_3.setText('Tor bridges are unlisted relays that may be able to help you bypass the Tor censorship conducted by your Internet Service Provider (ISP).\n')
+        self.label_3.setText('Tor bridges are unlisted relays that may be able to help you\
+        bypass the Tor censorship conducted by your Internet Service Provider (ISP).')
+        self.label_3.setFont(font_description_minor)
+
         self.label_4.setGeometry(10, 220, 500, 15)
         self.label_4.setText(Common.assistance)
+        self.label_4.setFont(font_description_minor)
+
+        self.pushButton.setEnabled(True)
+        self.pushButton.setGeometry(QtCore.QRect(300, 105, 150, 25))
+        self.pushButton.setText('&How to decide?')
+        self.pushButton.clicked.connect(self.show_help)
+
 
     def nextId(self):
         if self.yes_button.isChecked():
@@ -284,6 +326,31 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         #elif self.no_button_2.isChecked():
          #   Common.use_bridges = False
           #  return self.steps.index('proxy_wizard_page_2')
+
+    def show_help(self):
+        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Censorship Circumvention Help',
+                                  '''<p><b>  Censorship Circumvention Help</b></p>
+
+<p>If you are unable to connect to the Tor network, it could be that your Internet Service
+Provider (ISP) or another agency is blocking Tor.  Often, you can work around this problem
+by using Tor Bridges, which are unlisted relays that are more difficult to block.</p>
+
+
+<p>Tor bridges are the recommended way to circumvent the Tor censorship. You should always take it as the first option to help you pypass the Tor censorship. However, if you are living in a heavily censored area where all the Tor bridges are invalid, you may need to use some third-party censorship circumvention tools to help you instead. In such a case, you should choose not using Tor bridges to help you bypass the Tor censorship.</p>
+
+<p> Using a third-party censorship circumvention tool may harm you security and/or anonimity. However, in case you do need it, the following is an instruction on how to connect to the Tor network using different censorship circumvention tools:</p>
+
+<blockquote><b>1. VPN</b><br>
+1. Establish your connection to the VPN server; 2. Hit the "back" buton on this page, going to the first page; 3. Hit the "Connect" button on the first page.</blockquote>
+
+<blockquote><b>2. HTTP/Socks Proxy</b><br>
+1. Choose not using Tor bridges in this page; 2. Hit the "next" buton on this page, going the Proxy Configuration page; 3. Configure a proxy.</blockquote>
+
+<blockquote><b>3. Specialized Tool </b><br>
+1. Figure out the listening port of the tool, including the port protocal and the port number; 2. Choose not using Tor bridges in this page; 3. Hit the "next" buton on this page, going the Proxy Configuration page; 4. Configure a proxy.</blockquote>
+''', QtWidgets.QMessageBox.Ok)
+        reply.exec_()
+
 
 
 class BridgesWizardPage2(QtWidgets.QWizardPage):
@@ -323,19 +390,18 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
     def setupUi(self):
         self.label.setMinimumSize(QtCore.QSize(16777215, 35))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label.setFont(font)
+
+        font_title = Common.font_title
+        font_description_main = Common.font_description_main
+        font_description_minor = Common.font_description_minor
+        font_option = Common.font_option
+
         self.label.setText('   Tor Bridges Configuration')
+        self.label.setFont(font_title)
+
 
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_2.setFont(font)
+        self.label_2.setFont(font_description_main)
         self.label_2.setWordWrap(True)
         self.label_2.setText('You may use the provided set of bridges or you may obtain and enter a custom set of bridges.')
 
@@ -343,21 +409,24 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.groupBox.setFlat(True)
         self.default_button.setGeometry(QtCore.QRect(18, 25, 500, 24))
         self.default_button.setText('Connect with provided bridges')
+        self.default_button.setFont(font_description_minor)
 
         self.custom_button.setGeometry(QtCore.QRect(18, 82, 500, 25))
         self.custom_button.setText('Enter custom bridges')
+        self.custom_button.setFont(font_description_minor)
 
         if Common.use_default_bridge:
             self.default_button.setChecked(True)
         else:
             self.custom_button.setChecked(True)
 
-        self.label_3.setGeometry(QtCore.QRect(38, 47, 106, 20))
+        self.label_3.setGeometry(QtCore.QRect(40, 52, 106, 20))
         self.label_3.setText('Transport type:')
+        self.label_3.setFont(font_description_minor)
 
         # This is the how to make a comboBox. The variable bridges is defined above.
         # The proxy type selection in ProxyWizardPage2 can also use this method.
-        self.comboBox.setGeometry(QtCore.QRect(135, 44, 181, 27))
+        self.comboBox.setGeometry(QtCore.QRect(140, 49, 181, 27))
         for bridge in self.bridges:
             self.comboBox.addItem(bridge)
             
@@ -388,12 +457,13 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # self.custom_bridges.setPlaceholderText('type address:port')
 
         self.pushButton.setEnabled(True)
-        self.pushButton.setGeometry(QtCore.QRect(340, 70, 150, 25))
+        self.pushButton.setGeometry(QtCore.QRect(360, 80, 150, 25))
         self.pushButton.setText('&How to get Bridges?')
         self.pushButton.clicked.connect(self.show_help)
 
         self.label_5.setGeometry(10, 220, 500, 15)
         self.label_5.setText(Common.assistance)
+        self.label_5.setFont(font_description_minor)
 
     def nextId(self):
         if self.default_button.isChecked():
@@ -434,17 +504,17 @@ by using Tor Bridges, which are unlisted relays that are more difficult to block
 <p>You may use the preconfigured, provided set of bridge addresses or you may obtain a
 custom set of addresses by using one of these three methods:</p>
 
-<blockquote>1.<b>Through the Web</b><br>
+<blockquote><b>1. Through the Web</b><br>
 Use a web browser to visit https://bridges.torproject.org/options</blockquote>
 
-<blockquote>2. <b>Through the Email Autoresponder</b><br>
+<blockquote><b>2. Through the Email Autoresponder</b><br>
 Send email to bridges@torproject.org with the line 'get bridges' by itself in the body
 of the message.  However, to make it harder for an attacker to learn a lot of bridge
 addresses, you must send this request from one of the following email providers
 (listed in order of preference):<br><br>
 https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</blockquote>
 
-<blockquote>3. <b>Through the Help Desk</b><br>
+<blockquote><b>3. Through the Help Desk</b><br>
 As a last resort, you can request bridge addresses by sending a polite email
 message to help@rt.torproject.org.  Please note that a person will need to respond
 to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
@@ -478,30 +548,31 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         self.setupUi()
 
     def setupUi(self):
+        font_title = Common.font_title
+        font_description_main = Common.font_description_main
+        font_description_minor = Common.font_description_minor
+        font_option = Common.font_option
+
         self.label.setMinimumSize(QtCore.QSize(16777215, 35))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label.setFont(font)
+
         self.label.setText('   Local Proxy Configuration')
+        self.label.setFont(font_title)
 
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_2.setFont(font)
         self.label_2.setWordWrap(True)
         self.label_2.setText('Does this computer need to use a local proxy to access the Internet?')
+        self.label_2.setFont(font_description_main)
+
 
         self.group_box.setMinimumSize(QtCore.QSize(16777215, 250))
         self.group_box.setFlat(True)
         self.yes_button.setGeometry(QtCore.QRect(25, 30, 350, 21))
         self.yes_button.setText('Yes')
+        self.yes_button.setFont(font_option)
         self.no_button.setGeometry(QtCore.QRect(25, 50, 350, 21))
         self.no_button.setText('No')
         self.no_button.setChecked(True)
+        self.no_button.setFont(font_option)
 
         if Common.use_proxy:
             self.yes_button.setChecked(True)
@@ -516,9 +587,11 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         self.label_3.setText('If you are not sure how to answer this question, look at the Internet \
                               settings in your host browser to see whether it is configured to use \
                               a local proxy')
+        self.label_3.setFont(font_description_minor)
 
         self.label_4.setGeometry(10, 265, 500, 15)
         self.label_4.setText(Common.assistance)
+        self.label_4.setFont(font_description_minor)
 
     def nextId(self):
         if self.yes_button.isChecked():
@@ -568,12 +641,14 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
     def setupUi(self):
         self.label.setMinimumSize(QtCore.QSize(16777215, 35))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label.setFont(font)
+
+        font_title = Common.font_title
+        font_description_main = Common.font_description_main
+        font_description_minor = Common.font_description_minor
+        font_option = Common.font_option
+
         self.label.setText('   Local Proxy Configuration')
+        self.label.setFont(font_title)
 
         self.groupBox.setMinimumSize(QtCore.QSize(16777215, 300))
         self.groupBox.setFlat(True)
@@ -581,6 +656,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.label_3.setGeometry(QtCore.QRect(10, 60, 106, 20))
         self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_3.setText("Proxy type:")
+        self.label_3.setFont(font_description_minor)
 
         # Here we are going to implement the proxy type selection
         # Change it to larger so  that all options fit
@@ -595,10 +671,12 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
         self.label_2.setGeometry(QtCore.QRect(10, 30, 201, 16))
         self.label_2.setText("Enter the proxy settings.")
+        self.label_2.setFont(font_description_minor)
 
         self.label_5.setGeometry(QtCore.QRect(10, 101, 106, 20))
         self.label_5.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_5.setText("Address:")
+        self.label_5.setFont(font_description_minor)
 
         '''Username and Password options should be hide
         using "advance" button because it is not used rarely,
@@ -607,14 +685,17 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.label_6.setGeometry(QtCore.QRect(10, 131, 106, 20))
         self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_6.setText("Username:")
+        self.label_6.setFont(font_description_minor)
 
         self.label_7.setGeometry(QtCore.QRect(394, 101, 41, 20))
         self.label_7.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_7.setText("Port:")
+        self.label_7.setFont(font_description_minor)
 
         self.label_8.setGeometry(QtCore.QRect(280, 131, 70, 20))
         self.label_8.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_8.setText("Password:")
+        self.label_8.setFont(font_description_minor)
 
 
         ''' More instruction should be given as default.
@@ -645,6 +726,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
         self.label_4.setGeometry(QtCore.QRect(10, 255, 500, 15))
         self.label_4.setText(Common.assistance)
+        self.label_4.setFont(font_description_minor)
 
         self.pushButton.setGeometry(QtCore.QRect(400, 200, 86, 25))
         self.pushButton.setText('&Help')
@@ -786,6 +868,12 @@ class TorStatusPage(QtWidgets.QWizardPage):
 
     def setupUi(self):
         # self.text.setFrameShape(QtWidgets.QFrame.NoFrame)
+        font_description_minor = Common.font_description_minor
+        font_description_main = Common.font_description_main
+        font_option = Common.font_option
+
+
+        self.text.setFont(font_description_minor)
         self.text.setWordWrap(True)
         self.text.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.text.setMinimumSize(0, 290)
