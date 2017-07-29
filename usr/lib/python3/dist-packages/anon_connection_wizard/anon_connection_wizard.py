@@ -43,7 +43,7 @@ class Common:
     bridge_custom = ''  # the bridges info lines
     
     use_proxy = False
-    proxy_type = '-'  # defualt is '-', not blank
+    proxy_type = 'HTTP / HTTPS'  # defualt is '-', not blank
     proxy_ip = ''
     proxy_port = ''
     proxy_username = ''
@@ -611,10 +611,11 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self._ = translation.gettext
         self.steps = Common.wizard_steps
 
-        self.proxies = ['-',
-                        'SOCKS4',
-                        'SOCKS5',
-                        'HTTP / HTTPS']
+        self.proxies = [#'-',
+            'HTTP / HTTPS',
+            'SOCKS4',
+            'SOCKS5'
+        ]
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.label = QtWidgets.QLabel(self)
@@ -743,12 +744,13 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     def nextId(self):
         # if self.default_button.isChecked():
         proxy_type = str(self.comboBox.currentText())
+        '''
         if proxy_type.startswith('-'):
             # TODO: fix bug when messgeBox pop up
             #QMessageBox.about(self, "Title", "Message")
             use_proxy = False
             proxy_type = '-'
-            return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected
+            return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
         if proxy_type.startswith('SOCKS4'):
             proxy_type = 'SOCKS4'
         elif proxy_type.startswith('SOCKS5'):
