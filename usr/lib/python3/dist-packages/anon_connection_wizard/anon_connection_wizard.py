@@ -894,7 +894,7 @@ class TorStatusPage(QtWidgets.QWizardPage):
         font_option = Common.font_option
 
 
-        self.text.setFont(font_description_minor)
+        self.text.setFont(font_description_main)
         self.text.setWordWrap(True)
         self.text.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.text.setMinimumSize(0, 290)
