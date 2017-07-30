@@ -73,6 +73,13 @@ class Common:
     command_sock5Username = 'Socks5ProxyUsername'
     command_sock5Password = 'Socks5ProxyPassword'
 
+    ''' The following is a variable serves as a flag to work around the bug
+    that a "blank IP/Port" messgae show up even when switching from proxy_wizard_page_1
+    to proxy_wizard_page_2.
+    '''
+    from_proxy_page_1 = True
+    from_bridge_page_1 = True
+
     ''' The following is the fonts used throughout the anon_connection_wizard.
     Since we need the consistence in fonts settings to create a better UI,
     '''
@@ -486,11 +493,17 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             Common.bridge_type = bridge_type
             Common.use_default_bridge = True
 
+            return self.steps.index('proxy_wizard_page_1')
+
         elif self.custom_button.isChecked():
             Common.bridge_custom = str(self.custom_bridges.toPlainText())
             Common.use_default_bridge = False
 
-        return self.steps.index('proxy_wizard_page_1')
+            if Common.bridge_custom == '':
+                return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
+            else:
+                return self.steps.index('proxy_wizard_page_1')
+
 
 
     def show_help(self):
@@ -742,6 +755,9 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     Please uncomment it to use the function in the future.
     '''
     def nextId(self):
+        if self.lineEdit.text() == '' or self.lineEdit_2.text() == '':
+            return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
+
         # if self.default_button.isChecked():
         proxy_type = str(self.comboBox.currentText())
         '''
@@ -1001,6 +1017,37 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
+
+        if self.currentId() == self.steps.index('bridge_wizard_page_1'):
+            Common.from_bridge_page_1 = True
+            
+        if self.currentId() == self.steps.index('bridge_wizard_page_2'):
+            # Common.from_bridge_page_1 serves as a falg to work around the bug that
+            # message jump out when switching from proxy_wizard_page_1 to proxy_wizard_page_2
+            if not Common.from_bridge_page_1:
+                # TODO: we may use re to check if the bridge input is valid
+                if (not Common.use_default_bridge) and Common.bridge_custom == "":
+                    self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
+                        '''<p><b>  Custom bridge list is blank</b></p>
+                        <p> Please input valid custom bridges or use provided bridges instead.</p>''', QtWidgets.QMessageBox.Ok)
+                    self.reply.exec_()
+            Common.from_bridge_page_1 = False
+
+        if self.currentId() == self.steps.index('proxy_wizard_page_1'):
+            Common.from_proxy_page_1 = True
+            
+        if self.currentId() == self.steps.index('proxy_wizard_page_2'):
+            # TODO: use re to detect if the formatt of IP and port is not correct
+            # The dificulty is that the IP can be hostname which is almost free form
+            # Common.from_proxy_page_1 serves as a falg to work around the bug that
+            # message jump out when switching from proxy_wizard_page_1 to proxy_wizard_page_2
+            if not Common.from_proxy_page_1:
+                if Common.proxy_ip == "" or Common.proxy_port == "":
+                    self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
+                        '''<p><b>  IP and/or Port is blank</b></p>
+                        <p> Please input a proper IP and Port number.</p>''', QtWidgets.QMessageBox.Ok)
+                    self.reply.exec_()
+            Common.from_proxy_page_1 = False
             
         if self.currentId() == self.steps.index('torrc_page'):
             self.resize(580, 400)
