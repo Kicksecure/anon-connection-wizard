@@ -669,7 +669,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
         self.label_3.setGeometry(QtCore.QRect(10, 60, 106, 20))
         self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_3.setText("Proxy type:")
+        self.label_3.setText("Proxy type: ")
         self.label_3.setFont(font_description_minor)
 
         # Here we are going to implement the proxy type selection
@@ -689,7 +689,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
         self.label_5.setGeometry(QtCore.QRect(10, 101, 106, 20))
         self.label_5.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_5.setText("Address:")
+        self.label_5.setText("Address: ")
         self.label_5.setFont(font_description_minor)
 
         '''Username and Password options should be hide
@@ -698,17 +698,17 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         '''
         self.label_6.setGeometry(QtCore.QRect(10, 131, 106, 20))
         self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_6.setText("Username:")
+        self.label_6.setText("Username: ")
         self.label_6.setFont(font_description_minor)
 
         self.label_7.setGeometry(QtCore.QRect(394, 101, 41, 20))
         self.label_7.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_7.setText("Port:")
+        self.label_7.setText("Port: ")
         self.label_7.setFont(font_description_minor)
 
         self.label_8.setGeometry(QtCore.QRect(280, 131, 70, 20))
         self.label_8.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_8.setText("Password:")
+        self.label_8.setText("Password: ")
         self.label_8.setFont(font_description_minor)
 
 
@@ -767,13 +767,15 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
             use_proxy = False
             proxy_type = '-'
             return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
+
+        
+        
         if proxy_type.startswith('SOCKS4'):
             proxy_type = 'SOCKS4'
         elif proxy_type.startswith('SOCKS5'):
             proxy_type = 'SOCKS5'
         elif proxy_type.startswith('HTTP / HTTPS'):
             proxy_type = 'HTTP/HTTPS'
-
         Common.proxy_type = proxy_type
 
         Common.proxy_ip = str(self.lineEdit.text())
@@ -797,6 +799,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     #    else:
     #        self.button(QtWidgets.QWizard.NextButton).setEnabled(True)
 
+    
     # TODO: write a Proxy Configuration Help
     def show_help(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Proxy Configuration Help',
@@ -960,10 +963,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.setWindowTitle('Anon Connection Wizard')
         self.resize(580, 400)
 
-        ## TODO: hide the close button so that cancel button will be used when quit
-        ## Otherwise try to connect the close button to cancel_button_clicked function
-        # enable custom window hint
-        ## A: new implementation will not need this
         self.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
         # disable (but not hide) close button
         self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
@@ -1159,6 +1158,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.CancelButton).setVisible(False)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setFocus()
+
 
     def io(self):
         repair_torrc.repair_torrc()  # This gurantees a good torrc and the existence of /etc/torrc.d
