@@ -720,12 +720,13 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         '''
         self.lineEdit.setGeometry(QtCore.QRect(118, 98, 260, 25))
         self.lineEdit.setStyleSheet("background-color:white;")
-        self.lineEdit.setPlaceholderText('IP address or hostname')
+        self.lineEdit.setPlaceholderText('Example: 127.0.0.1')
         self.lineEdit.setText(Common.proxy_ip)  # TODO: investigate why it does not work
         # TODO: may exchange the sequence of setText and setPlaceholderText
         
         self.lineEdit_2.setGeometry(QtCore.QRect(437, 98, 60, 25))
         self.lineEdit_2.setStyleSheet("background-color:white;")
+        self.lineEdit.setPlaceholderText('1-65535')
         self.lineEdit_2.setText(Common.proxy_port)
         
         self.lineEdit_3.setGeometry(QtCore.QRect(118, 128, 150, 25))
@@ -804,28 +805,21 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     def show_help(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Proxy Configuration Help',
                                   '''<p><b>  Proxy Help</b></p>
+                                  <p>In some situiations, you may want to transfer your traffic through a proxy server before connecting to the Tor network. For example, if you are trying to use a third-party censorship circumvention tool to bypass the Tor censorship, you need to configure Tor to connect to the listening port of that circumvention tools. </p>
 
-<p>If you are unable to connect to the Tor network, it could be that your Internet Service
-Provider (ISP) or another agency is blocking Tor.  Often, you can work around this problem
-                                  by using Tor Bridges, which are unlisted relays that are more difficult to block. However, sometimes people may also use some third party censorship circumvention tools instead when all the Tor Bridges are not effective.</p>
+<p> The following is a brief introduction on what each blank means and how you may find the proper input value:</p>
 
-<p>You may use the preconfigured, provided set of bridge addresses or you may obtain a
-custom set of addresses by using one of these three methods:</p>
+<blockquote><b>1. Proxy Type</b><br>
+                                  The proxy type is protocal you use to communicate with the proxy server. Since there are only three options, you can try all of them to see which one works.</blockquote>
 
-<blockquote>1.<b>Through the Web</b><br>
-Use a web browser to visit https://bridges.torproject.org</blockquote>
+<blockquote><b>2. Proxy IP/hostname</b><br>
+You have to know the port number you are trying to connect to. If you are trying to connect to a local proxy, you should try 127.0.0.1 since it means localhost.</blockquote>
 
-<blockquote>2. <b>Through the Email Autoresponder</b><br>
-Send email to bridges@torproject.org with the line 'get bridges' by itself in the body
-of the message.  However, to make it harder for an attacker to learn a lot of bridge
-addresses, you must send this request from one of the following email providers
-(listed in order of preference):<br><br>
-https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</blockquote>
+<blockquote><b>3. Proxy Port number</b><br>
+You have to know the port number you are trying to connect to. It should be a positive integer from 1 to 65535. If you are trying to find the listening port number of a well-known censorship circumvention tool, you may simply search it online.</blockquote>
 
-<blockquote>3. <b>Through the Help Desk</b><br>
-As a last resort, you can request bridge addresses by sending a polite email
-message to help@rt.torproject.org.  Please note that a person will need to respond
-to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
+<blockquote><b>4. Username and Password</b><br>
+If you do not know what they are, just leave them blank to see if the connection will success. Because in most cases, you do not need them.</blockquote>''', QtWidgets.QMessageBox.Ok)
         reply.exec_()
 
 
