@@ -830,38 +830,123 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.steps = Common.wizard_steps
 
         self.icon = QtWidgets.QLabel(self)
-        self.text = QtWidgets.QTextBrowser(self)
-        self.torrc = QtWidgets.QTextEdit(self)
 
-        self.layout = QtWidgets.QGridLayout()
+        '''
+        self.text = QtWidgets.QTextBrowser(self)
+        '''
+        self.layout = QtWidgets.QVBoxLayout(self)
+        self.label = QtWidgets.QLabel(self)
+        self.layout.addWidget(self.label)
+
+
+        #self.layout = QtWidgets.QGridLayout()
+
+        self.groupBox = QtWidgets.QGroupBox(self)
+        self.label_2 = QtWidgets.QLabel(self.groupBox)
+        self.label_3 = QtWidgets.QLabel(self.groupBox)
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
+        self.label_5 = QtWidgets.QLabel(self.groupBox)
+        self.label_6 = QtWidgets.QLabel(self.groupBox)
+        self.label_7 = QtWidgets.QLabel(self.groupBox)
+        self.pushButton = QtWidgets.QPushButton(self.groupBox)
+        self.horizontal_line = QFrame(self.groupBox)
+        self.torrc = QtWidgets.QTextBrowser(self.groupBox)
+
+        self.layout.addWidget(self.groupBox)
+
+        self.show_detail = False
         self.setupUi()
 
     def setupUi(self):
+        font_title = Common.font_title
+        font_description_main = Common.font_description_main
+        font_description_minor = Common.font_description_minor
+        font_option = Common.font_option
+
+        self.label.setText('   Summary')
+        self.label.setFont(font_title)
+
         self.icon.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.icon.setMinimumSize(50, 0)
 
+        self.groupBox.setMinimumSize(QtCore.QSize(16777215, 343))
+        self.groupBox.setGeometry(0, 20, 0, 0)
+        self.groupBox.setFlat(True)
+
+        self.label_2.setGeometry(QtCore.QRect(80, 20, 100, 50))
+        self.label_2.setText(" Status: ")
+        self.label_2.setFont(font_description_minor)
+
+        self.label_3.setGeometry(QtCore.QRect(140, 20, 500, 50))
+        self.label_3.setText("Void")
+        self.label_3.setFont(font_option)
+
+        self.label_4.setGeometry(QtCore.QRect(80, 47, 100, 50))
+        self.label_4.setText("Bridges: ")
+        self.label_4.setFont(font_description_minor)
+
+        self.label_5.setGeometry(QtCore.QRect(140, 47, 500, 50))
+        self.label_5.setText("Void")
+        self.label_5.setFont(font_option)
+
+        self.label_6.setGeometry(QtCore.QRect(80, 75, 100, 50))
+        self.label_6.setText("   Proxy: ")
+        self.label_6.setFont(font_description_minor)
+
+        self.label_7.setGeometry(QtCore.QRect(140, 75, 500, 50))
+        self.label_7.setText("Void")
+        self.label_7.setFont(font_option)
+
+        '''
         self.text.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.text.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        '''
+
+        #self.layout.addWidget(self.icon, 0, 0, 1, 1)
+        #self.layout.addWidget(self.groupBox, 0, 0, 1, 1)
+
+        '''
+        self.layout.addWidget(self.text, 0, 1, 1, 2)
+        '''
+        #self.layout.addWidget(self.torrc, 1, 1, 1, 1)
+
+        self.setLayout(self.layout)
+
+        self.pushButton.setEnabled(True)
+        self.pushButton.setGeometry(QtCore.QRect(430, 100, 86, 25))
+        self.pushButton.setText('&Details')
+        self.pushButton.clicked.connect(self.detail)
+
+        self.horizontal_line.setFrameShape(QFrame.HLine)
+        self.horizontal_line.setFrameShadow(QFrame.Sunken)
+        self.horizontal_line.setGeometry(15, 130, 510, 5)
+
 
         # This is the QTextEdit that shows torrc files
-        self.torrc.setEnabled(True)
-        self.torrc.setMinimumSize(0, 185)
+        self.torrc.setVisible(self.show_detail)
+        self.torrc.setGeometry(QtCore.QRect(20, 145, 500, 190))
         self.torrc.setStyleSheet("background-color:white;")
-        self.torrc.setReadOnly(True)
         # Allow long input appears in one line.
-        self.torrc.setLineWrapColumnOrWidth(1800)
+        self.torrc.setLineWrapColumnOrWidth(1500)
         self.torrc.setLineWrapMode(QtWidgets.QTextEdit.FixedPixelWidth)
 
 
-        self.layout.addWidget(self.icon, 0, 0, 1, 1)
-        self.layout.addWidget(self.text, 0, 1, 1, 2)
-        self.layout.addWidget(self.torrc, 1, 1, 1, 1)
-        self.setLayout(self.layout)
 
     def nextId(self):
         return self.steps.index('tor_status_page')
 
+    def detail(self):
+        self.show_detail = not self.show_detail
+        self.torrc.setVisible(self.show_detail)
+        if self.show_detail:
+            self.pushButton.setText('&Less')
+        else:
+            self.pushButton.setText('&Details')
 
+        '''
+        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'torrc settings', open(Common.torrc_file_path).read(), QtWidgets.QMessageBox.Ok)
+        reply.exec_()
+        '''
 
 class TorStatusPage(QtWidgets.QWizardPage):
     def __init__(self):
@@ -970,12 +1055,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         # Since this is the index page, no back_button is needed.
         self.button(QtWidgets.QWizard.BackButton).setVisible(False)
         self.button(QtWidgets.QWizard.BackButton).setEnabled(False)
-        
+
+
         self.CancelButtonOnLeft
         self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
         self.button(QtWidgets.QWizard.CancelButton).setEnabled(True)
         self.button(QtWidgets.QWizard.CancelButton).setText('Quit')
-        #self.button(QtWidgets.QWizard.CancelButton).setFocus()
         self.exec_()
 
 
@@ -1058,20 +1143,55 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             notice that anon_connection_wizard.torrc will not have line about DisableNetwork 0
             That line will be changed by tor_status module in /etc/torrc
             '''
+
+
             if not Common.disable_tor:
                 #self.torrc_page.text.setText(self._('tor_enabled'))  # Q: how does this line work?
-                self.torrc_page.text.setText('Tor will be enabled.')  # TODO: add more detailed instructions
+
+                self.torrc_page.label_3.setText('Tor will be enabled.')
+                if not Common.use_bridges:
+                    self.torrc_page.label_5.setText('None Selected')
+                else:
+                    if Common.use_default_bridge:
+                        if Common.bridge_type == 'obfs3':
+                            self.torrc_page.label_5.setText('Provided obfs3')
+                        elif Common.bridge_type == 'scramblesuit':
+                            self.torrc_page.label_5.setText('Provided scramblesuit')
+                        elif Common.bridge_type == 'obfs4':
+                            self.torrc_page.label_5.setText('Provided obfs4')
+                    else:
+                        if Common.bridge_custom.startswith('obfs3'):
+                            self.torrc_page.label_5.setText('Custom obfs3')
+                        elif Common.bridge_custom.startswith('obfs4'):
+                            self.torrc_page.label_5.setText('Custom obfs4')
+
+                self.torrc_page.label_7.setText('Tor will be enabled.')
                 torrc_text = open(Common.torrc_tmp_file_path).read()
                 self.torrc_page.torrc.setPlainText(torrc_text)
                 self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
                     '/usr/share/icons/oxygen/48x48/status/task-complete.png'))
             else:
                 #self.torrc_page.text.setText(self._('tor_disabled'))
-                self.torrc_page.text.setText('Tor will be disabled.')
+                self.torrc_page.label_3.setText('Tor will be disabled.')
+                self.torrc_page.label_4.setVisible(False)
+                self.torrc_page.label_5.setVisible(False)
+                self.torrc_page.label_6.setVisible(False)
+                self.torrc_page.label_7.setVisible(False)
+                self.torrc_page.pushButton.setVisible(False)
                 torrc_text = open(Common.torrc_file_path).read()
                 self.torrc_page.torrc.setPlainText(torrc_text)
                 self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
                     '/usr/share/icons/oxygen/48x48/status/task-attention.png'))
+
+            if not Common.use_proxy:
+                self.torrc_page.label_7.setText('None Selected')
+            else:
+                if Common.proxy_type == 'HTTP/HTTPS':
+                    self.torrc_page.label_7.setText('HTTP(S)  {0} : {1}'.format(Common.proxy_ip, Common.proxy_port))
+                elif Common.proxy_type == 'SOCKS4':
+                    self.torrc_page.label_7.setText('Socks4  {0} : {1}'.format(Common.proxy_ip, Common.proxy_port))
+                elif Common.proxy_type == 'SOCKS5':
+                    self.torrc_page.label_7.setText('Socks5  {0} : {1}'.format(Common.proxy_ip, Common.proxy_port))
 
             # move the tmp file to the real .torrc
             # this may overwrite the previous .torrc, but it does not matter
