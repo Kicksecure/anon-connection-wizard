@@ -737,7 +737,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         
         self.lineEdit_2.setGeometry(QtCore.QRect(437, 98, 60, 25))
         self.lineEdit_2.setStyleSheet("background-color:white;")
-        self.lineEdit.setPlaceholderText('1-65535')
+        self.lineEdit_2.setPlaceholderText('1-65535')
         self.lineEdit_2.setText(Common.proxy_port)
         
         self.lineEdit_3.setGeometry(QtCore.QRect(118, 128, 150, 25))
