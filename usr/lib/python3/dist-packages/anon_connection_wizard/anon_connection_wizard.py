@@ -383,16 +383,31 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.layout.addWidget(self.label_2)
 
         self.groupBox = QtWidgets.QGroupBox(self)
+
+        '''
+        self.groupBox_default = QtWidgets.QGroupBox(self)
+        self.groupBox_custom = QtWidgets.QGroupBox(self)
+        '''
+        
         self.default_button = QtWidgets.QRadioButton(self.groupBox)
         self.custom_button = QtWidgets.QRadioButton(self.groupBox)
+
         self.label_3 = QtWidgets.QLabel(self.groupBox)
         self.comboBox = QtWidgets.QComboBox(self.groupBox)
+        
         self.label_4 = QtWidgets.QLabel(self.groupBox)
-        self.custom_bridges = QtWidgets.QTextEdit(self.groupBox)  # This is the QTextEdit box for bridges.
+        self.custom_bridges = QtWidgets.QTextEdit(self.groupBox)  # QTextEdit box for bridges.
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
+
         self.label_5 = QtWidgets.QLabel(self.groupBox)
 
         self.layout.addWidget(self.groupBox)
+
+        '''
+        self.layout.addWidget(self.groupBox_default)
+        self.layout.addWidget(self.groupBox_custom)
+        '''
+        
         self.setupUi()
 
     def setupUi(self):
@@ -414,6 +429,18 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.groupBox.setMinimumSize(QtCore.QSize(16777215, 243))
         self.groupBox.setFlat(True)
+
+        '''
+        self.groupBox_default.setMinimumSize(QtCore.QSize(16777215, 243))
+        self.groupBox_default.setFlat(True)
+        self.groupBox_default.setVisible(True)
+
+        self.groupBox_custom.setMinimumSize(QtCore.QSize(16777215, 243))
+        self.groupBox_custom.setFlat(True)
+        self.groupBox_custom.setVisible(False)
+        '''
+
+        
         self.default_button.setGeometry(QtCore.QRect(18, 25, 500, 24))
         self.default_button.setText('Connect with provided bridges')
         self.default_button.setFont(font_description_minor)
@@ -426,6 +453,9 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             self.default_button.setChecked(True)
         else:
             self.custom_button.setChecked(True)
+
+        # This will emit a signal every time default_button is toggled
+        self.default_button.toggled.connect(self.show_default_bridge)
 
         self.label_3.setGeometry(QtCore.QRect(40, 52, 106, 20))
         self.label_3.setText('Transport type:')
@@ -442,6 +472,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             self.comboBox.setCurrentIndex(self.bridges.index(Common.bridge_type))
 
         self.label_4.setEnabled(False)
+        self.label_4.setVisible(False)
         self.label_4.setGeometry(QtCore.QRect(38, 105, 300, 20))
         self.label_4.setText('Enter one or more bridge relay (one per line).')
 
@@ -449,6 +480,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # Notice that this feature is not in Tor launcher, this can be an improvement which also benefits upstream.
         # TODO: Make this QTextEdit support syntax to make it even more clear to users what should be input: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         self.custom_bridges.setEnabled(True)
+        self.custom_bridges.setVisible(False)
         self.custom_bridges.setGeometry(QtCore.QRect(38, 125, 500, 76))
         self.custom_bridges.setStyleSheet("background-color:white;")
         # Allow long input appears in one line.
@@ -464,10 +496,12 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # self.custom_bridges.setPlaceholderText('type address:port')
 
         self.pushButton.setEnabled(True)
+        self.pushButton.setVisible(False)
         self.pushButton.setGeometry(QtCore.QRect(360, 80, 150, 25))
         self.pushButton.setText('&How to get Bridges?')
         self.pushButton.clicked.connect(self.show_help)
 
+        self.label_5.setVisible(True)
         self.label_5.setGeometry(10, 220, 500, 15)
         self.label_5.setText(Common.assistance)
         self.label_5.setFont(font_description_minor)
@@ -532,6 +566,23 @@ As a last resort, you can request bridge addresses by sending a polite email
 message to help@rt.torproject.org.  Please note that a person will need to respond
 to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
         reply.exec_()
+
+    def show_default_bridge(self, default_button_checked):
+        if default_button_checked:
+            self.label_3.setVisible(True)
+            self.comboBox.setVisible(True)
+
+            self.label_4.setVisible(False)
+            self.custom_bridges.setVisible(False)
+            self.pushButton.setVisible(False)
+        else:
+            self.label_3.setVisible(False)
+            self.comboBox.setVisible(False)
+
+            self.label_4.setVisible(True)
+            self.custom_bridges.setVisible(True)
+            self.pushButton.setVisible(True)
+
 
 
 class ProxyWizardPage1(QtWidgets.QWizardPage):
