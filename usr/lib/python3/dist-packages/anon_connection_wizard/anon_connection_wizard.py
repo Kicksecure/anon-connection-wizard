@@ -1217,9 +1217,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         if self.currentId() == self.steps.index('bridge_wizard_page_1'):
             Common.from_bridge_page_1 = True
             
-
+        if self.currentId() == self.steps.index('bridge_wizard_page_2'):
             # Common.from_bridge_page_1 serves as a falg to work around the bug that
-            # message jump out when switching from proxy_wizard_page_1 to proxy_wizard_page_2
+            # message jump out when switching from bridge_wizard_page_1 to bridge_wizard_page_2
             if not Common.from_bridge_page_1:
                 # TODO: we may use re to check if the bridge input is valid
                 if (not Common.use_default_bridge) and Common.bridge_custom == "":
@@ -1380,11 +1380,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
 
+        if self.currentId() == self.steps.index('bridge_wizard_page_1'):
+            Common.from_bridge_page_1 = True
+
         if self.currentId() == self.steps.index('proxy_wizard_page_1'):
             Common.to_proxy_page_2 = True
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
+
 
     def show_finish_button(self):
         if self.bootstrap_done or Common.disable_tor:
