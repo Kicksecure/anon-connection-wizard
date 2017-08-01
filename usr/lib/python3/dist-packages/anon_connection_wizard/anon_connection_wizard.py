@@ -635,19 +635,20 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.layout.addWidget(self.label)
 
         self.groupBox = QtWidgets.QGroupBox(self)
-        self.label_3 = QtWidgets.QLabel(self.groupBox)
-        self.comboBox = QtWidgets.QComboBox(self.groupBox)
-        self.label_2 = QtWidgets.QLabel(self.groupBox)
-        self.label_5 = QtWidgets.QLabel(self.groupBox)
-        self.label_6 = QtWidgets.QLabel(self.groupBox)
+        self.label_2 = QtWidgets.QLabel(self.groupBox)  # instructions
+        self.label_3 = QtWidgets.QLabel(self.groupBox)  # Proxy type lable
+        self.comboBox = QtWidgets.QComboBox(self.groupBox) # Proxy type comboBox
+        self.label_4 = QtWidgets.QLabel(self.groupBox)  # assistance info
+        self.label_5 = QtWidgets.QLabel(self.groupBox)  # Address label
+        self.label_6 = QtWidgets.QLabel(self.groupBox)  # username lable
+        self.label_7 = QtWidgets.QLabel(self.groupBox)  # Port label
+        self.label_8 = QtWidgets.QLabel(self.groupBox)  # password label
+
         self.lineEdit = QtWidgets.QLineEdit(self.groupBox)  # IP TODO: An inputmask() will make user more clear about what to input: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
-        self.label_7 = QtWidgets.QLabel(self.groupBox)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.groupBox)  # Port
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox)  # Username
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)  # password
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.groupBox)  # Port input
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox)  # Username input
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)  # password input
         self.lineEdit_4.setEchoMode(QLineEdit.Password)  # password mask
-        self.label_8 = QtWidgets.QLabel(self.groupBox)
-        self.label_4 = QtWidgets.QLabel(self.groupBox)
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
 
         self.layout.addWidget(self.groupBox)
@@ -660,6 +661,16 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         font_description_main = Common.font_description_main
         font_description_minor = Common.font_description_minor
         font_option = Common.font_option
+
+        
+        self.comboBox.currentIndexChanged[str].connect(self.option_changed)
+        '''
+        toggled.connect(self.set_next_button_state)
+        self.connection_page.use_proxy.toggled.connect(self.set_next_button_state)
+        self.exec_()
+        '''
+
+
 
         self.label.setText('   Local Proxy Configuration')
         self.label.setFont(font_title)
@@ -821,6 +832,42 @@ You have to know the port number you are trying to connect to. It should be a po
 <blockquote><b>4. Username and Password</b><br>
 If you do not know what they are, just leave them blank to see if the connection will success. Because in most cases, you do not need them.</blockquote>''', QtWidgets.QMessageBox.Ok)
         reply.exec_()
+
+    # called by button toggled signal.
+    def set_next_button_state(self, state):
+        if state:
+            self.button(QtWidgets.QWizard.NextButton).setEnabled(False)
+        else:
+            self.button(QtWidgets.QWizard.NextButton).setEnabled(True)
+
+    ''' This function will be called by
+    self.comboBox.currentIndexChanged[str].connect(self.option_changed)
+    It will pass a parameter text which is the context in the current comboBox
+    '''
+    def option_changed(self, text):
+        if text == 'HTTP / HTTPS':
+            self.label_6.setVisible(True)  # username label
+            self.lineEdit_3.setVisible(True)  # username input
+            
+            self.label_8.setVisible(True)  # password label
+            self.lineEdit_4.setVisible(True)  # password input
+
+        elif text == 'SOCKS4':
+            # Notice that SOCKS4 does not support proxy username and password
+            # Therefore, should be the input should be disabled for usability
+
+            self.label_6.setVisible(False)
+            self.lineEdit_3.setVisible(False)
+
+            self.label_8.setVisible(False)
+            self.lineEdit_4.setVisible(False)
+
+        elif text == 'SOCKS5':
+            self.label_6.setVisible(True)
+            self.lineEdit_3.setVisible(True)
+            
+            self.label_8.setVisible(True)
+            self.lineEdit_4.setVisible(True)
 
 
 class TorrcPage(QtWidgets.QWizardPage):
@@ -1335,13 +1382,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         '''
         if Common.use_proxy:
             with open(Common.torrc_tmp_file_path, 'a') as f:
-                # TODO: Notice that if SOCKS4 is selected, the proxy username and password inputLine should be disabled
-                # This is because SOCKS4 does not support that.
                 if Common.proxy_type == 'HTTP/HTTPS':
                     f.write('HTTPSProxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
                     if (Common.proxy_username != ''):  # there is no need to check password because username is essential
                         f.write('HTTPSProxyAuthenticator {0}:{1}\n'.format(Common.proxy_username, Common.proxy_password))
                 elif Common.proxy_type == 'SOCKS4':
+                    # Notice that SOCKS4 does not support proxy username and password
                     f.write('Socks4Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
                 elif Common.proxy_type == 'SOCKS5':
                     f.write('Socks5Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
