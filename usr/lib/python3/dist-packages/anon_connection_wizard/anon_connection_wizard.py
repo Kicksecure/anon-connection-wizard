@@ -77,7 +77,7 @@ class Common:
     that a "blank IP/Port" messgae show up even when switching from proxy_wizard_page_1
     to proxy_wizard_page_2.
     '''
-    from_proxy_page_1 = True
+    to_proxy_page_2 = True
     from_bridge_page_1 = True
 
     ''' The following is the fonts used throughout the anon_connection_wizard.
@@ -1217,7 +1217,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         if self.currentId() == self.steps.index('bridge_wizard_page_1'):
             Common.from_bridge_page_1 = True
             
-        if self.currentId() == self.steps.index('bridge_wizard_page_2'):
+
             # Common.from_bridge_page_1 serves as a falg to work around the bug that
             # message jump out when switching from proxy_wizard_page_1 to proxy_wizard_page_2
             if not Common.from_bridge_page_1:
@@ -1230,20 +1230,20 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             Common.from_bridge_page_1 = False
 
         if self.currentId() == self.steps.index('proxy_wizard_page_1'):
-            Common.from_proxy_page_1 = True
+            Common.to_proxy_page_2 = True
             
         if self.currentId() == self.steps.index('proxy_wizard_page_2'):
             # TODO: use re to detect if the formatt of IP and port is not correct
             # The dificulty is that the IP can be hostname which is almost free form
-            # Common.from_proxy_page_1 serves as a falg to work around the bug that
+            # Common.to_proxy_page_2 serves as a falg to work around the bug that
             # message jump out when switching from proxy_wizard_page_1 to proxy_wizard_page_2
-            if not Common.from_proxy_page_1:
+            if not Common.to_proxy_page_2:
                 if Common.proxy_ip == "" or Common.proxy_port == "":
                     self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
                         '''<p><b>  IP and/or Port is blank</b></p>
                         <p> Please input a proper IP and Port number.</p>''', QtWidgets.QMessageBox.Ok)
                     self.reply.exec_()
-            Common.from_proxy_page_1 = False
+            Common.to_proxy_page_2 = False
             
         if self.currentId() == self.steps.index('torrc_page'):
             self.resize(580, 400)
@@ -1381,6 +1381,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
 
         if self.currentId() == self.steps.index('proxy_wizard_page_1'):
+            Common.to_proxy_page_2 = True
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
