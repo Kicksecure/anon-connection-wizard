@@ -634,7 +634,11 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
 
+        self.checkBox = QtWidgets.QCheckBox(self)  # enable proxy checkBox
+
         self.groupBox = QtWidgets.QGroupBox(self)
+        
+        
         self.label_2 = QtWidgets.QLabel(self.groupBox)  # instructions
         self.label_3 = QtWidgets.QLabel(self.groupBox)  # Proxy type lable
         self.comboBox = QtWidgets.QComboBox(self.groupBox) # Proxy type comboBox
@@ -662,6 +666,14 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         font_description_minor = Common.font_description_minor
         font_option = Common.font_option
 
+
+        self.label.setText('   Local Proxy Configuration')
+        self.label.setFont(font_title)
+
+        self.checkBox.stateChanged.connect(self.enable_proxy)
+        self.checkBox.setText("Use Proxy")
+        self.checkBox.setChecked(True)
+        self.checkBox.setGeometry(QtCore.QRect(30, 40, 106, 20))
         
         self.comboBox.currentIndexChanged[str].connect(self.option_changed)
         '''
@@ -672,8 +684,6 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
 
 
-        self.label.setText('   Local Proxy Configuration')
-        self.label.setFont(font_title)
 
         self.groupBox.setMinimumSize(QtCore.QSize(16777215, 300))
         self.groupBox.setFlat(True)
@@ -868,6 +878,16 @@ If you do not know what they are, just leave them blank to see if the connection
             
             self.label_8.setVisible(True)
             self.lineEdit_4.setVisible(True)
+
+    def enable_proxy(self, state):
+        if state:
+            self.label_8.setVisible(True)
+            self.lineEdit_4.setVisible(True)
+            self.groupBox.setVisible(True)
+        else:
+            self.label_8.setVisible(False)
+            self.lineEdit_4.setVisible(False)
+            self.groupBox.setVisible(False)
 
 
 class TorrcPage(QtWidgets.QWizardPage):
