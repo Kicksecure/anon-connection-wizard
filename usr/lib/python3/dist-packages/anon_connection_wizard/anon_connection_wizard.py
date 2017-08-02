@@ -851,7 +851,7 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.label_2.setFont(font_description_minor)
 
         self.label_3.setGeometry(QtCore.QRect(140, 20, 500, 50))
-        self.label_3.setText("Void")
+        self.label_3.setText("Probably an error ocurred")
         self.label_3.setFont(font_option)
 
         self.label_4.setGeometry(QtCore.QRect(80, 47, 100, 50))
@@ -859,7 +859,7 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.label_4.setFont(font_description_minor)
 
         self.label_5.setGeometry(QtCore.QRect(140, 47, 500, 50))
-        self.label_5.setText("Void")
+        self.label_5.setText("ERROR: Unsupported Type!")
         self.label_5.setFont(font_option)
 
         self.label_6.setGeometry(QtCore.QRect(80, 75, 100, 50))
@@ -867,7 +867,7 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.label_6.setFont(font_description_minor)
 
         self.label_7.setGeometry(QtCore.QRect(140, 75, 500, 50))
-        self.label_7.setText("Void")
+        self.label_7.setText("Probably an error ocurred")
         self.label_7.setFont(font_option)
 
         self.setLayout(self.layout)
