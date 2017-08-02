@@ -460,10 +460,12 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.label_3.setGeometry(QtCore.QRect(40, 52, 106, 20))
         self.label_3.setText('Transport type:')
         self.label_3.setFont(font_description_minor)
+        self.label_3.setVisible(not Common.use_bridges)
 
         # This is the how to make a comboBox. The variable bridges is defined above.
         # The proxy type selection in ProxyWizardPage2 can also use this method.
         self.comboBox.setGeometry(QtCore.QRect(140, 49, 181, 27))
+        self.comboBox.setVisible(not Common.use_bridges)
         for bridge in self.bridges:
             self.comboBox.addItem(bridge)
             
@@ -472,7 +474,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             self.comboBox.setCurrentIndex(self.bridges.index(Common.bridge_type))
 
         self.label_4.setEnabled(False)
-        self.label_4.setVisible(False)
+        self.label_4.setVisible(Common.use_bridges)
         self.label_4.setGeometry(QtCore.QRect(38, 105, 300, 20))
         self.label_4.setText('Enter one or more bridge relay (one per line).')
 
@@ -480,7 +482,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # Notice that this feature is not in Tor launcher, this can be an improvement which also benefits upstream.
         # TODO: Make this QTextEdit support syntax to make it even more clear to users what should be input: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         self.custom_bridges.setEnabled(True)
-        self.custom_bridges.setVisible(False)
+        self.custom_bridges.setVisible(Common.use_bridges)
         self.custom_bridges.setGeometry(QtCore.QRect(38, 125, 500, 76))
         self.custom_bridges.setStyleSheet("background-color:white;")
         # Allow long input appears in one line.
@@ -490,13 +492,14 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         if not Common.use_default_bridge:
             self.custom_bridges.setText(Common.bridge_custom)  # adjust the line according to value in Common
 
-        
-        # TODO: The next statement can not be used yet, this is because the QTextEdit does not supprot setPlaceholderText.
-        # More functions need to be added to implement that: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
+        # TODO: The next statement can not be used yet,
+        # this is because the QTextEdit does not supprot setPlaceholderText.
+        # More functions need to be added to implement that:
+        # https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         # self.custom_bridges.setPlaceholderText('type address:port')
 
         self.pushButton.setEnabled(True)
-        self.pushButton.setVisible(False)
+        self.pushButton.setVisible(Common.use_bridges)
         self.pushButton.setGeometry(QtCore.QRect(360, 80, 150, 25))
         self.pushButton.setText('&How to get Bridges?')
         self.pushButton.clicked.connect(self.show_help)
