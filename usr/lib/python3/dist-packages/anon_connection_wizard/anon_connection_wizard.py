@@ -669,7 +669,6 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
         super(ProxyWizardPage2, self).__init__()
 
-        Common.use_proxy = True
         translation = _translations(Common.translations_path, 'whonixsetup')
         self._ = translation.gettext
         self.steps = Common.wizard_steps
