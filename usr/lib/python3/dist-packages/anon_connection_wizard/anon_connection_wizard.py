@@ -1050,12 +1050,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             # Common.from_bridge_page_1 serves as a falg to work around the bug that
             # message jump out when switching from bridge_wizard_page_1 to bridge_wizard_page_2
             if not Common.from_bridge_page_1:
-                # TODO: we may use re to check if the bridge input is valid
-                if self.bridge_wizard_page_2.checkBox.isChecked() and self.bridge_wizard_page_2.custom_button.isChecked() and (self.bridge_wizard_page_2.custom_bridges.toPlainText() == ""):
-                    self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
-                        '''<p><b>  Custom bridge list is blank or invalid</b></p>
-                        <p> Please input valid custom bridges or use provided bridges instead.</p>''', QtWidgets.QMessageBox.Ok)
-                    self.reply.exec_()
+                if self.bridge_wizard_page_2.checkBox.isChecked() and self.bridge_wizard_page_2.custom_button.isChecked():
+                    # TODO: we may use re to check if the bridge input is valid
+                    # at least we should examine if every line statswith("obsf3/obfs4")
+                    if (self.bridge_wizard_page_2.custom_bridges.toPlainText() == ""):
+                        self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
+                            '''<p><b>  Custom bridge list is blank or invalid</b></p>
+                            <p> Please input valid custom bridges or use provided bridges instead.</p>''', QtWidgets.QMessageBox.Ok)
+                        self.reply.exec_()
+
             Common.from_bridge_page_1 = False
             Common.from_proxy_page_1 = True
             
