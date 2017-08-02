@@ -396,12 +396,17 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.groupBox = QtWidgets.QGroupBox(self)
         self.layout.addWidget(self.groupBox)
 
+        self.checkBox = QtWidgets.QCheckBox(self.groupBox)  # bridge checkBox
         '''
         self.groupBox_default = QtWidgets.QGroupBox(self)
         self.groupBox_custom = QtWidgets.QGroupBox(self)
         '''
+        self.horizontal_line_1 = QFrame(self.groupBox)
         
         self.default_button = QtWidgets.QRadioButton(self.groupBox)
+
+        self.horizontal_line_2 = QFrame(self.groupBox)
+                
         self.custom_button = QtWidgets.QRadioButton(self.groupBox)
 
         self.label_3 = QtWidgets.QLabel(self.groupBox)
@@ -433,6 +438,15 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.label.setFont(font_title)
         self.label.setGeometry(QtCore.QRect(0, 0, 0, 0))
 
+
+        self.checkBox.setChecked(Common.use_bridges)
+        self.checkBox.stateChanged.connect(self.enable_bridge)
+        self.checkBox.setText("I need Tor bridges to bypass the Tor censorship.")
+        self.checkBox.setFont(font_description_main)
+        self.checkBox.setToolTip("")  # ToolTip may not be needed since a help button is offered
+        self.checkBox.setGeometry(QtCore.QRect(20, 35, 500, 20))
+
+        
         '''
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
         self.label_2.setFont(font_description_main)
@@ -443,6 +457,11 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.groupBox.setMinimumSize(QtCore.QSize(Common.groupBox_width, Common.groupBox_height))
         self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
         self.groupBox.setFlat(True)
+
+
+        self.horizontal_line_1.setFrameShape(QFrame.HLine)
+        self.horizontal_line_1.setFrameShadow(QFrame.Sunken)
+        self.horizontal_line_1.setGeometry(15, 65, 510, 5)
 
         '''
         self.groupBox_default.setMinimumSize(QtCore.QSize(16777215, 243))
@@ -455,11 +474,16 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         '''
 
         
-        self.default_button.setGeometry(QtCore.QRect(18, 25, 500, 24))
+        self.default_button.setGeometry(QtCore.QRect(18, 75, 500, 24))
         self.default_button.setText('Connect with provided bridges')
         self.default_button.setFont(font_description_minor)
 
-        self.custom_button.setGeometry(QtCore.QRect(18, 82, 500, 25))
+        self.horizontal_line_2.setFrameShape(QFrame.HLine)
+        self.horizontal_line_2.setFrameShadow(QFrame.Sunken)
+        self.horizontal_line_2.setGeometry(15, 140, 510, 5)
+
+
+        self.custom_button.setGeometry(QtCore.QRect(18, 160, 500, 25))
         self.custom_button.setText('Enter custom bridges')
         self.custom_button.setFont(font_description_minor)
 
@@ -471,15 +495,13 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # This will emit a signal every time default_button is toggled
         self.default_button.toggled.connect(self.show_default_bridge)
 
-        self.label_3.setGeometry(QtCore.QRect(40, 52, 106, 20))
+        self.label_3.setGeometry(QtCore.QRect(40, 110, 106, 20))
         self.label_3.setText('Transport type:')
         self.label_3.setFont(font_description_minor)
-        self.label_3.setVisible(not Common.use_bridges)
 
         # This is the how to make a comboBox. The variable bridges is defined above.
         # The proxy type selection in ProxyWizardPage2 can also use this method.
-        self.comboBox.setGeometry(QtCore.QRect(140, 49, 181, 27))
-        self.comboBox.setVisible(not Common.use_bridges)
+        self.comboBox.setGeometry(QtCore.QRect(140, 110, 181, 27))
         for bridge in self.bridges:
             self.comboBox.addItem(bridge)
             
@@ -488,16 +510,14 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             self.comboBox.setCurrentIndex(self.bridges.index(Common.bridge_type))
 
         self.label_4.setEnabled(False)
-        self.label_4.setVisible(Common.use_bridges)
-        self.label_4.setGeometry(QtCore.QRect(38, 105, 300, 20))
+        self.label_4.setGeometry(QtCore.QRect(38, 185, 300, 20))
         self.label_4.setText('Enter one or more bridge relay (one per line).')
 
         # TODO: The boolean value of this should be the same with self.custom_button.isChecked() Q: How to do it dynamically? A: signal-and-slot.
         # Notice that this feature is not in Tor launcher, this can be an improvement which also benefits upstream.
         # TODO: Make this QTextEdit support syntax to make it even more clear to users what should be input: https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         self.custom_bridges.setEnabled(True)
-        self.custom_bridges.setVisible(Common.use_bridges)
-        self.custom_bridges.setGeometry(QtCore.QRect(38, 125, 500, 76))
+        self.custom_bridges.setGeometry(QtCore.QRect(38, 205, 500, 76))
         self.custom_bridges.setStyleSheet("background-color:white;")
         # Allow long input appears in one line.
         self.custom_bridges.setLineWrapColumnOrWidth(1800)
@@ -513,15 +533,28 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # self.custom_bridges.setPlaceholderText('type address:port')
 
         self.pushButton.setEnabled(True)
-        self.pushButton.setVisible(Common.use_bridges)
-        self.pushButton.setGeometry(QtCore.QRect(360, 80, 150, 25))
+        self.pushButton.setGeometry(QtCore.QRect(360, 160, 150, 25))
         self.pushButton.setText('&How to get Bridges?')
         self.pushButton.clicked.connect(self.show_help)
 
         self.label_5.setVisible(True)
-        self.label_5.setGeometry(10, 220, 500, 15)
+        self.label_5.setGeometry(10, 300, 500, 15)
         self.label_5.setText(Common.assistance)
         self.label_5.setFont(font_description_minor)
+
+        ## Set the visibility of each item.
+        ## Notice that some item has two boolean to decide the visibility
+        self.default_button.setVisible(Common.use_bridges)
+        self.horizontal_line_2.setVisible(Common.use_bridges)
+        self.custom_button.setVisible(Common.use_bridges)
+
+        self.label_3.setVisible(Common.use_bridges and Common.use_default_bridge)
+        self.comboBox.setVisible(Common.use_bridges and Common.use_default_bridge)
+
+        self.label_4.setVisible(Common.use_bridges and (not Common.use_default_bridge))
+        self.custom_bridges.setVisible(Common.use_bridges and (not Common.use_default_bridge))
+        self.pushButton.setVisible(Common.use_bridges and (not Common.use_default_bridge))
+
 
     def nextId(self):
         if self.default_button.isChecked():
@@ -599,6 +632,21 @@ to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
             self.label_4.setVisible(True)
             self.custom_bridges.setVisible(True)
             self.pushButton.setVisible(True)
+
+    def enable_bridge(self, state):
+        ## state is a boolean indicating if checkBox is checked or not
+        ## Notice that some item has two boolean to decide the visibility
+        self.default_button.setVisible(state)
+        self.horizontal_line_2.setVisible(state)
+        self.custom_button.setVisible(state)
+
+        self.label_3.setVisible(state and self.default_button.isChecked())
+        self.comboBox.setVisible(state and self.default_button.isChecked())
+
+        self.label_4.setVisible(state and (not self.default_button.isChecked()))
+        self.custom_bridges.setVisible(state and (not self.default_button.isChecked()))
+        self.pushButton.setVisible(state and (not self.default_button.isChecked()))
+
 
 '''
 class ProxyWizardPage1(QtWidgets.QWizardPage):
@@ -704,7 +752,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.groupBox = QtWidgets.QGroupBox(self)
         self.layout.addWidget(self.groupBox)
         
-        self.checkBox = QtWidgets.QCheckBox(self.groupBox)  # enable proxy checkBox
+        self.checkBox = QtWidgets.QCheckBox(self.groupBox)  # proxy checkBox
 
         self.horizontal_line = QFrame(self.groupBox)
         
