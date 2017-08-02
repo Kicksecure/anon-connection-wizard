@@ -584,7 +584,6 @@ to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
             self.pushButton.setVisible(True)
 
 
-
 class ProxyWizardPage1(QtWidgets.QWizardPage):
     def __init__(self):
         super(ProxyWizardPage1, self).__init__()
@@ -685,10 +684,12 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
 
-        self.checkBox = QtWidgets.QCheckBox(self)  # enable proxy checkBox
 
         self.groupBox = QtWidgets.QGroupBox(self)
         
+        self.checkBox = QtWidgets.QCheckBox(self.groupBox)  # enable proxy checkBox
+
+        self.horizontal_line = QFrame(self.groupBox)
         
         self.label_2 = QtWidgets.QLabel(self.groupBox)  # instructions
         self.label_3 = QtWidgets.QLabel(self.groupBox)  # Proxy type lable
@@ -721,32 +722,39 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.label.setText('   Local Proxy Configuration')
         self.label.setFont(font_title)
 
+        self.groupBox.setMinimumSize(QtCore.QSize(16777215, 300))
+        self.groupBox.setFlat(True)
+
         self.checkBox.stateChanged.connect(self.enable_proxy)
-        self.checkBox.setText("Use Proxy")
-        self.checkBox.setChecked(True)
-        self.checkBox.setGeometry(QtCore.QRect(30, 40, 106, 20))
-        
+        self.checkBox.setText("Use proxy before connecting to the Tor network")
+        self.checkBox.setFont(font_description_main)
+        self.checkBox.setToolTip('''<p>In some situiations, you may want to transfer your traffic through a proxy server before connecting to the Tor network. </p><p>For example, if you are trying to use a third-party censorship circumvention tool to bypass the Tor censorship, you need to configure Tor to connect to the listening port of that circumvention tools. </p>''')
+        self.checkBox.setChecked(False)
+        self.checkBox.setGeometry(QtCore.QRect(20, 35, 500, 20))
         self.comboBox.currentIndexChanged[str].connect(self.option_changed)
+
         '''
         toggled.connect(self.set_next_button_state)
         self.connection_page.use_proxy.toggled.connect(self.set_next_button_state)
         self.exec_()
         '''
 
+        self.horizontal_line.setFrameShape(QFrame.HLine)
+        self.horizontal_line.setFrameShadow(QFrame.Sunken)
+        self.horizontal_line.setGeometry(15, 65, 510, 5)
 
+        self.label_2.setGeometry(QtCore.QRect(20, 80, 201, 16))
+        self.label_2.setText("Enter the proxy settings.")
+        self.label_2.setFont(font_description_minor)
 
-
-        self.groupBox.setMinimumSize(QtCore.QSize(16777215, 300))
-        self.groupBox.setFlat(True)
-
-        self.label_3.setGeometry(QtCore.QRect(10, 60, 106, 20))
+        self.label_3.setGeometry(QtCore.QRect(10, 110, 106, 20))
         self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_3.setText("Proxy type: ")
         self.label_3.setFont(font_description_minor)
 
         # Here we are going to implement the proxy type selection
         # Change it to larger so  that all options fit
-        self.comboBox.setGeometry(QtCore.QRect(118, 58, 121, 27))
+        self.comboBox.setGeometry(QtCore.QRect(118, 110, 121, 27))
         for proxy in self.proxies:
             self.comboBox.addItem(proxy)
 
@@ -754,12 +762,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         if Common.use_proxy:
             self.comboBox.setCurrentIndex(self.proxies.index(Common.proxy_type))
 
-
-        self.label_2.setGeometry(QtCore.QRect(10, 30, 201, 16))
-        self.label_2.setText("Enter the proxy settings.")
-        self.label_2.setFont(font_description_minor)
-
-        self.label_5.setGeometry(QtCore.QRect(10, 101, 106, 20))
+        self.label_5.setGeometry(QtCore.QRect(10, 150, 106, 20))
         self.label_5.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_5.setText("Address: ")
         self.label_5.setFont(font_description_minor)
@@ -768,17 +771,17 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         using "advance" button because it is not used rarely,
         according to recommendation from previous research.
         '''
-        self.label_6.setGeometry(QtCore.QRect(10, 131, 106, 20))
+        self.label_6.setGeometry(QtCore.QRect(10, 180, 106, 20))
         self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_6.setText("Username: ")
         self.label_6.setFont(font_description_minor)
 
-        self.label_7.setGeometry(QtCore.QRect(394, 101, 41, 20))
+        self.label_7.setGeometry(QtCore.QRect(394, 150, 41, 20))
         self.label_7.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_7.setText("Port: ")
         self.label_7.setFont(font_description_minor)
 
-        self.label_8.setGeometry(QtCore.QRect(280, 131, 70, 20))
+        self.label_8.setGeometry(QtCore.QRect(280, 180, 70, 20))
         self.label_8.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_8.setText("Password: ")
         self.label_8.setFont(font_description_minor)
@@ -790,34 +793,50 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         1. tooltip for each option
         2. option for users to configure well-known third party automatically (We can take foxyproxy's default setting as references.)
         '''
-        self.lineEdit.setGeometry(QtCore.QRect(118, 98, 260, 25))
+        self.lineEdit.setGeometry(QtCore.QRect(118, 150, 260, 25))
         self.lineEdit.setStyleSheet("background-color:white;")
         self.lineEdit.setPlaceholderText('Example: 127.0.0.1')
         self.lineEdit.setText(Common.proxy_ip)  # TODO: investigate why it does not work
         # TODO: may exchange the sequence of setText and setPlaceholderText
         
-        self.lineEdit_2.setGeometry(QtCore.QRect(437, 98, 60, 25))
+        self.lineEdit_2.setGeometry(QtCore.QRect(437, 150, 60, 25))
         self.lineEdit_2.setStyleSheet("background-color:white;")
         self.lineEdit_2.setPlaceholderText('1-65535')
         self.lineEdit_2.setText(Common.proxy_port)
         
-        self.lineEdit_3.setGeometry(QtCore.QRect(118, 128, 150, 25))
+        self.lineEdit_3.setGeometry(QtCore.QRect(118, 180, 150, 25))
         self.lineEdit_3.setStyleSheet("background-color:white;")
         self.lineEdit_3.setPlaceholderText('Optional')
         self.lineEdit_3.setText(Common.proxy_username)
         
-        self.lineEdit_4.setGeometry(QtCore.QRect(352, 128, 145, 25))
+        self.lineEdit_4.setGeometry(QtCore.QRect(352, 180, 145, 25))
         self.lineEdit_4.setStyleSheet("background-color:white;")
         self.lineEdit_4.setPlaceholderText('Optional')
         self.lineEdit_4.setText(Common.proxy_password)
 
-        self.label_4.setGeometry(QtCore.QRect(10, 255, 500, 15))
+        self.label_4.setGeometry(QtCore.QRect(10, 280, 500, 15))
         self.label_4.setText(Common.assistance)
         self.label_4.setFont(font_description_minor)
 
-        self.pushButton.setGeometry(QtCore.QRect(400, 200, 86, 25))
+        self.pushButton.setGeometry(QtCore.QRect(400, 235, 86, 25))
         self.pushButton.setText('&Help')
         self.pushButton.clicked.connect(self.show_help)
+
+        # Hide all proxy settings initially
+        self.label_2.setVisible(False)
+        self.label_3.setVisible(False)
+        self.comboBox.setVisible(False)
+        self.label_5.setVisible(False)
+        self.label_6.setVisible(False)
+        self.label_7.setVisible(False)
+        self.label_8.setVisible(False)
+        self.lineEdit.setVisible(False)
+        self.lineEdit_2.setVisible(False)
+        self.lineEdit_3.setVisible(False)
+        self.lineEdit_4.setVisible(False)
+        self.lineEdit_4.setVisible(False)
+        self.pushButton.setVisible(False)
+
 
 
     # Q: Why there is no nextId function in original script? Unnecessary or Incomplete?
@@ -932,14 +951,33 @@ If you do not know what they are, just leave them blank to see if the connection
 
     def enable_proxy(self, state):
         if state:
+            self.label_2.setVisible(True)
+            self.label_3.setVisible(True)
+            self.comboBox.setVisible(True)
+            self.label_5.setVisible(True)
+            self.label_6.setVisible(True)
+            self.label_7.setVisible(True)
             self.label_8.setVisible(True)
+            self.lineEdit.setVisible(True)
+            self.lineEdit_2.setVisible(True)
+            self.lineEdit_3.setVisible(True)
             self.lineEdit_4.setVisible(True)
-            self.groupBox.setVisible(True)
+            self.lineEdit_4.setVisible(True)
+            self.pushButton.setVisible(True)
         else:
+            self.label_2.setVisible(False)
+            self.label_3.setVisible(False)
+            self.comboBox.setVisible(False)
+            self.label_5.setVisible(False)
+            self.label_6.setVisible(False)
+            self.label_7.setVisible(False)
             self.label_8.setVisible(False)
+            self.lineEdit.setVisible(False)
+            self.lineEdit_2.setVisible(False)
+            self.lineEdit_3.setVisible(False)
             self.lineEdit_4.setVisible(False)
-            self.groupBox.setVisible(False)
-
+            self.lineEdit_4.setVisible(False)
+            self.pushButton.setVisible(False)
 
 class TorrcPage(QtWidgets.QWizardPage):
     def __init__(self):
