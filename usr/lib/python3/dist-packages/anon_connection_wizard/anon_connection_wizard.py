@@ -105,6 +105,12 @@ class Common:
     font_option.setWeight(65)
 
 
+    '''The following parameters indicates the size and locatino of the groupBox used each page.
+    '''
+    groupBox_width = 350
+    groupBox_height = 345
+
+    #groupBox_location_
     
     if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
         os.makedirs('/var/cache/whonix-setup-wizard/status-files')
@@ -156,8 +162,9 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.setupUi()
 
     def setupUi(self):
+        self.groupBox.setMinimumSize(QtCore.QSize(350, 330))
+        self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
         self.groupBox.setFlat(True)
-        self.groupBox.setMinimumSize(QtCore.QSize(530, 320))
 
         font_description_minor = Common.font_description_minor
         font_description_main = Common.font_description_main
@@ -208,7 +215,7 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.pushButton.setText('&Advanced')
         self.pushButton.clicked.connect(self.show_disable_tor)
 
-    def show_disable_tor(self):
+v    def show_disable_tor(self):
         self.show_disable = not self.show_disable
         self.pushButton_3.setVisible(self.show_disable)
         self.label_5.setVisible(self.show_disable)
@@ -255,14 +262,14 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         self.label_2 = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label_2)
 
-        self.group_box = QtWidgets.QGroupBox(self)
-        self.no_button_1 = QtWidgets.QRadioButton(self.group_box)
-        #self.no_button_2 = QtWidgets.QRadioButton(self.group_box)
-        self.yes_button = QtWidgets.QRadioButton(self.group_box)
-        self.label_3 = QtWidgets.QLabel(self.group_box)
-        self.label_4 = QtWidgets.QLabel(self.group_box)
-        self.pushButton = QtWidgets.QPushButton(self.group_box)
-        self.layout.addWidget(self.group_box)
+        self.groupBox = QtWidgets.QGroupBox(self)
+        self.no_button_1 = QtWidgets.QRadioButton(self.groupBox)
+        #self.no_button_2 = QtWidgets.QRadioButton(self.groupBox)
+        self.yes_button = QtWidgets.QRadioButton(self.groupBox)
+        self.label_3 = QtWidgets.QLabel(self.groupBox)
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
+        self.pushButton = QtWidgets.QPushButton(self.groupBox)
+        self.layout.addWidget(self.groupBox)
 
         self.setupUi()
 
@@ -277,14 +284,15 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         self.label.setFont(font_title)
         self.label.setText('   Tor Bridges Configuration')
 
-        self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
-        self.label_2.setFont(font_description_main)
-        self.label_2.setWordWrap(True)
+        #self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
+        #self.label_2.setFont(font_description_main)
+        #self.label_2.setWordWrap(True)
         #self.label_2.setText('Does your Internet Service Provider (ISP) block or otherwise censor connections to the Tor network?')
         self.label_2.setText('Do you want to configure Tor bridges?')
 
-        self.group_box.setMinimumSize(QtCore.QSize(16777215, 244))
-        self.group_box.setFlat(True)
+        self.groupBox.setMinimumSize(QtCore.QSize(Common.groupBox_width, Common.groupBox_height))
+        self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
+        self.groupBox.setFlat(True)
 
         self.yes_button.setGeometry(QtCore.QRect(25, 30, 550, 30))
         self.yes_button.setText('Yes. I need Tor bridges to bypass the Tor censorship.')
@@ -376,13 +384,17 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                        ]
 
         self.layout = QtWidgets.QVBoxLayout(self)
+
         self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
 
+        '''
         self.label_2 = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label_2)
-
+        '''
+        
         self.groupBox = QtWidgets.QGroupBox(self)
+        self.layout.addWidget(self.groupBox)
 
         '''
         self.groupBox_default = QtWidgets.QGroupBox(self)
@@ -401,7 +413,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.label_5 = QtWidgets.QLabel(self.groupBox)
 
-        self.layout.addWidget(self.groupBox)
 
         '''
         self.layout.addWidget(self.groupBox_default)
@@ -420,14 +431,17 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.label.setText('   Tor Bridges Configuration')
         self.label.setFont(font_title)
+        self.label.setGeometry(QtCore.QRect(0, 0, 0, 0))
 
-
+        '''
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
         self.label_2.setFont(font_description_main)
         self.label_2.setWordWrap(True)
         self.label_2.setText('You may use the provided set of bridges or you may obtain and enter a custom set of bridges.')
+        '''
 
-        self.groupBox.setMinimumSize(QtCore.QSize(16777215, 243))
+        self.groupBox.setMinimumSize(QtCore.QSize(Common.groupBox_width, Common.groupBox_height))
+        self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
         self.groupBox.setFlat(True)
 
         '''
@@ -604,12 +618,12 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         self.label_2 = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label_2)
 
-        self.group_box = QtWidgets.QGroupBox(self)
-        self.yes_button = QtWidgets.QRadioButton(self.group_box)
-        self.no_button = QtWidgets.QRadioButton(self.group_box)
-        self.label_3 = QtWidgets.QLabel(self.group_box)
-        self.label_4 = QtWidgets.QLabel(self.group_box)
-        self.layout.addWidget(self.group_box)
+        self.groupBox = QtWidgets.QGroupBox(self)
+        self.yes_button = QtWidgets.QRadioButton(self.groupBox)
+        self.no_button = QtWidgets.QRadioButton(self.groupBox)
+        self.label_3 = QtWidgets.QLabel(self.groupBox)
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
+        self.layout.addWidget(self.groupBox)
 
         self.setupUi()
 
@@ -630,8 +644,8 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         self.label_2.setFont(font_description_main)
 
 
-        self.group_box.setMinimumSize(QtCore.QSize(16777215, 250))
-        self.group_box.setFlat(True)
+        self.groupBox.setMinimumSize(QtCore.QSize(16777215, 250))
+        self.groupBox.setFlat(True)
         self.yes_button.setGeometry(QtCore.QRect(25, 30, 350, 21))
         self.yes_button.setText('Yes.')
         self.yes_button.setFont(font_option)
@@ -688,6 +702,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
 
         self.groupBox = QtWidgets.QGroupBox(self)
+        self.layout.addWidget(self.groupBox)
         
         self.checkBox = QtWidgets.QCheckBox(self.groupBox)  # enable proxy checkBox
 
@@ -709,7 +724,6 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.lineEdit_4.setEchoMode(QLineEdit.Password)  # password mask
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
 
-        self.layout.addWidget(self.groupBox)
         self.setupUi()
 
     def setupUi(self):
@@ -724,8 +738,10 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.label.setText('   Local Proxy Configuration')
         self.label.setFont(font_title)
 
-        self.groupBox.setMinimumSize(QtCore.QSize(16777215, 300))
+        self.groupBox.setMinimumSize(QtCore.QSize(Common.groupBox_width, Common.groupBox_height))
+        self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
         self.groupBox.setFlat(True)
+
         
         self.checkBox.setChecked(Common.use_proxy)
         self.checkBox.stateChanged.connect(self.enable_proxy)
@@ -959,12 +975,13 @@ class TorrcPage(QtWidgets.QWizardPage):
 
         self.steps = Common.wizard_steps
 
-        self.icon = QtWidgets.QLabel(self)
+        #self.icon = QtWidgets.QLabel(self)
 
         '''
         self.text = QtWidgets.QTextBrowser(self)
         '''
         self.layout = QtWidgets.QVBoxLayout(self)
+
         self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
 
@@ -972,6 +989,8 @@ class TorrcPage(QtWidgets.QWizardPage):
         #self.layout = QtWidgets.QGridLayout()
 
         self.groupBox = QtWidgets.QGroupBox(self)
+        self.layout.addWidget(self.groupBox)
+        
         self.label_2 = QtWidgets.QLabel(self.groupBox)
         self.label_3 = QtWidgets.QLabel(self.groupBox)
         self.label_4 = QtWidgets.QLabel(self.groupBox)
@@ -981,8 +1000,6 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
         self.horizontal_line = QFrame(self.groupBox)
         self.torrc = QtWidgets.QTextBrowser(self.groupBox)
-
-        self.layout.addWidget(self.groupBox)
 
         self.show_detail = False
         self.setupUi()
@@ -995,12 +1012,13 @@ class TorrcPage(QtWidgets.QWizardPage):
 
         self.label.setText('   Summary')
         self.label.setFont(font_title)
+        self.label.setGeometry(QtCore.QRect(0, 0, 0, 0))
 
-        self.icon.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.icon.setMinimumSize(50, 0)
+        #self.icon.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        #self.icon.setMinimumSize(50, 0)
 
-        self.groupBox.setMinimumSize(QtCore.QSize(16777215, 343))
-        self.groupBox.setGeometry(0, 20, 0, 0)
+        self.groupBox.setMinimumSize(QtCore.QSize(Common.groupBox_width, Common.groupBox_height))
+        self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
         self.groupBox.setFlat(True)
 
         self.label_2.setGeometry(QtCore.QRect(80, 20, 100, 50))
@@ -1173,7 +1191,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
     def setupUi(self):
         self.setWindowIcon(QtGui.QIcon("/usr/share/icons/anon-icon-pack/whonix.ico"))
         self.setWindowTitle('Anon Connection Wizard')
-        self.resize(580, 400)
+        self.setFixedSize(580, 450)  # This is important to control the fixed size of the window
 
         self.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
         # disable (but not hide) close button
@@ -1224,7 +1242,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
     def next_button_clicked(self):
         if self.currentId() == self.steps.index('connection_main_page'):
-            self.resize(580, 400)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
@@ -1260,7 +1277,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             Common.from_proxy_page_1 = False
             
         if self.currentId() == self.steps.index('torrc_page'):
-            self.resize(580, 400)
             self.button(QtWidgets.QWizard.BackButton).setVisible(True)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
@@ -1300,8 +1316,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 self.torrc_page.label_7.setText('Tor will be enabled.')
                 torrc_text = open(Common.torrc_tmp_file_path).read()
                 self.torrc_page.torrc.setPlainText(torrc_text)
-                self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
-                    '/usr/share/icons/oxygen/48x48/status/task-complete.png'))
+                #self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
+                    #'/usr/share/icons/oxygen/48x48/status/task-complete.png'))
             else:
                 #self.torrc_page.text.setText(self._('tor_disabled'))
                 self.torrc_page.label_3.setText('Tor will be disabled.')
@@ -1312,8 +1328,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 self.torrc_page.pushButton.setVisible(False)
                 torrc_text = open(Common.torrc_file_path).read()
                 self.torrc_page.torrc.setPlainText(torrc_text)
-                self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
-                    '/usr/share/icons/oxygen/48x48/status/task-attention.png'))
+                #self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
+                    #'/usr/share/icons/oxygen/48x48/status/task-attention.png'))
 
             if not Common.use_proxy:
                 self.torrc_page.label_7.setText('None Selected')
