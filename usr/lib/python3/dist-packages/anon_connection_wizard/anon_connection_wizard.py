@@ -117,7 +117,7 @@ class Common:
     wizard_steps = ['connection_main_page',
                     'bridge_wizard_page_1',
                     'bridge_wizard_page_2',
-                    'proxy_wizard_page_1',
+                    #'proxy_wizard_page_1',
                     'proxy_wizard_page_2',
                     'torrc_page',
                     'tor_status_page']
@@ -329,7 +329,7 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
             return self.steps.index('bridge_wizard_page_2')
         elif self.no_button_1.isChecked():
             Common.use_bridges = False
-            return self.steps.index('proxy_wizard_page_1')
+            return self.steps.index('proxy_wizard_page_2')
         #elif self.no_button_2.isChecked():
          #   Common.use_bridges = False
           #  return self.steps.index('proxy_wizard_page_2')
@@ -527,7 +527,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             Common.bridge_type = bridge_type
             Common.use_default_bridge = True
 
-            return self.steps.index('proxy_wizard_page_1')
+            return self.steps.index('proxy_wizard_page_2')
 
         elif self.custom_button.isChecked():
             Common.bridge_custom = str(self.custom_bridges.toPlainText())
@@ -536,7 +536,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             if Common.bridge_custom == '':
                 return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
             else:
-                return self.steps.index('proxy_wizard_page_1')
+                return self.steps.index('proxy_wizard_page_2')
 
 
 
@@ -583,7 +583,7 @@ to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
             self.custom_bridges.setVisible(True)
             self.pushButton.setVisible(True)
 
-
+'''
 class ProxyWizardPage1(QtWidgets.QWizardPage):
     def __init__(self):
         super(ProxyWizardPage1, self).__init__()
@@ -663,7 +663,7 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
         elif self.no_button.isChecked():
             #Common.use_proxy = False
             return self.steps.index('torrc_page')
-
+'''
 
 class ProxyWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
@@ -1143,8 +1143,11 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.bridge_wizard_page_2 = BridgesWizardPage2()
         self.addPage(self.bridge_wizard_page_2)
 
+        '''
         self.proxy_wizard_page_1 = ProxyWizardPage1()
         self.addPage(self.proxy_wizard_page_1)
+        '''
+        
         self.proxy_wizard_page_2 = ProxyWizardPage2()
         self.addPage(self.proxy_wizard_page_2)
         
@@ -1226,6 +1229,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
         if self.currentId() == self.steps.index('bridge_wizard_page_1'):
             Common.from_bridge_page_1 = True
+            Common.from_proxy_page_1 = True
             
         if self.currentId() == self.steps.index('bridge_wizard_page_2'):
             # Common.from_bridge_page_1 serves as a falg to work around the bug that
@@ -1238,8 +1242,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         <p> Please input valid custom bridges or use provided bridges instead.</p>''', QtWidgets.QMessageBox.Ok)
                     self.reply.exec_()
             Common.from_bridge_page_1 = False
-
-        if self.currentId() == self.steps.index('proxy_wizard_page_1'):
             Common.from_proxy_page_1 = True
             
         if self.currentId() == self.steps.index('proxy_wizard_page_2'):
@@ -1392,13 +1394,13 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
         if self.currentId() == self.steps.index('bridge_wizard_page_1'):
             Common.from_bridge_page_1 = True
-
-        if self.currentId() == self.steps.index('proxy_wizard_page_1'):
             Common.from_proxy_page_1 = True
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
 
+        if self.currentId() == self.steps.index('bridge_wizard_page_2'):
+            Common.from_proxy_page_1 = True
 
     def show_finish_button(self):
         if self.bootstrap_done or Common.disable_tor:
