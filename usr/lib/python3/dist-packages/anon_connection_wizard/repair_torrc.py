@@ -18,7 +18,7 @@ def repair_torrc():
     if not os.path.exists('/etc/tor/torrc'):
         ## When /etc/tor/torrc is missing, Tor should work not very well, which means Tor is disabled.
         ## Therefore, we can safely append "#DisableNetwork 0", rather than "DisableNetwork 0".
-        ## We intended to wirte three parts of the text separately so that 
+        ## We intended to write three parts of the text separately so that 
         ## each of them will be easier to find in the future.
 
         with open('/etc/tor/torrc', "a") as f:
@@ -51,8 +51,10 @@ def repair_torrc():
             elif (str == '%include /etc/torrc.d'):
                 torrcd_line_exists = True
 
-        with open('/etc/tor/torrc', "a") as f:
-            f.write("\n")  # it is important to prefix a \n in case torrc does not contain \n at file end
+        # it is important to prefix a \n in case torrc does not contain \n at file end
+        if not ( '\n' in lines[-1]):
+            with open('/etc/tor/torrc', "a") as f:
+                f.write('\n')
         
         if not torrcd_line_exists:
             with open('/etc/tor/torrc', "a") as f:
