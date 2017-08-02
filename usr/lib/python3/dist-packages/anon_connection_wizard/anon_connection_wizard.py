@@ -658,10 +658,10 @@ class ProxyWizardPage1(QtWidgets.QWizardPage):
 
     def nextId(self):
         if self.yes_button.isChecked():
-            Common.use_proxy = True
+            #Common.use_proxy = True
             return self.steps.index('proxy_wizard_page_2')
         elif self.no_button.isChecked():
-            Common.use_proxy = False
+            #Common.use_proxy = False
             return self.steps.index('torrc_page')
 
 
@@ -724,12 +724,12 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
         self.groupBox.setMinimumSize(QtCore.QSize(16777215, 300))
         self.groupBox.setFlat(True)
-
+        
+        self.checkBox.setChecked(Common.use_proxy)
         self.checkBox.stateChanged.connect(self.enable_proxy)
         self.checkBox.setText("Use proxy before connecting to the Tor network")
         self.checkBox.setFont(font_description_main)
         self.checkBox.setToolTip('''<p>In some situiations, you may want to transfer your traffic through a proxy server before connecting to the Tor network. </p><p>For example, if you are trying to use a third-party censorship circumvention tool to bypass the Tor censorship, you need to configure Tor to connect to the listening port of that circumvention tools. </p>''')
-        self.checkBox.setChecked(False)
         self.checkBox.setGeometry(QtCore.QRect(20, 35, 500, 20))
         self.comboBox.currentIndexChanged[str].connect(self.option_changed)
 
@@ -822,20 +822,20 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.pushButton.setText('&Help')
         self.pushButton.clicked.connect(self.show_help)
 
-        # Hide all proxy settings initially
-        self.label_2.setVisible(False)
-        self.label_3.setVisible(False)
-        self.comboBox.setVisible(False)
-        self.label_5.setVisible(False)
-        self.label_6.setVisible(False)
-        self.label_7.setVisible(False)
-        self.label_8.setVisible(False)
-        self.lineEdit.setVisible(False)
-        self.lineEdit_2.setVisible(False)
-        self.lineEdit_3.setVisible(False)
-        self.lineEdit_4.setVisible(False)
-        self.lineEdit_4.setVisible(False)
-        self.pushButton.setVisible(False)
+        # Show proxy settings according to previous settings
+        self.label_2.setVisible(Common.use_proxy)
+        self.label_3.setVisible(Common.use_proxy)
+        self.comboBox.setVisible(Common.use_proxy)
+        self.label_5.setVisible(Common.use_proxy)
+        self.label_6.setVisible(Common.use_proxy)
+        self.label_7.setVisible(Common.use_proxy)
+        self.label_8.setVisible(Common.use_proxy)
+        self.lineEdit.setVisible(Common.use_proxy)
+        self.lineEdit_2.setVisible(Common.use_proxy)
+        self.lineEdit_3.setVisible(Common.use_proxy)
+        self.lineEdit_4.setVisible(Common.use_proxy)
+        self.lineEdit_4.setVisible(Common.use_proxy)
+        self.pushButton.setVisible(Common.use_proxy)
 
 
 
@@ -847,52 +847,38 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     Please uncomment it to use the function in the future.
     '''
     def nextId(self):
-        if self.lineEdit.text() == '' or self.lineEdit_2.text() == '':
-            return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
+        if not self.checkBox.isChecked():
+            Common.use_proxy = False
+            return self.steps.index('torrc_page')
+        else:
+            Common.use_proxy = True
+            if self.lineEdit.text() == '' or self.lineEdit_2.text() == '':
+                return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
+            else:
+                # if self.default_button.isChecked():
+                proxy_type = str(self.comboBox.currentText())
 
-        # if self.default_button.isChecked():
-        proxy_type = str(self.comboBox.currentText())
-        '''
-        if proxy_type.startswith('-'):
-            # TODO: fix bug when messgeBox pop up
-            #QMessageBox.about(self, "Title", "Message")
-            use_proxy = False
-            proxy_type = '-'
-            return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
+                '''
+                if proxy_type.startswith('-'):
+                use_proxy = False
+                proxy_type = '-'
+                return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
 
-        
-        
-        if proxy_type.startswith('SOCKS4'):
-            proxy_type = 'SOCKS4'
-        elif proxy_type.startswith('SOCKS5'):
-            proxy_type = 'SOCKS5'
-        elif proxy_type.startswith('HTTP / HTTPS'):
-            proxy_type = 'HTTP/HTTPS'
-        Common.proxy_type = proxy_type
+                if proxy_type.startswith('SOCKS4'):
+                    proxy_type = 'SOCKS4'
+                elif proxy_type.startswith('SOCKS5'):
+                    proxy_type = 'SOCKS5'
+                elif proxy_type.startswith('HTTP / HTTPS'):
+                    proxy_type = 'HTTP/HTTPS'
+                    
+                Common.proxy_type = proxy_type
+                Common.proxy_ip = str(self.lineEdit.text())
+                Common.proxy_port = str(self.lineEdit_2.text())
+                Common.proxy_username = str(self.lineEdit_3.text())
+                Common.proxy_password = str(self.lineEdit_4.text())
 
-        Common.proxy_ip = str(self.lineEdit.text())
-        Common.proxy_port = str(self.lineEdit_2.text())
-        Common.proxy_username = str(self.lineEdit_3.text())
-        Common.proxy_password = str(self.lineEdit_4.text())
-        '''
-        elif self.custom_button.isChecked():
-            pass
-        '''
-        return self.steps.index('torrc_page')
-
-    # TODO: Disable lineEdit_3 and lineEdit_4 which are username and password options when socks4 is selected.
-    # Actvation signal: self.connection_page.censored.toggled.connect(self.set_next_button_state)
-    #    self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox)  # Username
-    #    self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)  # Password TODO: password should be covered: https://doc.qt.io/qt-4.8/qlineedit.html#displayText-prop
-    # called by button toggled signal.
-    #def set_username_and_password_state(self, state):
-    #    if state:
-    #        self.button(QtWidgets.QWizard.NextButton).setEnabled(False)
-    #    else:
-    #        self.button(QtWidgets.QWizard.NextButton).setEnabled(True)
-
+                return self.steps.index('torrc_page')
     
-    # TODO: write a Proxy Configuration Help
     def show_help(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Proxy Configuration Help',
                                   '''<p><b>  Proxy Help</b></p>
@@ -950,34 +936,20 @@ If you do not know what they are, just leave them blank to see if the connection
             self.lineEdit_4.setVisible(True)
 
     def enable_proxy(self, state):
-        if state:
-            self.label_2.setVisible(True)
-            self.label_3.setVisible(True)
-            self.comboBox.setVisible(True)
-            self.label_5.setVisible(True)
-            self.label_6.setVisible(True)
-            self.label_7.setVisible(True)
-            self.label_8.setVisible(True)
-            self.lineEdit.setVisible(True)
-            self.lineEdit_2.setVisible(True)
-            self.lineEdit_3.setVisible(True)
-            self.lineEdit_4.setVisible(True)
-            self.lineEdit_4.setVisible(True)
-            self.pushButton.setVisible(True)
-        else:
-            self.label_2.setVisible(False)
-            self.label_3.setVisible(False)
-            self.comboBox.setVisible(False)
-            self.label_5.setVisible(False)
-            self.label_6.setVisible(False)
-            self.label_7.setVisible(False)
-            self.label_8.setVisible(False)
-            self.lineEdit.setVisible(False)
-            self.lineEdit_2.setVisible(False)
-            self.lineEdit_3.setVisible(False)
-            self.lineEdit_4.setVisible(False)
-            self.lineEdit_4.setVisible(False)
-            self.pushButton.setVisible(False)
+        ## state is a boolean indicating if checkBox is checked or not
+        self.label_2.setVisible(state)
+        self.label_3.setVisible(state)
+        self.comboBox.setVisible(state)
+        self.label_5.setVisible(state)
+        self.label_6.setVisible(state)
+        self.label_7.setVisible(state)
+        self.label_8.setVisible(state)
+        self.lineEdit.setVisible(state)
+        self.lineEdit_2.setVisible(state)
+        self.lineEdit_3.setVisible(state)
+        self.lineEdit_4.setVisible(state)
+        self.lineEdit_4.setVisible(state)
+        self.pushButton.setVisible(state)
 
 class TorrcPage(QtWidgets.QWizardPage):
     def __init__(self):
