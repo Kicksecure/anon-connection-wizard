@@ -121,7 +121,7 @@ class Common:
         f.close()
         
     wizard_steps = ['connection_main_page',
-                    'bridge_wizard_page_1',
+                    #'bridge_wizard_page_1',
                     'bridge_wizard_page_2',
                     #'proxy_wizard_page_1',
                     'proxy_wizard_page_2',
@@ -240,12 +240,12 @@ v    def show_disable_tor(self):
             return self.steps.index('torrc_page')
         elif self.pushButton_2.isChecked():
             Common.disable_tor = False
-            return self.steps.index('bridge_wizard_page_1')
+            return self.steps.index('bridge_wizard_page_2')
         elif self.pushButton_3.isChecked():
             Common.disable_tor = True
             return self.steps.index('torrc_page')
 
-
+'''
 class BridgesWizardPage1(QtWidgets.QWizardPage):
     def __init__(self):
         super(BridgesWizardPage1, self).__init__()
@@ -341,32 +341,7 @@ class BridgesWizardPage1(QtWidgets.QWizardPage):
         #elif self.no_button_2.isChecked():
          #   Common.use_bridges = False
           #  return self.steps.index('proxy_wizard_page_2')
-
-    def show_help(self):
-        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Censorship Circumvention Help',
-                                  '''<p><b>  Censorship Circumvention Help</b></p>
-
-<p>If you are unable to connect to the Tor network, it could be that your Internet Service
-Provider (ISP) or another agency is blocking Tor.  Often, you can work around this problem
-by using Tor Bridges, which are unlisted relays that are more difficult to block.</p>
-
-
-<p>Tor bridges are the recommended way to circumvent the Tor censorship. You should always take it as the first option to help you pypass the Tor censorship. However, if you are living in a heavily censored area where all the Tor bridges are invalid, you may need to use some third-party censorship circumvention tools to help you instead. In such a case, you should choose not using Tor bridges to help you bypass the Tor censorship.</p>
-
-<p> Using a third-party censorship circumvention tool may harm you security and/or anonimity. However, in case you do need it, the following is an instruction on how to connect to the Tor network using different censorship circumvention tools:</p>
-
-<blockquote><b>1. VPN</b><br>
-1. Establish your connection to the VPN server; 2. Hit the "back" buton on this page, going to the first page; 3. Hit the "Connect" button on the first page.</blockquote>
-
-<blockquote><b>2. HTTP/Socks Proxy</b><br>
-1. Choose not using Tor bridges in this page; 2. Hit the "next" buton on this page, going the Proxy Configuration page; 3. Configure a proxy.</blockquote>
-
-<blockquote><b>3. Specialized Tool </b><br>
-1. Figure out the listening port of the tool, including the port protocal and the port number; 2. Choose not using Tor bridges in this page; 3. Hit the "next" buton on this page, going the Proxy Configuration page; 4. Configure a proxy.</blockquote>
-''', QtWidgets.QMessageBox.Ok)
-        reply.exec_()
-
-
+'''
 
 class BridgesWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
@@ -452,8 +427,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.pushButton_show_help_censorship.setGeometry(QtCore.QRect(440, 32, 90, 25))
         self.pushButton_show_help_censorship.setText('&No idea?')
         self.pushButton_show_help_censorship.clicked.connect(self.show_help_censorship)
-
-
         
         '''
         self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
@@ -1245,8 +1218,11 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.connection_main_page = ConnectionMainPage()
         self.addPage(self.connection_main_page)
 
+        '''
         self.bridge_wizard_page_1 = BridgesWizardPage1()
         self.addPage(self.bridge_wizard_page_1)
+        '''
+        
         self.bridge_wizard_page_2 = BridgesWizardPage2()
         self.addPage(self.bridge_wizard_page_2)
 
@@ -1332,8 +1308,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
-
-        if self.currentId() == self.steps.index('bridge_wizard_page_1'):
             Common.from_bridge_page_1 = True
             Common.from_proxy_page_1 = True
             
@@ -1493,13 +1467,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             pass
 
         if self.currentId() == self.steps.index('connection_main_page'):
-            self.bootstrap_done = False
-            self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
-            self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
-
-        if self.currentId() == self.steps.index('bridge_wizard_page_1'):
             Common.from_bridge_page_1 = True
             Common.from_proxy_page_1 = True
+
             self.bootstrap_done = False
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
