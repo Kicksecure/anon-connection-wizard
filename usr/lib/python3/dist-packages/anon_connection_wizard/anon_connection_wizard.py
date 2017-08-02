@@ -121,9 +121,7 @@ class Common:
         f.close()
         
     wizard_steps = ['connection_main_page',
-                    #'bridge_wizard_page_1',
                     'bridge_wizard_page_2',
-                    #'proxy_wizard_page_1',
                     'proxy_wizard_page_2',
                     'torrc_page',
                     'tor_status_page']
@@ -245,104 +243,6 @@ v    def show_disable_tor(self):
             Common.disable_tor = True
             return self.steps.index('torrc_page')
 
-'''
-class BridgesWizardPage1(QtWidgets.QWizardPage):
-    def __init__(self):
-        super(BridgesWizardPage1, self).__init__()
-
-        translation = _translations(Common.translations_path, 'whonixsetup')
-        self._ = translation.gettext
-
-        self.steps = Common.wizard_steps
-
-        self.layout = QtWidgets.QVBoxLayout(self)
-        self.label = QtWidgets.QLabel(self)
-        self.layout.addWidget(self.label)
-
-        self.label_2 = QtWidgets.QLabel(self)
-        self.layout.addWidget(self.label_2)
-
-        self.groupBox = QtWidgets.QGroupBox(self)
-        self.no_button_1 = QtWidgets.QRadioButton(self.groupBox)
-        #self.no_button_2 = QtWidgets.QRadioButton(self.groupBox)
-        self.yes_button = QtWidgets.QRadioButton(self.groupBox)
-        self.label_3 = QtWidgets.QLabel(self.groupBox)
-        self.label_4 = QtWidgets.QLabel(self.groupBox)
-        self.pushButton = QtWidgets.QPushButton(self.groupBox)
-        self.layout.addWidget(self.groupBox)
-
-        self.setupUi()
-
-    def setupUi(self):
-        self.label.setMinimumSize(QtCore.QSize(16777215, 35))
-
-        font_title = Common.font_title
-        font_description_main = Common.font_description_main
-        font_description_minor = Common.font_description_minor
-        font_option = Common.font_option
-        
-        self.label.setFont(font_title)
-        self.label.setText('   Tor Bridges Configuration')
-
-        #self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
-        #self.label_2.setFont(font_description_main)
-        #self.label_2.setWordWrap(True)
-        #self.label_2.setText('Does your Internet Service Provider (ISP) block or otherwise censor connections to the Tor network?')
-        self.label_2.setText('Do you want to configure Tor bridges?')
-
-        self.groupBox.setMinimumSize(QtCore.QSize(Common.groupBox_width, Common.groupBox_height))
-        self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
-        self.groupBox.setFlat(True)
-
-        self.yes_button.setGeometry(QtCore.QRect(25, 30, 550, 30))
-        self.yes_button.setText('Yes. I need Tor bridges to bypass the Tor censorship.')
-        self.yes_button.setFont(font_option)
-        
-        self.no_button_1.setGeometry(QtCore.QRect(25, 60, 550, 30))
-        #self.no_button_1.setText('No. My ISP does not censor my connections to the Tor network or I will use other censorship circumvention methods instead.')
-        self.no_button_1.setText('No.')
-        self.no_button_1.setFont(font_option)
-        
-        #self.no_button_2.setGeometry(QtCore.QRect(25, 50, 550, 30))
-        #self.no_button_2.setText('No. I will use some third party censorship circumvention tools instead.')
-
-        ## This is an example of how to adjust UI according to Common.value
-        ## which are changed according to .torrc at the start of anon_connection_wizard
-        if Common.use_bridges:
-            self.yes_button.setChecked(True)
-        else:
-            self.no_button_1.setChecked(True)
-
-        # self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_3.setGeometry(10, 110, 500, 160)
-        self.label_3.setTextFormat(QtCore.Qt.RichText)
-        self.label_3.setWordWrap(True)
-        self.label_3.setText('Tor bridges are unlisted relays that may be able to help you\
-        bypass the Tor censorship conducted by your Internet Service Provider (ISP).')
-        self.label_3.setFont(font_description_minor)
-
-        self.label_4.setGeometry(10, 220, 500, 15)
-        self.label_4.setText(Common.assistance)
-        self.label_4.setFont(font_description_minor)
-
-        self.pushButton.setEnabled(True)
-        self.pushButton.setGeometry(QtCore.QRect(300, 105, 150, 25))
-        self.pushButton.setText('&How to decide?')
-        self.pushButton.clicked.connect(self.show_help)
-
-
-    def nextId(self):
-        if self.yes_button.isChecked():
-            Common.use_bridges = True
-            return self.steps.index('bridge_wizard_page_2')
-        elif self.no_button_1.isChecked():
-            Common.use_bridges = False
-            return self.steps.index('proxy_wizard_page_2')
-        #elif self.no_button_2.isChecked():
-         #   Common.use_bridges = False
-          #  return self.steps.index('proxy_wizard_page_2')
-'''
-
 class BridgesWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
         super(BridgesWizardPage2, self).__init__()
@@ -394,12 +294,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.pushButton_show_help_bridge = QtWidgets.QPushButton(self.groupBox)
 
         self.label_5 = QtWidgets.QLabel(self.groupBox)
-
-
-        '''
-        self.layout.addWidget(self.groupBox_default)
-        self.layout.addWidget(self.groupBox_custom)
-        '''
         
         self.setupUi()
 
@@ -428,13 +322,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.pushButton_show_help_censorship.setText('&No idea?')
         self.pushButton_show_help_censorship.clicked.connect(self.show_help_censorship)
         
-        '''
-        self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
-        self.label_2.setFont(font_description_main)
-        self.label_2.setWordWrap(True)
-        self.label_2.setText('You may use the provided set of bridges or you may obtain and enter a custom set of bridges.')
-        '''
-
         self.groupBox.setMinimumSize(QtCore.QSize(Common.groupBox_width, Common.groupBox_height))
         self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
         self.groupBox.setFlat(True)
@@ -444,17 +331,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.horizontal_line_1.setFrameShadow(QFrame.Sunken)
         self.horizontal_line_1.setGeometry(15, 65, 510, 5)
 
-        '''
-        self.groupBox_default.setMinimumSize(QtCore.QSize(16777215, 243))
-        self.groupBox_default.setFlat(True)
-        self.groupBox_default.setVisible(True)
-
-        self.groupBox_custom.setMinimumSize(QtCore.QSize(16777215, 243))
-        self.groupBox_custom.setFlat(True)
-        self.groupBox_custom.setVisible(False)
-        '''
-
-        
         self.default_button.setGeometry(QtCore.QRect(18, 75, 500, 24))
         self.default_button.setText('Connect with provided bridges')
         self.default_button.setFont(font_description_minor)
@@ -601,7 +477,6 @@ by using Tor Bridges, which are unlisted relays that are more difficult to block
 
 
 
-
     def show_help_bridge(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Bridges Configuration Help',
                                   '''<p><b>  Bridge Relay Help</b></p>
@@ -658,89 +533,6 @@ to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
         self.label_4.setVisible(state and (not self.default_button.isChecked()))
         self.custom_bridges.setVisible(state and (not self.default_button.isChecked()))
         self.pushButton_show_help_bridge.setVisible(state and (not self.default_button.isChecked()))
-
-
-'''
-class ProxyWizardPage1(QtWidgets.QWizardPage):
-    def __init__(self):
-        super(ProxyWizardPage1, self).__init__()
-
-        translation = _translations(Common.translations_path, 'whonixsetup')
-        self._ = translation.gettext
-
-        self.Common = Common()
-        self.steps = self.Common.wizard_steps
-
-        self.layout = QtWidgets.QVBoxLayout(self)
-        self.label = QtWidgets.QLabel(self)
-        self.layout.addWidget(self.label)
-
-        self.label_2 = QtWidgets.QLabel(self)
-        self.layout.addWidget(self.label_2)
-
-        self.groupBox = QtWidgets.QGroupBox(self)
-        self.yes_button = QtWidgets.QRadioButton(self.groupBox)
-        self.no_button = QtWidgets.QRadioButton(self.groupBox)
-        self.label_3 = QtWidgets.QLabel(self.groupBox)
-        self.label_4 = QtWidgets.QLabel(self.groupBox)
-        self.layout.addWidget(self.groupBox)
-
-        self.setupUi()
-
-    def setupUi(self):
-        font_title = Common.font_title
-        font_description_main = Common.font_description_main
-        font_description_minor = Common.font_description_minor
-        font_option = Common.font_option
-
-        self.label.setMinimumSize(QtCore.QSize(16777215, 35))
-
-        self.label.setText('   Local Proxy Configuration')
-        self.label.setFont(font_title)
-
-        self.label_2.setMaximumSize(QtCore.QSize(16777215, 50))
-        self.label_2.setWordWrap(True)
-        self.label_2.setText('Does this computer need to use a local proxy to access the Internet?')
-        self.label_2.setFont(font_description_main)
-
-
-        self.groupBox.setMinimumSize(QtCore.QSize(16777215, 250))
-        self.groupBox.setFlat(True)
-        self.yes_button.setGeometry(QtCore.QRect(25, 30, 350, 21))
-        self.yes_button.setText('Yes.')
-        self.yes_button.setFont(font_option)
-        self.no_button.setGeometry(QtCore.QRect(25, 55, 350, 21))
-        self.no_button.setText('No.')
-        self.no_button.setChecked(True)
-        self.no_button.setFont(font_option)
-
-        if Common.use_proxy:
-            self.yes_button.setChecked(True)
-        else:
-            self.no_button.setChecked(True)
-
-
-        # self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_3.setGeometry(10, 75, 520, 60)
-        self.label_3.setTextFormat(QtCore.Qt.RichText)
-        self.label_3.setWordWrap(True)
-        self.label_3.setText('If you are not sure how to answer this question, look at the Internet \
-                              settings in your host browser to see whether it is configured to use \
-                              a local proxy.')
-        self.label_3.setFont(font_description_minor)
-
-        self.label_4.setGeometry(10, 265, 500, 15)
-        self.label_4.setText(Common.assistance)
-        self.label_4.setFont(font_description_minor)
-
-    def nextId(self):
-        if self.yes_button.isChecked():
-            #Common.use_proxy = True
-            return self.steps.index('proxy_wizard_page_2')
-        elif self.no_button.isChecked():
-            #Common.use_proxy = False
-            return self.steps.index('torrc_page')
-'''
 
 class ProxyWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
@@ -811,12 +603,6 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.checkBox.setGeometry(QtCore.QRect(20, 35, 500, 20))
         self.comboBox.currentIndexChanged[str].connect(self.option_changed)
 
-        '''
-        toggled.connect(self.set_next_button_state)
-        self.connection_page.use_proxy.toggled.connect(self.set_next_button_state)
-        self.exec_()
-        '''
-
         self.horizontal_line.setFrameShape(QFrame.HLine)
         self.horizontal_line.setFrameShadow(QFrame.Sunken)
         self.horizontal_line.setGeometry(15, 65, 510, 5)
@@ -866,8 +652,6 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
 
 
         ''' More instruction should be given as default.
-        For example, 127.0.0.1.
-        Other help may also be give in different ways:
         1. tooltip for each option
         2. option for users to configure well-known third party automatically (We can take foxyproxy's default setting as references.)
         '''
@@ -916,14 +700,6 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.pushButton.setVisible(Common.use_proxy)
 
 
-
-    # Q: Why there is no nextId function in original script? Unnecessary or Incomplete?
-    # Q: Where is the nextId function called? It seems we can still go to next page without it.
-
-    ''' The default_button and custom_button are not implemented in proxy setting now.
-    The button can be used as well_known_proxy_setting auto-configuration or enter info manually by users
-    Please uncomment it to use the function in the future.
-    '''
     def nextId(self):
         if not self.checkBox.isChecked():
             Common.use_proxy = False
@@ -1035,18 +811,10 @@ class TorrcPage(QtWidgets.QWizardPage):
 
         self.steps = Common.wizard_steps
 
-        #self.icon = QtWidgets.QLabel(self)
-
-        '''
-        self.text = QtWidgets.QTextBrowser(self)
-        '''
         self.layout = QtWidgets.QVBoxLayout(self)
 
         self.label = QtWidgets.QLabel(self)
         self.layout.addWidget(self.label)
-
-
-        #self.layout = QtWidgets.QGridLayout()
 
         self.groupBox = QtWidgets.QGroupBox(self)
         self.layout.addWidget(self.groupBox)
@@ -1073,9 +841,6 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.label.setText('   Summary')
         self.label.setFont(font_title)
         self.label.setGeometry(QtCore.QRect(0, 0, 0, 0))
-
-        #self.icon.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        #self.icon.setMinimumSize(50, 0)
 
         self.groupBox.setMinimumSize(QtCore.QSize(Common.groupBox_width, Common.groupBox_height))
         self.groupBox.setGeometry(QtCore.QRect(0, 20, 0, 0))
@@ -1104,19 +869,6 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.label_7.setGeometry(QtCore.QRect(140, 75, 500, 50))
         self.label_7.setText("Void")
         self.label_7.setFont(font_option)
-
-        '''
-        self.text.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.text.setAlignment(QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        '''
-
-        #self.layout.addWidget(self.icon, 0, 0, 1, 1)
-        #self.layout.addWidget(self.groupBox, 0, 0, 1, 1)
-
-        '''
-        self.layout.addWidget(self.text, 0, 1, 1, 2)
-        '''
-        #self.layout.addWidget(self.torrc, 1, 1, 1, 1)
 
         self.setLayout(self.layout)
 
@@ -1151,10 +903,6 @@ class TorrcPage(QtWidgets.QWizardPage):
         else:
             self.pushButton.setText('&Details')
 
-        '''
-        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'torrc settings', open(Common.torrc_file_path).read(), QtWidgets.QMessageBox.Ok)
-        reply.exec_()
-        '''
 
 class TorStatusPage(QtWidgets.QWizardPage):
     def __init__(self):
@@ -1162,10 +910,8 @@ class TorStatusPage(QtWidgets.QWizardPage):
 
         self.steps = Common.wizard_steps
 
-        # self.icon = QtWidgets.QLabel(self)
         self.bootstrap_text = QtWidgets.QLabel(self)
         self.text = QtWidgets.QLabel(self)
-        # self.torrc = QtWidgets.QPlainTextEdit(self)
 
         # Creating a progress bar
         self.bootstrap_progress = QtWidgets.QProgressBar(self)
@@ -1175,7 +921,6 @@ class TorStatusPage(QtWidgets.QWizardPage):
         self.setupUi()
 
     def setupUi(self):
-        # self.text.setFrameShape(QtWidgets.QFrame.NoFrame)
         font_description_minor = Common.font_description_minor
         font_description_main = Common.font_description_main
         font_option = Common.font_option
@@ -1218,19 +963,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.connection_main_page = ConnectionMainPage()
         self.addPage(self.connection_main_page)
 
-        '''
-        self.bridge_wizard_page_1 = BridgesWizardPage1()
-        self.addPage(self.bridge_wizard_page_1)
-        '''
-        
         self.bridge_wizard_page_2 = BridgesWizardPage2()
         self.addPage(self.bridge_wizard_page_2)
 
-        '''
-        self.proxy_wizard_page_1 = ProxyWizardPage1()
-        self.addPage(self.proxy_wizard_page_1)
-        '''
-        
         self.proxy_wizard_page_2 = ProxyWizardPage2()
         self.addPage(self.proxy_wizard_page_2)
         
