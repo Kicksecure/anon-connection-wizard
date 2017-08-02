@@ -397,6 +397,8 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.layout.addWidget(self.groupBox)
 
         self.checkBox = QtWidgets.QCheckBox(self.groupBox)  # bridge checkBox
+        self.pushButton_show_help_censorship = QtWidgets.QPushButton(self.groupBox)
+        
         '''
         self.groupBox_default = QtWidgets.QGroupBox(self)
         self.groupBox_custom = QtWidgets.QGroupBox(self)
@@ -414,7 +416,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         
         self.label_4 = QtWidgets.QLabel(self.groupBox)
         self.custom_bridges = QtWidgets.QTextEdit(self.groupBox)  # QTextEdit box for bridges.
-        self.pushButton = QtWidgets.QPushButton(self.groupBox)
+        self.pushButton_show_help_bridge = QtWidgets.QPushButton(self.groupBox)
 
         self.label_5 = QtWidgets.QLabel(self.groupBox)
 
@@ -444,7 +446,13 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.checkBox.setText("I need Tor bridges to bypass the Tor censorship.")
         self.checkBox.setFont(font_description_main)
         self.checkBox.setToolTip("")  # ToolTip may not be needed since a help button is offered
-        self.checkBox.setGeometry(QtCore.QRect(20, 35, 500, 20))
+        self.checkBox.setGeometry(QtCore.QRect(20, 35, 430, 20))
+
+        self.pushButton_show_help_censorship.setEnabled(True)
+        self.pushButton_show_help_censorship.setGeometry(QtCore.QRect(440, 32, 90, 25))
+        self.pushButton_show_help_censorship.setText('&No idea?')
+        self.pushButton_show_help_censorship.clicked.connect(self.show_help_censorship)
+
 
         
         '''
@@ -532,10 +540,10 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         # self.custom_bridges.setPlaceholderText('type address:port')
 
-        self.pushButton.setEnabled(True)
-        self.pushButton.setGeometry(QtCore.QRect(360, 160, 150, 25))
-        self.pushButton.setText('&How to get Bridges?')
-        self.pushButton.clicked.connect(self.show_help)
+        self.pushButton_show_help_bridge.setEnabled(True)
+        self.pushButton_show_help_bridge.setGeometry(QtCore.QRect(360, 160, 150, 25))
+        self.pushButton_show_help_bridge.setText('&How to get Bridges?')
+        self.pushButton_show_help_bridge.clicked.connect(self.show_help_bridge)
 
         self.label_5.setVisible(True)
         self.label_5.setGeometry(10, 300, 500, 15)
@@ -553,44 +561,75 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.label_4.setVisible(Common.use_bridges and (not Common.use_default_bridge))
         self.custom_bridges.setVisible(Common.use_bridges and (not Common.use_default_bridge))
-        self.pushButton.setVisible(Common.use_bridges and (not Common.use_default_bridge))
+        self.pushButton_show_help_bridge.setVisible(Common.use_bridges and (not Common.use_default_bridge))
 
 
     def nextId(self):
-        if self.default_button.isChecked():
-            bridge_type = str(self.comboBox.currentText())
-            if bridge_type.startswith('obfs3'):
-                bridge_type = 'obfs3'
-            elif bridge_type.startswith('obfs4'):
-                bridge_type = 'obfs4'
-            # elif bridge_type.startswith('scramblesuit'):
-            #    bridge_type = 'scramblesuit'
-            ''' TODO: Other options can be implemented once whonix supports them
-                Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
-            elif bridge_type.startswith('fte'):
-                bridge_type = 'fte'
-            elif bridge_type.startswith('meek-amazon'):
-                bridge_type = 'meek-amazon'
-            elif bridge_type.startswith('meek-azure'):
-                bridge_type = 'meek-azure'
-            '''
-            Common.bridge_type = bridge_type
-            Common.use_default_bridge = True
-
+        if not self.checkBox.isChecked():
+            Common.use_bridges = False
             return self.steps.index('proxy_wizard_page_2')
+        else:
+            Common.use_bridges = True
 
-        elif self.custom_button.isChecked():
-            Common.bridge_custom = str(self.custom_bridges.toPlainText())
-            Common.use_default_bridge = False
+            if self.default_button.isChecked():
+                bridge_type = str(self.comboBox.currentText())
+                if bridge_type.startswith('obfs3'):
+                    bridge_type = 'obfs3'
+                elif bridge_type.startswith('obfs4'):
+                    bridge_type = 'obfs4'
+                # elif bridge_type.selftartswith('scramblesuit'):
+                #    bridge_type = 'scramblesuit'
+                ''' TODO: Other options can be implemented once whonix supports them
+                Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
+                elif bridge_type.startswith('fte'):
+                bridge_type = 'fte'
+                elif bridge_type.startswith('meek-amazon'):
+                bridge_type = 'meek-amazon'
+                elif bridge_type.startswith('meek-azure'):
+                bridge_type = 'meek-azure'
+                '''
+                Common.bridge_type = bridge_type
+                Common.use_default_bridge = True
 
-            if Common.bridge_custom == '':
-                return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
-            else:
                 return self.steps.index('proxy_wizard_page_2')
 
+            elif self.custom_button.isChecked():
+                Common.bridge_custom = str(self.custom_bridges.toPlainText())
+                Common.use_default_bridge = False
+
+                if Common.bridge_custom == '':
+                    return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
+                else:
+                    return self.steps.index('proxy_wizard_page_2')
+
+    def show_help_censorship(self):
+        reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Censorship Circumvention Help',
+                                  '''<p><b>  Censorship Circumvention Help</b></p>
+
+<p>If you are unable to connect to the Tor network, it could be that your Internet Service
+Provider (ISP) or another agency is blocking Tor.  Often, you can work around this problem
+by using Tor Bridges, which are unlisted relays that are more difficult to block.</p>
 
 
-    def show_help(self):
+<p>Tor bridges are the recommended way to circumvent the Tor censorship. You should always take it as the first option to help you pypass the Tor censorship. However, if you are living in a heavily censored area where all the Tor bridges are invalid, you may need to use some third-party censorship circumvention tools to help you instead. In such a case, you should choose not using Tor bridges to help you bypass the Tor censorship.</p>
+
+<p> Using a third-party censorship circumvention tool may harm you security and/or anonimity. However, in case you do need it, the following is an instruction on how to connect to the Tor network using different censorship circumvention tools:</p>
+
+<blockquote><b>1. VPN</b><br>
+1. Establish your connection to the VPN server; 2. Hit the "back" buton on this page, going to the first page; 3. Hit the "Connect" button on the first page.</blockquote>
+
+<blockquote><b>2. HTTP/Socks Proxy</b><br>
+1. Choose not using Tor bridges in this page; 2. Hit the "next" buton on this page, going the Proxy Configuration page; 3. Configure a proxy.</blockquote>
+
+<blockquote><b>3. Specialized Tool </b><br>
+1. Figure out the listening port of the tool, including the port protocal and the port number; 2. Choose not using Tor bridges in this page; 3. Hit the "next" buton on this page, going the Proxy Configuration page; 4. Configure a proxy.</blockquote>
+''', QtWidgets.QMessageBox.Ok)
+        reply.exec_()
+
+
+
+
+    def show_help_bridge(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Bridges Configuration Help',
                                   '''<p><b>  Bridge Relay Help</b></p>
 
@@ -624,14 +663,14 @@ to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
 
             self.label_4.setVisible(False)
             self.custom_bridges.setVisible(False)
-            self.pushButton.setVisible(False)
+            self.pushButton_show_help_bridge.setVisible(False)
         else:
             self.label_3.setVisible(False)
             self.comboBox.setVisible(False)
 
             self.label_4.setVisible(True)
             self.custom_bridges.setVisible(True)
-            self.pushButton.setVisible(True)
+            self.pushButton_show_help_bridge.setVisible(True)
 
     def enable_bridge(self, state):
         ## state is a boolean indicating if checkBox is checked or not
@@ -645,7 +684,7 @@ to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
 
         self.label_4.setVisible(state and (not self.default_button.isChecked()))
         self.custom_bridges.setVisible(state and (not self.default_button.isChecked()))
-        self.pushButton.setVisible(state and (not self.default_button.isChecked()))
+        self.pushButton_show_help_bridge.setVisible(state and (not self.default_button.isChecked()))
 
 
 '''
