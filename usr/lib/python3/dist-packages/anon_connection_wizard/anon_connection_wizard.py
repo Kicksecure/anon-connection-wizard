@@ -991,10 +991,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.setWindowTitle('Anon Connection Wizard')
         self.setFixedSize(580, 450)  # This is important to control the fixed size of the window
 
+        '''
         self.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+
         # disable (but not hide) close button
         self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
-
+        '''
         
         # signal-and-slot
         self.button(QtWidgets.QWizard.BackButton).clicked.connect(self.back_button_clicked)
