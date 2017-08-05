@@ -1029,11 +1029,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.bootstrap_timeout = True
 
     def cancel_button_clicked(self):
-        ## sometimes the changes have been made to anon_connection_wizard.torrc but aborted
-        ## TODO: new implementation will not need this
-        if os.path.exists(Common.torrc_tmp_file_path):
-            shutil.copy(Common.torrc_tmp_file_path , Common.torrc_file_path)
-
         try:
             if self.bootstrap_thread:
                 self.bootstrap_thread.terminate()
@@ -1225,7 +1220,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
     '''This overrided event handler is called with the given event
     when Qt receives a window close request for a top-level widget from the window system.
-    We let it call cancel_button_clicked() to make the consequences of clicking close button 
+    We let it call cancel_button_clicked() to make the consequences of clicking close button
     same with clicking the cancel button.
     '''
     def closeEvent(self, event):
