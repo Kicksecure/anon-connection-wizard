@@ -1221,6 +1221,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setFocus()
 
+    '''This overrided event handler is called with the given event
+    when Qt receives a window close request for a top-level widget from the window system.
+    We let it call cancel_button_clicked() to make the consequences of clicking close button 
+    same with clicking the cancel button.
+    '''
+    def closeEvent(self, event):
+        self.cancel_button_clicked()
+        event.accept()  # let the window close
 
     def io(self):
         repair_torrc.repair_torrc()  # This gurantees a good torrc and the existence of /etc/torrc.d
