@@ -2,13 +2,15 @@
 
 import sys, fileinput, os
 
-'''repair_torrc() function will be called when we want to gurantee there will be 
-a /etc/tor/torrc file with a "#DisableNetwork 0" and "%include /etc/torrc.d" line.
-It will also gurantee there is an existing /etc/torrc.d/ directory
+'''repair_torrc() function will be called when we want to gurantee the existence of:
+1.  /etc/tor/torrc file
+2.  "#DisableNetwork 0" line in /etc/tor/torrc
+3.  "%include /etc/torrc.d" line in /etc/tor/torrc
+4.  /etc/torrc.d/ directory
 
 It will return:
 'fixed_nothing' if everything is good in torrc
-fixed_missing_torrc' if missing /etc/tor/torrc is fixed 
+'fixed_missing_torrc' if missing /etc/tor/torrc is fixed 
 'fixed_missing_line' if the missing "#DisableNetwork 0" or/and "%include /etc/torrc.d" line is fixed
 '''
 def repair_torrc():
