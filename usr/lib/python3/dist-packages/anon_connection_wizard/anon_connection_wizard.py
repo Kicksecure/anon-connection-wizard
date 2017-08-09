@@ -49,7 +49,7 @@ class Common:
     proxy_username = ''
     proxy_password = ''
 
-    init_tor_status = ''  # it records the initial status of Tor, serving as a backuo
+    init_tor_status = ''  # it records the initial status of Tor, serving as a backup
     disable_tor = False
 
     ''' The following is command lines availble to be added to .torrc,
@@ -1033,6 +1033,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         try:
             if self.bootstrap_thread:
                 self.bootstrap_thread.terminate()
+
+            ''' recover Tor to the intial status before the starting of anon_connection_wizard
+            '''
+            if Common.init_tor_status == 'tor_enabled':
+                pass
+            elif Common.init_tor_status == 'tor_disabled':
+                tor_status.set_disabled()
+
         except AttributeError:
             pass
 
@@ -1207,6 +1215,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 ## we should set the flag as False after the execution.
                 self.bootstrap_thread = False
 
+                ''' recover Tor to the intial status before the starting of anon_connection_wizard
+                '''
                 if Common.init_tor_status == 'tor_enabled':
                     pass
                 elif Common.init_tor_status == 'tor_disabled':
