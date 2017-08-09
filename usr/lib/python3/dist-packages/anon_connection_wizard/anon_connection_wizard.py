@@ -1202,6 +1202,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         try:
             if self.bootstrap_thread:
                 self.bootstrap_thread.terminate()
+                self.bootstrap_thread = False
         except AttributeError:
             pass
 
