@@ -241,7 +241,7 @@ v    def show_disable_tor(self):
             return self.steps.index('bridge_wizard_page_2')
         elif self.pushButton_3.isChecked():
             Common.disable_tor = True
-            return self.steps.index('torrc_page')
+            return self.steps.index('tor_status_page')
 
 class BridgesWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
@@ -1115,6 +1115,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 #self.torrc_page.icon.setPixmap(QtGui.QPixmap( \
                     #'/usr/share/icons/oxygen/48x48/status/task-complete.png'))
             else:
+                ''' Notice that this condition will not be used now, because
+                anon_connection_wizard will skip torrc_page when disable_tor is selected to be true.
+                However, we still leave the code here in case of any related changes in the future.
+                '''
                 #self.torrc_page.text.setText(self._('tor_disabled'))
                 self.torrc_page.label_3.setText('Tor will be disabled.')
                 self.torrc_page.label_4.setVisible(False)
