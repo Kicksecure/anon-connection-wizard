@@ -49,6 +49,7 @@ class Common:
     proxy_username = ''
     proxy_password = ''
 
+    init_tor_status = ''  # it records the initial status of Tor, serving as a backuo
     disable_tor = False
 
     ''' The following is command lines availble to be added to .torrc,
@@ -956,7 +957,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self._ = translation.gettext
 
         self.parseTorrc()
-
+        Common.init_tor_status = tor_status.tor_status()
 
         self.steps = Common.wizard_steps
         # The sequence of adding a page will also be the sequence the pages are shown in a wizard.
@@ -1157,7 +1158,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
-                # tor_status.set_disabled() does two things:
+                # tor_status.set_enabled() does two things:
                 # 1. change the line '#DisableNetwork 0' to 'DisableNetwork 0' in /etc/tor/torrc
                 # 2. restart Tor
                 self.tor_status = tor_status.set_enabled()
@@ -1202,7 +1203,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         try:
             if self.bootstrap_thread:
                 self.bootstrap_thread.terminate()
+                ## since terminate() should be executed only once,
+                ## we should set the flag as False after the execution.
                 self.bootstrap_thread = False
+
+                if Common.init_tor_status == 'tor_enabled':
+                    pass
+                elif Common.init_tor_status == 'tor_disabled':
+                    tor_status.set_disabled()
         except AttributeError:
             pass
 

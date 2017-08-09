@@ -20,6 +20,7 @@ def tor_status():
             return 'tor_disabled'
         elif line.strip() == 'DisableNetwork 0':
             line_exists = True
+            return 'tor_enabled'
 
     if not line_exists:
         return 'bad_torrc'
