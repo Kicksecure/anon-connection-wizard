@@ -1117,6 +1117,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                             self.torrc_page.label_5.setText('Custom obfs3')
                         elif Common.bridge_custom.startswith('obfs4'):
                             self.torrc_page.label_5.setText('Custom obfs4')
+                        else:
+                            self.torrc_page.label_5.setText('Unsupported bridge type')
 
                 self.torrc_page.label_7.setText('Tor will be enabled.')
                 torrc_text = open(Common.torrc_tmp_file_path).read()
