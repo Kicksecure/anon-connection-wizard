@@ -490,19 +490,16 @@ by using Tor Bridges, which are unlisted relays that are more difficult to block
 custom set of addresses by using one of these three methods:</p>
 
 <blockquote><b>1. Through the Web</b><br>
-Use a web browser to visit https://bridges.torproject.org/options</blockquote>
+Use a web browser to visit:<br><br>
+https://bridges.torproject.org/options</blockquote>
 
 <blockquote><b>2. Through the Email Autoresponder</b><br>
 Send email to bridges@torproject.org with the line 'get bridges' by itself in the body
 of the message.  However, to make it harder for an attacker to learn a lot of bridge
 addresses, you must send this request from one of the following email providers
 (listed in order of preference):<br><br>
-https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</blockquote>
-
-<blockquote><b>3. Through the Help Desk</b><br>
-As a last resort, you can request bridge addresses by sending a polite email
-message to help@rt.torproject.org.  Please note that a person will need to respond
-to each request.</blockquote>''', QtWidgets.QMessageBox.Ok)
+https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</blockquote>'''
+                                      , QtWidgets.QMessageBox.Ok)
         reply.exec_()
 
     def show_default_bridge(self, default_button_checked):
