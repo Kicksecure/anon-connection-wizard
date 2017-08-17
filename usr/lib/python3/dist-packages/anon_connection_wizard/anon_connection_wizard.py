@@ -447,6 +447,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                 Common.bridge_custom = str(self.custom_bridges.toPlainText())
                 Common.use_default_bridge = False
 
+                # TODO: a more gerneral RE will help filter the case where bridge_custom input is invaild
                 if Common.bridge_custom == '':
                     return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
                 else:
@@ -1122,9 +1123,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         elif Common.bridge_type == 'obfs4':
                             self.torrc_page.label_5.setText('Provided obfs4')
                     else:
-                        if Common.bridge_custom.startswith('obfs3'):
+                        if Common.bridge_custom.lower().startswith('obfs3'):
                             self.torrc_page.label_5.setText('Custom obfs3')
-                        elif Common.bridge_custom.startswith('obfs4'):
+                        elif Common.bridge_custom.lower().startswith('obfs4'):
                             self.torrc_page.label_5.setText('Custom obfs4')
                         else:
                             self.torrc_page.label_5.setText('ERROR: Unsupported Type!')
@@ -1293,21 +1294,20 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif Common.bridge_type == '':
                         pass
                     bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
-                    # Q: What does json.load do?
                     for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
                         f.write('Bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
                 else:  # Use custom bridges
                     f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
                     
-                    if Common.bridge_custom.startswith('obfs4'):
+                    if Common.bridge_custom.lower().startswith('obfs4'):
                         f.write(Common.command_obfs4 + '\n')
-                    elif Common.bridge_custom.startswith('obfs3'):
+                    elif Common.bridge_custom.lower().startswith('obfs3'):
                         f.write(Common.command_obfs3 + '\n')
-                    elif Common.bridge_custom.startswith('fte'):
+                    elif Common.bridge_custom.lower().startswith('fte'):
                         f.write(Common.command_fte + '\n')
-                    elif Common.bridge_custom.startswith('meek-amazon'):
+                    elif Common.bridge_custom.lower().startswith('meek-amazon'):
                         pass  # Wait to be implemented in Whonix.
-                    elif Common.bridge_custom.startswith('meek-azure'):
+                    elif Common.bridge_custom.lower().startswith('meek-azure'):
                         pass
 
                     # Write the specific bridge address, port, cert etc.
