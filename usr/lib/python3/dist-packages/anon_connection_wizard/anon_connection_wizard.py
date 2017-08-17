@@ -487,18 +487,30 @@ Provider (ISP) or another agency is blocking Tor.  Often, you can work around th
 by using Tor Bridges, which are unlisted relays that are more difficult to block.</p>
 
 <p>You may use the preconfigured, provided set of bridge addresses or you may obtain a
-custom set of addresses by using one of these three methods:</p>
+                                  custom set of addresses by using one of these two methods:</p>
 
 <blockquote><b>1. Through the Web</b><br>
-Use a web browser to visit:<br><br>
+Use a web browser to visit:<br>
 https://bridges.torproject.org/options</blockquote>
 
 <blockquote><b>2. Through the Email Autoresponder</b><br>
 Send email to bridges@torproject.org with the line 'get bridges' by itself in the body
 of the message.  However, to make it harder for an attacker to learn a lot of bridge
 addresses, you must send this request from one of the following email providers
-(listed in order of preference):<br><br>
-https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</blockquote>'''
+(listed in order of preference):<br>
+https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</blockquote>
+
+<p> Notice that when choosing the bridge type, only <b>obfs3</b> and <b>obfs4</b> are supported currently.<br><br>
+The bridges you paste into the custom bridge box should look like these:</p>
+
+<blockquote><b>1. For obfs3 bridges</b><br>
+obfs3 204.94.56.79:80 A09D536DD1752D542E1FBB3C9CE4449D51298239<br>
+obfs3 109.105.109.190:6789 1E05F577A0EC0213F971D81BF4D86A9E4E8229ED</blockquote>
+
+<blockquote><b>2. For obfs4 bridges</b><br>
+obfs4 154.35.22.89:80 8FB9F4319E89E5C6223052AA525A192AFBC85D55 cert=GGGS1TX4R81m3r0HBl79wKy1OtPPNR2CZUIrHjkRg65Vc2VR8fOyo64f9kmT1UAFG7j0HQ iat-mode=0<br>
+obfs4 109.15.109.12:10527 8DFCD8FB3285E855F5A55EDDA35696C743ABFC4E cert=Bvg/itxeL4TWKLP6N1MaQzSOC6tcRIBv6q57DYAZc3b2AzuM+/TfB7mqTFEfXILCjEwzVA iat-mode=1</blockquote>
+'''
                                       , QtWidgets.QMessageBox.Ok)
         reply.exec_()
 
