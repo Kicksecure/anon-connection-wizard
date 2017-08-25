@@ -1446,6 +1446,8 @@ class TorBootstrap(QtCore.QThread):
         #self.is_running = True
         while self.bootstrap_percent < 100:
             bootstrap_status = self.tor_controller.get_info("status/bootstrap-phase")
+            bootstrap_status_test = self.tor_controller.get_info("")
+            print(bootstrap_status_test)
             self.bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', bootstrap_status).group(1))
             if bootstrap_status != self.previous_status:
                 sys.stdout.write('{0}\n'.format(bootstrap_status))
