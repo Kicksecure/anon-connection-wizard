@@ -455,10 +455,15 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
     def valid_bridge(self, bridges):
         # TODO: we may use re to check if the bridge input is valid
-        # at least we should examine if every line startswith("obsf3/obfs4")
+        # we should examine if every line follows the pattern
+        # obfs3 ip:port
+        # obfs4 ip:port
+        # ip:port (vanilla bridge)
         if bridges == "" or bridges.isspace():
             return False
-        
+
+        '''
+        # In order to make a vanilla bridge usable, we need to comment these
         bridges_list = bridges.splitlines()
         for bridge in bridges_list:
             if (not bridge.isspace()) and (not bridges == ""):
@@ -467,6 +472,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                     pass
                 else:
                     return False
+        '''
         return True
                     
 
@@ -1487,8 +1493,10 @@ class TorBootstrap(QtCore.QThread):
         #self.is_running = True
         while self.bootstrap_percent < 100:
             bootstrap_status = self.tor_controller.get_info("status/bootstrap-phase")
+            '''
             bootstrap_status_test = self.tor_controller.get_info("")
             print(bootstrap_status_test)
+            '''
             self.bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', bootstrap_status).group(1))
             if bootstrap_status != self.previous_status:
                 sys.stdout.write('{0}\n'.format(bootstrap_status))
