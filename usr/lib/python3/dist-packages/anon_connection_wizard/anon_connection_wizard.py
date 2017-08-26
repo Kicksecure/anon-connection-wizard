@@ -65,7 +65,7 @@ class Common:
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
     command_scramblesuit = 'ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed'
-    command_bridgeInfo = 'Bridge '
+    command_bridgeInfo = 'bridge '
     
     command_http = 'HTTPSProxy '
     command_httpAuth = 'HTTPSProxyAuthenticator'
