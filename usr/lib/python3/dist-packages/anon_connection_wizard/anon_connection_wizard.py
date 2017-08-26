@@ -1414,7 +1414,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif line.startswith(Common.command_http):
                         Common.use_proxy = True
                         Common.proxy_type = 'HTTP / HTTPS'
-                        Common.proxy_ip = line.split(' ')[1].split(':')[0] # this is too fixed, which is not good implementation. But as long as leave .torrc untouched by user, it will be Okay. We should also be caureful when changing the command line format in this app
+                        ''' Using the following parsing fragments is too fixed,
+                        which is not good implementation.
+                        But as long as leave .torrc untouched by user, it will be Okay. 
+                        We should also be caureful when changing the command line format in this app
+                        '''
+                        Common.proxy_ip = line.split(' ')[1].split(':')[0]
                         Common.proxy_port = line.split(' ')[1].split(':')[1].split('\n')[0]
 
                     elif line.startswith(Common.command_httpAuth):
