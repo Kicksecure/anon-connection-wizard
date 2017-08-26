@@ -448,10 +448,28 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                 Common.use_default_bridge = False
 
                 # TODO: a more gerneral RE will help filter the case where bridge_custom input is invaild
-                if Common.bridge_custom == '':
+                if not self.valid_bridge(Common.bridge_custom):
                     return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
                 else:
                     return self.steps.index('proxy_wizard_page_2')
+
+    def valid_bridge(self, bridges):
+        # TODO: we may use re to check if the bridge input is valid
+        # at least we should examine if every line startswith("obsf3/obfs4")
+        if bridges == "" or bridges.isspace():
+            return False
+        
+        bridges_list = bridges.splitlines()
+        for bridge in bridges_list:
+            if (not bridge.isspace()) and (not bridges == ""):
+                bridge = bridge.lower()
+                if bridge.startswith('obfs3') or bridge.startswith('obfs4'):
+                    pass
+                else:
+                    return False
+        return True
+                    
+
 
     def show_help_censorship(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Censorship Circumvention Help',
@@ -717,17 +735,20 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
             return self.steps.index('torrc_page')
         else:
             Common.use_proxy = True
-            if self.lineEdit.text() == '' or self.lineEdit_2.text() == '':
-                return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
-            else:
+
+            if self.valid_ip(self.lineEdit.text()) and self.valid_port(self.lineEdit_2.text()):
                 # if self.default_button.isChecked():
                 proxy_type = str(self.comboBox.currentText())
 
                 '''
+                # The following was useful when '-' proxy type option was availble,
+                # which is not true now.
                 if proxy_type.startswith('-'):
                 use_proxy = False
                 proxy_type = '-'
-                return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
+                # stay at the page until a proxy type is selected
+                return self.steps.index('proxy_wizard_page_2') 
+                '''
 
                 if proxy_type.startswith('SOCKS4'):
                     proxy_type = 'SOCKS4'
@@ -743,6 +764,26 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
                 Common.proxy_password = str(self.lineEdit_4.text())
 
                 return self.steps.index('torrc_page')
+            else:
+                return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
+
+    def valid_ip(self, ip):
+        # TODO: use re to detect if the formatt of IP is not correct
+        # The dificulty is that the IP can be hostname which is almost free form
+        # However, we should at least check if it is empty
+        if ip == "" or ip.isspace():
+            return False
+        else:
+            return True
+
+    def valid_port(self, port):
+        try:
+            if int(port) >= 1 and int(port) <= 65535:
+                return True
+            else:
+                return False
+        except (ValueError, TypeError):
+            return False
     
     def show_help(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Proxy Configuration Help',
@@ -1067,9 +1108,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             # message jump out when switching from bridge_wizard_page_1 to bridge_wizard_page_2
             if not Common.from_bridge_page_1:
                 if self.bridge_wizard_page_2.checkBox.isChecked() and self.bridge_wizard_page_2.custom_button.isChecked():
-                    # TODO: we may use re to check if the bridge input is valid
-                    # at least we should examine if every line statswith("obsf3/obfs4")
-                    if (self.bridge_wizard_page_2.custom_bridges.toPlainText() == ""):
+                    if not self.bridge_wizard_page_2.valid_bridge((self.bridge_wizard_page_2.custom_bridges.toPlainText())):
                         self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
                             '''<p><b>  Custom bridge list is blank or invalid</b></p>
                             <p> Please input valid custom bridges or use provided bridges instead.</p>''', QtWidgets.QMessageBox.Ok)
@@ -1079,16 +1118,18 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             Common.from_proxy_page_1 = True
             
         if self.currentId() == self.steps.index('proxy_wizard_page_2'):
-            # TODO: use re to detect if the formatt of IP and port is not correct
-            # The dificulty is that the IP can be hostname which is almost free form
             # Common.from_proxy_page_1 serves as a falg to work around the bug that
             # message jump out when switching from proxy_wizard_page_1 to proxy_wizard_page_2
             if not Common.from_proxy_page_1:
-                if self.proxy_wizard_page_2.checkBox.isChecked() and (self.proxy_wizard_page_2.lineEdit.text() == "" or self.proxy_wizard_page_2.lineEdit_2.text() == ""):
-                    self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
+                if self.proxy_wizard_page_2.checkBox.isChecked():
+                    if not (
+                    self.proxy_wizard_page_2.valid_ip(self.proxy_wizard_page_2.lineEdit.text()) and\
+                    self.proxy_wizard_page_2.valid_port(self.proxy_wizard_page_2.lineEdit_2.text())
+                    ):
+                        self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
                         '''<p><b>  IP and/or Port is blank</b></p>
                         <p> Please input a proper IP and Port number.</p>''', QtWidgets.QMessageBox.Ok)
-                    self.reply.exec_()
+                        self.reply.exec_()
             Common.from_proxy_page_1 = False
             
         if self.currentId() == self.steps.index('torrc_page'):
@@ -1106,7 +1147,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             notice that anon_connection_wizard.torrc will not have line about DisableNetwork 0
             That line will be changed by tor_status module in /etc/torrc
             '''
-
 
             if not Common.disable_tor:
                 #self.torrc_page.text.setText(self._('tor_enabled'))  # Q: how does this line work?
