@@ -1127,8 +1127,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     self.proxy_wizard_page_2.valid_port(self.proxy_wizard_page_2.lineEdit_2.text())
                     ):
                         self.reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Warning',
-                        '''<p><b>  IP and/or Port is blank</b></p>
-                        <p> Please input a proper IP and Port number.</p>''', QtWidgets.QMessageBox.Ok)
+                        '''<p><b>  IP and/or Port is blank or invalid</b></p>
+                        <p> Please input a proper IP and Port number.</p>
+                        <p> The IP number should look like: 127.0.0.1</p>
+                        <p> The Port number should be an integer between 1 and 65535</p>''', QtWidgets.QMessageBox.Ok)
                         self.reply.exec_()
             Common.from_proxy_page_1 = False
             
