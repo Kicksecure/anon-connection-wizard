@@ -1367,7 +1367,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     bridge_custom_list = Common.bridge_custom.split('\n')
                     for bridge in bridge_custom_list:
                         if bridge != '':  # check if the line is actually empty
-                            f.write('Bridge {0}\n'.format(bridge))
+                            f.write('bridge {0}\n'.format(bridge))
 
 
         ''' The part is the IO to torrc for proxy settings.
