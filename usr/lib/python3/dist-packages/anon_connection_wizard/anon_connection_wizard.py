@@ -1212,6 +1212,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             # move the tmp file to the real .torrc
             # this may overwrite the previous .torrc, but it does not matter
             shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
+            ## we set /etc/torrc.d/anon_connection_wizard.torrc as 644
+            ## so that only root can wirte and read, others can only read,
+            ## which prevents the edit by normal user.
+            os.chmod(Common.torrc_file_path, 0o644)
 
 
         if self.currentId() == self.steps.index('tor_status_page'):
