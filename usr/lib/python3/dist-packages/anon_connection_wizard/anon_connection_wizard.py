@@ -1344,7 +1344,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         pass
                     bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
                     for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
-                        f.write('Bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
+                        f.write('bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
                 else:  # Use custom bridges
                     f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
                     
