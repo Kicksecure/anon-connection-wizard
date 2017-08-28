@@ -1,11 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3 -u
 
 import sys, fileinput
-from subprocess import call
 import os, time
+from subprocess import call
+from anon_connection_wizard import repair_torrc
 
-
-def set_enabled():
+def tor_status():
     if not os.path.exists('/etc/tor/torrc'):
         return 'no_torrc'
 
@@ -14,18 +14,39 @@ def set_enabled():
     fh.close()
 
     line_exists = False
+    for line in lines:
+        if line.strip() == '#DisableNetwork 0':
+            line_exists = True
+            return 'tor_disabled'
+        elif line.strip() == 'DisableNetwork 0':
+            line_exists = True
+            return 'tor_enabled'
+
+    if not line_exists:
+        return 'bad_torrc'
+
+'''Unlike tor_status() function which only shows the current state of the /etc/tor/torrc,
+set_enabled() and set_disabled() function will repair the missing torrc or DisableNetwork line.
+This makes sense because when we call set_enabled() or set_disabled() we really want Tor work,
+rather than receive a 'no_torrc' or 'bad_torrc' complain, which is not helpful for users.\
+'''
+def set_enabled():
+    repair_torrc.repair_torrc()  # This gurantees a good torrc
+
+    fh = open('/etc/tor/torrc','r')
+    lines = fh.readlines()
+    fh.close()
 
     for line in lines:
         if line.strip() == 'DisableNetwork 0':
-            line_exists = True
 
-            command = 'service tor@default restart'
+            command = 'systemctl --no-pager restart tor@default'
             tor_status = call(command, shell=True)
 
             if tor_status != 0:
                 return 'cannot_connect'
 
-            command = 'service tor@default status'
+            command = 'systemctl --no-pager status tor@default'
             tor_status = call(command, shell=True)
 
             if tor_status != 0:
@@ -34,18 +55,17 @@ def set_enabled():
             return 'tor_already_enabled'
 
         elif line.strip() == '#DisableNetwork 0':
-            line_exists = True
 
             for i, line in enumerate(fileinput.input('/etc/tor/torrc', inplace=1)):
                 sys.stdout.write(line.replace('#DisableNetwork 0', 'DisableNetwork 0'))
 
-            command = 'service tor@default restart'
+            command = 'systemctl --no-pager restart tor@default'
             tor_status = call(command, shell=True)
 
             if tor_status != 0:
                 return 'cannot_connect'
 
-            command = 'service tor@default status'
+            command = 'systemctl --no-pager status tor@default'
             tor_status = call(command, shell=True)
 
             if tor_status != 0:
@@ -53,35 +73,24 @@ def set_enabled():
 
             return 'tor_enabled'
 
-    if not line_exists:
-        return 'bad_torrc'
-
+    return 'Unexpected result'
 
 def set_disabled():
-    if not os.path.exists('/etc/tor/torrc'):
-        return 'no_torrc'
-
+    repair_torrc.repair_torrc()  # This gurantees a good torrc    
+    
     fh = open('/etc/tor/torrc','r')
     lines = fh.readlines()
     fh.close()
 
-    line_exists = False
-
-    command = 'service tor@default stop'
-    call(command, shell=True)
-
     for line in lines:
         if line.strip() == '#DisableNetwork 0':
-            line_exists = True
             return 'tor_already_disabled'
 
         elif line.strip() == 'DisableNetwork 0':
-            line_exists = True
-
             for i, line in enumerate(fileinput.input('/etc/tor/torrc', inplace=1)):
                 sys.stdout.write(line.replace('DisableNetwork 0', '#DisableNetwork 0'))
 
-            return 'tor_disabled'
+            command = 'systemctl --no-pager stop tor@default'
+            call(command, shell=True)
 
-    if not line_exists:
-        return 'bad_torrc'
+            return 'tor_disabled'
