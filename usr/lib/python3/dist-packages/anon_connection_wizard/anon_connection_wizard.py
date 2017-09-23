@@ -65,6 +65,11 @@ class Common:
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
     command_scramblesuit = 'ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed'
+    command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
+    command_meek_amazon_address = 'a0.awsstatic.com\n'
+    command_meek_azure_address = 'ajax.aspnetcdn.com\n'
+    
+    command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
     command_bridgeInfo = 'bridge '
     
     command_http = 'HTTPSProxy '
@@ -251,12 +256,12 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.steps = Common.wizard_steps
 
         self.bridges = ['obfs4 (recommended)',
-                        'obfs3'
+                        'obfs3',
+                        'meek-amazon (works in China)',
+                        'meek-azure'
                         # The following will be uncommented as soon as being implemented.
                         # Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
-                        # 'fte',
-                        # 'meek-amazon',
-                        # 'meek-azure'
+                        # 'fte'
                        ]
 
         self.layout = QtWidgets.QVBoxLayout(self)
@@ -359,7 +364,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         # This is the how to make a comboBox. The variable bridges is defined above.
         # The proxy type selection in ProxyWizardPage2 can also use this method.
-        self.comboBox.setGeometry(QtCore.QRect(140, 110, 181, 27))
+        self.comboBox.setGeometry(QtCore.QRect(150, 107, 230, 27))
         for bridge in self.bridges:
             self.comboBox.addItem(bridge)
             
@@ -427,16 +432,17 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                     bridge_type = 'obfs3'
                 elif bridge_type.startswith('obfs4'):
                     bridge_type = 'obfs4'
+                elif bridge_type.startswith('meek-amazon'):
+                    bridge_type = 'meek-amazon'
+                elif bridge_type.startswith('meek-azure'):
+                    bridge_type = 'meek-azure'
+
                 # elif bridge_type.selftartswith('scramblesuit'):
                 #    bridge_type = 'scramblesuit'
                 ''' TODO: Other options can be implemented once whonix supports them
                 Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
                 elif bridge_type.startswith('fte'):
                 bridge_type = 'fte'
-                elif bridge_type.startswith('meek-amazon'):
-                bridge_type = 'meek-amazon'
-                elif bridge_type.startswith('meek-azure'):
-                bridge_type = 'meek-azure'
                 '''
                 Common.bridge_type = bridge_type
                 Common.use_default_bridge = True
@@ -1169,11 +1175,17 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                             self.torrc_page.label_5.setText('Provided scramblesuit')
                         elif Common.bridge_type == 'obfs4':
                             self.torrc_page.label_5.setText('Provided obfs4')
+                        elif Common.bridge_type == 'meek-amazon':
+                            self.torrc_page.label_5.setText('Provided meek-amazon')
+                        elif Common.bridge_type == 'meek-azure':
+                            self.torrc_page.label_5.setText('Provided meek-azure')
                     else:
                         if Common.bridge_custom.lower().startswith('obfs3'):
                             self.torrc_page.label_5.setText('Custom obfs3')
                         elif Common.bridge_custom.lower().startswith('obfs4'):
                             self.torrc_page.label_5.setText('Custom obfs4')
+                        elif Common.bridge_custom.lower().startswith('meek_lite'):
+                            self.torrc_page.label_5.setText('Custom meek_lite')
                         else:
                             self.torrc_page.label_5.setText('ERROR: Unsupported Type!')
 
@@ -1343,10 +1355,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         f.write(Common.command_scramblesuit + '\n')
                     elif Common.bridge_type == 'obfs4':
                         f.write(Common.command_obfs4 + '\n')
+                    elif Common.bridge_type == 'meek-amazon':
+                        f.write(Common.command_meek_lite + '\n')
+                    elif Common.bridge_type == 'meek-azure':
+                        f.write(Common.command_meek_lite + '\n')
                         # More types of bridges will be availble once Whonix support them: meek, flashproxy
                     elif Common.bridge_type == '':
                         pass
-                    bridges = json.loads(open(Common.bridges_default_path).read())  # default bridges will be loaded, however, what does the variable  bridges do? A: for bridge in bridges
+                    bridges = json.loads(open(Common.bridges_default_path).read())
                     for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
                         f.write('bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
                 else:  # Use custom bridges
@@ -1358,10 +1374,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         f.write(Common.command_obfs3 + '\n')
                     elif Common.bridge_custom.lower().startswith('fte'):
                         f.write(Common.command_fte + '\n')
-                    elif Common.bridge_custom.lower().startswith('meek-amazon'):
-                        pass  # Wait to be implemented in Whonix.
-                    elif Common.bridge_custom.lower().startswith('meek-azure'):
-                        pass
+                    elif Common.bridge_custom.lower().startswith('meek_lite'):
+                        f.write(Common.command_meek_lite + '\n')
 
                     # Write the specific bridge address, port, cert etc.
                     bridge_custom_list = Common.bridge_custom.split('\n')
@@ -1398,6 +1412,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
     def parseTorrc(self):
         if os.path.exists(Common.torrc_file_path):
             with open(Common.torrc_file_path, 'r') as f:
+                ## This falg is for parsing meek_lite
+                use_meek_lite = False
                 for line in f:
                     if line.startswith(Common.command_use_custom_bridge):  # this condition must be above '#' condition, because it also contains '#'
                         Common.use_default_bridge = False
@@ -1409,6 +1425,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         Common.bridge_type = 'obfs3'
                     elif line.startswith(Common.command_obfs4):
                         Common.bridge_type = 'obfs4 (recommended)'
+                    elif line.startswith(Common.command_meek_lite):
+                        use_meek_lite = True
+                    elif use_meek_lite and line.endswith(Common.command_meek_amazon_address):
+                        Common.bridge_type = 'meek-amazon (works in China)'
+                        Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
+                    elif use_meek_lite and line.endswith(Common.command_meek_azure_address):
+                        Common.bridge_type = 'meek-azure'
+                        Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif line.startswith(Common.command_fte):
                         Common.bridge_type = 'fte'
                     elif line.startswith(Common.command_scramblesuit):
