@@ -465,23 +465,26 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # obfs3 ip:port
         # obfs4 ip:port
         # ip:port (vanilla bridge)
-        if bridges == "" or bridges.isspace():
+        # If this problem is not solved, anon-connection-wizard will not support vanilla bridge!!
+        # IPv6 bridges are not even availble in bridgeDB,
+        # so we do not need to care it too much currently
+        
+        #if bridges == "" or bridges.isspace():
+        #    return False
+
+        bridge_defined_type = bridges.split(' ')[0]
+        bridge_defined_type = bridge_defined_type.lower()
+
+        if (bridge_defined_type.startswith('obfs3')
+                or bridge_defined_type.startswith('obfs4')
+                or bridge_defined_type.startswith('meek_lite')
+            ## This case try to match vanilla bridges.
+            ## Example, trying to match "109.23.3.9:8236"
+            ## This is dirty but hopefully it is effective
+                or (('.' in bridge_defined_type) and (':' in bridge_defined_type))):
+            return True
+        else:
             return False
-
-        '''
-        # In order to make a vanilla bridge usable, we need to comment these
-        bridges_list = bridges.splitlines()
-        for bridge in bridges_list:
-            if (not bridge.isspace()) and (not bridges == ""):
-                bridge = bridge.lower()
-                if bridge.startswith('obfs3') or bridge.startswith('obfs4'):
-                    pass
-                else:
-                    return False
-        '''
-        return True
-                    
-
 
     def show_help_censorship(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Censorship Circumvention Help',
@@ -923,7 +926,7 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.label_4.setFont(font_description_minor)
 
         self.label_5.setGeometry(QtCore.QRect(140, 47, 500, 50))
-        self.label_5.setText("ERROR: Unsupported Type!")
+        self.label_5.setText("Custom vanilla")
         self.label_5.setFont(font_option)
 
         self.label_6.setGeometry(QtCore.QRect(80, 75, 100, 50))
@@ -1187,7 +1190,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         elif Common.bridge_custom.lower().startswith('meek_lite'):
                             self.torrc_page.label_5.setText('Custom meek_lite')
                         else:
-                            self.torrc_page.label_5.setText('ERROR: Unsupported Type!')
+                            self.torrc_page.label_5.setText('Custom vanilla')
 
                 self.torrc_page.label_7.setText('Tor will be enabled.')
                 torrc_text = open(Common.torrc_tmp_file_path).read()
