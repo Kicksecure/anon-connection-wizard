@@ -18,10 +18,6 @@ Architecture: all
 Depends: ${misc:Depends}, ${python:Depends}, python3-yaml,
  python3-guimessages, python3
 Recommends: anon-icon-pack
-Description: Tor Connection Setup
- When the gateway starts for the first time, it won't automatically connect to
- the public Tor network. This is useful for users who want to hide Tor from
- their ISP. anon-connection-wizard is automatically started, which let the
- user choose from  different methods to connect (public Tor network,
- bridges, etc.).
- The wizard can be run at any time to change the connection configuration.
+Description: anon-connection-wizard
+ anon-connection-wizard is a Tor-launcher-like application that helps users in different Internet environment connect to the Tor network. It helps user to configure Tor to use a proxy or/and Tor bridges. This application is especially useful for system Tor users who would like to run the standalone core Tor with different torified applications. The wizard can be run at any time to change the connection configuration.
+ anon-connection-wizard is produced independently from the Tor® anonymity software and carries no guarantee from The Tor Project (https://www.torproject.org) about quality, suitability or anything else.
