@@ -5,19 +5,19 @@
 Source: anon-connection-wizard
 Section: misc
 Priority: optional
-Maintainer: Iry Koon <iry@riseup.net>
+Maintainer: iry <iry@riseup.net>
 Uploaders: Patrick Schleizer <adrelanos@riseup.net>
 Build-Depends: debhelper (>= 9), genmkfile, ruby-ronn, python3
 Homepage: https://www.whonix.org/
-Vcs-Browser: https://github.com/troubadoour/anon-connection-wizard
-Vcs-Git: https://github.com/troubadoour/anon-connection-wizard.git
+Vcs-Browser: https://github.com/irykoon/anon-connection-wizard
+Vcs-Git: https://github.com/irykoon/anon-connection-wizard.git
 Standards-Version: 3.9.6
 
 Package: anon-connection-wizard
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends}, python3-yaml,
  python3-guimessages, python3
-Recommends: anon-icon-pack
+Recommends: anon-icon-pack, tor, obfs4proxy
 Description: anon-connection-wizard
  anon-connection-wizard is a Tor-launcher-like application that helps users in different Internet environment connect to the Tor network. It helps user to configure Tor to use a proxy or/and Tor bridges. This application is especially useful for system Tor users who would like to run the standalone core Tor with different torified applications. The wizard can be run at any time to change the connection configuration.
  anon-connection-wizard is produced independently from the Tor® anonymity software and carries no guarantee from The Tor Project (https://www.torproject.org) about quality, suitability or anything else.
