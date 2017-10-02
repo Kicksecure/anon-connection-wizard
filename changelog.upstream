@@ -1,3 +1,1336 @@
+commit 86627ad5349a5a09a40847091d896b1135509d5a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 2 15:06:08 2017 +0200
+
+    fix lintian warnings
+
+commit 8aa88d0108654d29056f96de3897473f434536c2
+Merge: b05c743 521b161
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 2 14:58:29 2017 +0200
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 521b1610a3972f9f661e62a562ef429c17bb673a
+Merge: 600762a 4380e76
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 2 14:49:57 2017 +0200
+
+    Merge pull request #9 from irykoon/master
+    
+    Try to solve trademark issue and support .desktop startup
+
+commit 4380e765feb358be1fc5005bd430ac7118540c5b
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Oct 1 02:40:14 2017 +0000
+
+    Make /usr/lib/anon-connection-wizard/anon-connection-wizard executable
+    
+    The .desktop file will not work without making this file executable.
+
+commit 0d2b860357880dc8ace5eae60407a98c4c4aac82
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Oct 1 02:09:03 2017 +0000
+
+    Fix problem caused by incorrect merge
+
+commit 6bbed1d33419622c5e13c6e65744e1e80e1f218d
+Merge: 28e88d6 600762a
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Oct 1 02:00:13 2017 +0000
+
+    Support .desktop startup
+
+commit 28e88d65468d61c5bc427499474390af3eabc023
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Sep 24 18:36:48 2017 +0000
+
+    Update dependencies recommendation
+
+commit 1ae36678b7a4f47e30608fddef3e7cfa31921a95
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Sep 24 17:29:27 2017 +0000
+
+    Clarify trademark issue and update package description
+
+commit a3e06ec919f2b46a49da4420b6a5296a34750145
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Sep 24 17:24:03 2017 +0000
+
+    Update Copyright
+
+commit 600762afe2673dc5ffa19a5d6b5e620b9e405095
+Merge: 10869f3 afece78
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Sep 24 14:26:31 2017 +0200
+
+    Merge pull request #8 from irykoon/master
+    
+    Support meek_lite and custom bridge input validation check
+
+commit afece783098ac72e36f6766d9caa995698b97941
+Merge: d43bea5 10869f3
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Sep 23 06:31:27 2017 +0000
+
+    Merge remote-tracking branch 'upstream/master'
+    
+    Conflicts:
+            usr/lib/python3/dist-packages/anon_connection_wizard/anon_connection_wizard.py
+
+commit d43bea546193609799de089dc6a927448b72cb6f
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Sep 23 06:12:05 2017 +0000
+
+    Support custom bridges input validation check
+    
+    The implementation does not strictly match all the invalid input. However, hopefully, this is effective enough to prevent inexperienced user from configuring it with obvious mistake.
+
+commit 1212ed256448dd87ff62fa1a75f16ccc95468059
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Sep 23 05:13:18 2017 +0000
+
+    Support meek_lite in anon-connection-wizard
+    
+    meek_lite is a meek-like pluggable transport implemented in obfs4proxy. Although it does not normalize TLS signatures, it is still effective to circumvention the Tor censorship in heavily censored area, like China. This feature will greatly increase the accessibility to Tor network in China, along with the incresement of usability of Whonix.
+    
+    See here fore more details: https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/3
+
+commit 10869f3e930c5702bd5732b7cbd9eb1c030fff9d
+Author: irykoon <iry@riseup.net>
+Date:   Mon Aug 28 15:10:06 2017 +0000
+
+    GSoC anon-connection-wizard project (#7)
+    
+    * add TODO: customized CSS
+    
+    * add a third party censorship circumvention options
+    minor UI improvement
+    minor instructions improvement
+    
+    * eliminate unnecessary code
+    
+    * add a help button on the proxy setting page
+    
+    * edit mark approach implemented
+    
+    * delete 'managed' option in obfs4 lines
+    
+    * minor edit mark fixed
+    
+    * delete outdated comments
+    
+    * implement the torrc_page
+    
+    * update assistance message
+    
+    * commented out an option for not using bridges
+    
+    * update URL for obtaining bridges
+    
+    * proxy password masked
+    
+    * update to use the one in whonix-setup-wizard
+    
+    * add a new file /etc/tor/anon-connection-wizard.torrc.orig
+    
+    * switch from edit-mark approach to torrc.d
+    
+    * polish the instruction in anon-connection-wizard.torrc.orig
+    
+    * .tmp will not overwrite .torrc if no changes were made before cancealing
+    
+    * remove "advance" button
+    
+    * change shebang in /usr/bin/anon-connection-wizard to python3 -u
+    
+    * switch from /python3.4/dist-packages to /python3/dist-packages
+    
+    * corrected
+     install path
+    
+    * remove all .pyc files
+    
+    * switched from /usr/lib/python3.4 to /usr/lib/python3/dist-packages
+    
+    * adjust default settings according to .torrc at beginning
+    
+    * 1. switch from self-made .tmp file to python tmpfile
+    2. polish the adjust according to .torrc feature
+    
+    * 1. fix the situiation where an extra empty line is input to custom bridge line
+    2. strip the '\n' out of port number
+    
+    * fix the direct connection option
+    
+    * eliminate the .orig approach
+    
+    * better instructions in .torrc file and help button
+    
+    * remove .tmp when it is no longer needed
+    
+    * eliminate useless commented code
+    
+    * bug fixed: tmp file is missing
+    
+    * TODO: no control port in Whonix14
+    In Whonix14, No longer open Tor ControlPort 9051 on Whonix-Gateway:
+    https://github.com/Whonix/anon-gw-anonymizer-config/commit/49ce21f97965609e4fe06af20005637878324fcc
+    
+    work around:
+    1. add tor control port back
+    2. or support Tor cookie file authentication
+    
+    * no longer need anon-connection-wizard.torrc.orig
+    
+    * remove stem and guimessage
+    stem and guimessage have been packaged and shipped with Whonix14 by defualt.
+    Therefore, there is no need to include them here.
+    
+    * Use Tor ControlSocket and cookie file authentication
+    1. Previously used Tor ControlPort is no loner open by defualt in Whonix14
+    2. Therefore, we switched to use Tor ControlSocket
+    3. Bug fixed: /run/tor/control is missing
+    
+    * tor_status can repair torrc
+    1. can repair missing /etc/tor/torrc
+    2. or missing "DisableNetwork 0" line
+    
+    * repair_torrc() can repair missing "%include /etc/torrc.d" line
+    
+    * _repair_torrc() function can repair the missing /etc/torrc.d directory
+    
+    * repair_torrc() will serve as a standalone module
+    
+    * minor fixes
+    
+    * Better UI and instructions
+    
+    - create a censorship circumvention help button with detailed instructions
+    - adjust label positions
+    - use general fonts
+    
+    * minor UI improvement
+    
+    * comment out the '-' option in proxy setting
+    
+    '-' option appears in Tor launcher. However, it seems to be useless to have an invalid proxy setting. Therefore, we set 'HTTP / HTTPS' as the default setting instead.
+    
+    * Check invalid input
+    
+    - Check if the custom bridge is blank
+    - Check if the proxy IP or proxy Port is blank
+    
+    * improve UI
+    
+    * make font of tor status bigger
+    
+    * remove Tor ControlPort implementation
+    
+    Previously used Tor ControlPort is no loner open by defualt in Whonix14.
+    Tor ControlSocket is used instead.
+    
+    * add instructions to proxy help button
+    
+    * Redesign the torrc page
+    
+    The redesign is based on Linda's Tor launcher UX research.
+    Details can be found in the paper: https://petsymposium.org/2017/papers/issue3/paper2-2017-3-source.pdf
+    
+    * hide username and password input when SOCKS4 is selected
+    
+    Socks4 does not support authentication by username and password. Therefore, we should hide them to avoid the situiation where a user waste time in looking for them.
+    
+    * fix wrong hint in IP inputline
+    
+    * add a experimental "use proxy" checkBox
+    
+    * different bridge settings will not show at the same time
+    
+    Hide custom bridge settings when default bridges is being selected, vice versa.
+    This will greatly improve the UX since unfamiliar user will not waste time congiuring all the unnecessary options
+    
+    * fix a logical flaw in working around "IP invalid" pop up
+    
+    * fix "bridge invalid" does not pop up
+    
+    * change variable name: to_proxy_page_2 -> from_proxy_page_1
+    
+    * fix bug that /etc/tor/torrc accumulates '\n'
+    
+    * polish the design of proxy_page_2
+    
+    * improve use_proxy button on proxy_page_2
+    
+    * merge the proxy_wizard_page_1 into proxy_wizard_page_2
+    
+    * fix bug that use_proxy is not checked according to Common.use_proxy
+    
+    * show or hide bridge defualt and custom according to Common.use_bridges
+    
+    * set fixed size window
+    
+    * redesign the bridge_page_2
+    
+    * further improve bridge_page_2
+    
+    * merge the bridge_wizard_page_1 into bridge_wizard_page_2
+    
+    * remove useless code
+    
+    * change the default summary info
+    
+    Since each summary info should be overwrited according to user's settings, if it remians unchanged, something may have gone wrong.
+    
+    * fix logic flaw in showing warning message
+    
+    * TODO: ues re to examine the validity of user input
+    
+    * make the consequences of clicking close button same with clicking the cancel button
+    
+    * enable close button
+    
+    In the past we disabled/hide the close button as a work around that forced user to use click button. Howerver, since now clicking cancel button and clicking close button share the same result, we can enable close button. This also gives user a feeling of control.
+    
+    * eliminate outdated code that may cause IO error
+    
+    * use "whonix-specific" as a mark
+    
+    This will benifit the future work that makes anon-connection-wizard independent from Whonix.
+    
+    * skip torrc_page when disable_tor option is selected
+    
+    * fix "Thread termination error"
+    
+    "Thread termination error: No such process" was camplained when back button was clicked after trying to start Tor.
+    
+    * explain more on the fucntion of repair_torrc module
+    
+    * recover Tor to the initial tor status when quiting or canceling
+    
+    At the start of anon-connection-wizard, the tor_status, which will be either 'tor_enabled' or 'tor_disabled', will be recorded in Common.init_tor_status. This enable us to recover Tor to its initial status when users quit or terminate the Tor connection status.
+    
+    * recover Tor to the initial tor status when canceling
+    
+    * warn unsupported bridge type in summary page
+    
+    * update the bridge help instruction
+    
+    The instructions in the latest Tor launcher has removed the third way to get bridges.
+    
+    * update unsupported bridge type warning in summary page
+    
+    * Update default bridges
+    
+    The default bridge used by anon-connection-wizard should be exactly the same bridges contained in bridge_prefs.js (https://gitweb.torproject.org/builders/tor-browser-bundle.git/tree/Bundle-Data/PTConfigs/bridge_prefs.js?h=7.5a3-linux) shipped with the latest stable TBB. This is because:
+    1. the servers hosting default bridges are set up for huge amount of traffic;
+    2. the servers hosting default bridges are probably audited by TPO for better security;
+    3. using a different set of bridges will distinguish the anon-connection-wizard bridge users from the TBB bridge users, which compromises their anonymity.
+    
+    * Update custom bridge help instructions
+    
+    * Make bridge types case insensitive
+    
+    Bug details: http://phabricator.kkkkkkkkkk63ava6.onion/T699#14338
+    
+    * Update the initial comments for anon-connection-wizard.torrc
+    
+    * Add tor_controller.get_info() debugging code
+    
+    * Support input validation check
+    
+    Current implementation is not using regular expression, which means it is not the perfect validation check. However, this is good enough to prevent most common input mistakes.
+    
+    * Improve warning instructions on Proxy page
+    
+    * Update warning instrcuions on Proxy page
+    
+    * Support vanilla bridges when using custom bridges
+    
+    In order to make a vanilla bridge usable, we need to loose the validation check cateria. A regular expression should solve the problem nicely.
+    
+    * Update bridge command in anon-connection-wizard.torrc
+    
+    * Address a flexibility issue in the code
+    
+    * Change anon-connection-wizard.torrc access permission to 644
+    
+    The access permission was 600, causing a permission denied complain in whonix-check. 644 is same as the permission of the /etc/tor/torrc file shipped by Debian.
+    
+    * Change torrc bridge command from 'Bridge' to 'bridge'
+    
+    * Change torrc bridge command from 'Bridge' to 'bridge'
+    
+    * Update contact info in debian/control
+
+commit a9c09062cd553720e673106e59ca7e187c90aa2e
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 20:27:15 2017 +0000
+
+    Update descriptions in debian/control
+
+commit d468c23d2e905806f547ac7d61dc8e37bf3f2a39
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 19:12:16 2017 +0000
+
+    Update contact info in debian/control
+
+commit 7decee5530b6a7a353a379b02c40ddf012086c39
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 19:11:48 2017 +0000
+
+    Change torrc bridge command from 'Bridge' to 'bridge'
+
+commit 25f5f98e495f86eb84e665910da0904dbd7d8252
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 18:49:42 2017 +0000
+
+    Change torrc bridge command from 'Bridge' to 'bridge'
+
+commit eeaddcc0ee9bfb0e81dd5d9b0411c50d8e0c26ad
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 18:40:00 2017 +0000
+
+    Change anon-connection-wizard.torrc access permission to 644
+    
+    The access permission was 600, causing a permission denied complain in whonix-check. 644 is same as the permission of the /etc/tor/torrc file shipped by Debian.
+
+commit cd72e5fd958ae02f96552d232b3d85f594952679
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 04:58:21 2017 +0000
+
+    Address a flexibility issue in the code
+
+commit 479e3bb2b6c22fbc95eb0fbaafe33306d32d962a
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 04:52:16 2017 +0000
+
+    Update bridge command in anon-connection-wizard.torrc
+
+commit 30ab31014563ba59eb606764ce564003c2890d33
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 04:23:11 2017 +0000
+
+    Support vanilla bridges when using custom bridges
+    
+    In order to make a vanilla bridge usable, we need to loose the validation check cateria. A regular expression should solve the problem nicely.
+
+commit cfe33f1fd8d14162754171089f89e58947080dca
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 04:07:12 2017 +0000
+
+    Update warning instrcuions on Proxy page
+
+commit 71ddb8ada303ce05267c63c1f203c8f9a24f711b
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 03:59:42 2017 +0000
+
+    Improve warning instructions on Proxy page
+
+commit 458fc522ec9d615f0bd03207e84ab4a46d2273ec
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 26 03:52:37 2017 +0000
+
+    Support input validation check
+    
+    Current implementation is not using regular expression, which means it is not the perfect validation check. However, this is good enough to prevent most common input mistakes.
+
+commit adc67c438217793b89af5642070865a113e266f2
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Aug 25 20:32:22 2017 +0000
+
+    Add tor_controller.get_info() debugging code
+
+commit b8fbf70ff89f39a3589eae7d45a910650fba4e3f
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Aug 17 18:25:01 2017 +0000
+
+    Update the initial comments for anon-connection-wizard.torrc
+
+commit d130e226e374c89ae094914dc4fbc0420df704fb
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Aug 17 17:56:32 2017 +0000
+
+    Make bridge types case insensitive
+    
+    Bug details: http://phabricator.kkkkkkkkkk63ava6.onion/T699#14338
+
+commit 4f6e2d3bfe98ca75b7071f1f9ba00b38d9327e52
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Aug 17 15:02:21 2017 +0000
+
+    Update custom bridge help instructions
+
+commit eb956632af9dea7b408139e4afb772492eda7408
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Aug 17 08:13:56 2017 +0000
+
+    Update default bridges
+    
+    The default bridge used by anon-connection-wizard should be exactly the same bridges contained in bridge_prefs.js (https://gitweb.torproject.org/builders/tor-browser-bundle.git/tree/Bundle-Data/PTConfigs/bridge_prefs.js?h=7.5a3-linux) shipped with the latest stable TBB. This is because:
+    1. the servers hosting default bridges are set up for huge amount of traffic;
+    2. the servers hosting default bridges are probably audited by TPO for better security;
+    3. using a different set of bridges will distinguish the anon-connection-wizard bridge users from the TBB bridge users, which compromises their anonymity.
+
+commit c3859905ed9b311ec6bbb0fe72fd6543c2c16c8e
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Aug 10 15:45:50 2017 +0000
+
+    update unsupported bridge type warning in summary page
+
+commit 02954f85e98e35966ff95aeb2514b4b2e20b43e0
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Aug 10 15:42:24 2017 +0000
+
+    update the bridge help instruction
+    
+    The instructions in the latest Tor launcher has removed the third way to get bridges.
+
+commit 60a73a475ba3d5126208e720c2141fc03eb43e33
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Aug 10 15:36:07 2017 +0000
+
+    warn unsupported bridge type in summary page
+
+commit 9cfb69334d67fa9b5de1426f3661014ff4902b63
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 9 15:06:11 2017 +0000
+
+    recover Tor to the initial tor status when canceling
+
+commit f78eece709d1fc9c335cb54560812532d9b9f4eb
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 9 14:40:51 2017 +0000
+
+    recover Tor to the initial tor status when quiting or canceling
+    
+    At the start of anon-connection-wizard, the tor_status, which will be either 'tor_enabled' or 'tor_disabled', will be recorded in Common.init_tor_status. This enable us to recover Tor to its initial status when users quit or terminate the Tor connection status.
+
+commit 6fcb47230d751b3378a4dded8513c409447a78a8
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 9 13:46:03 2017 +0000
+
+    explain more on the fucntion of repair_torrc module
+
+commit 8936a8e1587c03a7bd65d737a325c0b21ee78363
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 9 13:22:25 2017 +0000
+
+    fix "Thread termination error"
+    
+    "Thread termination error: No such process" was camplained when back button was clicked after trying to start Tor.
+
+commit 4b46320c4c398df98e585171a52fbc87e273070a
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 9 13:07:02 2017 +0000
+
+    skip torrc_page when disable_tor option is selected
+
+commit 64f8dce4876faaada98f929648069a552bb70129
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 5 17:31:34 2017 +0000
+
+    use "whonix-specific" as a mark
+    
+    This will benifit the future work that makes anon-connection-wizard independent from Whonix.
+
+commit 440b8ea12b0d1315ed22f2bff2d37d3c2ece251e
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 5 17:29:41 2017 +0000
+
+    eliminate outdated code that may cause IO error
+
+commit 7164141a0d1a05dda7e0bb4b10f5bc13537555fd
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 5 17:24:41 2017 +0000
+
+    enable close button
+    
+    In the past we disabled/hide the close button as a work around that forced user to use click button. Howerver, since now clicking cancel button and clicking close button share the same result, we can enable close button. This also gives user a feeling of control.
+
+commit f24f08929789a59d1110aee01dca23ca0cadf6f2
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Aug 5 17:22:37 2017 +0000
+
+    make the consequences of clicking close button same with clicking the cancel button
+
+commit 7e0e5fa311b68c3e8bfc789a15b00deb5b44e339
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 12:26:34 2017 +0000
+
+    TODO: ues re to examine the validity of user input
+
+commit 39029876b8b7800964203ec2acae49c883b739f2
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 12:21:58 2017 +0000
+
+    fix logic flaw in showing warning message
+
+commit 314ff2e318c6944331d67ad1e9d793b6e5821ae6
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 11:38:50 2017 +0000
+
+    change the default summary info
+    
+    Since each summary info should be overwrited according to user's settings, if it remians unchanged, something may have gone wrong.
+
+commit 6b32a97b5eac140db132d6d7c35ed2ecd1bfc187
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 11:32:39 2017 +0000
+
+    remove useless code
+
+commit 7b80193ff9d2fa5dc3e1e180eda0248ff59664b4
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 11:22:50 2017 +0000
+
+    merge the bridge_wizard_page_1 into bridge_wizard_page_2
+
+commit c62bffe4736bc2609b3db843197826b1206240d5
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 11:15:47 2017 +0000
+
+    further improve bridge_page_2
+
+commit 5805d8531a09862eb73c2024a48e1363edb7296b
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 10:52:10 2017 +0000
+
+    redesign the bridge_page_2
+
+commit c20282a6f5002bfeabccaab32925d366f19d2a66
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 10:13:02 2017 +0000
+
+    set fixed size window
+
+commit 1d50e06019c2e81370357e84de1ef6b2cac5a149
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 08:46:00 2017 +0000
+
+    show or hide bridge defualt and custom according to Common.use_bridges
+
+commit 25f6784d78ae037339a9ffc158fa657eba2940ea
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 08:37:54 2017 +0000
+
+    fix bug that use_proxy is not checked according to Common.use_proxy
+
+commit ce9683107c05e6c7df2b7c4ffbb4a60f6930dbac
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 08:30:48 2017 +0000
+
+    merge the proxy_wizard_page_1 into proxy_wizard_page_2
+
+commit 094acd3f5759bb26e55880be4004c2810eecde2a
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 08:21:25 2017 +0000
+
+    improve use_proxy button on proxy_page_2
+
+commit 31bb592b24db872f8f383b432ae4890640e0fa4c
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 07:34:11 2017 +0000
+
+    polish the design of proxy_page_2
+
+commit c2d265867b011292efa30cdb47ebebbf9f8f89ef
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Aug 2 06:31:29 2017 +0000
+
+    fix bug that /etc/tor/torrc accumulates '\n'
+
+commit 3295905f637d1715a46ab957f595ccbfbbf5d0cb
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Aug 1 19:59:23 2017 +0000
+
+    change variable name: to_proxy_page_2 -> from_proxy_page_1
+
+commit a8c4c40414bf49f54efa2c8d8eb6e25a6953a853
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Aug 1 19:56:20 2017 +0000
+
+    fix "bridge invalid" does not pop up
+
+commit bb5ee5961ae0a97b08b70932db0d8b2b91e2f40e
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Aug 1 19:28:58 2017 +0000
+
+    fix a logical flaw in working around "IP invalid" pop up
+
+commit a50dc1e47a6420670977dace7f29aaf9b8c03ca5
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Aug 1 19:15:26 2017 +0000
+
+    different bridge settings will not show at the same time
+    
+    Hide custom bridge settings when default bridges is being selected, vice versa.
+    This will greatly improve the UX since unfamiliar user will not waste time congiuring all the unnecessary options
+
+commit f0be9c490f0e74fd47e812007ad73779a98a2909
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Aug 1 18:30:43 2017 +0000
+
+    add a experimental "use proxy" checkBox
+
+commit 3c073d1ba2b265c73895bce6908593348e2a7dd7
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Aug 1 17:28:06 2017 +0000
+
+    fix wrong hint in IP inputline
+
+commit 28e0cf1ede9f51b85518a6d442a053de40865f1a
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Aug 1 17:24:10 2017 +0000
+
+    hide username and password input when SOCKS4 is selected
+    
+    Socks4 does not support authentication by username and password. Therefore, we should hide them to avoid the situiation where a user waste time in looking for them.
+
+commit 8a069f8a897aef89c02c5c44fc26f0366010b757
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jul 31 14:39:31 2017 +0000
+
+    Redesign the torrc page
+    
+    The redesign is based on Linda's Tor launcher UX research.
+    Details can be found in the paper: https://petsymposium.org/2017/papers/issue3/paper2-2017-3-source.pdf
+
+commit d72eecca90f1fea15bb14cebaf802c8061908211
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 30 18:36:08 2017 +0000
+
+    add instructions to proxy help button
+
+commit 647f868d42e1fc9cc51bc450e16a3d1ed3605de6
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 30 17:51:41 2017 +0000
+
+    remove Tor ControlPort implementation
+    
+    Previously used Tor ControlPort is no loner open by defualt in Whonix14.
+    Tor ControlSocket is used instead.
+
+commit f70b4a6e1f6c7b2d8fa3b000cbf0a2918c0aff53
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 30 17:50:12 2017 +0000
+
+    make font of tor status bigger
+
+commit ea287a7969a4ce16232851502de70fb71bd234b5
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 30 17:45:10 2017 +0000
+
+    improve UI
+
+commit ebd2094231a239c4eb799d18d5186af9706a34c9
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 30 17:41:44 2017 +0000
+
+    Check invalid input
+    
+    - Check if the custom bridge is blank
+    - Check if the proxy IP or proxy Port is blank
+
+commit b8f6375a5bb03f90b72af018dd5f5a9be3fffefe
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 29 18:43:00 2017 +0000
+
+    comment out the '-' option in proxy setting
+    
+    '-' option appears in Tor launcher. However, it seems to be useless to have an invalid proxy setting. Therefore, we set 'HTTP / HTTPS' as the default setting instead.
+
+commit 608c92edb458c3ab1e09401da7b1c72867d516b5
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 29 18:34:13 2017 +0000
+
+    minor UI improvement
+
+commit a25f2f783304e33c4b8cb59c3af175af7757a552
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 29 18:24:01 2017 +0000
+
+    Better UI and instructions
+    
+    - create a censorship circumvention help button with detailed instructions
+    - adjust label positions
+    - use general fonts
+
+commit b9802a6d8d01f9739c8b2aa8c2f5951d95dd777f
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jul 14 09:44:29 2017 +0000
+
+    minor fixes
+
+commit 8e815c8b31d440b6aea9be6abc22f3db3e23e0f7
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jul 14 09:29:57 2017 +0000
+
+    repair_torrc() will serve as a standalone module
+
+commit 6fda29c64a88b7fcea200b6da5d289d336da320f
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jul 14 09:14:42 2017 +0000
+
+    _repair_torrc() function can repair the missing /etc/torrc.d directory
+
+commit dcb5aeab81883bc00ae3cc05bc7e6d3d4d2351d2
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jul 14 09:04:51 2017 +0000
+
+    repair_torrc() can repair missing "%include /etc/torrc.d" line
+
+commit e6d16b2a813bdb5fbce52b17f79938e84f3e08ff
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jul 14 06:09:45 2017 +0000
+
+    tor_status can repair torrc
+    1. can repair missing /etc/tor/torrc
+    2. or missing "DisableNetwork 0" line
+
+commit 1472d5c5e6e6211f3f3919fbe2305695786eb6fe
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Jul 13 10:58:32 2017 +0000
+
+    Use Tor ControlSocket and cookie file authentication
+    1. Previously used Tor ControlPort is no loner open by defualt in Whonix14
+    2. Therefore, we switched to use Tor ControlSocket
+    3. Bug fixed: /run/tor/control is missing
+
+commit 804d016d12a1c051a93725198319bbf5a5ad3c11
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 9 08:52:59 2017 +0000
+
+    remove stem and guimessage
+    stem and guimessage have been packaged and shipped with Whonix14 by defualt.
+    Therefore, there is no need to include them here.
+
+commit 471276ba7222bd01e99335ddc7e3963a692b77fe
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 9 08:49:32 2017 +0000
+
+    no longer need anon-connection-wizard.torrc.orig
+
+commit 47fcabdb269c5b5e522e7b3700c67ddd8d301a07
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 9 08:42:35 2017 +0000
+
+    TODO: no control port in Whonix14
+    In Whonix14, No longer open Tor ControlPort 9051 on Whonix-Gateway:
+    https://github.com/Whonix/anon-gw-anonymizer-config/commit/49ce21f97965609e4fe06af20005637878324fcc
+    
+    work around:
+    1. add tor control port back
+    2. or support Tor cookie file authentication
+
+commit 0965a9a17a21abc31b26fa8f7455e89767c0f1fb
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 9 04:45:07 2017 +0000
+
+    bug fixed: tmp file is missing
+
+commit a3912f1256564653df6079c773827a20bd5343d5
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 11:28:53 2017 +0000
+
+    eliminate useless commented code
+
+commit 808c9f7c5f857c1d9c776827e327da2e51ae1460
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 11:18:46 2017 +0000
+
+    remove .tmp when it is no longer needed
+
+commit 414ff36fdbafeed1c568564ab13dab9a2c419941
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 11:01:41 2017 +0000
+
+    better instructions in .torrc file and help button
+
+commit 7717cb0bddaf9213519e0aa06d9c16ef5983175b
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 09:44:26 2017 +0000
+
+    eliminate the .orig approach
+
+commit 54a315d4f9f8ad7b1cf9bf8cf3208413f2f898c3
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 09:40:14 2017 +0000
+
+    fix the direct connection option
+
+commit b9ac35e5d8ed0141700d828de887cddac58115c3
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 09:29:04 2017 +0000
+
+    1. fix the situiation where an extra empty line is input to custom bridge line
+    2. strip the '\n' out of port number
+
+commit 725969a3b3e2015e9707a8c85d800257be874489
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 09:17:23 2017 +0000
+
+    1. switch from self-made .tmp file to python tmpfile
+    2. polish the adjust according to .torrc feature
+
+commit 983c9f0f0a5bcacd61fc9707d18156b89928ad85
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 07:02:42 2017 +0000
+
+    adjust default settings according to .torrc at beginning
+
+commit 4e0d1e6039949412349abb3e329641c5d40e5e7c
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 8 03:53:24 2017 +0000
+
+    switched from /usr/lib/python3.4 to /usr/lib/python3/dist-packages
+
+commit f896ff5f66e0ee600de6e3410b9113ca771e5554
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Jul 5 04:37:25 2017 +0000
+
+    remove all .pyc files
+
+commit e5aa4923137eb8709629b2a5214f1d59a4d35e7a
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Jul 5 03:52:42 2017 +0000
+
+    corrected
+     install path
+
+commit 2f7321c48573ac4cfdeddf0c2b88bf322794abd1
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 2 12:46:39 2017 +0000
+
+    switch from /python3.4/dist-packages to /python3/dist-packages
+
+commit eac0deb623685340d5f2b4517e4bce0045e888ff
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jul 2 08:26:29 2017 +0000
+
+    change shebang in /usr/bin/anon-connection-wizard to python3 -u
+
+commit 49664049dbac4805a1c2b91357229ca1149ab5db
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jul 1 00:15:51 2017 +0000
+
+    remove "advance" button
+
+commit db0d7b9b2e7ee42f0ac7a11c8788717d7294c24c
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jun 30 23:32:45 2017 +0000
+
+    .tmp will not overwrite .torrc if no changes were made before cancealing
+
+commit d929cc404fb8f92cd5f65b1d0970cda836e735f3
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jun 30 23:28:53 2017 +0000
+
+    polish the instruction in anon-connection-wizard.torrc.orig
+
+commit 509b9e60d4cdd14a956925283962233d09669ac5
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jun 30 02:08:36 2017 +0000
+
+    switch from edit-mark approach to torrc.d
+
+commit f93ab137a642397e8e26f534e11e656a14a2dd0a
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jun 30 02:06:58 2017 +0000
+
+    add a new file /etc/tor/anon-connection-wizard.torrc.orig
+
+commit c968190f54dedbb1b739729799eab6c0fe402939
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jun 18 03:40:35 2017 +0000
+
+    update to use the one in whonix-setup-wizard
+
+commit 09adbd8dda953ca4fb41d40df94e99014ea3151d
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 17 22:58:16 2017 +0000
+
+    proxy password masked
+
+commit 2c1b03f3e11845932deb5ab55d79e974d64d2e9e
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 17 22:53:38 2017 +0000
+
+    update URL for obtaining bridges
+
+commit 5266cb7b2a57740dc3c377aad64b6290397c54a8
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 17 22:49:00 2017 +0000
+
+    commented out an option for not using bridges
+
+commit bcf5efb0fa3540b0f75d842f0978322b0d5e55a9
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 17 22:41:37 2017 +0000
+
+    update assistance message
+
+commit 886c9b899c9602e6466805d6fd8be7634ba93c41
+Merge: b102cf6 b05c743
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 17 15:56:49 2017 +0000
+
+    Merge remote-tracking branch 'upstream/master'
+
+commit b102cf6515cc4b13f0eb3e2307d1649b4cb375d3
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jun 11 06:09:00 2017 +0000
+
+    implement the torrc_page
+
+commit 71ae782049016364813bac313ea1eef9db50dbb3
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 10 17:48:53 2017 +0000
+
+    delete outdated comments
+
+commit d2f1e8ddacfc713896463939c4579b14d1e4b65f
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 10 17:30:15 2017 +0000
+
+    minor edit mark fixed
+
+commit e11e39b9ca31312023f18970f58ad6d22fba92c1
+Merge: 6f5ebca 1469a70
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 10 17:01:38 2017 +0000
+
+    Merge branch 'GUI_change'
+
+commit 1469a7021ad84e81e3a987c747e7b334524e32dd
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 10 17:00:30 2017 +0000
+
+    delete 'managed' option in obfs4 lines
+
+commit 5cf36a85d3e02a7ba0a006f97c56147143177fb6
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jun 10 16:58:21 2017 +0000
+
+    edit mark approach implemented
+
+commit 6f5ebcaa0aa78ddabc5a65fe30be64462cc2d396
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu May 18 19:42:33 2017 +0000
+
+    add a help button on the proxy setting page
+
+commit bdbcc3fcb7089e33e1b472db22e5303de4aae359
+Author: iry <iry@riseup.net>
+Date:   Thu May 18 06:19:02 2017 +0000
+
+    eliminate unnecessary code
+
+commit a2e5d18b0816e7c72327e2a3769b58493463c048
+Author: iry <iry@riseup.net>
+Date:   Thu May 18 03:38:54 2017 +0000
+
+    add a third party censorship circumvention options
+    minor UI improvement
+    minor instructions improvement
+
+commit d5cece86286ce68fde9bab5f83ea642adec320a1
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon May 1 23:14:48 2017 +0000
+
+    add TODO: customized CSS
+
+commit b05c7437fbf0cc34fc4118ef1a137ea440bc6644
+Merge: 506219f 0f95089
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 20 15:56:28 2017 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 0f95089249738073548b1b3c9bbd7d53bfb97e92
+Merge: 506219f d8b1990
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 20 15:51:41 2017 +0100
+
+    Merge pull request #4 from irykoon/master
+    
+    Port from Python2 to Python3.4 & from PyQt4 to PyQt5
+
+commit d8b19902b2f8e4f07ffd27fb95c60e9a597d68f8
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Mar 18 19:29:11 2017 +0000
+
+    minor programming style changes
+
+commit c1cb1710e4d292c19d69720ceb492d0ce6adc823
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Mar 18 05:01:30 2017 +0000
+
+    fix help menu broken bug
+
+commit 285b736b713e407c5a5c8e5da957f7b62ce2e42a
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Mar 18 04:22:38 2017 +0000
+
+    allow long custom bridges input in one line
+
+commit f9bf370ad0ed7ea7092ff4d81d6681fa1dadde83
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 19:19:53 2017 +0000
+
+    eliminate race conditions
+
+commit 646abacc0322f8f0b9e5e1519f5ba571f7ed6cc7
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 19:12:05 2017 +0000
+
+    remove cache file
+
+commit 21191536514f7f15cbe9d4f864f8890a9e3f754f
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 19:09:16 2017 +0000
+
+    change maintainer description
+
+commit 25f05a3c761c7dec721715639acd80e60c776936
+Merge: 32cec11 1f31199
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 18:59:39 2017 +0000
+
+    Merge pull request #2 from irykoon/port_to_python3
+    
+    Port from Python2 to Python3.4 & from PyQt4 to PyQt5
+
+commit 1f31199db088022477da96b678c89f3b9225f4c3
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 18:47:33 2017 +0000
+
+    minor comment style change
+
+commit 5e55a9e74319b16e48dacbcb6d54bbdf737d9d18
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 18:44:13 2017 +0000
+
+    Port PyQt4 to PyQt5: renew signal-and-slot
+
+commit bc4a274d14427e78974373dd3ed3c6833cd271f0
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 14:26:55 2017 +0000
+
+    several feature added:
+    custom bridges setting allows multiple lines
+    change %s to .format
+
+commit 485c618c8932410abbf36b092ba95d6dbaf2496b
+Merge: a438aa2 399691d
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 14:21:13 2017 +0000
+
+    Merge branch 'port_to_python3' of https://github.com/irykoon/anon-connection-wizard into port_to_python3
+    
+    Conflicts:
+            usr/lib/python3.4/dist-packages/anon_connection_wizard/anon_connection_wizard.py
+    
+    deleted:    usr/lib/python3.4/dist-packages/anon_connection_wizard/anon_connection_wizard.py
+
+commit a438aa235a66f5f45a8a06140b23ff4f9b74e0ab
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 17 14:10:43 2017 +0000
+
+    several features added:
+    custom bridges setting allows multiple lines
+    change %s to .format
+
+commit 399691dec73a00bd1f7f541d57e79154b5ff76d5
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 18:21:03 2017 +0000
+
+    port PyQt4 to PyQt5: split QtGui module
+
+commit 209af57a3efa7f19d86bcdfd23fc52262e56189f
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 06:37:00 2017 +0000
+
+    move tor_status for python3 support
+
+commit 4a161674dc82c49e7f7b3f2d1176dfdfd1038efd
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 06:30:17 2017 +0000
+
+    port PyQt4 to PyQt5
+
+commit d17423c11b4806c548e73f00568b4d766f774ad8
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 06:16:33 2017 +0000
+
+    packaging simplification ruby-ronn (>= 0.7.3) -> ruby-ronn
+
+commit 142d99385d6c6747fddaed52b03025a6ccac9437
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 06:12:32 2017 +0000
+
+    update build dependencies for python3
+    remove faketime from build dependencies
+
+commit 6e8c8176ae5642caa48a2bb4eca896312d468ff0
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 05:53:30 2017 +0000
+
+    update Depends
+
+commit ac3eb22ae5c0f1b4c39910705c22149c4e2a6403
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 05:43:41 2017 +0000
+
+    update Depends
+
+commit 32cec11368d8a83abe7ecad8668a4b665f8a10b2
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 03:26:32 2017 +0000
+
+    minor typo correction
+
+commit 06735a77302b97bb7f038a171884018d75e4a8b1
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Mar 16 01:09:27 2017 +0000
+
+    delete trailing space
+
+commit 9801b50dac9b7bf435d4c511ea9768758438343f
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Mar 15 22:27:14 2017 +0000
+
+    change whonix to anon
+
+commit 54b0fd5ae7e8f1a2d7148f8728fc9440f1369c2f
+Merge: 40e5a2d 48b9891
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Mar 15 21:55:50 2017 +0000
+
+    Merge branch 'master' of https://github.com/irykoon/anon-connection-wizard
+
+commit 40e5a2d7e3a5635cda497f73b1dd65647e67c4ca
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Mar 15 17:54:53 2017 +0000
+
+    minor typo correction
+
+commit 48b9891c03d49ef1844dd5486150be782f239e03
+Merge: 3e23218 f358728
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Mar 15 17:48:31 2017 +0000
+
+    Merge pull request #1 from irykoon/comment-style-change
+    
+    Comment style changed according to PEP8: https://www.python.org/dev/peps/pep-0008
+
+commit f3587287e78ec51f9f17ce8ba2cc07c06f83d21a
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Mar 15 17:42:15 2017 +0000
+
+    change programming style according to PEP8
+
+commit 506219fae607607d7b7bae7ab1e038a8be5beb1f
+Merge: 4871927 0875956
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 13 16:17:19 2017 +0100
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 08759563bf8dcf9b98bd3c2d4ca1dfc0d63cebee
+Merge: b4d5286 8bfd327
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 13 16:00:25 2017 +0100
+
+    Merge pull request #2 from irykoon/pluggable-transport-renew
+    
+    Pluggable transport renew
+
+commit b4d5286855e3e461abacde631ccff6f9ff903c9c
+Merge: 4871927 3e23218
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 13 16:00:06 2017 +0100
+
+    Merge pull request #1 from irykoon/master
+    
+    Basic features implementation
+
+commit 8bfd327e152ecd46f8eb304213b642bf16d9768e
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Mar 11 06:49:25 2017 +0000
+
+    renew pluggable-transport-type
+
+commit 3e2321845cdd21fde64ac10b0f98fd2b0719faf7
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Mar 11 05:22:27 2017 +0000
+
+    renew default bridges
+
+commit 30791b0394de62889df315bf9b6a1654b3bc48b0
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Mar 11 04:46:45 2017 +0000
+
+    basic features implementation
+
+commit 4871927d84e856718ddd863aa8311078e6cd77f2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 21 03:55:27 2016 +0000
+
+    mkdir early enough and mkdir -p
+
+commit 7077a9896b30c93a54d54abe7ae210b23d07f1ad
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 21 03:40:22 2016 +0000
+
+    minor
+
+commit b411f7fb675765465ed621edc6c6ed1a5ca7f571
+Author: troubadoour <trobador@riseup.net>
+Date:   Sat Dec 5 20:40:53 2015 +0000
+
+    + usr/share/anon-connection-wizard/bridges_default
+
+commit 9626e61e06f9c0e82f0b679d3ea262376a57df00
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Dec 1 15:47:55 2015 +0000
+
+    tor_status.py disable tor
+    move stop tor command at the beginning of the function as it returns
+    before execution
+
+commit 8b990bf19cf9c599e12de0102f1dc24e60948356
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Dec 1 09:21:36 2015 +0000
+
+    show Finish button after "Disable Tor"
+
+commit c6574b54c3fd3c5d8829aa298bf62d96f20033eb
+Author: troubadoour <trobador@riseup.net>
+Date:   Tue Dec 1 09:19:37 2015 +0000
+
+    tor_status.py
+    service tor stop -> service tor@default stop
+
+commit b6210e635876e30f350a2421759fb68ade829ab1
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Nov 30 22:10:27 2015 +0000
+
+    + usr/bin/anon-connection-wizard
+
+commit 99cbbd03907885bb3b6e1c3c68479cb6c4633528
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Nov 30 22:07:33 2015 +0000
+
+    move files in /usr/lib/python2.7/dist-packages
+    + __init__.py
+
+commit 7ffc858b3e19b581fa72b946a2881d077074aa61
+Author: troubadoour <trobador@riseup.net>
+Date:   Mon Nov 30 21:11:55 2015 +0000
+
+    initial release
+
 commit 13ecc5e34bd7e1e1d800934793ae15daad5ac63c
 Author: troubadoour <trobador@riseup.net>
 Date:   Mon Nov 30 19:56:54 2015 +0000

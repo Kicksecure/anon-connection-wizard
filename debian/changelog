@@ -1,8 +1,18 @@
-anon-connection-wizard (1:0.1-2) UNRELEASED; urgency=medium
+anon-connection-wizard (1:0.3-1) unstable; urgency=medium
 
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Mon, 02 Oct 2017 13:06:27 +0000
+
+anon-connection-wizard (1:0.2-1) unstable; urgency=medium
+
+  [ troubadour ]
   * initil commit in new anon-connection-wizard package
 
- -- troubadour <trobador@riseup.net>  Mon, 30 Nov 2015 21:06:51 +0000
+  [ Patrick Schleizer ]
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Mon, 02 Oct 2017 13:06:26 +0000
 
 anon-connection-wizard (1:0.1-1) unstable; urgency=low
 
