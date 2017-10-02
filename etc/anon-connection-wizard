@@ -1,0 +1,10 @@
+o## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+## anon-connection-wizard edits /etc/tor/torrc, therefore needs root.
+## Feel free to disable it.
+## For better usability, because otherwise the autostart of
+## anon-connection-wizard
+%sudo ALL=NOPASSWD: /usr/bin/anon-connection-wizard *
+%sudo ALL=NOPASSWD: /usr/lib/anon-connection-wizard/anon-connection-wizard *
