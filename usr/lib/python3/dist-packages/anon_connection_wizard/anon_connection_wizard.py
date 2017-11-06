@@ -35,7 +35,7 @@ class Common:
     Variables and constants used through all the classes
     '''
     translations_path = '/usr/share/translations/whonix_setup.yaml'
-    torrc_file_path = '/etc/torrc.d/anon_connection_wizard.torrc'
+    torrc_file_path = '/etc/torrc.d/40_anon_connection_wizard.torrc'
     torrc_tmp_file_path = ''
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
@@ -1162,13 +1162,13 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
 
-            ''' io() will wirte lines to /etc/torrc.d/anon_connection_wizard.torrc
+            ''' io() will wirte lines to /etc/torrc.d/40_anon_connection_wizard.torrc
             basing on user's selection in anon_connection_wizard
             '''
             self.io()
             
             ''' displace the torrc file and icon used on the page
-            notice that anon_connection_wizard.torrc will not have line about DisableNetwork 0
+            notice that 40_anon_connection_wizard.torrc will not have line about DisableNetwork 0
             That line will be changed by tor_status module in /etc/torrc
             '''
 
@@ -1235,7 +1235,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             # move the tmp file to the real .torrc
             # this may overwrite the previous .torrc, but it does not matter
             shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
-            ## we set /etc/torrc.d/anon_connection_wizard.torrc as 644
+            ## we set /etc/torrc.d/40_anon_connection_wizard.torrc as 644
             ## so that only root can wirte and read, others can only read,
             ## which prevents the edit by normal user.
             os.chmod(Common.torrc_file_path, 0o644)
