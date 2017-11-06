@@ -263,7 +263,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.bridges = ['obfs4 (recommended)',
                         'obfs3',
                         'meek-amazon (works in China)',
-                        'meek-azure'
+                        'meek-azure (works in China)'
                         # The following will be uncommented as soon as being implemented.
                         # Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
                         # 'fte'
@@ -1442,7 +1442,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         Common.bridge_type = 'meek-amazon (works in China)'
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif use_meek_lite and line.endswith(Common.command_meek_azure_address):
-                        Common.bridge_type = 'meek-azure'
+                        Common.bridge_type = 'meek-azure (works in China)'
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif line.startswith(Common.command_fte):
                         Common.bridge_type = 'fte'
