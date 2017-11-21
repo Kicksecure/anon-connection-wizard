@@ -16,13 +16,13 @@ anon-connection-wizard(8) -- Anonimity Distribution Connection Wizard
 
 ## SYNOPSIS
 
-`anon-setup-wizard`
+anon-connection-wizard
 
 ## DESCRIPTION
 
-A wizard to configure Tor connection. It's run at first use of the gateway
-to let the user choose  from  different methods to connect (public Tor
-network, bridges, etc.).
+anon-connection-wizard is a Tor-launcher-like application that helps users in different Internet environment connect to the Tor network. It helps user to configure Tor to use a proxy and/or Tor bridges. This application is especially useful for system Tor users who would like to run the standalone core Tor with different torified applications. The wizard can be run at any time to change the connection configuration.
+
+anon-connection-wizard is produced independently from the Tor anonymity software and carries no guarantee from The Tor Project about quality, suitability or anything else.
 
 ## WWW
 
@@ -30,4 +30,4 @@ https://www.whonix.org
 
 ## AUTHOR
 
-This man page has been written by Patrick Schleizer (adrelanos@riseup.net).
+This man page has been written by Patrick Schleizer (adrelanos@riseup.net) and Iry (iry@riseup.net).
