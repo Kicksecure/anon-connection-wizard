@@ -1082,6 +1082,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.button(QtWidgets.QWizard.BackButton).setVisible(False)
         self.button(QtWidgets.QWizard.BackButton).setEnabled(False)
 
+        self.button(QtWidgets.QWizard.FinishButton).clicked.connect(self.finish_button_clicked)
 
         self.CancelButtonOnLeft
         self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
@@ -1321,11 +1322,18 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         if self.currentId() == self.steps.index('bridge_wizard_page_2'):
             Common.from_proxy_page_1 = True
 
+    def finish_button_clicked(self):
+        # The True indicates the acw has finished successfully
+        # TODO: this does not work as expected, even the conceal button is clicked,
+        # the wizard still return True
+        return True  
+
     def show_finish_button(self):
         if self.bootstrap_done or Common.disable_tor:
             self.button(QtWidgets.QWizard.CancelButton).setVisible(False)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setFocus()
+        
 
     '''This overrided event handler is called with the given event
     when Qt receives a window close request for a top-level widget from the window system.
@@ -1560,10 +1568,9 @@ def main():
         print('ERROR: This must be run as root!\nUse "kdesudo".')
         not_root = gui_message(Common.translations_path, 'not_root')
         sys.exit(1)
-        
+
     wizard = AnonConnectionWizard()
 
-    sys.exit(0)
 
 if __name__ == "__main__":
     main()
