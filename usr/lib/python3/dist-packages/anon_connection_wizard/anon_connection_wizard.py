@@ -1290,7 +1290,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     exited with error code.</p>\
                     <p>See "systemctl status tor@default.service" and \
                     "journalctl -xe" for details.</p>\
-                    <p>You may not be able to use any network facing application for now.')
+                    <p>You may not be able to use any network facing application for now.</p>')
                 elif self.tor_status == 'missing_disablenetwork_line':
                     # print to the stderr
                     sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
@@ -1308,6 +1308,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     <p>3. Save it.</p>\
                     </blockquote>\
                     <p>Please consider report this bug also.</p>')
+                else:
+                    # print to the stderr
+                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
+                    # display error message on GUI
+                    self.tor_status_page.bootstrap_progress.setVisible(False)
+                    self.tor_status_page.text.setText('<p><b>Unexpected Exception.</b></p>\
+                    <p>You may not be able to use any network facing application for now.</p>\
+                    Unexpected exception reported from tor_status module:' + self.tor_status)
+                    
                     
             else:
                 self.tor_status = tor_status.set_disabled()
