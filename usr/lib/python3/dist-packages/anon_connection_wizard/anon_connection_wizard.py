@@ -1280,18 +1280,54 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     self.bootstrap_thread.signal.connect(self.update_bootstrap)
                     self.bootstrap_thread.finished.connect(self.show_finish_button)
                     self.bootstrap_thread.start()
+                elif self.tor_status == 'cannot_connect':
+                    # print to the stderr
+                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
+                    # display error message on GUI
+                    self.tor_status_page.bootstrap_progress.setVisible(False)
+                    self.tor_status_page.text.setText('<p><b>Tor failed to (re)start.</b></p>\
+                    <p>Job for tor@default.service failed because the control process \
+                    exited with error code.</p>\
+                    <p>See "systemctl status tor@default.service" and \
+                    "journalctl -xe" for details.</p>\
+                    <p>You may not be able to use any network facing application for now.</p>')
+                elif self.tor_status == 'missing_disablenetwork_line':
+                    # print to the stderr
+                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
+                    # display error message on GUI
+                    self.tor_status_page.bootstrap_progress.setVisible(False)
+                    self.tor_status_page.text.setText('<p><b>Missing DisableNetwork Line.</b></p>\
+                    <p>You will not be able to use any network facing application for now because\
+                    the "DisableNetwork 0" line in /etc/tor/torrc file is missing.</p>\
+                    <p>Please try click the <i>Back button</i> and then \
+                    click the <i>Next button</i>.</p>\
+                    <p>If after doing that you still get this error please do the following:</p>\
+                    <blockquote>\
+                    <p>1. Open up <code>/etc/tor/torrc</code> file with wirte privilege.</p>\
+                    <p>2. Add the following line <code>DisableNetwork 0</code> at the bottom.</p>\
+                    <p>3. Save it.</p>\
+                    </blockquote>\
+                    <p>Please consider report this bug also.</p>')
                 else:
-                    print('Unexpected tor_status: ' + self.tor_status)
+                    # print to the stderr
+                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
+                    # display error message on GUI
+                    self.tor_status_page.bootstrap_progress.setVisible(False)
+                    self.tor_status_page.text.setText('<p><b>Unexpected Exception.</b></p>\
+                    <p>You may not be able to use any network facing application for now.</p>\
+                    Unexpected exception reported from tor_status module:' + self.tor_status)
+                    
+                    
             else:
                 self.tor_status = tor_status.set_disabled()
                 self.tor_status_page.bootstrap_progress.setVisible(False)
-                self.tor_status_page.text.setText('<b>Tor is disabled.</b> You will not be able to use any \
-                                                   network facing application.<p> If you shut down the gateway \
-                                                   now, this wizard will be run automatically next time you boot. \
-                                                   </p><p>You can run it at any moment using <i>Anon Connection Wizard</i> \
-                                                   from your application launcher, or from a terminal:<blockquote> \
-                                                   <code>kdesudo anon-connection-wizard</code></blockquote> \
-                                                   or press the Back button and select another option.')
+                self.tor_status_page.text.setVisible(True)
+                self.tor_status_page.text.setText('<p><b>Tor is disabled.</b></p>\
+                <p>You will not be able to use any network facing application.</p>\
+                <p>You can enable Tor at any moment using <i>Anon Connection Wizard</i> \
+                from your application launcher, or from a terminal:\
+                <blockquote><code>kdesudo anon-connection-wizard</code></blockquote> \
+                or even simply press the <i>Back button</i> and select another option right now.')
                 self.show_finish_button()
 
     def back_button_clicked(self):

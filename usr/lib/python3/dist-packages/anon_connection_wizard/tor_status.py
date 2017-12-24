@@ -26,9 +26,10 @@ def tor_status():
         return 'bad_torrc'
 
 '''Unlike tor_status() function which only shows the current state of the /etc/tor/torrc,
-set_enabled() and set_disabled() function will repair the missing torrc or DisableNetwork line.
-This makes sense because when we call set_enabled() or set_disabled() we really want Tor work,
-rather than receive a 'no_torrc' or 'bad_torrc' complain, which is not helpful for users.\
+set_enabled() and set_disabled() function will try to repair the missing torrc or
+DisableNetwork line by calling repair_torrc module.
+This makes sense because when we call set_enabled() or set_disabled() we really want Tor to work,
+rather than receive a 'no_torrc' or 'bad_torrc' complain, which is not helpful for users.
 '''
 def set_enabled():
     repair_torrc.repair_torrc()  # This gurantees a good torrc
@@ -73,7 +74,7 @@ def set_enabled():
 
             return 'tor_enabled'
 
-    return 'Unexpected result'
+    return 'missing_disablenetwork_line'
 
 def set_disabled():
     repair_torrc.repair_torrc()  # This gurantees a good torrc    
