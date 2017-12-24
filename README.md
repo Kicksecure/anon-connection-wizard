@@ -1,13 +1,16 @@
-# First Time Connection Setup #
+# Tor Connection Configuration #
 
- When the gateway starts for the first time, it won't automatically connect to 
- the public Tor network. This is useful for users who want to hide Tor from
- their ISP. anon-connection-wizard is automatically started, which let the 
- user choose  from  different methods to connect (public Tor network,
- bridges, etc.).
- 
- The wizard can be run at any time to change the connection configuration.
- 
+anon-connection-wizard is a Tor-launcher-like application that helps users
+in different Internet environment connect to the Tor network. It helps user
+to configure Tor to use a proxy and/or Tor bridges. This application is
+especially useful for system Tor users who would like to run the standalone
+core Tor with different torified applications. The wizard can be run at any
+time to change the connection configuration.
+
+anon-connection-wizard is produced independently from the Tor anonymity
+software and carries no guarantee from The Tor Project about quality,
+suitability or anything else.
+
 (This package description has been [automatically](https://github.com/Whonix/whonix-developer-meta-files/blob/master/debug-steps/packaging-helper-script) extracted and mirrored from `debian/control`.)
 
 # Manual Page #
@@ -59,7 +62,7 @@ gpg --export 916B8D99C38EAF5E8ADC7A2A8D66066A2EEACCDA | sudo apt-key add -
 3\. Add Whonix's APT repository.
 
 ```
-echo "deb http://sourceforge.net/projects/whonixdevelopermetafiles/files/internal/ wheezy main" > /etc/apt/sources.list.d/whonix.list
+echo "deb http://deb.whonix.org jessie main" > /etc/apt/sources.list.d/whonix.list
 ```
 
 4\. Update your package lists.

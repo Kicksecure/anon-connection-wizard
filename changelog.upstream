@@ -1,3 +1,96 @@
+commit d13be05aa4c85232155aeb4f5d1b061b9f28ee27
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Dec 21 20:24:09 2017 +0000
+
+    readme
+
+commit 034ee472c421e1697a95c0e038f1f1b28dc200b7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 15 20:12:17 2017 +0000
+
+    bumped changelog version
+
+commit db8dccd526c6f436a35de5af83f13c8f8244cf7f
+Merge: 6fa696e 3844f87
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 15 18:21:24 2017 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 3844f87d34c9104a62c98f543fd6aad58dcfd236
+Merge: 6fa696e 52e8eea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 15 18:15:41 2017 +0000
+
+    Merge pull request #10 from irykoon/master
+    
+    Recent Commits
+
+commit 52e8eea00a648ce995013f9e944314a2f288b358
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Dec 3 07:43:05 2017 +0000
+
+    Remove sys.exit(0)
+    
+    This is a work around to the bug that when anon-connection-wizard sys.exit(0) the other python application who calls a-c-w will also end.
+
+commit 5406d2f76639c436cbeb81ddd760df1501d65ade
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Nov 21 00:24:48 2017 +0000
+
+    Update descriptions in man and control
+
+commit e58fce7c764c03dccaf85d93020e3937187964cc
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Nov 6 20:16:49 2017 +0000
+
+    Suggest user configutation go to /etc/torrc.d/50_user.torrc
+
+commit 64fc291298aeff8632c478133aea4d4398503ad0
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Nov 6 19:52:45 2017 +0000
+
+    Rename /etc/torrc.d/anon-connection-wizard.torrc to /etc/torrc.d/40_anon-connection-wizard.torrc
+    
+    Details: https://forums.whonix.org/t/torrc-d-is-comming/4041/15
+
+commit 0419795c4f305c0ce02014e74108255f755ad244
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Nov 6 03:56:22 2017 +0000
+
+    Mark meek-azure as "works in China"
+
+commit b52062581d92b96bf4bbd25e1ad407d1973c4189
+Merge: 069449a 93e51e2
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Oct 29 04:16:18 2017 +0000
+
+    Change the icon from whonix.ico to advancedsettings.ico
+
+commit 069449a7d477aa64d8d6c2698bc651bb3d44c70b
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Oct 29 03:54:38 2017 +0000
+
+    Add .gitignore file
+
+commit 6fa696e5088fb71974341503a9a4680a341fad1a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 2 15:09:16 2017 +0200
+
+    fix path
+
+commit e802bdf7f1b23dff7b34673c112ce93939615697
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 2 15:08:47 2017 +0200
+
+    fix
+
+commit f2eaf884f797041652bb670a8aa6ad9c1a25fd07
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 2 15:06:55 2017 +0200
+
+    bumped changelog version
+
 commit 86627ad5349a5a09a40847091d896b1135509d5a
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Oct 2 15:06:08 2017 +0200
@@ -40,6 +133,12 @@ Author: irykoon <irykoon@gmail.com>
 Date:   Sun Oct 1 02:00:13 2017 +0000
 
     Support .desktop startup
+
+commit 93e51e2a0f3e3a12e2e817e413e7d1c8edc987f2
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Oct 1 00:48:03 2017 +0000
+
+    Change the icon from whonix.ico to advancedsettings.ico
 
 commit 28e88d65468d61c5bc427499474390af3eabc023
 Author: irykoon <irykoon@gmail.com>
