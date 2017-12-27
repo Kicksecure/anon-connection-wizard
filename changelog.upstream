@@ -1,3 +1,40 @@
+commit f928f0ecb082a1f590d13afdc80b539f9e039428
+Merge: b00586c f14992e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 24 18:11:10 2017 +0100
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit f14992e2cd2cc2b4ba3b4284a76cc5cf4d5883b3
+Merge: 813f3c8 b00586c
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Dec 24 15:29:12 2017 +0000
+
+    Merge remote-tracking branch 'upstream/master'
+
+commit 813f3c88e6045c1e9337bc31ab93f420234aedcd
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Dec 24 15:24:16 2017 +0000
+
+    Handle unexpected exception from tor_status.py
+    
+    All the exceptions from tor_status.py should be handled by anon-connection-wizard. This added default case will help us realize a new exception from tor_status.py is not handled well by anno-connection-wizard and we may add another specified case.
+
+commit 9c722b994cd53d20889d9f3dd95dbe04498985fa
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Dec 24 15:10:39 2017 +0000
+
+    Handle the exceptions from tor_status.py better
+    
+    set_enabled() function in tor_status.py module will try to start the Tor.
+    If an error occurs, tor_status.py will return a string indicating the problem, e.g "cannot_connect". Anon-Connection-Wizard will then provide different instructions on what can be done by the users.
+
+commit b00586c7137d90237204a8632593e3a8f6730c43
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Dec 21 20:28:18 2017 +0000
+
+    bumped changelog version
+
 commit d13be05aa4c85232155aeb4f5d1b061b9f28ee27
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Dec 21 20:24:09 2017 +0000
