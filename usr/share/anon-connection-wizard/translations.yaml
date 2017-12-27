@@ -42,11 +42,11 @@ anon-connection-wizard:
             <p>File /etc/tor/torrc:</p>
 
         finish_page_ok:
-            <p>Whonix Setup is completed.</p>
+            <p>anon-connection-wizard is completed.</p>
             <p>Click "Finish" to run whonixcheck.</p>
 
         finish_disabled:
-            <p>Whonix Setup is completed, but Tor networking is disabled.</p>
+            <p>anon-connection-wizard is completed, but Tor networking is disabled.</p>
             <p>whonixcheck will <b>not</b> be run.</p>
 
         something_wrong:
@@ -60,14 +60,14 @@ anon-connection-wizard:
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
             And add.
             <blockquote>#DisableNetwork 0</blockquote>
-            Save. Then re-run Whonix Setup.</p>
+            Save. Then re-run anon-connection-wizard.</p>
 
         bad_torrc:
             <p>The line "DisableNetwork 0" does not exist in "/etc/tor/torrc".</p>
             <p>You can try to manually edit /etc/tor/torrc&#58;
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
             <p>Add line containing only "DisableNetwork 0" (without the quotes),
-            and re-run Whonix Setup.</p>
+            and re-run anon-connection-wizard.</p>
 
         cannot_connect:
             <p>"sudo service tor@default status" returned non-zero exit code , which means Tor does NOT work.</p>
