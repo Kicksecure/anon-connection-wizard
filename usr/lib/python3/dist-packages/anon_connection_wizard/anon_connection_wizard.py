@@ -123,14 +123,6 @@ class Common:
 
     #groupBox_location_
 
-    if not os.path.exists('/var/cache/whonix-setup-wizard/status-files'):
-        os.makedirs('/var/cache/whonix-setup-wizard/status-files')
-
-    if not os.path.exists('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done'):
-        ## "not whonix_connection.done" is required once at first run to get a copy of the original torrc.
-        f = open('/var/cache/whonix-setup-wizard/status-files/whonix_connection.done', 'w')
-        f.close()
-
     wizard_steps = ['connection_main_page',
                     'bridge_wizard_page_2',
                     'proxy_wizard_page_2',
