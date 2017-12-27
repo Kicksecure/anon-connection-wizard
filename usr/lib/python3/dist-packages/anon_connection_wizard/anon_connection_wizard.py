@@ -580,7 +580,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     def __init__(self):
         super(ProxyWizardPage2, self).__init__()
 
-        translation = _translations(Common.translations_path, 'whonixsetup')
+        translation = _translations(Common.translations_path, 'anon-connection-wizard')
         self._ = translation.gettext
         self.steps = Common.wizard_steps
 
@@ -1019,7 +1019,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
     def __init__(self):
         super(AnonConnectionWizard, self).__init__()
 
-        translation = _translations(Common.translations_path, 'whonixsetup')
+        translation = _translations(Common.translations_path, 'anon-connection-wizard')
         self._ = translation.gettext
 
         self.parseTorrc()

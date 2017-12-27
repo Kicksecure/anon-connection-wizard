@@ -1,4 +1,4 @@
-whonixsetup:
+anon-connection-wizard:
     en:
         connection_text:
             <p>Before we let Tor connect, we need to know about your Internet connection.</p>
