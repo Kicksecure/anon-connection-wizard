@@ -257,7 +257,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                         'meek-amazon (works in China)',
                         'meek-azure (works in China)'
                         # The following will be uncommented as soon as being implemented.
-                        # Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
                         # 'fte'
                        ]
 
