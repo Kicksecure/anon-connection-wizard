@@ -87,7 +87,7 @@ anon-connection-wizard:
             <p>Ultimately, the best protection is a social approach. The more Tor users there are near you and the more
             diverse their interests, the safer it will be to use it. Convince other people to use Tor!</p>
             <p></p>
-            <p>Note. whonixsetup enables Tor networking by uncommenting "DisableNetwork 0" in /etc/tor/torrc.
+            <p>Note. anon-connection-wizard enables Tor networking by uncommenting "DisableNetwork 0" in /etc/tor/torrc.
 
         tooltip_2:
             <p>This option will disable Tor networking.</p>
@@ -103,7 +103,7 @@ anon-connection-wizard:
             <p><i><b>Configure Whonix to Use a Bridge.</b></i><br></br>
             You must manually find and add the bridges to /etc/tor/torrc.<br></br>
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
-            <p>After you have finished, run whonixsetup again.</p>
+            <p>After you have finished, run anon-connection-wizard again.</p>
             <p>More detailed instructions on how to add bridges can be found in /etc/tor/torrc.example file's Bridges section.</p>
             <blockquote>Start Menu -> Applications -> System -> Torrc.example</blockquote>
 
@@ -124,7 +124,7 @@ anon-connection-wizard:
             <p>You must manually edit /etc/tor/torrc for Tor to navigate through your firewall or proxy.</p>
             Or, if you are using a graphical Whonix-Gateway&#58; </p>
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
-            <p>After you have finished editing, run whonixsetup again.</p>
+            <p>After you have finished editing, run anon-connection-wizard again.</p>
 
 not_root:
     icon: Critical
