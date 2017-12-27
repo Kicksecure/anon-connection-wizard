@@ -435,8 +435,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                     bridge_type = 'meek-azure'
                 # elif bridge_type.selftartswith('scramblesuit'):
                 #    bridge_type = 'scramblesuit'
-                ''' TODO: Other options can be implemented once whonix supports them
-                Detail: https://github.com/Whonix/anon-connection-wizard/pull/2
+                ''' TODO: Other options can be implemented once there are supported.
                 elif bridge_type.startswith('fte'):
                 bridge_type = 'fte'
                 '''
@@ -1405,7 +1404,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         f.write(Common.command_meek_lite + '\n')
                     elif Common.bridge_type == 'meek-azure':
                         f.write(Common.command_meek_lite + '\n')
-                        # More types of bridges will be availble once Whonix support them: meek, flashproxy
+                        # More types of bridges will be availble once supported: meek, flashproxy
                     elif Common.bridge_type == '':
                         pass
                     bridges = json.loads(open(Common.bridges_default_path).read())
