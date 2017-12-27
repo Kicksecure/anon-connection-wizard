@@ -34,7 +34,7 @@ class Common:
     '''
     Variables and constants used through all the classes
     '''
-    translations_path = '/usr/share/translations/whonix_setup.yaml'
+    translations_path = '/usr/share/anon-connection-wizard/translations.yaml'
     torrc_file_path = '/etc/torrc.d/40_anon_connection_wizard.torrc'
     torrc_tmp_file_path = ''
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
