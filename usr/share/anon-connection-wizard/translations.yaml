@@ -1,0 +1,270 @@
+whonixsetup:
+    en:
+        locale_finish:
+            <p>You can always change country/language again by going to&#58; </p>
+            <blockquote>Start Menu -> System Settings -> Locale</blockquote>
+             <p>You can always change keyboard layout again by going to&#58; </p>
+            <blockquote>Start Menu -> System Settings -> Input Devices </blockquote>
+            <p>Click "Finish" to start the deskop environment.</p>
+
+        kcmshell_not_found:
+            <p>The program for setting language and keyboard options ("/usr/bin/kcmshell4") was not found.
+            Please check that it exists in your system.</p>
+            <p>Click "Finish" to start the deskop environment.</p>
+
+        disclaimer_1:
+            <p><b>ENG. Important Information About Whonix Part 1/2<br></br>
+            GER. Wichtige Informationen zu Whonix Teil 1/2</b></p>
+            <p>ENG. Please do NOT continue unless you understand everything!<br></br>
+            GER. Bitte NICHT weitermachen, falls Sie nicht alles verstehen!</p>
+            <p>ENG. Welcome to Whonix!<br></br>
+            GER. Willkommen zu Whonix!</p>
+            <p>ENG. This is not the usual blah blah blah but fact.<br></br>
+            GER. Dies ist kein blabla, sondern Fakt.</p>
+            <p>ENG. Whonix is experimental software. Do not rely on it for strong anonymity.<br></br>
+            GER. Whonix is experimentelle Software. Nicht darauf verlassen, wenn starke Anonymitaet benoetigt wird!</p>
+            <p>ENG. Whonix is created by volunteers in their spare time.<br></br>
+            GER. Whonix wurde von Freiwilligen in ihrer Freizeit erstellt.</p>
+            <p>ENG. Whonix was created by self-taught hobbyists in their spare time, without the backing of any particular formal certification or training.<br></br>
+            GER. Whonix wurde von Menschen erstellt, die sich die notwendigen Faehigkeiten um Whonix herzustellen als Hobby selbst beigebracht haben.
+            Eine formelle Ausbildung ist nicht vorhanden.</p>
+            <p>ENG. Although Whonix attempts to be as usable as possible, there are many ways in which it fails.<br></br>
+            GER. Obwohl Whonix das Ziel hat, so einfach wie moeglich benutzbar zu sein, ist es schwierig es zu benutzen ohne Fehler zu machen.</p>
+            <p>ENG. Whonix is in English. Do not use Whonix without excellent knowledge of the English language. Misunderstandings have consequences.<br></br>
+            GER. Ohne exzellentes Verstaendnis der Englischen Sprache wird davon abgeraten Whonix zu benutzen, weil Uebersetzngen nur zum Teil
+            verfuegbar sind und Missverstaendnisse Konsequenzen haben koennen.</p>
+            <p>ENG. Whonix is based on other software, including GNU/Linux, Debian, and VirtualBox.
+            Do not rely on Whonix without working knowledge of these technologies.<br></br>
+            GER. Ohne gute Kenntnisse ueber die involvierten Software Pakete (Debian, Linux, VirtualBox etc.) wird davon abgeraten Whonix zu benutzen,
+            weil Whonix auf diesen basiert.</p>
+            <p>ENG. Please do NOT continue unless you understand everything!<br></br>
+            GER. Bitte NICHT weitermachen, falls Sie nicht alles verstehen!</p>
+
+        disclaimer_2:
+            <p><b>ENG. Important Information About Whonix Part 2/2<br></br>
+            GER. Wichtige Informationen zu Whonix Teil 2/2</b></p>
+            <p>ENG. The documentation available on Whonix.org is a crash course in anonymity, privacy, and security on the Internet.<br></br>
+            Whonix is a technological means to anonymity, but staying anonymous is not just a technological problem.
+            No tool is enough to keep you safe. Anonymity is a complex problem without an easy solution, and security is only as strong as
+            its weakest link, often the user. The more you know, the safer you can be.<br></br>
+            GER. Whonix documentation, verfuegbar auf Whonix.org ist ein Krashcours in Anonymitaet und Sicherheit im Internet.
+            Whonix ist ein technologisches Hilfsmittel fue Anonymitaet, jedoch anonym zu bleiben ist nicht nur ein technologisches Problem.
+            Keine software kann alleine leisten sicher zu sein. Anonymitaet ist ein komplexes Problem ohne einfache Loesung und die
+            Sicherheit der Kette ist nur so Stark wie das schwaechste Glied, welches oft der Benutzer ist. Je mehr Sie wissen,
+            desto sicherer koennen sie sein.</p>
+            <p>ENG. Whonix is a compilation of software packages, each under its own license.<br></br>
+            GER. Whonix ist eine Zusammenstellung von Softwarepaketen. Jedes unter einer eigenen Lizenz.</p>
+            <p>ENG. The compilation is made available under the terms of the GNU General Public License as published by the Free Software Foundation,
+            either version 3 of the License, or (at your option) any later version.<br></br>
+            GER. Die Zusammenstellung ist unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation, Version 3
+            der Lizenz oder (nach Ihrer Wahl) jeder spaeteren veroeffentlichten Version.</p>
+            <p>ENG. The distribution terms for each program are described in/usr/share/doc/*/copyright.<br></br>
+            GER. Die Lizenzbedienungen fuer jedes einzelne Programm kann unter /usr/share/doc/*/copyright gefunden werden</p>
+            <p>ENG. The programs included with Whonix are Free Software.<br></br>
+            GER. Die Programme die mit Whonix kommen sind Freie Software.</p>
+            <p>ENG. Whonix is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY, without even the implied warranty of
+            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE, to the extent permitted by applicable law. See the GNU General Public License
+            for more details.<br></br>
+            GER. Whonix wurde in der Hoffung hergestellt, dass Sie es nuetzlich finden. Haftung ist bis zum maximal Moeglichen der geltenden
+            Gesetze ausgeschlossen. Oder in anderen Worten, Haftung ist nur in soweit moeglich, wie diese per Gesetz nicht ausgeschlossen werden darf.</p>
+            <p>ENG. Whonix is free of charge.<br></br>
+            GER. Whonix ist kostenlos.</p>
+            <p>ENG. Whonix is a derivative of Debian GNU/Linux.<br></br>
+            GER. Whonix ist ein Derivativ von Debian GNU/Linux.</p>
+            <p>ENG. Whonix is produced independently of, with no guarantee from, The Tor Project.<br></br>
+            GER. Whonix wurde unabhaengig von und ohne jegliche Garantien von The Tor Project hergestellt.</p>
+
+        accept: Understood / Verstanden
+        reject: Not understood / Nicht verstanden
+
+        whonix_repository_page:
+            <p>First boot!  Whonix Setup will run Whonix Repository Wizard.</p>
+            <p>Click "Next" to start the wizard and finish Whonix Setup.</p>
+
+        repository_wizard_not_found:
+            <p>First boot! Whonix Repository Wizard should be run, but is not installed. It looks like
+            Whonix Gateway is not fully installed!</p>
+            <p>Click "Next" to finish Whonix Setup.</p>
+
+        connection_text:
+            <p>Before we let Tor connect, we need to know about your Internet connection.</p>
+            <p>Which of the following applies to you?</p>
+            <p><i>Hover the mouse on the options to show a tooltip pop up.</i></p>
+
+        enable_tor:
+            I am ready to enable Tor.
+
+        disable_tor:
+            I want to disable Tor.
+
+        censored_tor:
+            Tor is censored or dangerous in my area.
+
+        use_proxy:
+            I use proxy or firewall settings to connect to the internet.
+
+        tor_enabled:
+            <p>Tor networking is enabled.</p>
+            <p>(<i>line</i> "DisableNetwork 0" <i> in /etc/tor/torrc was uncommented.)<i/></p>
+            <hr></hr>
+            <p>File /etc/tor/torrc:</p>
+
+        tor_already_enabled:
+            <p>Tor networking is already enabled.</p>
+            <p>(<i>line</i> "DisableNetwork 0" <i> in /etc/tor/torrc uncommented.)<i/></p>
+            <hr></hr>
+            <p>File /etc/tor/torrc:</p>
+
+        tor_disabled:
+            <p>Tor networking is disabled.</p>
+            <p>(<i>line</i> "DisableNetwork 0" <i> in /etc/tor/torrc was commented out.)<i/></p>
+            <hr></hr>
+            <p>File /etc/tor/torrc:</p>
+
+        tor_already_disabled:
+            <p>Tor networking is already disabled.</p>
+            <p>(<i>line</i> "DisableNetwork 0" <i> in /etc/tor/torrc commented out.)<i/></p>
+            <hr></hr>
+            <p>File /etc/tor/torrc:</p>
+
+        finish_page_ok:
+            <p>Whonix Setup is completed.</p>
+            <p>Click "Finish" to run whonixcheck.</p>
+
+        finish_disabled:
+            <p>Whonix Setup is completed, but Tor networking is disabled.</p>
+            <p>whonixcheck will <b>not</b> be run.</p>
+
+        something_wrong:
+            <p>Something is wrong with torrc!</p>
+            <p>Press "Next" and try and fix the problem as per the instructions, or as a last resort,
+            report a bug.</p>
+
+        no_torrc:
+            <p>The file "/etc/tor/torrc" does not exist.</p>
+            <p>You can try to manually create /etc/tor/torrc. Open it&#58;
+            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
+            And add.
+            <blockquote>#DisableNetwork 0</blockquote>
+            Save. Then re-run Whonix Setup.</p>
+
+        bad_torrc:
+            <p>The line "DisableNetwork 0" does not exist in "/etc/tor/torrc".</p>
+            <p>You can try to manually edit /etc/tor/torrc&#58;
+            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
+            <p>Add line containing only "DisableNetwork 0" (without the quotes),
+            and re-run Whonix Setup.</p>
+
+        cannot_connect:
+            <p>"sudo service tor@default status" returned non-zero exit code , which means Tor does NOT work.</p>
+            <p>Maybe your Whonix-Gateway has only one network card attached? Most likely there
+            is something wrong with your /etc/tor/torrc.</p>
+            <p>You can try to manually edit /etc/tor/torrc&#58; </p>
+            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
+            <p>Running&#58; </p>
+            <blockquote>sudo service tor@default restart</blockquote>
+            <p>might help with troubleshooting.</p>
+
+        tooltip_1:
+            <p>This option lets you connect to the public Tor network now.</p>
+            <p></p>
+            <p>By default, Tor does not try to hide the fact that you are using it. If this concerns you, read
+            the instructions from the  option "Tor is censored or dangerous in my area" and select it.</p>
+            <p>Ultimately, the best protection is a social approach. The more Tor users there are near you and the more
+            diverse their interests, the safer it will be to use it. Convince other people to use Tor!</p>
+            <p></p>
+            <p>Note. whonixsetup enables Tor networking by uncommenting "DisableNetwork 0" in /etc/tor/torrc.
+
+        tooltip_2:
+            <p>This option will disable Tor networking.</p>
+            <p>It should be used in case you want to make sure Tor will not connect to the public Tor network.</p>
+
+        tooltip_3:
+            <p><b>The bridges option is not available yet. You must configure Tor manually.</b></p>
+            <p>Less sophisticated censors prevent users from accessing the Tor network by blocking connections to known relays.
+            "Bridge relays" help these users access Tor by not being in the same public lists as normal relays.
+            Sophisticated censors can only be circumvented with private obfuscated bridges.
+            Because there is NOT a 100%  way to hide Tor, Whonix does NOT recommend using Tor if you fear detection.</p>
+
+            <p><i><b>Configure Whonix to Use a Bridge.</b></i><br></br>
+            You must manually find and add the bridges to /etc/tor/torrc.<br></br>
+            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
+            <p>After you have finished, run whonixsetup again.</p>
+            <p>More detailed instructions on how to add bridges can be found in /etc/tor/torrc.example file's Bridges section.</p>
+            <blockquote>Start Menu -> Applications -> System -> Torrc.example</blockquote>
+
+            <p><i><b>Configure Whonix to Use a VPN.</b></i><br></br>
+            Where Tor is censored but VPNs are allowed, you can hide your Tor connection inside a VPN connection.
+            To the censors, your internet traffic will look like an encrypted VPN connection. The VPN will then send your
+            Tor traffic onward to the first Tor relay.</p>
+            <p>If you are using Whonix-Gateway inside a virtual machine, configure your VPN software on the host operating system.
+            Your VPN provider will have instructions for you to follow and possibly custom software to help you connect.</p>
+            <p>However, you MUST configure your VPN software (whether custom or built into your operating system) to send
+            all internet traffic through the VPN connection, and you MUST configure your VPN software to block all internet
+            traffic if the VPN is suddenly disconnected. Additionally, you MUST NOT chose PPTP as your encryption even if
+            your VPN allows it. Improperly configured VPN software will reveal your Tor connection to the censors.</p>
+            <p>Whonix recommends a VPN provider who is serious about privacy and is outside the reach of your censors.</p>
+
+
+        tooltip_4:
+            <p>You must manually edit /etc/tor/torrc for Tor to navigate through your firewall or proxy.</p>
+            Or, if you are using a graphical Whonix-Gateway&#58; </p>
+            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
+            <p>After you have finished editing, run whonixsetup again.</p>
+
+        repo_page_1:
+            <p><B>Automatically install updates from the Whonix team?</B></p>
+            <p>Whonix News (via whonixcheck) will notify you of available updates.</p>
+            <p>When you run</p><blockquote>sudo apt-get dist-upgrade</blockquote>
+            <p>updates from the Whonix team will be AUTOMATICALLY downloaded and installed, along with updates from the Debian team.
+            Please read <a href=https://www.whonix.org/wiki/Trust>https://www.whonix.org/wiki/Trust</a> to understand the risks.</p>
+        repo_page_2:
+            <p>Which Whonix Repository would you like to receive updates from?<p>
+            <p>Most users should select the Stable repository.</p>
+        repo_enable:
+            Yes. Automatically install updates from the Whonix team.
+        repo_disable:
+            No. I will manually update from source code.
+        repo_finish_disabled:
+            <p>You will not receive updates from the Whonix team.</p>
+            <p>You can always start the Whonix Repository Tool again.</p>
+            <p>In a terminal&#58; </p>
+            <blockquote>sudo whonix_repository</blockquote>
+            <p>Or by running&#58; </p>
+            <blockquote>Start Menu -> Applications -> System -> Whonix Repository.</blockquote>
+        repo_finish_enabled:
+            <p>Updates from the Whonix team will be automatically installed when you upgrade.
+            <p>You can always start the Whonix Repository Tool again.</p>
+            <p>In a terminal&#58; </p>
+            <blockquote>sudo whonix_repository</blockquote>
+            <p>Or by running&#58; </p>
+            <blockquote>Start Menu -> Applications -> System -> Whonix Repository.</blockquote>
+        repo_finish_failed:
+            <p>Please report this Whonix bug!</p>
+            <p>You can always start the Whonix Repository Tool again by running</p>
+            <blockquote>Start Menu -> Applications -> System -> Whonix Repository.</blockquote>
+
+        first_use_notice:
+            <b>Welcome to Whonix-Gateway!</b>
+            <p>This is NOT a personal work station for your own private activities! So please do NOT use Whonix-Gateway
+            for any purpose other than configuring Tor and Whonix.</p>
+            <p>The more you learn about Whonix and anonymity, the safer you can become. Reading Whonix documentation
+            is recommended.</p>
+            <p>If your host has little RAM, you are advised to reduce Whonix-Gateway RAM to 256 MB. No graphical desktop environment
+            will be started in that case. A Whonix-Gateway without graphical desktop environment works as good as one with,
+            but it is not as convenient. If you want, you can start a graphical desktop environment
+            by toggling how much RAM is available to Whonix-Gateway.</p><p>Documentation about this feature can be found in
+            <a href=https://www.whonix.org/wiki/Desktop>https://www.whonix.org/wiki/Desktop</a>.</p>
+            <p>If you want to change the keyboard layout from the default "us" to something else&#58;
+            <blockquote>Start menu button -> Applications -> Settings -> System Settings -> input devices -> layout ->
+            add yours and remove default one -> apply -> Done.</blockquote></p>
+
+not_root:
+    icon: Critical
+    button: Ok
+    position: center
+    en:
+        title: Root privileges required
+        message:
+            <p><B>ERROR. This must be run as root!</B></p>
+            <p>Use a root file manager or "kdesudo" in a terminal.</p>
