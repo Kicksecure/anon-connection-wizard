@@ -1052,7 +1052,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
 
     def setupUi(self):
-        self.setWindowIcon(QtGui.QIcon("/usr/share/icons/anon-icon-pack/advancedsettings.ico"))  # whonix-sepecific
+        self.setWindowIcon(QtGui.QIcon("/usr/share/anon-connection-wizard/advancedsettings.ico"))
         self.setWindowTitle('Anon Connection Wizard')
         self.setFixedSize(580, 450)  # This is important to control the fixed size of the window
 

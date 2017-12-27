@@ -10,7 +10,7 @@ Name=Anon Connection Wizard
 GenericName=Anon Connection Wizard
 Comment=Tor Connection Configuration
 Categories=System;
-Icon=/usr/share/icons/anon-icon-pack/advancedsettings.ico
+Icon=/usr/share/anon-connection-wizard/advancedsettings.ico
 ## Because we need a wrapper to start it.
 X-KDE-StartupNotify=false
 Keywords=system;Whonix;setup;connection;Tor;Anon;
