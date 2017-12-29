@@ -1,3 +1,77 @@
+commit 7781471215bd6fccb8e31e924a0f8f866e5324e8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 19:13:34 2017 +0000
+
+    Whonix Setup -> anon-connection-wizard
+
+commit 7231e22ce9a7ef619e39a414afdded223330ffa7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 19:08:59 2017 +0000
+
+    whonixsetup -> anon-connection-wizard
+
+commit c16554421082e0424699813838d90b96fb93c364
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 19:06:12 2017 +0000
+
+    get independence from anon-icon-pack
+
+commit 6e2904abdca0ac9d9e83579bc205ef29135683b7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 19:03:31 2017 +0000
+
+    comment
+
+commit 86883700835072cb3f9ac96728fa96d4aff8ddea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 19:02:28 2017 +0000
+
+    comment
+
+commit 123210b8751f02ee2589b6e3888b3b1a30234e00
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 19:00:52 2017 +0000
+
+    whonixsetup -> anon-connection-wizard
+
+commit 9a911d1ef7fb346d12e9a4b1a82eeb6aae1b4fbf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 18:59:16 2017 +0000
+
+    update translations_path to anon-connection-wizard
+
+commit bb835f75d7733781fa3b1956e0335869749a9a20
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 18:57:55 2017 +0000
+
+    remove whonix-setup-wizard specific parts
+
+commit 408ea637cacab2b745d943e59b73315361d4804e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 18:55:13 2017 +0000
+
+    import usr/share/anon-connection-wizard/translations.yaml
+    
+    from whonix-setup-wizard
+
+commit 698936c4fd02183c948b91aec226b177c913b251
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 18:31:43 2017 +0000
+
+    remove /var/cache/whonix-setup-wizard/status-files/whonix_connection.done since no longer required
+
+commit 57beb53c22b675e637b33e8772f3eef3a105e5f0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 18:30:47 2017 +0000
+
+    remove trailing spaces
+
+commit 865aa00d2611b5fac3c09b75c32222f709b9d894
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 27 18:25:41 2017 +0000
+
+    bumped changelog version
+
 commit f928f0ecb082a1f590d13afdc80b539f9e039428
 Merge: b00586c f14992e
 Author: Patrick Schleizer <adrelanos@riseup.net>
