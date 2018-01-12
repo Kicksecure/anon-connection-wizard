@@ -77,8 +77,8 @@ def set_enabled():
     return 'missing_disablenetwork_line'
 
 def set_disabled():
-    repair_torrc.repair_torrc()  # This gurantees a good torrc    
-    
+    repair_torrc.repair_torrc()  # This gurantees a good torrc
+
     fh = open('/etc/tor/torrc','r')
     lines = fh.readlines()
     fh.close()
