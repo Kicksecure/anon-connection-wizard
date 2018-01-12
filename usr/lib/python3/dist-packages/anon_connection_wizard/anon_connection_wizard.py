@@ -1490,7 +1490,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         ''' Using the following parsing fragments is too fixed,
                         which is not good implementation.
                         But as long as leave .torrc untouched by user, it will be Okay.
-                        We should also be caureful when changing the command line format in this app
+                        We should also be careful when changing the command line format in this app
                         '''
                         Common.proxy_ip = line.split(' ')[1].split(':')[0]
                         Common.proxy_port = line.split(' ')[1].split(':')[1].split('\n')[0]
