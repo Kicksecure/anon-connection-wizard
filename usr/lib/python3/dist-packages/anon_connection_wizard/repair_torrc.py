@@ -10,7 +10,7 @@ import sys, fileinput, os
 
 It will return:
 'fixed_nothing' if everything is good in torrc
-'fixed_missing_torrc' if missing /etc/tor/torrc is fixed 
+'fixed_missing_torrc' if missing /etc/tor/torrc is fixed
 'fixed_missing_line' if the missing "#DisableNetwork 0" or/and "%include /etc/torrc.d" line is fixed
 '''
 def repair_torrc():
@@ -20,7 +20,7 @@ def repair_torrc():
     if not os.path.exists('/etc/tor/torrc'):
         ## When /etc/tor/torrc is missing, Tor should work not very well, which means Tor is disabled.
         ## Therefore, we can safely append "#DisableNetwork 0", rather than "DisableNetwork 0".
-        ## We intended to write three parts of the text separately so that 
+        ## We intended to write three parts of the text separately so that
         ## each of them will be easier to find in the future.
 
         with open('/etc/tor/torrc', "a") as f:
@@ -57,7 +57,7 @@ def repair_torrc():
         if not ( '\n' in lines[-1]):
             with open('/etc/tor/torrc', "a") as f:
                 f.write('\n')
-        
+
         if not torrcd_line_exists:
             with open('/etc/tor/torrc', "a") as f:
                 f.write("%include /etc/torrc.d\n")
