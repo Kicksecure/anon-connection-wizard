@@ -5,11 +5,12 @@ import os, time
 from subprocess import call
 from anon_connection_wizard import repair_torrc
 
+anon_connection_wizard_torrc_path = '/usr/local/etc/torrc.d/40'
 def tor_status():
-    if not os.path.exists('/etc/tor/torrc'):
+    if not os.path.exists(anon_connection_wizard_torrc_path):
         return 'no_torrc'
 
-    fh = open('/etc/tor/torrc','r')
+    fh = open(anon_connection_wizard_torrc_path,'r')
     lines = fh.readlines()
     fh.close()
 
@@ -34,7 +35,7 @@ rather than receive a 'no_torrc' or 'bad_torrc' complain, which is not helpful f
 def set_enabled():
     repair_torrc.repair_torrc()  # This gurantees a good torrc
 
-    fh = open('/etc/tor/torrc','r')
+    fh = open(anon_connection_wizard_torrc_path,'r')
     lines = fh.readlines()
     fh.close()
 
@@ -57,7 +58,7 @@ def set_enabled():
 
         elif line.strip() == '#DisableNetwork 0':
 
-            for i, line in enumerate(fileinput.input('/etc/tor/torrc', inplace=1)):
+            for i, line in enumerate(fileinput.input(anon_connection_wizard_torrc_path, inplace=1)):
                 sys.stdout.write(line.replace('#DisableNetwork 0', 'DisableNetwork 0'))
 
             command = 'systemctl --no-pager restart tor@default'
@@ -79,7 +80,7 @@ def set_enabled():
 def set_disabled():
     repair_torrc.repair_torrc()  # This gurantees a good torrc    
     
-    fh = open('/etc/tor/torrc','r')
+    fh = open(anon_connection_wizard_torrc_path,'r')
     lines = fh.readlines()
     fh.close()
 
@@ -88,7 +89,7 @@ def set_disabled():
             return 'tor_already_disabled'
 
         elif line.strip() == 'DisableNetwork 0':
-            for i, line in enumerate(fileinput.input('/etc/tor/torrc', inplace=1)):
+            for i, line in enumerate(fileinput.input(anon_connection_wizard_torrc_path, inplace=1)):
                 sys.stdout.write(line.replace('DisableNetwork 0', '#DisableNetwork 0'))
 
             command = 'systemctl --no-pager stop tor@default'
