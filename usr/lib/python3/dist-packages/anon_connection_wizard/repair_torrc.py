@@ -48,4 +48,3 @@ def repair_torrc_95_whonix():
             ## /usr/local/etc/torrc.d/50_user.torrc\n\
             \n\
             %include /usr/local/etc/torrc.d\n")
-
