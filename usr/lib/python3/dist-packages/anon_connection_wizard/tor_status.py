@@ -26,7 +26,7 @@ def tor_status():
     if not line_exists:
         return 'bad_torrc'
 
-'''Unlike tor_status() function which only shows the current state of the /etc/tor/torrc,
+'''Unlike tor_status() function which only shows the current state of the anon_connection_wizard.torrc,
 set_enabled() and set_disabled() function will try to repair the missing torrc or
 DisableNetwork line by calling repair_torrc module.
 This makes sense because when we call set_enabled() or set_disabled() we really want Tor to work,
@@ -87,7 +87,6 @@ def set_disabled():
     for line in lines:
         if line.strip() == '#DisableNetwork 0':
             return 'tor_already_disabled'
-
         elif line.strip() == 'DisableNetwork 0':
             for i, line in enumerate(fileinput.input(anon_connection_wizard_torrc_path, inplace=1)):
                 sys.stdout.write(line.replace('DisableNetwork 0', '#DisableNetwork 0'))
