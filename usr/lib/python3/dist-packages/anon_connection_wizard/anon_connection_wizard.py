@@ -45,12 +45,12 @@ class Common:
 
     use_bridges = False
     use_default_bridge = True
-    bridge_type = 'obfs4'  # defualt value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
+    bridge_type = 'obfs4'  # default value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
     bridge_type_with_comment = 'obfs4 (recommended)'
     bridge_custom = ''  # the bridges info lines
 
     use_proxy = False
-    proxy_type = 'HTTP / HTTPS'  # defualt is '-', not blank
+    proxy_type = 'HTTP / HTTPS'  # default is '-', not blank
     proxy_ip = ''
     proxy_port = ''
     proxy_username = ''
@@ -59,9 +59,9 @@ class Common:
     init_tor_status = ''  # it records the initial status of Tor, serving as a backup
     disable_tor = False
 
-    ''' The following is command lines availble to be added to .torrc,
+    ''' The following is command lines available to be added to .torrc,
     since they are used more than once in the code,
-    it is easier for later maintainance of the code to write them all here and refer them when used
+    it is easier for later maintenance of the code to write them all here and refer them when used
     Notice that:
     1. they do not include '\n'
     2. the ' ' appended at last should not be eliminate
@@ -117,7 +117,7 @@ class Common:
     font_option.setWeight(65)
 
 
-    '''The following parameters indicates the size and locatino of the groupBox used each page.
+    '''The following parameters indicates the size and location of the groupBox used each page.
     '''
     groupBox_width = 350
     groupBox_height = 345
@@ -450,7 +450,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                 Common.bridge_custom = str(self.custom_bridges.toPlainText())
                 Common.use_default_bridge = False
 
-                # TODO: a more gerneral RE will help filter the case where bridge_custom input is invaild
+                # TODO: a more general RE will help filter the case where bridge_custom input is invaild
                 if not self.valid_bridge(Common.bridge_custom):
                     return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
                 else:
@@ -464,7 +464,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # ip:port (vanilla bridge)
 
         # If this problem is not solved, anon-connection-wizard will not support vanilla bridge!!
-        # IPv6 bridges are not even availble in bridgeDB,
+        # IPv6 bridges are not even available in bridgeDB,
         # so we do not need to care it too much currently
 
         #if bridges == "" or bridges.isspace():
@@ -493,9 +493,9 @@ Provider (ISP) or another agency is blocking Tor.  Often, you can work around th
 by using Tor Bridges, which are unlisted relays that are more difficult to block.</p>
 
 
-<p>Tor bridges are the recommended way to circumvent the Tor censorship. You should always take it as the first option to help you pypass the Tor censorship. However, if you are living in a heavily censored area where all the Tor bridges are invalid, you may need to use some third-party censorship circumvention tools to help you instead. In such a case, you should choose not using Tor bridges to help you bypass the Tor censorship.</p>
+<p>Tor bridges are the recommended way to circumvent the Tor censorship. You should always take it as the first option to help you bypass the Tor censorship. However, if you are living in a heavily censored area where all the Tor bridges are invalid, you may need to use some third-party censorship circumvention tools to help you instead. In such a case, you should choose not using Tor bridges to help you bypass the Tor censorship.</p>
 
-<p> Using a third-party censorship circumvention tool may harm you security and/or anonimity. However, in case you do need it, the following is an instruction on how to connect to the Tor network using different censorship circumvention tools:</p>
+<p> Using a third-party censorship circumvention tool may harm you security and/or anonymity. However, in case you do need it, the following is an instruction on how to connect to the Tor network using different censorship circumvention tools:</p>
 
 <blockquote><b>1. VPN</b><br>
 1. Establish your connection to the VPN server; 2. Hit the "back" buton on this page, going to the first page; 3. Hit the "Connect" button on the first page.</blockquote>
@@ -504,7 +504,7 @@ by using Tor Bridges, which are unlisted relays that are more difficult to block
 1. Choose not using Tor bridges in this page; 2. Hit the "next" buton on this page, going the Proxy Configuration page; 3. Configure a proxy.</blockquote>
 
 <blockquote><b>3. Specialized Tool </b><br>
-1. Figure out the listening port of the tool, including the port protocal and the port number; 2. Choose not using Tor bridges in this page; 3. Hit the "next" buton on this page, going the Proxy Configuration page; 4. Configure a proxy.</blockquote>
+1. Figure out the listening port of the tool, including the port protocol and the port number; 2. Choose not using Tor bridges in this page; 3. Hit the "next" buton on this page, going the Proxy Configuration page; 4. Configure a proxy.</blockquote>
 ''', QtWidgets.QMessageBox.Ok)
         reply.exec_()
 
@@ -641,7 +641,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.checkBox.stateChanged.connect(self.enable_proxy)
         self.checkBox.setText("Use proxy before connecting to the Tor network")
         self.checkBox.setFont(font_description_main)
-        self.checkBox.setToolTip('''<p>In some situiations, you may want to transfer your traffic through a proxy server before connecting to the Tor network. </p><p>For example, if you are trying to use a third-party censorship circumvention tool to bypass the Tor censorship, you need to configure Tor to connect to the listening port of that circumvention tools. </p>''')
+        self.checkBox.setToolTip('''<p>In some situations, you may want to transfer your traffic through a proxy server before connecting to the Tor network. </p><p>For example, if you are trying to use a third-party censorship circumvention tool to bypass the Tor censorship, you need to configure Tor to connect to the listening port of that circumvention tools. </p>''')
         self.checkBox.setGeometry(QtCore.QRect(20, 35, 500, 20))
         self.comboBox.currentIndexChanged[str].connect(self.option_changed)
 
@@ -754,7 +754,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
                 proxy_type = str(self.comboBox.currentText())
 
                 '''
-                # The following was useful when '-' proxy type option was availble,
+                # The following was useful when '-' proxy type option was available,
                 # which is not true now.
                 if proxy_type.startswith('-'):
                 use_proxy = False
@@ -781,8 +781,8 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
                 return self.steps.index('proxy_wizard_page_2') # stay at the page until a proxy type is selected'''
 
     def valid_ip(self, ip):
-        # TODO: use re to detect if the formatt of IP is not correct
-        # The dificulty is that the IP can be hostname which is almost free form
+        # TODO: use re to detect if the format of IP is not correct
+        # The difficulty is that the IP can be hostname which is almost free form
         # However, we should at least check if it is empty
         if ip == "" or ip.isspace():
             return False
@@ -801,12 +801,12 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
     def show_help(self):
         reply = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Proxy Configuration Help',
                                   '''<p><b>  Proxy Help</b></p>
-                                  <p>In some situiations, you may want to transfer your traffic through a proxy server before connecting to the Tor network. For example, if you are trying to use a third-party censorship circumvention tool to bypass the Tor censorship, you need to configure Tor to connect to the listening port of that circumvention tools. </p>
+                                  <p>In some situations, you may want to transfer your traffic through a proxy server before connecting to the Tor network. For example, if you are trying to use a third-party censorship circumvention tool to bypass the Tor censorship, you need to configure Tor to connect to the listening port of that circumvention tools. </p>
 
 <p> The following is a brief introduction on what each blank means and how you may find the proper input value:</p>
 
 <blockquote><b>1. Proxy Type</b><br>
-                                  The proxy type is protocal you use to communicate with the proxy server. Since there are only three options, you can try all of them to see which one works.</blockquote>
+                                  The proxy type is protocol you use to communicate with the proxy server. Since there are only three options, you can try all of them to see which one works.</blockquote>
 
 <blockquote><b>2. Proxy IP/hostname</b><br>
 You have to know the port number you are trying to connect to. If you are trying to connect to a local proxy, you should try 127.0.0.1 since it means localhost.</blockquote>
@@ -916,7 +916,7 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.label_2.setFont(font_description_minor)
 
         self.label_3.setGeometry(QtCore.QRect(140, 20, 500, 50))
-        self.label_3.setText("Probably an error ocurred")
+        self.label_3.setText("Probably an error occurred")
         self.label_3.setFont(font_option)
 
         self.label_4.setGeometry(QtCore.QRect(80, 47, 100, 50))
@@ -934,7 +934,7 @@ class TorrcPage(QtWidgets.QWizardPage):
         self.label_6.setFont(font_description_minor)
 
         self.label_7.setGeometry(QtCore.QRect(140, 75, 500, 50))
-        self.label_7.setText("Probably an error ocurred")
+        self.label_7.setText("Probably an error occurred")
         self.label_7.setFont(font_option)
 
         self.setLayout(self.layout)
@@ -1299,7 +1299,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     click the <i>Next button</i>.</p>\
                     <p>If after doing that you still get this error please do the following:</p>\
                     <blockquote>\
-                    <p>1. Open up <code>/etc/tor/torrc</code> file with wirte privilege.</p>\
+                    <p>1. Open up <code>/etc/tor/torrc</code> file with write privilege.</p>\
                     <p>2. Add the following line <code>DisableNetwork 0</code> at the bottom.</p>\
                     <p>3. Save it.</p>\
                     </blockquote>\
@@ -1333,7 +1333,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 ## we should set the flag as False after the execution.
                 self.bootstrap_thread = False
 
-                ''' recover Tor to the intial status before the starting of anon_connection_wizard
+                ''' recover Tor to the initial status before the starting of anon_connection_wizard
                 '''
                 if Common.init_tor_status == 'tor_enabled':
                     pass
@@ -1366,7 +1366,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setFocus()
 
 
-    '''This overrided event handler is called with the given event
+    '''This overwritten event handler is called with the given event
     when Qt receives a window close request for a top-level widget from the window system.
     We let it call cancel_button_clicked() to make the consequences of clicking close button
     same with clicking the cancel button.
@@ -1376,9 +1376,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         event.accept()  # let the window close
 
     def io(self):
-        repair_torrc.repair_torrc()  # This gurantees a good set of torrc files
+        repair_torrc.repair_torrc()  # This guarantees a good set of torrc files
         # Creates a file and returns a tuple containing both the handle and the path.
-        # we are sponsible for removing tmp file when finished which is the reason we use shutil.move(), not shutil.copy(), below
+        # we are responsible for removing tmp file when finished which is the reason we use shutil.move(), not shutil.copy(), below
         handle, Common.torrc_tmp_file_path = tempfile.mkstemp()
 
         with open(handle, "w") as f:
@@ -1502,7 +1502,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         ''' Using the following parsing fragments is too fixed,
                         which is not good implementation.
                         But as long as leave .torrc untouched by user, it will be Okay.
-                        We should also be caureful when changing the command line format in this app
+                        We should also be careful when changing the command line format in this app
                         '''
                         Common.proxy_ip = line.split(' ')[1].split(':')[0]
                         Common.proxy_port = line.split(' ')[1].split(':')[1].split('\n')[0]
@@ -1567,7 +1567,7 @@ class TorBootstrap(QtCore.QThread):
             print(Common.control_socket_path + ' not found!!!')
 
         if not os.path.exists(Common.control_cookie_path):
-            # TODO: can we let Tor generate a cookie to fix this situiation?
+            # TODO: can we let Tor generate a cookie to fix this situation?
             print(Common.control_cookie_path + ' not found!!!')
         else:
             with open(Common.control_cookie_path, "rb") as f:

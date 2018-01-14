@@ -37,6 +37,7 @@ def set_enabled():
     command = 'systemctl --no-pager restart tor@default'
     tor_status = call(command, shell=True)
 
+
     if tor_status != 0:
         return 'cannot_connect'
     

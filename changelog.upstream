@@ -1,3 +1,39 @@
+commit c8da675a0c821deb9e76fb486c57923d8bfe8485
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 19:50:47 2018 +0000
+
+    remove trailing spaces
+
+commit 839228f481d99a971b269045a615a743da1be170
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 19:41:37 2018 +0000
+
+    typo
+
+commit 739bc694580fa3844a7a59450e71dc6e9bdd1af6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 19:41:08 2018 +0000
+
+    minor
+
+commit 0c3ebf1cd2944ad37b61769fa7d9c7ffff49f992
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 19:36:40 2018 +0000
+
+    typos
+
+commit 8f260b72c4cbcecb56fb4b348072bc53dda00fb2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 18:00:14 2018 +0000
+
+    delete not required etc/sudoers.d/anon-connection-wizard
+
+commit 145a755a65927490da8acbd031b56588f75bcb74
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 29 14:53:16 2017 +0000
+
+    bumped changelog version
+
 commit 7781471215bd6fccb8e31e924a0f8f866e5324e8
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Dec 27 19:13:34 2017 +0000
