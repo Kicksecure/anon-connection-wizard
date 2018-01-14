@@ -35,7 +35,7 @@ class Common:
     Variables and constants used through all the classes
     '''
     translations_path = '/usr/share/anon-connection-wizard/translations.yaml'
-    torrc_file_path = '/etc/torrc.d/40_anon_connection_wizard.torrc'
+    torrc_file_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.torrc'
     torrc_tmp_file_path = ''
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
@@ -45,7 +45,8 @@ class Common:
 
     use_bridges = False
     use_default_bridge = True
-    bridge_type = 'obfs4 (recommended)'  # default value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
+    bridge_type = 'obfs4'  # default value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
+    bridge_type_with_comment = 'obfs4 (recommended)'
     bridge_custom = ''  # the bridges info lines
 
     use_proxy = False
@@ -252,6 +253,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.steps = Common.wizard_steps
 
+        # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4 (recommended)',
                         'obfs3',
                         'meek-amazon (works in China)',
@@ -367,7 +369,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         # The default value is adjust according to Common.bridge_type
         if Common.use_default_bridge:
-            self.comboBox.setCurrentIndex(self.bridges.index(Common.bridge_type))
+            self.comboBox.setCurrentIndex(self.bridges.index(Common.bridge_type_with_comment))
 
         self.label_4.setEnabled(False)
         self.label_4.setGeometry(QtCore.QRect(38, 185, 300, 20))
@@ -1153,8 +1155,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
 
-            ''' io() will wirte lines to /etc/torrc.d/40_anon_connection_wizard.torrc
+            ''' io() will wirte lines to /usr/local/etc/torrc.d/40_anon_connection_wizard.torrc
             basing on user's selection in anon_connection_wizard
+            Here we call the io() so that we can show user the torrc file
             '''
             self.io()
 
@@ -1223,32 +1226,35 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 elif Common.proxy_type == 'SOCKS5':
                     self.torrc_page.label_7.setText('Socks5  {0} : {1}'.format(Common.proxy_ip, Common.proxy_port))
 
+
+        if self.currentId() == self.steps.index('tor_status_page'):
+            ''' io() will wirte to torrc_tmp_file_path
+            basing on user's selection in anon_connection_wizard
+            Notice that we have called the io() in torrc page,
+            however, since when user hit Connect or Disable Button,
+            torrc page is skipped, we still need it here to gurantee it is called.
+            Why can't we just call it here?
+            Becuase we need to show user the result in the torrc page, too.
+            '''
+            self.io()
             # move the tmp file to the real .torrc
             # this may overwrite the previous .torrc, but it does not matter
             shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
-            ## we set /etc/torrc.d/40_anon_connection_wizard.torrc as 644
+            ## we set /usr/local/etc/torrc.d/40_anon_connection_wizard.torrc as 644
             ## so that only root can wirte and read, others can only read,
             ## which prevents the edit by normal user.
             os.chmod(Common.torrc_file_path, 0o644)
 
-
-        if self.currentId() == self.steps.index('tor_status_page'):
             self.tor_status_page.text.setText('')  # This will clear the text left by different Tor status statement
-            if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
-                self.tor_status_page.bootstrap_progress.setVisible(True)
-
             self.button(QtWidgets.QWizard.BackButton).setVisible(True)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
 
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
-                # tor_status.set_enabled() does two things:
-                # 1. change the line '#DisableNetwork 0' to 'DisableNetwork 0' in /etc/tor/torrc
-                # 2. restart Tor
-                self.tor_status = tor_status.set_enabled()
+                self.tor_status_page.bootstrap_progress.setVisible(True)
 
-                self.tor_status_page.text.setText('')  # This will clear the text left by different Tor status statement
+                self.tor_status = tor_status.set_enabled()
 
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                     self.tor_status_page.bootstrap_progress.setVisible(True)
@@ -1306,7 +1312,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     self.tor_status_page.text.setText('<p><b>Unexpected Exception.</b></p>\
                     <p>You may not be able to use any network facing application for now.</p>\
                     Unexpected exception reported from tor_status module:' + self.tor_status)
-
 
             else:
                 self.tor_status = tor_status.set_disabled()
@@ -1371,21 +1376,27 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         event.accept()  # let the window close
 
     def io(self):
-        repair_torrc.repair_torrc()  # This guarantees a good torrc and the existence of /etc/torrc.d
-
+        repair_torrc.repair_torrc()  # This guarantees a good set of torrc files
         # Creates a file and returns a tuple containing both the handle and the path.
         # we are responsible for removing tmp file when finished which is the reason we use shutil.move(), not shutil.copy(), below
         handle, Common.torrc_tmp_file_path = tempfile.mkstemp()
+
         with open(handle, "w") as f:
             f.write("\
 # This file is generated by and should ONLY be used by anon-connection-wizard.\n\
-# User's manual configuration should go to /etc/torrc.d/50_user.torrc, not here. Because:\n\
+# User configuration should go to /usr/local/etc/torrc.d/50_user.torrc, not here. Because:\n\
 #    1. This file can be easily overwritten by anon-connection-wizard.\n\
 #    2. Even a single character change in this file may cause error.\n\
 # However, deleting this file will be fine since a new plain file will be generated the next time you run anon-connection-wizard.\n\
 ")
 
-
+        ''' This part is the IO to torrc for DisableNetwork line.
+        '''
+        with open(Common.torrc_tmp_file_path, 'a') as f:
+            if Common.disable_tor:
+                f.write('#DisableNetwork 0\n')
+            else:
+                f.write('DisableNetwork 0\n')
 
         ''' This part is the IO to torrc for bridges settings.
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
@@ -1408,8 +1419,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif Common.bridge_type == '':
                         pass
                     bridges = json.loads(open(Common.bridges_default_path).read())
-                    for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
-                        f.write('bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
+                    # The bridges variable are like a multilayer-dictionary
+                    for bridge in bridges['bridges'][Common.bridge_type]:  
+                        f.write('bridge {0}\n'.format(bridge))
                 else:  # Use custom bridges
                     f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
 
@@ -1427,7 +1439,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     for bridge in bridge_custom_list:
                         if bridge != '':  # check if the line is actually empty
                             f.write('bridge {0}\n'.format(bridge))
-
 
         ''' The part is the IO to torrc for proxy settings.
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
@@ -1454,6 +1465,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
                 #    f.write('{0}\n'.format(proxy))
 
+
     def parseTorrc(self):
         if os.path.exists(Common.torrc_file_path):
             with open(Common.torrc_file_path, 'r') as f:
@@ -1473,10 +1485,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif line.startswith(Common.command_meek_lite):
                         use_meek_lite = True
                     elif use_meek_lite and line.endswith(Common.command_meek_amazon_address):
-                        Common.bridge_type = 'meek-amazon (works in China)'
+                        Common.bridge_type = 'meek-amazon'
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif use_meek_lite and line.endswith(Common.command_meek_azure_address):
-                        Common.bridge_type = 'meek-azure (works in China)'
+                        Common.bridge_type = 'meek-azure'
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif line.startswith(Common.command_fte):
                         Common.bridge_type = 'fte'
@@ -1508,11 +1520,17 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         Common.proxy_type = 'SOCKS5'
                         Common.proxy_ip = line.split(' ')[1].split(':')[0]
                         Common.proxy_port = line.split(' ')[1].split(':')[1].split('\n')[0]
-
                     elif line.startswith(Common.command_sock5Username):
                         Common.proxy_username = line.split(' ')[1]
                     elif line.startswith(Common.command_sock5Password):
                         Common.proxy_password = line.split(' ')[1]
+
+        if Common.bridge_type == 'obfs4':
+            Common.bridge_type_with_comment = 'obfs4 (recommended)'
+        elif Common.bridge_type == 'meek-amazon':
+            Common.bridge_type_with_comment = 'meek-amazon (works in China)'
+        elif Common.bridge_type == 'meek-azure':
+            Common.bridge_type_with_comment = 'obfs4 (works in China)'
 
 class TorBootstrap(QtCore.QThread):
     signal = QtCore.pyqtSignal(str)
@@ -1559,7 +1577,7 @@ class TorBootstrap(QtCore.QThread):
             except stem.connection.IncorrectCookieSize:
                 pass  #if the cookie file's size is wrong
             except stem.connection.UnreadableCookieFile:
-                pass  #if # TODO: he cookie file doesn't exist or we're unable to read it
+                pass  #if # TODO: the cookie file doesn't exist or we're unable to read it
             except stem.connection.CookieAuthRejected:
                 pass  #if cookie authentication is attempted but the socket doesn't accept it
             except stem.connection.IncorrectCookieValue:
