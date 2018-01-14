@@ -45,7 +45,8 @@ class Common:
 
     use_bridges = False
     use_default_bridge = True
-    bridge_type = 'obfs4 (recommended)'  # defualt value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
+    bridge_type = 'obfs4'  # defualt value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
+    bridge_type_with_comment = 'obfs4 (recommended)'
     bridge_custom = ''  # the bridges info lines
 
     use_proxy = False
@@ -252,6 +253,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         self.steps = Common.wizard_steps
 
+        # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4 (recommended)',
                         'obfs3',
                         'meek-amazon (works in China)',
@@ -367,7 +369,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         # The default value is adjust according to Common.bridge_type
         if Common.use_default_bridge:
-            self.comboBox.setCurrentIndex(self.bridges.index(Common.bridge_type))
+            self.comboBox.setCurrentIndex(self.bridges.index(Common.bridge_type_with_comment))
 
         self.label_4.setEnabled(False)
         self.label_4.setGeometry(QtCore.QRect(38, 185, 300, 20))
@@ -1311,7 +1313,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     <p>You may not be able to use any network facing application for now.</p>\
                     Unexpected exception reported from tor_status module:' + self.tor_status)
 
-
             else:
                 self.tor_status = tor_status.set_disabled()
                 self.tor_status_page.bootstrap_progress.setVisible(False)
@@ -1418,8 +1419,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif Common.bridge_type == '':
                         pass
                     bridges = json.loads(open(Common.bridges_default_path).read())
-                    for bridge in bridges['bridges'][Common.bridge_type]:  # What does this line mean? A: The bridges are more like a multilayer-dictionary
-                        f.write('bridge {0}\n'.format(bridge))  # This is the format to configure a bridge in torrc
+                    # The bridges variable are like a multilayer-dictionary
+                    for bridge in bridges['bridges'][Common.bridge_type]:  
+                        f.write('bridge {0}\n'.format(bridge))
                 else:  # Use custom bridges
                     f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
 
@@ -1483,10 +1485,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif line.startswith(Common.command_meek_lite):
                         use_meek_lite = True
                     elif use_meek_lite and line.endswith(Common.command_meek_amazon_address):
-                        Common.bridge_type = 'meek-amazon (works in China)'
+                        Common.bridge_type = 'meek-amazon'
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif use_meek_lite and line.endswith(Common.command_meek_azure_address):
-                        Common.bridge_type = 'meek-azure (works in China)'
+                        Common.bridge_type = 'meek-azure'
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif line.startswith(Common.command_fte):
                         Common.bridge_type = 'fte'
@@ -1518,11 +1520,17 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         Common.proxy_type = 'SOCKS5'
                         Common.proxy_ip = line.split(' ')[1].split(':')[0]
                         Common.proxy_port = line.split(' ')[1].split(':')[1].split('\n')[0]
-
                     elif line.startswith(Common.command_sock5Username):
                         Common.proxy_username = line.split(' ')[1]
                     elif line.startswith(Common.command_sock5Password):
                         Common.proxy_password = line.split(' ')[1]
+
+        if Common.bridge_type == 'obfs4':
+            Common.bridge_type_with_comment = 'obfs4 (recommended)'
+        elif Common.bridge_type == 'meek-amazon':
+            Common.bridge_type_with_comment = 'meek-amazon (works in China)'
+        elif Common.bridge_type == 'meek-azure':
+            Common.bridge_type_with_comment = 'obfs4 (works in China)'
 
 class TorBootstrap(QtCore.QThread):
     signal = QtCore.pyqtSignal(str)
