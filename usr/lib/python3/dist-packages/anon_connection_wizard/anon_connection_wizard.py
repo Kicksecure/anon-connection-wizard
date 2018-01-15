@@ -1410,7 +1410,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         pass
                     bridges = json.loads(open(Common.bridges_default_path).read())
                     # The bridges variable are like a multilayer-dictionary
-                    for bridge in bridges['bridges'][Common.bridge_type]:  
+                    for bridge in bridges['bridges'][Common.bridge_type]:
                         f.write('bridge {0}\n'.format(bridge))
                 else:  # Use custom bridges
                     f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
