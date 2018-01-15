@@ -1163,7 +1163,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
             ''' displace the torrc file and icon used on the page
             notice that 40_anon_connection_wizard.torrc will not have line about DisableNetwork 0
-            That line will be changed by tor_status module in /etc/torrc
+            That line will be changed in 50_user.torrc by tor_status module
             '''
 
             if not Common.disable_tor:
@@ -1287,23 +1287,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     <p>See "systemctl status tor@default.service" and \
                     "journalctl -xe" for details.</p>\
                     <p>You may not be able to use any network facing application for now.</p>')
-                elif self.tor_status == 'missing_disablenetwork_line':
-                    # print to the stderr
-                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
-                    # display error message on GUI
-                    self.tor_status_page.bootstrap_progress.setVisible(False)
-                    self.tor_status_page.text.setText('<p><b>Missing DisableNetwork Line.</b></p>\
-                    <p>You will not be able to use any network facing application for now because\
-                    the "DisableNetwork 0" line in /etc/tor/torrc file is missing.</p>\
-                    <p>Please try click the <i>Back button</i> and then \
-                    click the <i>Next button</i>.</p>\
-                    <p>If after doing that you still get this error please do the following:</p>\
-                    <blockquote>\
-                    <p>1. Open up <code>/etc/tor/torrc</code> file with write privilege.</p>\
-                    <p>2. Add the following line <code>DisableNetwork 0</code> at the bottom.</p>\
-                    <p>3. Save it.</p>\
-                    </blockquote>\
-                    <p>Please consider report this bug also.</p>')
                 else:
                     # print to the stderr
                     sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
@@ -1389,14 +1372,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 #    2. Even a single character change in this file may cause error.\n\
 # However, deleting this file will be fine since a new plain file will be generated the next time you run anon-connection-wizard.\n\
 ")
-
-        ''' This part is the IO to torrc for DisableNetwork line.
-        '''
-        with open(Common.torrc_tmp_file_path, 'a') as f:
-            if Common.disable_tor:
-                f.write('#DisableNetwork 0\n')
-            else:
-                f.write('DisableNetwork 0\n')
 
         ''' This part is the IO to torrc for bridges settings.
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
