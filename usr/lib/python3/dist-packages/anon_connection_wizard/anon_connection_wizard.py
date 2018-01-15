@@ -1461,7 +1461,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif line.startswith(Common.command_obfs3):
                         Common.bridge_type = 'obfs3'
                     elif line.startswith(Common.command_obfs4):
-                        Common.bridge_type = 'obfs4 (recommended)'
+                        Common.bridge_type = 'obfs4'
                     elif line.startswith(Common.command_meek_lite):
                         use_meek_lite = True
                     elif use_meek_lite and line.endswith(Common.command_meek_amazon_address):
