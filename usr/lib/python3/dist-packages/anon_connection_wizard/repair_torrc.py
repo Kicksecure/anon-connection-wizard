@@ -2,14 +2,17 @@
 
 import fileinput, os, shutil
 
-
 '''repair_torrc() function will be called when we want to gurantee the existence of:
 1. /etc/torrc.d/
 2. /etc/tor/torrc
 3. "%include /etc/torrc.d" line in /etc/tor/torrc file
-
 '''
 
+if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
+    whonix=True
+else:
+    whonix=False
+    
 def repair_torrc():
     repair_torrc_d()
 
@@ -39,5 +42,5 @@ then also gurantee the existence of /usr/local/etc/torrc.d/
 def repair_torrc_d():
     if not os.path.exists('/etc/torrc.d/'):
         os.makedirs('/etc/torrc.d/')
-    if not os.path.exists('/usr/local/etc/torrc.d/'):
+    if whonix and not os.path.exists('/usr/local/etc/torrc.d/'):
         os.makedirs('/usr/local/etc/torrc.d/')
