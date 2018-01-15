@@ -1266,7 +1266,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
                 self.tor_status_result = tor_status.set_enabled()
                 self.tor_status = self.tor_status_result[0]
-                self.tor_status_code = self.tor_status_result[1]
+                self.tor_status_code = str(self.tor_status_result[1])
 
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                     self.tor_status_page.bootstrap_progress.setVisible(True)
@@ -1410,7 +1410,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         pass
                     bridges = json.loads(open(Common.bridges_default_path).read())
                     # The bridges variable are like a multilayer-dictionary
-                    for bridge in bridges['bridges'][Common.bridge_type]:  
+                    for bridge in bridges['bridges'][Common.bridge_type]:
                         f.write('bridge {0}\n'.format(bridge))
                 else:  # Use custom bridges
                     f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
