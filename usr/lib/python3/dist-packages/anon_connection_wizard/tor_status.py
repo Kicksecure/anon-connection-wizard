@@ -60,18 +60,18 @@ def set_enabled():
 
     ## start the Tor now
     command = 'systemctl --no-pager restart tor@default'
-    tor_status = call(command, shell=True)
+    tor_status_code = call(command, shell=True)
 
-    if tor_status != 0:
-        return 'cannot_connect'
+    if tor_status_code != 0:
+        return 'cannot_connect', tor_status_code
     
     command = 'systemctl --no-pager status tor@default'
-    tor_status = call(command, shell=True)
+    tor_status_code= call(command, shell=True)
     
-    if tor_status != 0:
-        return 'cannot_connect'
+    if tor_status_code != 0:
+        return 'cannot_connect', tor_status_code
     
-    return 'tor_already_enabled'
+    return 'tor_enabled', tor_status_code
 
 def set_disabled():
     ## change DisableNetwork line according to tor_status

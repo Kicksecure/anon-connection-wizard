@@ -1254,7 +1254,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             if not Common.disable_tor:
                 self.tor_status_page.bootstrap_progress.setVisible(True)
 
-                self.tor_status = tor_status.set_enabled()
+                self.tor_status_result = tor_status.set_enabled()
+                self.tor_status = self.tor_status_result[0]
+                self.tor_status_code = self.tor_status_result[1]
 
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                     self.tor_status_page.bootstrap_progress.setVisible(True)
@@ -1278,23 +1280,26 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     self.bootstrap_thread.start()
                 elif self.tor_status == 'cannot_connect':
                     # print to the stderr
-                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
+                    sys.stderr.write('tor_status: ' + self.tor_status + self.tor_status_code)
                     # display error message on GUI
                     self.tor_status_page.bootstrap_progress.setVisible(False)
                     self.tor_status_page.text.setText('<p><b>Tor failed to (re)start.</b></p>\
                     <p>Job for tor@default.service failed because the control process \
-                    exited with error code.</p>\
-                    <p>See "systemctl status tor@default.service" and \
+                    exited with error code.</p>' +
+                    'Error Code: ' + self.tor_status_code + '\n' +
+                    '<p>See "systemctl status tor@default.service" and \
                     "journalctl -xe" for details.</p>\
                     <p>You may not be able to use any network facing application for now.</p>')
                 else:
                     # print to the stderr
-                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
+                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status + '\n'+\
+                                     "Error Code:" + self.tor_status_code)
                     # display error message on GUI
                     self.tor_status_page.bootstrap_progress.setVisible(False)
                     self.tor_status_page.text.setText('<p><b>Unexpected Exception.</b></p>\
                     <p>You may not be able to use any network facing application for now.</p>\
-                    Unexpected exception reported from tor_status module:' + self.tor_status)
+                    Unexpected exception reported from tor_status module:' + self.tor_status\
+                    + '\n' + "Error Code:" + self.tor_status_code)
 
             else:
                 self.tor_status = tor_status.set_disabled()
