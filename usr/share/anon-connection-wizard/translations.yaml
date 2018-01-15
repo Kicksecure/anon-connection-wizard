@@ -19,27 +19,23 @@ anon-connection-wizard:
 
         tor_enabled:
             <p>Tor networking is enabled.</p>
-            <p>(<i>line</i> "DisableNetwork 0" <i> in /etc/tor/torrc was uncommented.)<i/></p>
             <hr></hr>
-            <p>File /etc/tor/torrc:</p>
+            <p>Tor config file:</p>
 
         tor_already_enabled:
             <p>Tor networking is already enabled.</p>
-            <p>(<i>line</i> "DisableNetwork 0" <i> in /etc/tor/torrc uncommented.)<i/></p>
             <hr></hr>
-            <p>File /etc/tor/torrc:</p>
+            <p>Tor config file:</p>
 
         tor_disabled:
             <p>Tor networking is disabled.</p>
-            <p>(<i>line</i> "DisableNetwork 0" <i> in /etc/tor/torrc was commented out.)<i/></p>
             <hr></hr>
-            <p>File /etc/tor/torrc:</p>
+            <p>Tor config file:</p>
 
         tor_already_disabled:
             <p>Tor networking is already disabled.</p>
-            <p>(<i>line</i> "DisableNetwork 0" <i> in /etc/tor/torrc commented out.)<i/></p>
             <hr></hr>
-            <p>File /etc/tor/torrc:</p>
+            <p>Tor config file:</p>
 
         finish_page_ok:
             <p>anon-connection-wizard is completed.</p>
@@ -55,16 +51,16 @@ anon-connection-wizard:
             report a bug.</p>
 
         no_torrc:
-            <p>The file "/etc/tor/torrc" does not exist.</p>
-            <p>You can try to manually create /etc/tor/torrc. Open it&#58;
+            <p>The Tor config file does not exist.</p>
+            <p>You can try to manually create it. Open it&#58;
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
             And add.
             <blockquote>#DisableNetwork 0</blockquote>
             Save. Then re-run anon-connection-wizard.</p>
 
         bad_torrc:
-            <p>The line "DisableNetwork 0" does not exist in "/etc/tor/torrc".</p>
-            <p>You can try to manually edit /etc/tor/torrc&#58;
+            <p>The line "DisableNetwork 0" does not exist in the Tor config file.</p>
+            <p>You can try to manually edit the Tor config file&#58;
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
             <p>Add line containing only "DisableNetwork 0" (without the quotes),
             and re-run anon-connection-wizard.</p>
@@ -72,8 +68,8 @@ anon-connection-wizard:
         cannot_connect:
             <p>"sudo service tor@default status" returned non-zero exit code , which means Tor does NOT work.</p>
             <p>Maybe your Whonix-Gateway has only one network card attached? Most likely there
-            is something wrong with your /etc/tor/torrc.</p>
-            <p>You can try to manually edit /etc/tor/torrc&#58; </p>
+            is something wrong with your Tor config.</p>
+            <p>You can try to manually edit the Tor config file&#58; </p>
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
             <p>Running&#58; </p>
             <blockquote>sudo service tor@default restart</blockquote>
@@ -87,7 +83,7 @@ anon-connection-wizard:
             <p>Ultimately, the best protection is a social approach. The more Tor users there are near you and the more
             diverse their interests, the safer it will be to use it. Convince other people to use Tor!</p>
             <p></p>
-            <p>Note. anon-connection-wizard enables Tor networking by uncommenting "DisableNetwork 0" in /etc/tor/torrc.
+            <p>Note. anon-connection-wizard enables Tor networking by uncommenting "DisableNetwork 0" in the Tor config file.
 
         tooltip_2:
             <p>This option will disable Tor networking.</p>
@@ -101,10 +97,10 @@ anon-connection-wizard:
             Because there is NOT a 100%  way to hide Tor, Whonix does NOT recommend using Tor if you fear detection.</p>
 
             <p><i><b>Configure Whonix to Use a Bridge.</b></i><br></br>
-            You must manually find and add the bridges to /etc/tor/torrc.<br></br>
+            You must manually find and add the bridges to Tor config file.<br></br>
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
             <p>After you have finished, run anon-connection-wizard again.</p>
-            <p>More detailed instructions on how to add bridges can be found in /etc/tor/torrc.example file's Bridges section.</p>
+            <p>More detailed instructions on how to add bridges can be found in /etc/torrc.d/torrc.examples file's Bridges section.</p>
             <blockquote>Start Menu -> Applications -> System -> Torrc.example</blockquote>
 
             <p><i><b>Configure Whonix to Use a VPN.</b></i><br></br>
@@ -121,7 +117,7 @@ anon-connection-wizard:
 
 
         tooltip_4:
-            <p>You must manually edit /etc/tor/torrc for Tor to navigate through your firewall or proxy.</p>
+            <p>You must manually edit the Tor config file for Tor to navigate through your firewall or proxy.</p>
             Or, if you are using a graphical Whonix-Gateway&#58; </p>
             <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
             <p>After you have finished editing, run anon-connection-wizard again.</p>
