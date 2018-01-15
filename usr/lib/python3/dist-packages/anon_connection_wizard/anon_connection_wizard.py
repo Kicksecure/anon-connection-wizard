@@ -1266,7 +1266,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
                 self.tor_status_result = tor_status.set_enabled()
                 self.tor_status = self.tor_status_result[0]
-                self.tor_status_code = self.tor_status_result[1]
+                self.tor_status_code = str(self.tor_status_result[1])
 
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                     self.tor_status_page.bootstrap_progress.setVisible(True)
