@@ -1520,7 +1520,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         elif Common.bridge_type == 'meek-amazon':
             Common.bridge_type_with_comment = 'meek-amazon (works in China)'
         elif Common.bridge_type == 'meek-azure':
-            Common.bridge_type_with_comment = 'obfs4 (works in China)'
+            Common.bridge_type_with_comment = 'meek-azure (works in China)'
 
 class TorBootstrap(QtCore.QThread):
     signal = QtCore.pyqtSignal(str)
