@@ -34,7 +34,7 @@ def tor_status():
 set_enabled() and set_disabled() function will try to repair the missing torrc or
 DisableNetwork line by calling repair_torrc module.
 This makes sense because when we call set_enabled() or set_disabled() we really want Tor to work,
-rather than receive a 'no_torrc' or 'bad_torrc' complain, which is not helpful for users.
+rather than receive a 'no_torrc' or 'missing_disablenetwork_line' complain, which is not helpful for users.
 '''
 def set_enabled():
     ## change DisableNetwork line according to tor_status
