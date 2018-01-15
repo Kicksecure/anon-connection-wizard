@@ -5,7 +5,15 @@ import os, time
 from subprocess import call
 from anon_connection_wizard import repair_torrc
 
-DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/50_user.torrc'
+if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
+    whonix=True
+else:
+    whonix=False
+
+if whonix:
+    DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/50_user.torrc'
+else:
+    DisableNetwork_torrc_path = '/etc/torrc.d/50_user.torrc'
 
 def tor_status():
     if not os.path.exists(DisableNetwork_torrc_path):
