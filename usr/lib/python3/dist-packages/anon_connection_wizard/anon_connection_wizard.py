@@ -31,11 +31,21 @@ from anon_connection_wizard import tor_status
 from anon_connection_wizard import repair_torrc
 
 class Common:
+    if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
+        whonix=True
+    else:
+        whonix=False
+
     '''
     Variables and constants used through all the classes
     '''
     translations_path = '/usr/share/anon-connection-wizard/translations.yaml'
-    torrc_file_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.torrc'
+    if whonix:
+        torrc_file_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.torrc'
+        torrc_user_file_path =  '/usr/local/etc/torrc.d/50_user.torrc'
+    else:
+        torrc_file_path = '/etc/torrc.d/40_anon_connection_wizard.torrc'
+        torrc_user_file_path = '/etc/torrc.d/50_user.torrc'
     torrc_tmp_file_path = ''
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
@@ -1155,7 +1165,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
 
-            ''' io() will wirte lines to /usr/local/etc/torrc.d/40_anon_connection_wizard.torrc
+            ''' io() will wirte lines to 40_anon_connection_wizard.torrc
             basing on user's selection in anon_connection_wizard
             Here we call the io() so that we can show user the torrc file
             '''
@@ -1163,7 +1173,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
             ''' displace the torrc file and icon used on the page
             notice that 40_anon_connection_wizard.torrc will not have line about DisableNetwork 0
-            That line will be changed by tor_status module in /etc/torrc
+            That line will be changed in 50_user.torrc by tor_status module
             '''
 
             if not Common.disable_tor:
@@ -1240,7 +1250,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             # move the tmp file to the real .torrc
             # this may overwrite the previous .torrc, but it does not matter
             shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
-            ## we set /usr/local/etc/torrc.d/40_anon_connection_wizard.torrc as 644
+            ## we set 40_anon_connection_wizard.torrc as 644
             ## so that only root can wirte and read, others can only read,
             ## which prevents the edit by normal user.
             os.chmod(Common.torrc_file_path, 0o644)
@@ -1254,7 +1264,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             if not Common.disable_tor:
                 self.tor_status_page.bootstrap_progress.setVisible(True)
 
-                self.tor_status = tor_status.set_enabled()
+                self.tor_status_result = tor_status.set_enabled()
+                self.tor_status = self.tor_status_result[0]
+                self.tor_status_code = self.tor_status_result[1]
 
                 if self.tor_status == 'tor_enabled' or self.tor_status == 'tor_already_enabled':
                     self.tor_status_page.bootstrap_progress.setVisible(True)
@@ -1278,40 +1290,26 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     self.bootstrap_thread.start()
                 elif self.tor_status == 'cannot_connect':
                     # print to the stderr
-                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
+                    sys.stderr.write('tor_status: ' + self.tor_status + self.tor_status_code)
                     # display error message on GUI
                     self.tor_status_page.bootstrap_progress.setVisible(False)
                     self.tor_status_page.text.setText('<p><b>Tor failed to (re)start.</b></p>\
                     <p>Job for tor@default.service failed because the control process \
-                    exited with error code.</p>\
-                    <p>See "systemctl status tor@default.service" and \
+                    exited with error code.</p>' +
+                    'Error Code: ' + self.tor_status_code + '\n' +
+                    '<p>See "systemctl status tor@default.service" and \
                     "journalctl -xe" for details.</p>\
                     <p>You may not be able to use any network facing application for now.</p>')
-                elif self.tor_status == 'missing_disablenetwork_line':
-                    # print to the stderr
-                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
-                    # display error message on GUI
-                    self.tor_status_page.bootstrap_progress.setVisible(False)
-                    self.tor_status_page.text.setText('<p><b>Missing DisableNetwork Line.</b></p>\
-                    <p>You will not be able to use any network facing application for now because\
-                    the "DisableNetwork 0" line in /etc/tor/torrc file is missing.</p>\
-                    <p>Please try click the <i>Back button</i> and then \
-                    click the <i>Next button</i>.</p>\
-                    <p>If after doing that you still get this error please do the following:</p>\
-                    <blockquote>\
-                    <p>1. Open up <code>/etc/tor/torrc</code> file with write privilege.</p>\
-                    <p>2. Add the following line <code>DisableNetwork 0</code> at the bottom.</p>\
-                    <p>3. Save it.</p>\
-                    </blockquote>\
-                    <p>Please consider report this bug also.</p>')
                 else:
                     # print to the stderr
-                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status)
+                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status + '\n'+\
+                                     "Error Code:" + self.tor_status_code)
                     # display error message on GUI
                     self.tor_status_page.bootstrap_progress.setVisible(False)
                     self.tor_status_page.text.setText('<p><b>Unexpected Exception.</b></p>\
                     <p>You may not be able to use any network facing application for now.</p>\
-                    Unexpected exception reported from tor_status module:' + self.tor_status)
+                    Unexpected exception reported from tor_status module:' + self.tor_status\
+                    + '\n' + "Error Code:" + self.tor_status_code)
 
             else:
                 self.tor_status = tor_status.set_disabled()
@@ -1384,19 +1382,11 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         with open(handle, "w") as f:
             f.write("\
 # This file is generated by and should ONLY be used by anon-connection-wizard.\n\
-# User configuration should go to /usr/local/etc/torrc.d/50_user.torrc, not here. Because:\n\
+# User configuration should go to " + Common.torrc_user_file_path + ", not here. Because:\n\
 #    1. This file can be easily overwritten by anon-connection-wizard.\n\
 #    2. Even a single character change in this file may cause error.\n\
 # However, deleting this file will be fine since a new plain file will be generated the next time you run anon-connection-wizard.\n\
 ")
-
-        ''' This part is the IO to torrc for DisableNetwork line.
-        '''
-        with open(Common.torrc_tmp_file_path, 'a') as f:
-            if Common.disable_tor:
-                f.write('#DisableNetwork 0\n')
-            else:
-                f.write('DisableNetwork 0\n')
 
         ''' This part is the IO to torrc for bridges settings.
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
@@ -1481,7 +1471,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif line.startswith(Common.command_obfs3):
                         Common.bridge_type = 'obfs3'
                     elif line.startswith(Common.command_obfs4):
-                        Common.bridge_type = 'obfs4 (recommended)'
+                        Common.bridge_type = 'obfs4'
                     elif line.startswith(Common.command_meek_lite):
                         use_meek_lite = True
                     elif use_meek_lite and line.endswith(Common.command_meek_amazon_address):
