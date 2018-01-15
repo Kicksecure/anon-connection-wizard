@@ -1,10 +1,5 @@
 anon-connection-wizard:
     en:
-        connection_text:
-            <p>Before we let Tor connect, we need to know about your Internet connection.</p>
-            <p>Which of the following applies to you?</p>
-            <p><i>Hover the mouse on the options to show a tooltip pop up.</i></p>
-
         enable_tor:
             I am ready to enable Tor.
 
