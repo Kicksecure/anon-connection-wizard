@@ -75,52 +75,7 @@ anon-connection-wizard:
             <blockquote>sudo service tor@default restart</blockquote>
             <p>might help with troubleshooting.</p>
 
-        tooltip_1:
-            <p>This option lets you connect to the public Tor network now.</p>
-            <p></p>
-            <p>By default, Tor does not try to hide the fact that you are using it. If this concerns you, read
-            the instructions from the  option "Tor is censored or dangerous in my area" and select it.</p>
-            <p>Ultimately, the best protection is a social approach. The more Tor users there are near you and the more
-            diverse their interests, the safer it will be to use it. Convince other people to use Tor!</p>
-            <p></p>
-            <p>Note. anon-connection-wizard enables Tor networking by uncommenting "DisableNetwork 0" in the Tor config file.
 
-        tooltip_2:
-            <p>This option will disable Tor networking.</p>
-            <p>It should be used in case you want to make sure Tor will not connect to the public Tor network.</p>
-
-        tooltip_3:
-            <p><b>The bridges option is not available yet. You must configure Tor manually.</b></p>
-            <p>Less sophisticated censors prevent users from accessing the Tor network by blocking connections to known relays.
-            "Bridge relays" help these users access Tor by not being in the same public lists as normal relays.
-            Sophisticated censors can only be circumvented with private obfuscated bridges.
-            Because there is NOT a 100%  way to hide Tor, Whonix does NOT recommend using Tor if you fear detection.</p>
-
-            <p><i><b>Configure Whonix to Use a Bridge.</b></i><br></br>
-            You must manually find and add the bridges to Tor config file.<br></br>
-            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
-            <p>After you have finished, run anon-connection-wizard again.</p>
-            <p>More detailed instructions on how to add bridges can be found in /etc/torrc.d/torrc.examples file's Bridges section.</p>
-            <blockquote>Start Menu -> Applications -> System -> Torrc.example</blockquote>
-
-            <p><i><b>Configure Whonix to Use a VPN.</b></i><br></br>
-            Where Tor is censored but VPNs are allowed, you can hide your Tor connection inside a VPN connection.
-            To the censors, your internet traffic will look like an encrypted VPN connection. The VPN will then send your
-            Tor traffic onward to the first Tor relay.</p>
-            <p>If you are using Whonix-Gateway inside a virtual machine, configure your VPN software on the host operating system.
-            Your VPN provider will have instructions for you to follow and possibly custom software to help you connect.</p>
-            <p>However, you MUST configure your VPN software (whether custom or built into your operating system) to send
-            all internet traffic through the VPN connection, and you MUST configure your VPN software to block all internet
-            traffic if the VPN is suddenly disconnected. Additionally, you MUST NOT chose PPTP as your encryption even if
-            your VPN allows it. Improperly configured VPN software will reveal your Tor connection to the censors.</p>
-            <p>Whonix recommends a VPN provider who is serious about privacy and is outside the reach of your censors.</p>
-
-
-        tooltip_4:
-            <p>You must manually edit the Tor config file for Tor to navigate through your firewall or proxy.</p>
-            Or, if you are using a graphical Whonix-Gateway&#58; </p>
-            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
-            <p>After you have finished editing, run anon-connection-wizard again.</p>
 
 not_root:
     icon: Critical
