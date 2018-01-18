@@ -1,3 +1,243 @@
+commit 4d10fe96294a51952f9dbb33b14c7e016d6495f4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 18 14:06:43 2018 +0100
+
+    remove trailing spaces
+
+commit 91f56053fb2a6536f0c251adfdb92009f665f9aa
+Merge: 6455b6c 53c01bb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 15 22:54:52 2018 +0000
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 53c01bb4a8586cb086c789dd9cadee0d2b3be10d
+Merge: c4aab34 6455b6c
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 22:47:39 2018 +0000
+
+    Merge remote-tracking branch 'upstream/master'
+
+commit c4aab34efc920928bc5f913258063fd9fb5cbcb3
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 22:45:13 2018 +0000
+
+    Fix TypeError bug
+    
+    TypeError: Can't convert 'int' object to str implicitly
+    
+    Also add comments to clearly document what will be returned by set_enable()
+
+commit 6455b6c95102d6326bfbce10417e992d15f318b4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 15 22:44:32 2018 +0000
+
+    fix
+
+commit cab283887af2f01dcd66d3e3b0c6df7bed5a7cc0
+Merge: c677d1d 3e7c414
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 15 22:40:18 2018 +0000
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 3e7c414e151e1cb612e86ef3bb4e418ca3449320
+Merge: c633414 c677d1d
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 22:30:37 2018 +0000
+
+    Merge remote-tracking branch 'upstream/master'
+
+commit c633414f705c4bc373316b7af05645af244376dd
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 22:29:36 2018 +0000
+
+    Fix bug which crash when meek-azure was selected
+
+commit c677d1d063b23793da40d70791b174651d622ae6
+Merge: 05a3f20 ed4e988
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 15 21:26:11 2018 +0000
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 05a3f20f01a6bedb731375c1915cf304bc46cf79
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 15 21:18:17 2018 +0000
+
+    remove no longer used connection_text
+
+commit 02c9dee4c60f94ee1cc8abe3186c98b59216fc3e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 15 21:12:46 2018 +0000
+
+    remove no longer used tooltips
+
+commit ae6a05d27cbafd7026289a618ee8b4f7665f6d75
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 15 21:11:41 2018 +0000
+
+    /etc/tor/torrc -> Tor config file
+
+commit ed4e9889799962711bbb30b3bab74b98db2144f4
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 20:52:46 2018 +0000
+
+    tor_status.py can have Whonix specific behavious in Whonix
+
+commit 0cf6d2f2a11c85c51dd2cfae37fe7276dad5b0dd
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 20:48:53 2018 +0000
+
+    anon_connection_wizard.py can have Whonix specific behavious in Whonix
+
+commit 0ad7dbad74478451be60b096ba338ee0be89e222
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 20:38:44 2018 +0000
+
+    repair_torrc can have Whonix specific behavious in Whonix
+
+commit 0f533f899e959e05f533878fb97b9fbade8b8aae
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 20:30:05 2018 +0000
+
+    Fix bug that cause disable Tor crash
+
+commit 8a930cabcef8df14e2b4644fc5374a8aefc66724
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 20:08:43 2018 +0000
+
+    Better error information when Tor fails to start
+
+commit b0862b2d1d0abfdd0f727afbb71b3c4ab5647343
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 19:42:33 2018 +0000
+
+    Update comments
+
+commit bbfcb8feeacd8afa7d19c4b60edcffa2ba301fc6
+Merge: 9f4ee4d b8a34c0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 15 19:53:56 2018 +0100
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 234cd49fb1d257aeaa9a1a34fd7143fdb667c1d0
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 18:20:46 2018 +0000
+
+    Move DisableNetwork line to 50_user.torrc
+    
+    Also fixed a logical flaw.
+
+commit b8a34c0c1c184a7005ebadc921d9404621d66877
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 17:19:34 2018 +0000
+
+    Make repair torrc not whonix-specific
+
+commit fdbad46758fc596e45b022a25bb9cc5dccc945f6
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 16:54:55 2018 +0000
+
+    Remove function that repairs anondist
+    
+    anondist is anondist specific. anon-connection-wizard should not care about it.
+
+commit fb58fda7296bc71765210d887d0ead7eff79c53f
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jan 15 16:51:47 2018 +0000
+
+    Remove repair_torrc_95_whonix()
+    
+    95_whonix.torrc is whonix specific, anon-connection-wizard should not care about it.
+
+commit 9f4ee4d008906aa242dd9e585986b81d5668b90e
+Merge: 15634ba e1ce668
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 14 21:07:34 2018 +0100
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit e1ce66849d9401315748114c10eb12ce7bc3bc49
+Merge: f5daa05 15634ba
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jan 14 01:29:34 2018 +0000
+
+    Merge remote-tracking branch 'upstream/master'
+
+commit f5daa05b81cd6fd750683305e9a67cc2ac75a935
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jan 14 01:08:02 2018 +0000
+
+    Create path /usr/local/etc/torrc.d when necessary in repair_torrc
+
+commit df26e79df09e1d094990854caba2039232786069
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jan 14 01:02:54 2018 +0000
+
+    Distinguish bridge_type_with_comment from bridge_type
+
+commit eb87e563f356cc6c4dce82803dff53767de0a843
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jan 13 21:17:53 2018 +0000
+
+    Fix repair_torrc.py incomplete logic
+
+commit b28eda35c609b4f8945bca688c5cfcd6b6190501
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jan 13 18:26:10 2018 +0000
+
+    Minor
+
+commit 655a35724350f8f53218e3ab1efa16726c45435f
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jan 13 18:25:03 2018 +0000
+
+    Always generate 40_anon_connection_wizard.torrc
+
+commit 64589c61463e79681424b58ec1679927fbbc4d2d
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jan 13 18:21:07 2018 +0000
+
+    Simplify tor_status.py
+    
+    Since DisableNetwork 0 will always be along with the new generated anon_connection_wizard.torrc file. We can safely simplify tor_status.py
+
+commit 1cc4f006981d965cc4849de20568bf98a9129eee
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jan 13 16:33:04 2018 +0000
+
+    Update comments
+
+commit f296deddeed25be3cd6bf06b7ae866102b0a70e5
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jan 13 16:27:23 2018 +0000
+
+    Switch to /usr/local/etc/torrc.d/40_anon_connection_wizard.torrc
+
+commit f12470e951bd5afd5eff70f83c482049da707ed0
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jan 13 15:50:14 2018 +0000
+
+    Add repair function for 95_whonix.torrc
+    
+    According to: https://github.com/Whonix/anon-gw-anonymizer-config/blob/master/etc/torrc.d/95_whonix.torrc
+
+commit 0cb17652e078245fffa0f0d2cc1dac8c47f50a27
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Jan 13 15:44:24 2018 +0000
+
+    Update repair_torrc.py
+    
+    According to: https://github.com/Whonix/anon-gw-anonymizer-config/blob/master/etc/tor/torrc.anondist
+
+commit 15634baf57c79d9db08b670afeb21f677847d7a0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 20:07:14 2018 +0000
+
+    bumped changelog version
+
 commit c8da675a0c821deb9e76fb486c57923d8bfe8485
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 12 19:50:47 2018 +0000
@@ -27,6 +267,14 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Jan 12 18:00:14 2018 +0000
 
     delete not required etc/sudoers.d/anon-connection-wizard
+
+commit c2972c8e06bba46dabe81929fec52a681c49464d
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Jan 11 01:41:16 2018 +0000
+
+    Fix obfs4 default bridges connectivity issue
+    
+    The Tor bootstrap will stuck at 20% when IPv6 bridges are included. Thus, remove IPv6 bridges for now.
 
 commit 145a755a65927490da8acbd031b56588f75bcb74
 Author: Patrick Schleizer <adrelanos@riseup.net>

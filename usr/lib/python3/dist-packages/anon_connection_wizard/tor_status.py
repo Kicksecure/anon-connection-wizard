@@ -74,13 +74,13 @@ def set_enabled():
 
     if tor_status_code != 0:
         return 'cannot_connect', tor_status_code
-    
+
     command = 'systemctl --no-pager status tor@default'
     tor_status_code= call(command, shell=True)
-    
+
     if tor_status_code != 0:
         return 'cannot_connect', tor_status_code
-    
+
     return 'tor_enabled', tor_status_code
 
 def set_disabled():
@@ -90,7 +90,7 @@ def set_disabled():
         with open(DisableNetwork_torrc_path,'w+') as f:
             f.write('DisableNetwork 1')
     elif status == "tor_disabled":
-        # do nothing        
+        # do nothing
         pass
     elif status == "tor_enabled":
         for i, line in enumerate(fileinput.input(DisableNetwork_torrc_path, inplace=1)):
