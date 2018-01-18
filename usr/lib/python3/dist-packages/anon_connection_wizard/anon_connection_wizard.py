@@ -1171,6 +1171,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             '''
             self.io()
 
+
             ''' displace the torrc file and icon used on the page
             notice that 40_anon_connection_wizard.torrc will not have line about DisableNetwork 0
             That line will be changed in 50_user.torrc by tor_status module
@@ -1236,24 +1237,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 elif Common.proxy_type == 'SOCKS5':
                     self.torrc_page.label_7.setText('Socks5  {0} : {1}'.format(Common.proxy_ip, Common.proxy_port))
 
-
         if self.currentId() == self.steps.index('tor_status_page'):
-            ''' io() will wirte to torrc_tmp_file_path
-            basing on user's selection in anon_connection_wizard
-            Notice that we have called the io() in torrc page,
-            however, since when user hit Connect or Disable Button,
-            torrc page is skipped, we still need it here to gurantee it is called.
-            Why can't we just call it here?
-            Becuase we need to show user the result in the torrc page, too.
-            '''
-            self.io()
-            # move the tmp file to the real .torrc
-            # this may overwrite the previous .torrc, but it does not matter
-            shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
-            ## we set 40_anon_connection_wizard.torrc as 644
-            ## so that only root can wirte and read, others can only read,
-            ## which prevents the edit by normal user.
-            os.chmod(Common.torrc_file_path, 0o644)
+            if os.path.exists(Common.torrc_tmp_file_path):
+                ## move the tmp file to the real .torrc only when user click the connect button
+                ## this may overwrite the previous .torrc, but it does not matter
+                shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
+                ## we set 40_anon_connection_wizard.torrc as 644
+                ## so that only root can wirte and read, others can only read,
+                ## which prevents the edit by normal user.
+                os.chmod(Common.torrc_file_path, 0o644)
 
             self.tor_status_page.text.setText('')  # This will clear the text left by different Tor status statement
             self.button(QtWidgets.QWizard.BackButton).setVisible(True)
