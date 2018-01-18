@@ -1106,21 +1106,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         else:
             self.bootstrap_timeout = True
 
-    def cancel_button_clicked(self):
-        try:
-            if self.bootstrap_thread:
-                self.bootstrap_thread.terminate()
-
-            ''' recover Tor to the intial status before the starting of anon_connection_wizard
-            '''
-            if Common.init_tor_status == 'tor_enabled':
-                pass
-            elif Common.init_tor_status == 'tor_disabled':
-                tor_status.set_disabled()
-
-        except AttributeError:
-            pass
-
     def next_button_clicked(self):
         if self.currentId() == self.steps.index('connection_main_page'):
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
@@ -1170,7 +1155,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             Here we call the io() so that we can show user the torrc file
             '''
             self.io()
-
 
             ''' displace the torrc file and icon used on the page
             notice that 40_anon_connection_wizard.torrc will not have line about DisableNetwork 0
@@ -1343,9 +1327,25 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         if self.currentId() == self.steps.index('bridge_wizard_page_2'):
             Common.from_proxy_page_1 = True
 
+    def cancel_button_clicked(self):
+        try:
+            if self.bootstrap_thread:
+                self.bootstrap_thread.terminate()
+                ## When user cancel Tor bootstrap,
+                ## it is reasonable to assume user wants to disable Tor
+                tor_status.set_disabled()
+
+            # recover Tor to the intial status before the starting of anon_connection_wizard
+            if Common.init_tor_status == 'tor_enabled':
+                pass
+            elif Common.init_tor_status == 'tor_disabled':
+                tor_status.set_disabled()
+        except AttributeError:
+            pass
+
     def finish_button_clicked(self):
         # The True indicates the acw has finished successfully
-        # TODO: this does not work as expected, even the conceal button is clicked,
+        # TODO: this does not work as expected, even the cancel button is clicked,
         # the wizard still return True
         return True
 
