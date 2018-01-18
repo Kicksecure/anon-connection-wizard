@@ -1092,19 +1092,25 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         self.button(QtWidgets.QWizard.CancelButton).setText('Quit')
         self.exec_()
 
+    def update_bootstrap(self, bootstrap_phase, bootstrap_percent):
+        self.tor_status_page.bootstrap_progress.setValue(bootstrap_percent)
+        if bootstrap_phase == 'no_controller':
+            self.bootstrap_thread.terminate()
+            buttonReply = QMessageBox.warning(self, 'Tor Controller Not Found', 'Tor fails to start because the Tor controller cannot be found. This is very likely because you have a \"DisableNetwork 1\" line in some torrc file(s). Please manually remove or comment those lines and then run anon-connection-wizard again.')
+            if buttonReply == QMessageBox.Ok:
+                sys.exit(1)
+        elif bootstrap_phase == 'no_cookie':
+            self.bootstrap_thread.terminate()
+            buttonReply = QMessageBox.warning(self, 'Tor Controller Cookie Not Found', 'Tor fails to start because the Tor controller cookie cannot be found.')
+            if buttonReply == QMessageBox.Ok:
+                sys.exit(1)
 
-    def update_bootstrap(self, status):
-        if status != 'timeout':
-            bootstrap_phase = re.search(r'SUMMARY=(.*)', status).group(1)
-            bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', status).group(1))
-            if bootstrap_percent == 100:
-                self.tor_status_page.text.setText('<p><b>Tor bootstrapping done</b></p>Bootstrap phase: {0}'.format(bootstrap_phase))
-                self.bootstrap_done = True
-            else:
-                self.tor_status_page.text.setText('<p><b>Bootstrapping Tor...</b></p>Bootstrap phase: {0}'.format(bootstrap_phase))
-            self.tor_status_page.bootstrap_progress.setValue(bootstrap_percent)
+        if bootstrap_percent == 100:
+            self.tor_status_page.text.setText('<p><b>Tor bootstrapping done</b></p>Bootstrap phase: {0}'.format(bootstrap_phase))
+            self.bootstrap_done = True
+            self.show_finish_button()
         else:
-            self.bootstrap_timeout = True
+            self.tor_status_page.text.setText('<p><b>Bootstrapping Tor...</b></p>Bootstrap phase: {0}'.format(bootstrap_phase))
 
     def next_button_clicked(self):
         if self.currentId() == self.steps.index('connection_main_page'):
@@ -1222,15 +1228,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     self.torrc_page.label_7.setText('Socks5  {0} : {1}'.format(Common.proxy_ip, Common.proxy_port))
 
         if self.currentId() == self.steps.index('tor_status_page'):
-            if os.path.exists(Common.torrc_tmp_file_path):
-                ## move the tmp file to the real .torrc only when user click the connect button
-                ## this may overwrite the previous .torrc, but it does not matter
-                shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
-                ## we set 40_anon_connection_wizard.torrc as 644
-                ## so that only root can wirte and read, others can only read,
-                ## which prevents the edit by normal user.
-                os.chmod(Common.torrc_file_path, 0o644)
-
             self.tor_status_page.text.setText('')  # This will clear the text left by different Tor status statement
             self.button(QtWidgets.QWizard.BackButton).setVisible(True)
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
@@ -1238,6 +1235,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
+                if os.path.exists(Common.torrc_tmp_file_path):
+                    ## move the tmp file to the real .torrc only when user click the connect button
+                    ## # TODO: his may overwrite the previous .torrc, but it does not matter
+                    shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
+                    ## we set 40_anon_connection_wizard.torrc as 644
+                    ## so that only root can wirte and read, others can only read,
+                    ## which prevents the edit by normal user.
+                    os.chmod(Common.torrc_file_path, 0o644)
+
                 self.tor_status_page.bootstrap_progress.setVisible(True)
 
                 self.tor_status_result = tor_status.set_enabled()
@@ -1262,7 +1268,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
                     self.bootstrap_thread = TorBootstrap(self)
                     self.bootstrap_thread.signal.connect(self.update_bootstrap)
-                    self.bootstrap_thread.finished.connect(self.show_finish_button)
                     self.bootstrap_thread.start()
                 elif self.tor_status == 'cannot_connect':
                     # print to the stderr
@@ -1515,16 +1520,18 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             Common.bridge_type_with_comment = 'meek-azure (works in China)'
 
 class TorBootstrap(QtCore.QThread):
-    signal = QtCore.pyqtSignal(str)
+    '''signal will receive the emit from TorBootstrap with two values:
+    bootstrap_phase and bootstrap_percent.
+    It will pass them to the update_bootstrap()
+    '''
+    signal = QtCore.pyqtSignal(str, int)
+
     def __init__(self, main):
         #super(TorBootstrap, self).__init__(main)
         QtCore.QThread.__init__(self, parent=None)
-
-        #self.signal = QtCore.SIGNAL("signal")  # Not usable in PyQt5 anymore
         self.previous_status = ''
-        self.bootstrap_percent = 0
+        bootstrap_percent = 0
         #self.is_running = False
-        self.tor_controller = self.connect_to_control_port()
 
     def connect_to_control_port(self):
         import stem
@@ -1535,23 +1542,46 @@ class TorBootstrap(QtCore.QThread):
         '''
         In case something wrong happened when trying to start Tor,
         causing /run/tor/control never be generated.
-        We set up a time counter and hardcode the wait time limitation as 15s.
+        We set up a time counter and hardcode the wait time limitation as 10s.
         '''
+        bootstrap_phase =  'Waiting for /run/tor/control...'
+        bootstrap_percent = 0
+        self.signal.emit(bootstrap_phase, bootstrap_percent)
+
         self.count_time = 0
-        while(not os.path.exists(Common.control_socket_path) and self.count_time < 15):
-            self.previous_status = 'Waiting for /run/tor/control...'
+        while(not os.path.exists(Common.control_socket_path) and self.count_time < 10):
             time.sleep(0.2)
             self.count_time += 0.2
 
         if os.path.exists(Common.control_socket_path):
+            bootstrap_phase =  'Found /run/tor/control...'
+            bootstrap_percent = 0
+            self.signal.emit(bootstrap_phase, bootstrap_percent)
             self.tor_controller = stem.control.Controller.from_socket_file(Common.control_socket_path)
         else:
             print(Common.control_socket_path + ' not found!!!')
+            bootstrap_phase =  'no_controller'
+            bootstrap_percent = 0
+            ## After emiting the `no_controller`,
+            ## update_bootstrap() will pop the messagebox and quit
+            self.signal.emit(bootstrap_phase, bootstrap_percent)
+            ## suspend is really useful because we have to wait for our
+            ## emited siganl really reach update_bootstrap()
+            time.sleep(10)
 
         if not os.path.exists(Common.control_cookie_path):
             # TODO: can we let Tor generate a cookie to fix this situation?
             print(Common.control_cookie_path + ' not found!!!')
+            bootstrap_phase =  'no_cookie'
+            bootstrap_percent = 0
+            self.signal.emit(bootstrap_phase, bootstrap_percent)
+            time.sleep(10)
+
         else:
+            bootstrap_phase =  'Found Tor control cookie'
+            bootstrap_percent = 0
+            self.signal.emit(bootstrap_phase, bootstrap_percent)
+
             with open(Common.control_cookie_path, "rb") as f:
                 cookie = f.read()
             try:
@@ -1566,22 +1596,25 @@ class TorBootstrap(QtCore.QThread):
                 pass  #if the cookie file's value is rejected
         return self.tor_controller
 
-
     def run(self):
-        #self.is_running = True
-        while self.bootstrap_percent < 100:
+        self.tor_controller = self.connect_to_control_port()
+        bootstrap_percent = 0
+        while bootstrap_percent < 100:
             bootstrap_status = self.tor_controller.get_info("status/bootstrap-phase")
-            '''
-            bootstrap_status_test = self.tor_controller.get_info("")
-            print(bootstrap_status_test)
-            '''
-            self.bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', bootstrap_status).group(1))
+            bootstrap_phase = re.search(r'SUMMARY=(.*)', bootstrap_status).group(1)
+            bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', bootstrap_status).group(1))
+            # bootstrap_status_test = self.tor_controller.get_info("")
+            # print(bootstrap_status_test)
             if bootstrap_status != self.previous_status:
                 sys.stdout.write('{0}\n'.format(bootstrap_status))
                 sys.stdout.flush()
                 self.previous_status = bootstrap_status
-                self.signal.emit(bootstrap_status)
+                self.signal.emit(bootstrap_phase, bootstrap_percent)
             time.sleep(0.2)
+        # This will guarantee bootstrap_percent 100 is emited.
+        self.signal.emit(bootstrap_phase, bootstrap_percent)
+
+
 
 
 def main():
