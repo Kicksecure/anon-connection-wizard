@@ -35,7 +35,7 @@ def tor_status():
             tor_disabled = True
     if tor_disabled:
         return "tor_disabled"
-    
+
     return 'missing_disablenetwork_line'
 
 '''Unlike tor_status() function which only shows the current state of the anon_connection_wizard.torrc,
@@ -73,13 +73,13 @@ def set_enabled():
 
     if tor_status_code != 0:
         return 'cannot_connect', tor_status_code
-    
+
     command = 'systemctl --no-pager status tor@default'
     tor_status_code= call(command, shell=True)
-    
+
     if tor_status_code != 0:
         return 'cannot_connect', tor_status_code
-    
+
     return 'tor_enabled', tor_status_code
 
 def set_disabled():
@@ -89,7 +89,7 @@ def set_disabled():
         with open(DisableNetwork_torrc_path,'w+') as f:
             f.write('#DisableNetwork 0')
     elif status == "tor_disabled":
-        # do nothing        
+        # do nothing
         pass
     elif status == "tor_enabled":
         # prefix # to DisableNetwork line
