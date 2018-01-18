@@ -1178,7 +1178,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             '''
 
             if not Common.disable_tor:
-                #self.torrc_page.text.setText(self._('tor_enabled'))  # Q: how does this line work?
+                #self.torrc_page.text.setText(self._('tor_enabled'))
 
                 self.torrc_page.label_3.setText('Tor will be enabled.')
                 if not Common.use_bridges:
