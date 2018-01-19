@@ -50,8 +50,8 @@ class Common:
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
 
-    control_cookie_path = '/run/tor/control.authcookie'
-    control_socket_path = '/run/tor/control'
+    control_cookie_path = '/var/run/tor/control.authcookie'
+    control_socket_path = '/var/run/tor/control'
 
     use_bridges = False
     use_default_bridge = True
@@ -142,11 +142,6 @@ class Common:
 
     # TODO: may replace the URL with a better one for usability and accessibility
     assistance = 'For assistance, visit torproject.org/about/contact.html#support'
-
-    control_cookie_path = '/run/tor/control.authcookie'
-    control_socket_path = '/run/tor/control'
-
-
 
 class ConnectionMainPage(QtWidgets.QWizardPage):
     def __init__(self):
@@ -1094,23 +1089,23 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
     def update_bootstrap(self, bootstrap_phase, bootstrap_percent):
         self.tor_status_page.bootstrap_progress.setValue(bootstrap_percent)
-        if bootstrap_phase == 'no_controller':
-            self.bootstrap_thread.terminate()
-            buttonReply = QMessageBox.warning(self, 'Tor Controller Not Found', 'Tor fails to start because the Tor controller cannot be found. This is very likely because you have a \"DisableNetwork 1\" line in some torrc file(s). Please manually remove or comment those lines and then run anon-connection-wizard again.')
-            if buttonReply == QMessageBox.Ok:
-                sys.exit(1)
-        elif bootstrap_phase == 'no_cookie':
-            self.bootstrap_thread.terminate()
-            buttonReply = QMessageBox.warning(self, 'Tor Controller Cookie Not Found', 'Tor fails to start because the Tor controller cookie cannot be found.')
-            if buttonReply == QMessageBox.Ok:
-                sys.exit(1)
-
         if bootstrap_percent == 100:
             self.tor_status_page.text.setText('<p><b>Tor bootstrapping done</b></p>Bootstrap phase: {0}'.format(bootstrap_phase))
             self.bootstrap_done = True
             self.show_finish_button()
         else:
             self.tor_status_page.text.setText('<p><b>Bootstrapping Tor...</b></p>Bootstrap phase: {0}'.format(bootstrap_phase))
+
+        if bootstrap_phase == 'no_controller':
+            self.bootstrap_thread.terminate()
+            buttonReply = QMessageBox.warning(self, 'Tor Controller Not Constructed', 'Tor controller cannot be constructed. This is very likely because you have a \"DisableNetwork 1\" line in some torrc file(s). Please manually remove or comment those lines and then run anon-connection-wizard again.')
+            if buttonReply == QMessageBox.Ok:
+                sys.exit(1)
+        elif bootstrap_phase == 'cookie_authentication_failed':
+            self.bootstrap_thread.terminate()
+            buttonReply = QMessageBox.warning(self, 'Tor Controller Authentication Failed', 'Tor allows for authentication by reading it a cookie file, but we cannot read that file (probably due to permissions)')
+            if buttonReply == QMessageBox.Ok:
+                sys.exit(1)
 
     def next_button_clicked(self):
         if self.currentId() == self.steps.index('connection_main_page'):
@@ -1540,27 +1535,24 @@ class TorBootstrap(QtCore.QThread):
         import stem.socket
         from stem.connection import connect
 
-        '''
-        In case something wrong happened when trying to start Tor,
-        causing /run/tor/control never be generated.
-        We set up a time counter and hardcode the wait time limitation as 10s.
-        '''
-        bootstrap_phase =  'Waiting for /run/tor/control...'
+        '''Step 1: Construct a Tor controller'''
+        # In case something wrong happened when trying to start Tor,
+        # causing /run/tor/control never be generated.
+        # We set up a time counter and hardcode the wait time limitation as 10s.
+
+        bootstrap_phase =  'Constructing Tor Controller...'
         bootstrap_percent = 0
         self.signal.emit(bootstrap_phase, bootstrap_percent)
 
-        self.count_time = 0
-        while(not os.path.exists(Common.control_socket_path) and self.count_time < 10):
+        count=0
+        while not os.path.exists(Common.control_socket_path) and count < 5:
+            count += 0.2
             time.sleep(0.2)
-            self.count_time += 0.2
 
-        if os.path.exists(Common.control_socket_path):
-            bootstrap_phase =  'Found /run/tor/control...'
-            bootstrap_percent = 0
-            self.signal.emit(bootstrap_phase, bootstrap_percent)
-            self.tor_controller = stem.control.Controller.from_socket_file(Common.control_socket_path)
-        else:
-            print(Common.control_socket_path + ' not found!!!')
+        try:
+            tor_controller = stem.control.Controller.from_socket_file(Common.control_socket_path)
+        except stem.SocketError:
+            print('Construct Tor Controller Failed: unable to establish a connection')
             bootstrap_phase =  'no_controller'
             bootstrap_percent = 0
             ## After emiting the `no_controller`,
@@ -1570,32 +1562,31 @@ class TorBootstrap(QtCore.QThread):
             ## emited siganl really reach update_bootstrap()
             time.sleep(10)
 
-        if not os.path.exists(Common.control_cookie_path):
+        '''Step 2: Controller Authentication
+        In order to interact with Tor, we have to do the authentication.
+        '''
+        bootstrap_phase =  'Authenticating the Tor Controller...'
+        bootstrap_percent = 0
+        self.signal.emit(bootstrap_phase, bootstrap_percent)
+
+        try:
+            tor_controller.authenticate(Common.control_cookie_path)
+        except selftem.connection.IncorrectCookieSize:
+            pass  #if # TODO: the cookie file's size is wrong
+        except stem.connection.UnreadableCookieFile:
             # TODO: can we let Tor generate a cookie to fix this situation?
-            print(Common.control_cookie_path + ' not found!!!')
-            bootstrap_phase =  'no_cookie'
+            print('Tor allows for authentication by reading it a cookie file, \
+            but we cannot read that file (probably due to permissions)')
+            bootstrap_phase =  'cookie_authentication_failed'
             bootstrap_percent = 0
             self.signal.emit(bootstrap_phase, bootstrap_percent)
             time.sleep(10)
+        except stem.connection.CookieAuthRejected:
+            pass  #if cookie authentication is attempted but the socket doesn't accept it
+        except stem.connection.IncorrectCookieValue:
+            pass  #if the cookie file's value is rejected
 
-        else:
-            bootstrap_phase =  'Found Tor control cookie'
-            bootstrap_percent = 0
-            self.signal.emit(bootstrap_phase, bootstrap_percent)
-
-            with open(Common.control_cookie_path, "rb") as f:
-                cookie = f.read()
-            try:
-                self.tor_controller.authenticate(cookie)
-            except stem.connection.IncorrectCookieSize:
-                pass  #if the cookie file's size is wrong
-            except stem.connection.UnreadableCookieFile:
-                pass  #if # TODO: the cookie file doesn't exist or we're unable to read it
-            except stem.connection.CookieAuthRejected:
-                pass  #if cookie authentication is attempted but the socket doesn't accept it
-            except stem.connection.IncorrectCookieValue:
-                pass  #if the cookie file's value is rejected
-        return self.tor_controller
+        return tor_controller
 
     def run(self):
         self.tor_controller = self.connect_to_control_port()
