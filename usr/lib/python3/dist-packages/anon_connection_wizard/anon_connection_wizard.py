@@ -1278,6 +1278,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     <p>Job for tor@default.service failed because the control process \
                     exited with error code.</p>' +
                     'Error Code: ' + self.tor_status_code + '\n' +
+                    '<p>Often, this is because of your torrc file(s) has corrupted settings.</p>' +
                     '<p>See "systemctl status tor@default.service" and \
                     "journalctl -xe" for details.</p>\
                     <p>You may not be able to use any network facing application for now.</p>')
