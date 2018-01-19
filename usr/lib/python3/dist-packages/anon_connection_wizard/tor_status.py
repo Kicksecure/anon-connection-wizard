@@ -11,9 +11,9 @@ else:
     whonix=False
 
 if whonix:
-    DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/50_user.torrc'
+    DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.torrc'
 else:
-    DisableNetwork_torrc_path = '/etc/torrc.d/50_user.torrc'
+    DisableNetwork_torrc_path = '/etc/torrc.d/40_anon_connection_wizard.torrc'
 
 def tor_status():
     if not os.path.exists(DisableNetwork_torrc_path):
@@ -23,20 +23,27 @@ def tor_status():
         lines = f.readlines()
         f.close()
 
-    ''' Notice that just because we see "#DisableNetwork 0"
-    does not mean Tor is really disabled because there may be another line "DisableNetwork 0".
+    ''' Notice that just because we see "DisableNetwork 1" or "DisableNetwork 0"
+    does not mean Tor is really disabled because there may be another line of "DisableNetwork".
     Therefore, we have to use a flag as follows.
     '''
     tor_disabled = False
+    has_diable_network_line = False
     for line in lines:
         if line.strip() == 'DisableNetwork 0':
-            return 'tor_enabled'
-        elif line.strip() == '#DisableNetwork 0':
+            tor_disabled = False
+            has_diable_network_line = True
+        elif line.strip() == 'DisableNetwork 1':
             tor_disabled = True
-    if tor_disabled:
-        return "tor_disabled"
+            has_diable_network_line = True
 
-    return 'missing_disablenetwork_line'
+    if not has_diable_network_line:
+        return 'missing_disablenetwork_line'
+    else:
+        if tor_disabled:
+            return "tor_disabled"
+        else:
+            return 'tor_enabled'
 
 '''Unlike tor_status() function which only shows the current state of the anon_connection_wizard.torrc,
 set_enabled() and set_disabled() function will try to repair the missing torrc or DisableNetwork line.
@@ -52,14 +59,8 @@ def set_enabled():
         with open(DisableNetwork_torrc_path,'w+') as f:
             f.write('DisableNetwork 0')
     elif status == "tor_disabled":
-        # remove # to enable Tor
-        with open(DisableNetwork_torrc_path,'r') as f:
-            lines = f.readlines()
-            f.close()
-        for line in lines:
-            if line.strip() == '#DisableNetwork 0':
-                for i, line in enumerate(fileinput.input(DisableNetwork_torrc_path, inplace=1)):
-                    sys.stdout.write(line.replace('#DisableNetwork 0', 'DisableNetwork 0'))
+        for i, line in enumerate(fileinput.input(DisableNetwork_torrc_path, inplace=1)):
+            sys.stdout.write(line.replace('DisableNetwork 1', 'DisableNetwork 0'))
     elif status == "tor_enabled":
         # do nothing
         pass
@@ -87,22 +88,16 @@ def set_disabled():
     status = tor_status()
     if status == "no_torrc":
         with open(DisableNetwork_torrc_path,'w+') as f:
-            f.write('#DisableNetwork 0')
+            f.write('DisableNetwork 1')
     elif status == "tor_disabled":
         # do nothing
         pass
     elif status == "tor_enabled":
-        # prefix # to DisableNetwork line
-        with open(DisableNetwork_torrc_path,'r') as f:
-            lines = f.readlines()
-            f.close()
-        for line in lines:
-            if line.strip() == 'DisableNetwork 0':
-                for i, line in enumerate(fileinput.input(DisableNetwork_torrc_path, inplace=1)):
-                    sys.stdout.write(line.replace('DisableNetwork 0', '#DisableNetwork 0'))
+        for i, line in enumerate(fileinput.input(DisableNetwork_torrc_path, inplace=1)):
+            sys.stdout.write(line.replace('DisableNetwork 0', 'DisableNetwork 1'))
     elif status == "missing_disablenetwork_line":
         with open(DisableNetwork_torrc_path,'a') as f:
-            f.write('#DisableNetwork 0')
+            f.write('DisableNetwork 1')
 
     ## stop the Tor now
     command = 'systemctl --no-pager stop tor@default'
