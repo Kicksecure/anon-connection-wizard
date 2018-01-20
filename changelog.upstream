@@ -1,3 +1,62 @@
+commit c163f8e05a64e1cdf0bc4545ded224a808897ac4
+Merge: d37f745 df97cdd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 19 17:02:02 2018 +0100
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit df97cdd6c2c7f0f76d8065bd20a4d6ebf2e05443
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jan 19 00:11:10 2018 +0000
+
+    Better error message for users
+
+commit ab3db2556b2d79a065bab97d6c827d81dbeea557
+Merge: 27af872 d37f745
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Jan 18 23:59:57 2018 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 27af8722a18fbf23a06c22821ed052fcbc428b18
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Jan 18 23:50:19 2018 +0000
+
+    Great improvement on Tor bootstrap
+    
+    1. Pop up message when /run/tor/control is not found
+    2. Pop up message when Tor controller cookie is not found
+    3. Optimize Tor Bootstrap Status
+    4. Now user will feel smooth switching to Tor Bootstrap Page
+
+commit b33a8620d7298ee6e8b5406aacbea7c4dc062144
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Jan 18 19:02:31 2018 +0000
+
+    Disable Tor when user cancel Tor bootstrap
+    
+    When user cancel Tor bootstrap, it is reasonable to assume user wants to disable Tor. For example, when users misconfigure the Tor, Tor bootstrap may stuck at a point. After user hit the cancel button, we should not let Tor keep trying to connect to the Tor network with the misconfigured settings.
+
+commit 664d921be945ad5499850ed3aa8482e9b1c30301
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Jan 18 18:45:07 2018 +0000
+
+    Update comments
+
+commit 19f8a89a07b05bb11407c196b0a50cda7084139f
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Jan 18 18:03:50 2018 +0000
+
+    Move DisableNetwork line to 40_anon_connection_wizard.torrc
+    
+    Also fixed serveral logical bugs.
+
+commit d37f745f9a3d2ef1f681986643f4a9d0c0b711d6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jan 18 17:29:10 2018 +0000
+
+    bumped changelog version
+
 commit 4d10fe96294a51952f9dbb33b14c7e016d6495f4
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Jan 18 14:06:43 2018 +0100
