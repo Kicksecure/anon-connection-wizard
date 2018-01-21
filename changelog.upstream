@@ -1,3 +1,15 @@
+commit b1b5c5052d8a915fd7f37027f8b9b92fffb4b393
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 21 13:52:34 2018 +0100
+
+    add new lines at the end
+
+commit acf2c23777e2f4788ac27da93417ac60361446f5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 20 18:23:57 2018 +0000
+
+    bumped changelog version
+
 commit c163f8e05a64e1cdf0bc4545ded224a808897ac4
 Merge: d37f745 df97cdd
 Author: Patrick Schleizer <adrelanos@riseup.net>
