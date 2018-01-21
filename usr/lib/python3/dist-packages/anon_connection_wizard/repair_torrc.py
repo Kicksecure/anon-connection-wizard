@@ -12,13 +12,14 @@ if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
     whonix=True
 else:
     whonix=False
-    
+
 def repair_torrc():
     repair_torrc_d()
 
     if not os.path.exists('/etc/tor/torrc'):
         with open('/etc/tor/torrc', "w+") as f:
             f.write("%include /etc/torrc.d")
+            f.write('\n')
     else:
         with open('/etc/tor/torrc', "r") as f:
             lines = f.readlines()
@@ -33,6 +34,7 @@ def repair_torrc():
         if not torrcd_line_exists:
             with open('/etc/tor/torrc', "a") as f:
                 f.write("%include /etc/torrc.d\n")
+                f.write('\n')
 
 
 '''repair_torrc_d() will gurantee the existence of /etc/torrc.d

@@ -58,6 +58,7 @@ def set_enabled():
     if status == "no_torrc":
         with open(DisableNetwork_torrc_path,'w+') as f:
             f.write('DisableNetwork 0')
+            f.write('\n')
     elif status == "tor_disabled":
         for i, line in enumerate(fileinput.input(DisableNetwork_torrc_path, inplace=1)):
             sys.stdout.write(line.replace('DisableNetwork 1', 'DisableNetwork 0'))
@@ -67,6 +68,7 @@ def set_enabled():
     elif status == "missing_disablenetwork_line":
         with open(DisableNetwork_torrc_path,'a') as f:
             f.write('DisableNetwork 0')
+            f.write('\n')
 
     ## start the Tor now
     command = 'systemctl --no-pager restart tor@default'
@@ -89,6 +91,7 @@ def set_disabled():
     if status == "no_torrc":
         with open(DisableNetwork_torrc_path,'w+') as f:
             f.write('DisableNetwork 1')
+            f.write('\n')
     elif status == "tor_disabled":
         # do nothing
         pass
@@ -98,6 +101,7 @@ def set_disabled():
     elif status == "missing_disablenetwork_line":
         with open(DisableNetwork_torrc_path,'a') as f:
             f.write('DisableNetwork 1')
+            f.write('\n')
 
     ## stop the Tor now
     command = 'systemctl --no-pager stop tor@default'
