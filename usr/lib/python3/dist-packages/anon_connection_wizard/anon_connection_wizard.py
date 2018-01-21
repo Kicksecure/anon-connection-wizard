@@ -1448,8 +1448,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 # for proxy in proxies['proxies'][Common.well_known_proxy_setting]:
                 #    f.write('{0}\n'.format(proxy))
 
-        f.write('\n')
-
 
     def parseTorrc(self):
         if os.path.exists(Common.torrc_file_path):
