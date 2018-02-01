@@ -1528,6 +1528,21 @@ class TorBootstrap(QtCore.QThread):
         self.previous_status = ''
         bootstrap_percent = 0
         #self.is_running = False
+        '''The TAG to phase mapping is mainly according to:
+        https://gitweb.torproject.org/tor-launcher.git/tree/src/chrome/locale/en/torlauncher.properties
+        '''
+        self.tag_phase = {'starting': 'Starting',
+                    'conn_dir': 'Connecting to a relay directory',
+                    'handshake_dir': 'Establishing an encrypted directory connection',
+                    'requesting_status': 'Retrieving network status',
+                    'loading_status': 'Loading network status',
+                    'loading_keys': 'Loading authority certificates',
+                    'requesting_descriptors': 'Requesting relay information',
+                    'loading_descriptors': 'Loading relay information',
+                    'conn_or': 'Connecting to the Tor network',
+                    'handshake_or': 'Establishing a Tor circuit',
+                    'done': 'Connected to the Tor network!'}
+
 
     def connect_to_control_port(self):
         import stem
@@ -1593,8 +1608,18 @@ class TorBootstrap(QtCore.QThread):
         bootstrap_percent = 0
         while bootstrap_percent < 100:
             bootstrap_status = self.tor_controller.get_info("status/bootstrap-phase")
-            bootstrap_phase = re.search(r'SUMMARY=(.*)', bootstrap_status).group(1)
+
             bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', bootstrap_status).group(1))
+            bootstrap_tag = re.search(r'TAG=(.*) +SUMMARY', bootstrap_status).group(1)
+            ''' Use TAG= keyword for bootstrap_phase, according to:
+            https://gitweb.torproject.org/tor-launcher.git/plain/README-BOOTSTRAP
+            '''
+            if bootstrap_tag in self.tag_phase:
+                bootstrap_phase = self.tag_phase[bootstrap_tag]
+            else:
+                # Only use SUMMARY= as phase info when the TAG= is not in the dictionary
+                bootstrap_phase = re.search(r'SUMMARY=(.*)', bootstrap_status).group(1)
+
             # bootstrap_status_test = self.tor_controller.get_info("")
             # print(bootstrap_status_test)
             if bootstrap_status != self.previous_status:
