@@ -1,3 +1,61 @@
+commit a5b9924e734658b512edbf2de8995bb9b41669cd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:50:07 2018 +0000
+
+    readme
+
+commit 6454c547b2855c215aed5ab9b78d532db9e00bb4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:38:39 2018 +0000
+
+    update copyright
+
+commit a75d78d401b818f914c9d97eae1277726fab72e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:21:45 2018 +0000
+
+    update copyright
+
+commit 68d04c3b69d533db0598b697bc64eded915a6ef0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:14:57 2018 +0000
+
+    update copyright
+
+commit 1f756e8719da1e5fcf720e2852ae308e3c552ae5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 29 15:09:22 2018 +0000
+
+    update copyright
+
+commit 2e295d47cd6c9b716071f510a95b8de82ec41714
+Merge: bed4793 5ef9fbc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jan 24 21:29:38 2018 +0100
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 5ef9fbc5c1aa76fbd06f80c2c0dd7806da4ce257
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jan 21 20:36:40 2018 +0000
+
+    Remove redundant newline
+    
+    Reference f was also closed in previous case, causing a IO error.
+
+commit b620ddffb3d1a166150236db7e0dbdf6eb8d0fa3
+Merge: e1fc749 bed4793
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Jan 21 18:05:16 2018 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit bed479391e8d72aefbf7c736dd99e8f890dcfd10
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 21 13:32:50 2018 +0000
+
+    bumped changelog version
+
 commit b1b5c5052d8a915fd7f37027f8b9b92fffb4b393
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 21 13:52:34 2018 +0100
@@ -9,6 +67,22 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jan 20 18:23:57 2018 +0000
 
     bumped changelog version
+
+commit e1fc74967b6fa9d88e7a393170c0e21a2506e402
+Merge: 5d7bb7b c163f8e
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jan 19 22:31:24 2018 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 5d7bb7b2bea2cb215e64cf5f685e37677e6a72ea
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jan 19 20:38:57 2018 +0000
+
+    Better interaction with Tor controller
+    
+    1. Use control_socket and control_cookie consistent with Whonix
+    2. Renew misleading error message
 
 commit c163f8e05a64e1cdf0bc4545ded224a808897ac4
 Merge: d37f745 df97cdd
