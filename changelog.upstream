@@ -1,3 +1,73 @@
+commit 80ce4bd11e6a966d6d9d752f77ec2fea99f31304
+Merge: e332339 1adb978
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 2 19:22:23 2018 +0100
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 1adb978abc0a57461aca9ecd85bd1ced4055238f
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Feb 2 18:16:30 2018 +0000
+
+    Add log to stdout for toggling the DisableNetwork to 0
+
+commit e332339429d343b38078fe6d13bc638e64b76174
+Merge: dc1ea5d 115020d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 2 18:45:56 2018 +0100
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 115020d61d65e75a3419cad576ba223b0214d5f9
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Feb 2 17:16:02 2018 +0000
+
+    Use static message to cover unkown bootstrap TAG=
+    
+    This design will avoid potential misleading/harmful info shown. It will also print debugging info to stdout.
+
+commit dc1ea5db2682207182686e2465181c6f011c6187
+Merge: 5edca18 717f313
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 2 14:18:26 2018 +0100
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 717f313ccb22246eb5d0d49cde09f1c51a77576b
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Feb 2 00:34:53 2018 +0000
+
+    Fix Tor control socket does not show up problem
+    
+    When DisableNetwork set to 1, doing systmctl restart tor@defautl.service is not will not be enough to open /vat/run/tor/control.
+    
+    To workaround this, we have to do systemctl reload tor@default.service.
+
+commit ca507719c1ba551f86c74b1d47fc90fb958501d9
+Merge: 8c10c8b 5edca18
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Feb 1 17:41:19 2018 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 8c10c8b2c24ae4954c94ff6c4da0d69b2ae4578a
+Author: irykoon <irykoon@gmail.com>
+Date:   Thu Feb 1 17:14:05 2018 +0000
+
+    Map TAG= to bootstrap phase info
+    
+    This implementation will mitigate the vuneralbility described in: http://forums.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/t/graphical-gui-whonix-setup-wizard-anon-connection-wizard-technical-discussion/650/540
+    
+    It also prepares the bootstrap phase info for being translated.
+    
+    The Tor-launcher implementation of this can be found here: https://gitweb.torproject.org/tor-launcher.git/plain/README-BOOTSTRAP
+
+commit 5edca188452a275aaab5a799c5d7e24566a9706d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 1 14:39:03 2018 +0000
+
+    bumped changelog version
+
 commit a5b9924e734658b512edbf2de8995bb9b41669cd
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jan 29 15:50:07 2018 +0000
