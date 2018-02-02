@@ -1605,6 +1605,11 @@ class TorBootstrap(QtCore.QThread):
 
     def run(self):
         self.tor_controller = self.connect_to_control_port()
+        '''if DisableNetwork is 1, then toggle it to 0
+        because we really want Tor connect to the network'''
+        if self.tor_controller.get_conf('DisableNetwork') is '1':
+            self.tor_controller.set_conf('DisableNetwork', '0')
+
         bootstrap_percent = 0
         while bootstrap_percent < 100:
             bootstrap_status = self.tor_controller.get_info("status/bootstrap-phase")
