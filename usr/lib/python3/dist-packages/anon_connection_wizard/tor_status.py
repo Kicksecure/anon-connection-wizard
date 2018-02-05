@@ -11,9 +11,9 @@ else:
     whonix=False
 
 if whonix:
-    DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.torrc'
+    DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.conf'
 else:
-    DisableNetwork_torrc_path = '/etc/torrc.d/40_anon_connection_wizard.torrc'
+    DisableNetwork_torrc_path = '/etc/torrc.d/40_anon_connection_wizard.conf'
 
 def tor_status():
     if not os.path.exists(DisableNetwork_torrc_path):
@@ -45,7 +45,7 @@ def tor_status():
         else:
             return 'tor_enabled'
 
-'''Unlike tor_status() function which only shows the current state of the anon_connection_wizard.torrc,
+'''Unlike tor_status() function which only shows the current state of the anon_connection_wizard.conf,
 set_enabled() and set_disabled() function will try to repair the missing torrc or DisableNetwork line.
 This makes sense because when we call set_enabled() or set_disabled() we really want Tor to work,
 rather than receive a 'no_torrc' or 'missing_disablenetwork_line' complain, which is not helpful for users.

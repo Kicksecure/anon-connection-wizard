@@ -41,11 +41,11 @@ class Common:
     '''
     translations_path = '/usr/share/anon-connection-wizard/translations.yaml'
     if whonix:
-        torrc_file_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.torrc'
-        torrc_user_file_path =  '/usr/local/etc/torrc.d/50_user.torrc'
+        torrc_file_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.conf'
+        torrc_user_file_path =  '/usr/local/etc/torrc.d/50_user.conf'
     else:
-        torrc_file_path = '/etc/torrc.d/40_anon_connection_wizard.torrc'
-        torrc_user_file_path = '/etc/torrc.d/50_user.torrc'
+        torrc_file_path = '/etc/torrc.d/40_anon_connection_wizard.conf'
+        torrc_user_file_path = '/etc/torrc.d/50_user.conf'
     torrc_tmp_file_path = ''
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
@@ -69,7 +69,7 @@ class Common:
     init_tor_status = ''  # it records the initial status of Tor, serving as a backup
     disable_tor = False
 
-    ''' The following is command lines available to be added to .torrc,
+    ''' The following is command lines available to be added to .conf,
     since they are used more than once in the code,
     it is easier for later maintenance of the code to write them all here and refer them when used
     Notice that:
@@ -1151,15 +1151,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
 
-            ''' io() will wirte lines to 40_anon_connection_wizard.torrc
+            ''' io() will wirte lines to 40_anon_connection_wizard.conf
             basing on user's selection in anon_connection_wizard
             Here we call the io() so that we can show user the torrc file
             '''
             self.io()
 
             ''' displace the torrc file and icon used on the page
-            notice that 40_anon_connection_wizard.torrc will not have line about DisableNetwork 0
-            That line will be changed in 50_user.torrc by tor_status module
+            notice that 40_anon_connection_wizard.conf will not have line about DisableNetwork 0
+            That line will be changed in 50_user.conf by tor_status module
             '''
 
             if not Common.disable_tor:
@@ -1231,10 +1231,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
                 if os.path.exists(Common.torrc_tmp_file_path):
-                    ## move the tmp file to the real .torrc only when user click the connect button
-                    ## # TODO: his may overwrite the previous .torrc, but it does not matter
+                    ## move the tmp file to the real .conf only when user click the connect button
+                    ## # TODO: his may overwrite the previous .conf, but it does not matter
                     shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
-                    ## we set 40_anon_connection_wizard.torrc as 644
+                    ## we set 40_anon_connection_wizard.conf as 644
                     ## so that only root can wirte and read, others can only read,
                     ## which prevents the edit by normal user.
                     os.chmod(Common.torrc_file_path, 0o644)
@@ -1484,7 +1484,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         Common.proxy_type = 'HTTP / HTTPS'
                         ''' Using the following parsing fragments is too fixed,
                         which is not good implementation.
-                        But as long as leave .torrc untouched by user, it will be Okay.
+                        But as long as leave .conf untouched by user, it will be Okay.
                         We should also be careful when changing the command line format in this app
                         '''
                         Common.proxy_ip = line.split(' ')[1].split(':')[0]
