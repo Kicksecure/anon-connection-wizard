@@ -13,5 +13,5 @@ call(command, shell = True)
 
 anon_connection_wizard = distutils.spawn.find_executable("anon-connection-wizard")
 if not anon_connection_wizard == "":
-    command = 'kdesudo {} setup'.format(anon_connection_wizard)
+    command = 'kdesudo {}'.format(anon_connection_wizard)
     call(command, shell=True)
