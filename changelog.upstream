@@ -1,3 +1,17 @@
+commit 7b2905f5c81326decc80e639a8fe74eb03fb0712
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 9 13:18:02 2018 +0100
+
+    fix, drop unnedded 'setup' argument
+    
+    can cause issues with sudoers
+
+commit 8645b9b79ae3257b75a73f2c04c0b27a334758e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 5 21:53:24 2018 +0000
+
+    bumped changelog version
+
 commit 5a3db12a3555a4bc7e93ae87a399b88d6398544f
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 5 21:27:13 2018 +0000
