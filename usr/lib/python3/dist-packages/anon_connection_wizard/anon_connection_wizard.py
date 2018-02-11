@@ -31,14 +31,11 @@ from anon_connection_wizard import tor_status
 from anon_connection_wizard import repair_torrc
 
 class Common:
-    if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
-        whonix=True
-    else:
-        whonix=False
-
     '''
     Variables and constants used through all the classes
     '''
+    whonix = os.path.exists('/usr/share/anon-gw-base-files/gateway')
+
     translations_path = '/usr/share/anon-connection-wizard/translations.yaml'
     if whonix:
         torrc_file_path = '/usr/local/etc/torrc.d/40_anon_connection_wizard.conf'
