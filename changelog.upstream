@@ -1,3 +1,36 @@
+commit 8e5a6fa880508d781789235cc84c7024758424fa
+Merge: d266091 9a41221
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 11 21:09:20 2018 +0000
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit 9a41221d703ed91fdb8ab080f73dd187e535819d
+Merge: 98ac249 d266091
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Feb 11 19:54:11 2018 +0000
+
+    Merge branch 'master' of github.com:Whonix/anon-connection-wizard
+
+commit 98ac249c7ab8c1c524b7cde2578356369f9d9a1a
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Feb 11 19:44:46 2018 +0000
+
+    Switch from distutils.spawn.find_executable to shutil.which
+
+commit d266091c2b46a481bd070a055b91854612e923cc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Feb 10 13:50:21 2018 +0000
+
+    bumped changelog version
+
+commit e46854ad58d1af872b437b76d5f607ad4d07b512
+Merge: f27e3c5 7b2905f
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Feb 9 16:54:39 2018 +0000
+
+    Merge branch 'master' of github.com:Whonix/anon-connection-wizard
+
 commit 7b2905f5c81326decc80e639a8fe74eb03fb0712
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Feb 9 13:18:02 2018 +0100
@@ -5,6 +38,12 @@ Date:   Fri Feb 9 13:18:02 2018 +0100
     fix, drop unnedded 'setup' argument
     
     can cause issues with sudoers
+
+commit f27e3c5f33773df7f2ba4f7d79bfdb8c905e2d02
+Author: irykoon <irykoon@gmail.com>
+Date:   Tue Feb 6 16:08:35 2018 +0000
+
+    Simplify logic
 
 commit 8645b9b79ae3257b75a73f2c04c0b27a334758e9
 Author: Patrick Schleizer <adrelanos@riseup.net>
