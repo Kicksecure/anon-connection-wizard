@@ -75,7 +75,7 @@ class Common:
     '''
     command_useBridges = 'UseBridges 1'
     command_use_custom_bridge = '# Custom Bridge is used:'
-    command_obfs3 = 'ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed'
+    command_obfs3 = 'ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfs4proxy'
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
     command_scramblesuit = 'ClientTransportPlugin scramblesuit exec /usr/bin/obfs4proxy'
