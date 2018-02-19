@@ -78,7 +78,7 @@ class Common:
     command_obfs3 = 'ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed'
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
-    command_scramblesuit = 'ClientTransportPlugin obfs2,obfs3,scramblesuit exec /usr/bin/obfsproxy managed'
+    command_scramblesuit = 'ClientTransportPlugin scramblesuit exec /usr/bin/obfs4proxys'
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
     command_meek_amazon_address = 'a0.awsstatic.com\n'
     command_meek_azure_address = 'ajax.aspnetcdn.com\n'
@@ -262,6 +262,8 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                         'meek-azure (works in China)'
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
+                        # The following is deprecated
+                        # 'scramblesuit'
                        ]
 
         self.layout = QtWidgets.QVBoxLayout(self)
@@ -437,7 +439,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                     bridge_type = 'meek-amazon'
                 elif bridge_type.startswith('meek-azure'):
                     bridge_type = 'meek-azure'
-                # elif bridge_type.selftartswith('scramblesuit'):
+                # elif bridge_type.startswith('scramblesuit'):
                 #    bridge_type = 'scramblesuit'
                 ''' TODO: Other options can be implemented once there are supported.
                 elif bridge_type.startswith('fte'):
