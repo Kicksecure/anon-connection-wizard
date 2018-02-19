@@ -78,7 +78,7 @@ class Common:
     command_obfs3 = 'ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy managed'
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
-    command_scramblesuit = 'ClientTransportPlugin scramblesuit exec /usr/bin/obfs4proxys'
+    command_scramblesuit = 'ClientTransportPlugin scramblesuit exec /usr/bin/obfs4proxy'
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
     command_meek_amazon_address = 'a0.awsstatic.com\n'
     command_meek_azure_address = 'ajax.aspnetcdn.com\n'
