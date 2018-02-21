@@ -19,6 +19,7 @@ def repair_torrc():
     if not os.path.exists('/etc/torrc.d/95_whonix.conf'):
         with open('/etc/torrc.d/95_whonix.conf', "w+") as f:
             f.write("%include /usr/local/etc/torrc.d/40_anon_connection_wizard.conf")
+            f.write('\n')
             f.write("%include /usr/local/etc/torrc.d/50_user.conf")
             f.write('\n')
 
