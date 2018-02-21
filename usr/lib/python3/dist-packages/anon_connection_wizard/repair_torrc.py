@@ -16,6 +16,12 @@ else:
 def repair_torrc():
     repair_torrc_d()
 
+    if not os.path.exists('/etc/torrc.d/95_whonix.conf'):
+        with open('/etc/torrc.d/95_whonix.conf', "w+") as f:
+            f.write("%include /usr/local/etc/torrc.d/40_anon_connection_wizard.conf")
+            f.write("%include /usr/local/etc/torrc.d/50_user.conf")
+            f.write('\n')
+
     if not os.path.exists('/etc/tor/torrc'):
         with open('/etc/tor/torrc', "w+") as f:
             f.write("%include /etc/torrc.d/95_whonix.conf")
@@ -37,12 +43,12 @@ def repair_torrc():
                 f.write('\n')
 
 
-'''repair_torrc_d() will gurantee the existence of /etc/torrc.d/95_whonix.conf
+'''repair_torrc_d() will gurantee the existence of /etc/torrc.d/
 and if anon-connection-wizard is in Whonix,
-then also gurantee the existence of /usr/local/etc/torrc.d/95_whonix.conf
+then also gurantee the existence of /usr/local/etc/torrc.d/
 '''
 def repair_torrc_d():
-    if not os.path.exists('/etc/torrc.d/95_whonix.conf'):
-        os.makedirs('/etc/torrc.d/95_whonix.conf')
-    if whonix and not os.path.exists('/usr/local/etc/torrc.d/95_whonix.conf'):
-        os.makedirs('/usr/local/etc/torrc.d/95_whonix.conf')
+    if not os.path.exists('/etc/torrc.d/'):
+        os.makedirs('/etc/torrc.d/')
+    if whonix and not os.path.exists('/usr/local/etc/torrc.d/'):
+        os.makedirs('/usr/local/etc/torrc.d/')
