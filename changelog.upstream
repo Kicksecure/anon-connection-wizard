@@ -1,3 +1,56 @@
+commit 289d01d3aea867037f8d26165536ac213997f2e5
+Merge: fce694e c8e6b0b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 22 02:04:15 2018 +0000
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit c8e6b0ba2de28b2145ef9ed315aca5644cfe0a1d
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Feb 21 23:40:04 2018 +0000
+
+    Add newline between configurations
+
+commit 1410b6a05ec894a74ca206a751064ebe22c3ecaa
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Feb 21 23:30:29 2018 +0000
+
+    Fix error
+
+commit a35b6ae20caad69c5fd9507b2adb89a4cc29fdd3
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Feb 21 23:18:49 2018 +0000
+
+    /etc/torrc.d -> /etc/torrc.d/95_whonix.conf
+    
+    We should avoid any `%include directory` for now before this feature is available in Tor stable: https://trac.torproject.org/projects/tor/ticket/25140#ticket
+
+commit e19ee206caafef6957d075189961fbf3d09e3a8e
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Feb 19 07:25:03 2018 +0000
+
+    Switch from obfsproxy to obfs4proxy
+
+commit 790e8a4cd9c19cf27914803ac15eeb76cab52bb1
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Feb 19 07:23:56 2018 +0000
+
+    Fix typo
+
+commit 9141da5d161a96985b640e2f3968ad669c7e07d1
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Feb 19 07:07:13 2018 +0000
+
+    Do not provide bridges for scramblesuit
+    
+    TBB does not support scramblesuit: https://gitweb.torproject.org/builders/tor-browser-bundle.git/tree/Bundle-Data/PTConfigs/bridge_prefs.js?h=maint-7.0
+
+commit fce694e4991eb4be83618b19fd84f83d10e44351
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Feb 18 14:04:14 2018 +0000
+
+    bumped changelog version
+
 commit 8e5a6fa880508d781789235cc84c7024758424fa
 Merge: d266091 9a41221
 Author: Patrick Schleizer <adrelanos@riseup.net>

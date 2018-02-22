@@ -1,3 +1,9 @@
+anon-connection-wizard (1:1.7-1) unstable; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Thu, 22 Feb 2018 02:04:27 +0000
+
 anon-connection-wizard (1:1.6-1) unstable; urgency=medium
 
   * New upstream version (local package).
