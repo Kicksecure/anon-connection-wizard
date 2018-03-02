@@ -1405,8 +1405,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     for bridge in bridges['bridges'][Common.bridge_type]:
                         f.write('bridge {0}\n'.format(bridge))
                 else:  # Use custom bridges
-                    f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
-
+                    f.write(Common.command_use_custom_bridge + '\n')  # custom bridges mark
                     if Common.bridge_custom.lower().startswith('obfs4'):
                         f.write(Common.command_obfs4 + '\n')
                     elif Common.bridge_custom.lower().startswith('obfs3'):
