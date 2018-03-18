@@ -27,7 +27,7 @@ def tor_status():
     does not mean Tor is really disabled because there may be another line of "DisableNetwork".
     Therefore, we have to use a flag as follows.
     '''
-    tor_disabled = False
+    tor_disabled = True
     has_diable_network_line = False
     for line in lines:
         if line.strip() == 'DisableNetwork 0':
