@@ -52,6 +52,13 @@ rather than receive a 'no_torrc' or 'missing_disablenetwork_line' complain, whic
 
 set_enabled() will return a turple with two value: a string of error type and an int of error code.
 '''
+
+'''set_enabled() is specified as follows:
+set_enabled() will:
+1. gurantee the existence of 40_anon_connection_wizard.conf
+2. gurantee the final value of DisableNetwork is 0 in the file
+3. gurantee Tor uses DisableNetwork 0
+'''
 def set_enabled():
     ## change DisableNetwork line according to tor_status
     status = tor_status()
@@ -89,6 +96,12 @@ def set_enabled():
 
     return 'tor_enabled', tor_status_code
 
+'''set_disabled() is specified as follows:
+set_disabled() will:
+1. gurantee the existence of 40_anon_connection_wizard.conf
+2. gurantee the final value of DisableNetwork is 1 in the file
+3. gurantee Tor uses DisableNetwork 1
+'''
 def set_disabled():
     ## change DisableNetwork line according to tor_status
     status = tor_status()
