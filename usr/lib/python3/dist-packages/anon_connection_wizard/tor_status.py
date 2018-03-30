@@ -27,7 +27,7 @@ def tor_status():
     does not mean Tor is really disabled because there may be another line of "DisableNetwork".
     Therefore, we have to use a flag as follows.
     '''
-    tor_disabled = False
+    tor_disabled = True
     has_diable_network_line = False
     for line in lines:
         if line.strip() == 'DisableNetwork 0':
@@ -51,6 +51,13 @@ This makes sense because when we call set_enabled() or set_disabled() we really 
 rather than receive a 'no_torrc' or 'missing_disablenetwork_line' complain, which is not helpful for users.
 
 set_enabled() will return a turple with two value: a string of error type and an int of error code.
+'''
+
+'''set_enabled() is specified as follows:
+set_enabled() will:
+1. gurantee the existence of 40_anon_connection_wizard.conf
+2. gurantee the final value of DisableNetwork is 0 in the file
+3. gurantee Tor uses DisableNetwork 0
 '''
 def set_enabled():
     ## change DisableNetwork line according to tor_status
@@ -89,6 +96,12 @@ def set_enabled():
 
     return 'tor_enabled', tor_status_code
 
+'''set_disabled() is specified as follows:
+set_disabled() will:
+1. gurantee the existence of 40_anon_connection_wizard.conf
+2. gurantee the final value of DisableNetwork is 1 in the file
+3. gurantee Tor uses DisableNetwork 1
+'''
 def set_disabled():
     ## change DisableNetwork line according to tor_status
     status = tor_status()

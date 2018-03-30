@@ -1097,7 +1097,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
         if bootstrap_phase == 'no_controller':
             self.bootstrap_thread.terminate()
-            buttonReply = QMessageBox.warning(self, 'Tor Controller Not Constructed', 'Tor controller cannot be constructed. This is very likely because you have a \"DisableNetwork 1\" line in some torrc file(s). Please manually remove or comment those lines and then run anon-connection-wizard again.')
+            buttonReply = QMessageBox.warning(self, 'Tor Controller Not Constructed', 'Tor controller cannot be constructed.')
             if buttonReply == QMessageBox.Ok:
                 sys.exit(1)
         elif bootstrap_phase == 'cookie_authentication_failed':
@@ -1405,8 +1405,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     for bridge in bridges['bridges'][Common.bridge_type]:
                         f.write('bridge {0}\n'.format(bridge))
                 else:  # Use custom bridges
-                    f.write(Common.command_use_custom_bridge + '\n')  # mark custom bridges are used
-
+                    f.write(Common.command_use_custom_bridge + '\n')  # custom bridges mark
                     if Common.bridge_custom.lower().startswith('obfs4'):
                         f.write(Common.command_obfs4 + '\n')
                     elif Common.bridge_custom.lower().startswith('obfs3'):
