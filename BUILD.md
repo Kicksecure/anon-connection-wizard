@@ -1,4 +1,4 @@
-# Building OnionShare
+# Building Anon Connection Wizard
 
 Start by getting the source code:
 
