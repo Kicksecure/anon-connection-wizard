@@ -1,3 +1,42 @@
+commit bc7be12f12db749f9170faa27fb86280b0e0b778
+Merge: 43254f1 cb7d60d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Mar 30 08:37:47 2018 +0200
+
+    Merge remote-tracking branch 'irykoon/master'
+
+commit cb7d60d7c3ec8a63527816f088810061b9d9d6b3
+Author: irykoon <irykoon@gmail.com>
+Date:   Wed Mar 28 16:14:47 2018 +0000
+
+    Add specifications for the functions
+    
+    Since set_enabled() and set_disabled() have been used by multiple packages in Whonix. It is important to set a clear specification for them.
+
+commit 7c22126dc74010809dd7a1c98f9e3dc102797c37
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Mar 18 23:13:11 2018 +0000
+
+    Initialize tor_disable flag as True
+
+commit af5f3b8da52968942935ab02c41d0b41c81ebf8e
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 2 16:18:36 2018 +0000
+
+    Update comments
+
+commit 380ef4b78533bf32a4533c83149926eea22d249f
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Mar 2 16:01:31 2018 +0000
+
+    Update warning message
+
+commit 43254f1d4214611ab1efc2cf3e990d69e285bdc8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 22 02:04:27 2018 +0000
+
+    bumped changelog version
+
 commit 289d01d3aea867037f8d26165536ac213997f2e5
 Merge: fce694e c8e6b0b
 Author: Patrick Schleizer <adrelanos@riseup.net>
