@@ -80,7 +80,6 @@ class Common:
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
     command_scramblesuit = 'ClientTransportPlugin scramblesuit exec /usr/bin/obfs4proxy'
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
-    command_meek_amazon_address = 'a0.awsstatic.com\n'
     command_meek_azure_address = 'ajax.aspnetcdn.com\n'
 
     command_bridgeInfo = 'bridge '
@@ -258,7 +257,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4 (recommended)',
                         'obfs3',
-                        'meek-amazon (works in China)',
                         'meek-azure (works in China)'
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
@@ -435,8 +433,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                     bridge_type = 'obfs3'
                 elif bridge_type.startswith('obfs4'):
                     bridge_type = 'obfs4'
-                elif bridge_type.startswith('meek-amazon'):
-                    bridge_type = 'meek-amazon'
                 elif bridge_type.startswith('meek-azure'):
                     bridge_type = 'meek-azure'
                 # elif bridge_type.startswith('scramblesuit'):
@@ -1175,8 +1171,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                             self.torrc_page.label_5.setText('Provided scramblesuit')
                         elif Common.bridge_type == 'obfs4':
                             self.torrc_page.label_5.setText('Provided obfs4')
-                        elif Common.bridge_type == 'meek-amazon':
-                            self.torrc_page.label_5.setText('Provided meek-amazon')
                         elif Common.bridge_type == 'meek-azure':
                             self.torrc_page.label_5.setText('Provided meek-azure')
                     else:
@@ -1393,8 +1387,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         f.write(Common.command_scramblesuit + '\n')
                     elif Common.bridge_type == 'obfs4':
                         f.write(Common.command_obfs4 + '\n')
-                    elif Common.bridge_type == 'meek-amazon':
-                        f.write(Common.command_meek_lite + '\n')
                     elif Common.bridge_type == 'meek-azure':
                         f.write(Common.command_meek_lite + '\n')
                         # More types of bridges will be availble once supported: meek, flashproxy
@@ -1465,9 +1457,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         Common.bridge_type = 'obfs4'
                     elif line.startswith(Common.command_meek_lite):
                         use_meek_lite = True
-                    elif use_meek_lite and line.endswith(Common.command_meek_amazon_address):
-                        Common.bridge_type = 'meek-amazon'
-                        Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif use_meek_lite and line.endswith(Common.command_meek_azure_address):
                         Common.bridge_type = 'meek-azure'
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
@@ -1508,8 +1497,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
         if Common.bridge_type == 'obfs4':
             Common.bridge_type_with_comment = 'obfs4 (recommended)'
-        elif Common.bridge_type == 'meek-amazon':
-            Common.bridge_type_with_comment = 'meek-amazon (works in China)'
         elif Common.bridge_type == 'meek-azure':
             Common.bridge_type_with_comment = 'meek-azure (works in China)'
 
