@@ -16,6 +16,12 @@ else:
     DisableNetwork_torrc_path = '/etc/torrc.d/40_anon_connection_wizard.conf'
 
 def tor_status():
+    # Known issue:
+    # before torrc.d get used, both 40_anon_connection_wizard.conf and 50_user.conf
+    # are explicitly used in 95_whonix.conf. Therefore, when 50_user.conf is missing,
+    # Tor will fail to start. This probelm can be solved by rebooting or doing
+    # systemctl restart anon-gw-anonymizer-config.service , which runs
+    # ExecStart=/usr/lib/anon-gw-anonymizer-config/make-sure-torrc-exist
     if not os.path.exists(DisableNetwork_torrc_path):
         return "no_torrc"
 
