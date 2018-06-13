@@ -1,3 +1,83 @@
+commit 29bd5da2e8bbbcf3f0fdd72738f101dc1c521bb3
+Merge: a48671e b6fa7e5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jun 12 13:58:44 2018 +0200
+
+    Merge remote-tracking branch 'origin/master'
+
+commit b6fa7e5713734224a955df4da22ba80cae24a655
+Merge: a48671e 7fafb3d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jun 12 13:56:19 2018 +0200
+
+    Merge pull request #21 from irykoon/master
+    
+    Remove meek-amazon bridge
+
+commit 7fafb3d644e9558656466e5a4415ab419d828204
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jun 11 09:14:40 2018 +0000
+
+    Remove meek-amazon bridge
+    
+    meek-amazon has been removed from TBB 7.5.5 since amazon stopped
+    supporting domain fronting.
+    
+    Related ticket: https://trac.torproject.org/projects/tor/ticket/26098
+    Related Tor blog: https://blog.torproject.org/domain-fronting-critical-open-web
+
+commit 76f3f6fd42112cabc66b5bf1ccef8414abbe5f77
+Merge: a577560 a48671e
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Jun 11 09:06:44 2018 +0000
+
+    Merge branch 'master' of github.com:Whonix/anon-connection-wizard
+
+commit a48671e4e18870cecba70eb4e04766dd175d4ec8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 2 12:49:53 2018 +0000
+
+    bumped changelog version
+
+commit a577560019be8167f1640ee26318c46a266a93a5
+Author: irykoon <irykoon@gmail.com>
+Date:   Mon Apr 2 00:22:30 2018 +0000
+
+    Document known issue that missing 50_user.conf causes Tor failing to start
+    
+    Before torrc.d get used, both 40_anon_connection_wizard.conf and 50_user.conf are explicitly used in 95_whonix.conf. Therefore, when 50_user.conf is missing, Tor will fail to start.
+    
+    This probelm can be solved by rebooting or doing systemctl restart anon-gw-anonymizer-config.service , which runs ExecStart=/usr/lib/anon-gw-anonymizer-config/make-sure-torrc-exist
+
+commit f69d909f518d42e1da8c415febf944cda9064254
+Author: irykoon <irykoon@gmail.com>
+Date:   Sun Apr 1 02:33:17 2018 +0000
+
+    Initialize dev_script
+
+commit dfc3e23ede4f6c42d2c90b0f6bac657d1ba98c3a
+Author: irykoon <iry@riseup.net>
+Date:   Sun Apr 1 02:22:40 2018 +0000
+
+    Oninoshare -> anon-connection-wizard
+    
+    The entire idea of BUILD.md is stolen from micahflee's onionshare:
+    https://github.com/micahflee/onionshare
+
+commit df97d1feadef37f79a87b7938bed2c60bb25753b
+Author: irykoon <iry@riseup.net>
+Date:   Sun Apr 1 02:09:50 2018 +0000
+
+    Add BUILD.md with dependency installation instruction
+
+commit c742d1dbb23971123ef3f1abeba8ed9ab7a5186c
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Mar 31 22:11:27 2018 +0000
+
+    Update the dependencies
+    
+    The dependencies of Anon Connection Wizard should be generic enough for Debian and also Debian derivatives now.
+
 commit bc7be12f12db749f9170faa27fb86280b0e0b778
 Merge: 43254f1 cb7d60d
 Author: Patrick Schleizer <adrelanos@riseup.net>
