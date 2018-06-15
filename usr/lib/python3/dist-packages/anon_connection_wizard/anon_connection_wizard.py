@@ -1446,9 +1446,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
     def parseTorrc(self):
         if os.path.exists(Common.torrc_file_path):
             with open(Common.torrc_file_path, 'r') as f:
-                ## This falg is for parsing meek_lite
-                use_meek_lite = False
-                use_snowflake = False
                 for line in f:
                     if line.startswith(Common.command_use_custom_bridge):  # this condition must be above '#' condition, because it also contains '#'
                         Common.use_default_bridge = False
@@ -1456,24 +1453,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         pass  # add this line to improve efficiency
                     elif line.startswith(Common.command_useBridges):
                         Common.use_bridges = True
-                    elif line.startswith(Common.command_obfs3):
-                        Common.bridge_type = 'obfs3'
-                    elif line.startswith(Common.command_obfs4):
-                        Common.bridge_type = 'obfs4'
-                    elif line.startswith(Common.command_meek_lite):
-                        use_meek_lite = True
-                    elif use_meek_lite and line.endswith(Common.command_meek_azure_address):
-                        Common.bridge_type = 'meek-azure'
-                        Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
-                    elif line.startswith(Common.command_snowflake):
-                        use_snowflake = True
-                    elif use_snowflake:
-                        Common.bridge_type = 'snowflake'
-                        Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'                        
-                    # elif line.startswith(Common.command_fte):
-                    #     Common.bridge_type = 'fte'
                     elif line.startswith(Common.command_bridgeInfo):
+                        Common.bridge_type = line.split(' ')[1]
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
+
                     elif line.startswith(Common.command_http):
                         Common.use_proxy = True
                         Common.proxy_type = 'HTTP / HTTPS'
