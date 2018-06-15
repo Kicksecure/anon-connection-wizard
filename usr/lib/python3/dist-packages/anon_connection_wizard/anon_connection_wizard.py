@@ -78,7 +78,8 @@ class Common:
     command_obfs3 = 'ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfs4proxy'
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
-    command_scramblesuit = 'ClientTransportPlugin scramblesuit exec /usr/bin/obfs4proxy'
+    ## ref: https://gitweb.torproject.org/pluggable-transports/snowflake.git/tree/client/torrc
+    command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client -url https://snowflake-broker.azureedge.net/ -front ajax.aspnetcdn.com -ice stun:stun.l.google.com:19302 -max 3'
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
     command_meek_azure_address = 'ajax.aspnetcdn.com\n'
 
@@ -257,7 +258,8 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4 (recommended)',
                         'obfs3',
-                        'meek-azure (works in China)'
+                        'meek-azure (works in China)',
+                        'snowflake'
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
                        ]
@@ -433,8 +435,8 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                     bridge_type = 'obfs4'
                 elif bridge_type.startswith('meek-azure'):
                     bridge_type = 'meek-azure'
-                # elif bridge_type.startswith('scramblesuit'):
-                #    bridge_type = 'scramblesuit'
+                elif bridge_type.startswith('snowflake'):
+                   bridge_type = 'snowflake'
                 ''' TODO: Other options can be implemented once there are supported.
                 elif bridge_type.startswith('fte'):
                 bridge_type = 'fte'
@@ -474,6 +476,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         if (bridge_defined_type.startswith('obfs3')
                 or bridge_defined_type.startswith('obfs4')
                 or bridge_defined_type.startswith('meek_lite')
+                or bridge_defined_type.startswith('snowflake')
             ## This case try to match vanilla bridges.
             ## Example, trying to match "109.23.3.9:8236"
             ## This is dirty but hopefully it is effective
@@ -1165,12 +1168,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     if Common.use_default_bridge:
                         if Common.bridge_type == 'obfs3':
                             self.torrc_page.label_5.setText('Provided obfs3')
-                        elif Common.bridge_type == 'scramblesuit':
-                            self.torrc_page.label_5.setText('Provided scramblesuit')
                         elif Common.bridge_type == 'obfs4':
                             self.torrc_page.label_5.setText('Provided obfs4')
                         elif Common.bridge_type == 'meek-azure':
                             self.torrc_page.label_5.setText('Provided meek-azure')
+                        elif Common.bridge_type == 'snowflake':
+                            self.torrc_page.label_5.setText('Provided snowflake')
                     else:
                         if Common.bridge_custom.lower().startswith('obfs3'):
                             self.torrc_page.label_5.setText('Custom obfs3')
@@ -1178,6 +1181,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                             self.torrc_page.label_5.setText('Custom obfs4')
                         elif Common.bridge_custom.lower().startswith('meek_lite'):
                             self.torrc_page.label_5.setText('Custom meek_lite')
+                        elif Common.bridge_custom.lower().startswith('snowflake'):
+                            self.torrc_page.label_5.setText('Custom snowflake')
                         else:
                             self.torrc_page.label_5.setText('Custom vanilla')
 
@@ -1381,13 +1386,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 if Common.use_default_bridge:
                     if Common.bridge_type == 'obfs3':
                         f.write(Common.command_obfs3 + '\n')
-                    elif Common.bridge_type == 'scramblesuit':
-                        f.write(Common.command_scramblesuit + '\n')
                     elif Common.bridge_type == 'obfs4':
                         f.write(Common.command_obfs4 + '\n')
                     elif Common.bridge_type == 'meek-azure':
                         f.write(Common.command_meek_lite + '\n')
-                        # More types of bridges will be availble once supported: meek, flashproxy
+                    elif Common.bridge_type == 'snowflake':
+                        f.write(Common.command_snowflake + '\n')
                     elif Common.bridge_type == '':
                         pass
                     bridges = json.loads(open(Common.bridges_default_path).read())
@@ -1404,6 +1408,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         f.write(Common.command_fte + '\n')
                     elif Common.bridge_custom.lower().startswith('meek_lite'):
                         f.write(Common.command_meek_lite + '\n')
+                    elif Common.bridge_custom.lower().startswith('snowflake'):
+                        f.write(Common.command_snowflake + '\n')
 
                     # Write the specific bridge address, port, cert etc.
                     bridge_custom_list = Common.bridge_custom.split('\n')
@@ -1442,6 +1448,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             with open(Common.torrc_file_path, 'r') as f:
                 ## This falg is for parsing meek_lite
                 use_meek_lite = False
+                use_snowflake = False
                 for line in f:
                     if line.startswith(Common.command_use_custom_bridge):  # this condition must be above '#' condition, because it also contains '#'
                         Common.use_default_bridge = False
@@ -1458,10 +1465,13 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif use_meek_lite and line.endswith(Common.command_meek_azure_address):
                         Common.bridge_type = 'meek-azure'
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
-                    elif line.startswith(Common.command_fte):
-                        Common.bridge_type = 'fte'
-                    elif line.startswith(Common.command_scramblesuit):
-                        Common.bridge_type = 'scramblesuit'
+                    elif line.startswith(Common.command_snowflake):
+                        use_snowflake = True
+                    elif use_snowflake:
+                        Common.bridge_type = 'snowflake'
+                        Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'                        
+                    # elif line.startswith(Common.command_fte):
+                    #     Common.bridge_type = 'fte'
                     elif line.startswith(Common.command_bridgeInfo):
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
                     elif line.startswith(Common.command_http):
