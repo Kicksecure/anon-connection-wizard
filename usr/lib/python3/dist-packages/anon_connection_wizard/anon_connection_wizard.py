@@ -1454,6 +1454,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif line.startswith(Common.command_useBridges):
                         Common.use_bridges = True
                     elif line.startswith(Common.command_bridgeInfo):
+                        ## TODO: bridge_type should be a data
+                        ## structure, not a value to correctly show
+                        ## mutilple types of bridges used at the same
+                        ## time. Every element should be unique in
+                        ## this array and the element should be
+                        ## predefined.
                         Common.bridge_type = line.split(' ')[1]
                         Common.bridge_custom += ' '.join(line.split(' ')[1:])  # eliminate the 'Bridge'
 
