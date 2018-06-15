@@ -260,8 +260,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                         'meek-azure (works in China)'
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
-                        # The following is deprecated
-                        # 'scramblesuit'
                        ]
 
         self.layout = QtWidgets.QVBoxLayout(self)
