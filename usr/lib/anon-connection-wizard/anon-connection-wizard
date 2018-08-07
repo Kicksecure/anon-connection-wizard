@@ -6,15 +6,9 @@
 from subprocess import call
 import sys, os
 import time
-import shutil
-
-anon_connection_wizard = shutil.which("anon-connection-wizard")
-if anon_connection_wizard == None:
-    print('ERROR: anon-connection-wizard not found! Exiting.')
-    sys.exit(1)
 
 command = 'xhost +local:root'
 call(command, shell = True)
 
-command = 'kdesudo {}'.format(anon_connection_wizard)
+command = 'kdesudo /usr/bin/anon-connection-wizard'
 call(command, shell=True)
