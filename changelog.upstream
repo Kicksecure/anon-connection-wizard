@@ -1,3 +1,21 @@
+commit 9b56e7c89b72351d75b326e70a60705dd233a8f4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 7 12:00:16 2018 +0000
+
+    code simplification
+
+commit f83bcf0d3f892b66dc93beb93e6d4ca5195135b8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 7 19:10:25 2018 +0800
+
+    40_anon_connection_wizard.conf -> 40_tor_control_panel.conf
+
+commit a0f1491ca68a0891f4505888db8cf19fc0ae85c4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 13 07:07:56 2018 +0000
+
+    bumped changelog version
+
 commit 29bd5da2e8bbbcf3f0fdd72738f101dc1c521bb3
 Merge: a48671e b6fa7e5
 Author: Patrick Schleizer <adrelanos@riseup.net>
