@@ -259,7 +259,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.bridges = ['obfs4 (recommended)',
                         'obfs3',
                         'meek-azure (works in China)',
-                        'snowflake'
+                        # 'snowflake'
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
                        ]
