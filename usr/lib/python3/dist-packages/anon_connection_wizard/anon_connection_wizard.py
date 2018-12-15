@@ -450,11 +450,25 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                 Common.bridge_custom = str(self.custom_bridges.toPlainText())
                 Common.use_default_bridge = False
 
+                self.reformat_custom_bridge_input()
                 # TODO: a more general RE will help filter the case where bridge_custom input is invaild
                 if not self.valid_bridge(Common.bridge_custom):
                     return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
                 else:
                     return self.steps.index('proxy_wizard_page_2')
+
+    def reformat_custom_bridge_input(self):
+        reformat_lines = []
+        for bridge in self.custom_bridges.toPlainText().split('\n'):
+            elements = bridge.split()
+            # auto-remove prepending commonly misuse 'bridge' string
+            try:
+                while elements[0].lower() == 'bridge':
+                    elements.pop(0)
+            except:
+                continue
+            reformat_lines.append(' '.join(elements))
+        self.custom_bridges.setText('\n'.join(reformat_lines))
 
     def valid_bridge(self, bridges):
         # TODO: we may use re to check if the bridge input is valid
@@ -1104,6 +1118,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 sys.exit(1)
 
     def next_button_clicked(self):
+        self.bridge_wizard_page_2.reformat_custom_bridge_input()
         if self.currentId() == self.steps.index('connection_main_page'):
             self.button(QtWidgets.QWizard.CancelButton).setVisible(True)
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
