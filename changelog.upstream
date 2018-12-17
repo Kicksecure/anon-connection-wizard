@@ -1,3 +1,41 @@
+commit 3cb865c7c934bddf7fa9a193c02c8e2054a97e21
+Merge: f94e49f 06d07a8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Dec 15 08:09:36 2018 +0000
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 06d07a8d48e29d1831947775954cc08a36d1a713
+Merge: f94e49f cfeeba3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Dec 15 03:05:15 2018 -0500
+
+    Merge pull request #22 from irykoon/master
+    
+     Support new Pluggable Transport Snowflake
+
+commit cfeeba3a3e400d9938a45bdab1406a16d6b4cdcd
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Dec 15 07:23:27 2018 +0000
+
+    Auto-remove prepending 'bridge' string
+    
+    Explained here: https://forums.whonix.org/t/cannot-connect-using-bridges/4512/10
+
+commit 6f2ce2f267815e7e144ae25960757b3faed1be51
+Author: irykoon <irykoon@gmail.com>
+Date:   Sat Dec 15 06:32:49 2018 +0000
+
+    Hide snowfalke optoin from user
+    
+    http://forums.whonix.org/t/tor-controller-gui-tor-control-panel-testers-wanted/5444/75
+
+commit f94e49fe0c21b0d0fe35de8928417533261b5d53
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 27 15:44:14 2018 +0000
+
+    bumped changelog version
+
 commit 9b89236850deb158080f14f8b57281cdebffb096
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Aug 21 05:17:48 2018 +0800
@@ -21,6 +59,32 @@ Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Aug 7 19:10:25 2018 +0800
 
     40_anon_connection_wizard.conf -> 40_tor_control_panel.conf
+
+commit f00ee829267f66ceedc689304a9ad74a3066eab4
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jun 15 11:53:17 2018 +0000
+
+    TODO: support different types of bridges simultaneously
+
+commit 7558816a3d262238e18526cc6fd28976350c750f
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jun 15 11:52:37 2018 +0000
+
+    Simplify parseTorrc()
+
+commit addfd1558bfd07e587f1aca1f128b03c78a1784e
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jun 15 10:28:47 2018 +0000
+
+    Support new Pluggable Transport Snowflake
+    
+    Related forum discussion: http://forums.whonix.org/t/replacing-meek-snowflake/5190
+
+commit d8db2b3b4d33c6d2a2892793be3aa7e1cf0831a8
+Author: irykoon <irykoon@gmail.com>
+Date:   Fri Jun 15 09:45:59 2018 +0000
+
+    Remove scramblesuit which is deprecated
 
 commit a0f1491ca68a0891f4505888db8cf19fc0ae85c4
 Author: Patrick Schleizer <adrelanos@riseup.net>
