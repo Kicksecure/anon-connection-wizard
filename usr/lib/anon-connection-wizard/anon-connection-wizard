@@ -10,5 +10,5 @@ import time
 command = 'xhost +local:root'
 call(command, shell = True)
 
-command = 'kdesudo /usr/bin/anon-connection-wizard'
+command = 'gksudo /usr/bin/anon-connection-wizard'
 call(command, shell=True)
