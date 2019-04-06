@@ -80,4 +80,4 @@ not_root:
         title: Root privileges required
         message:
             <p><B>ERROR. This must be run as root!</B></p>
-            <p>Use a root file manager or "gksudo" in a terminal.</p>
+            <p>Use a root file manager or "sudo --set-home" in a terminal.</p>

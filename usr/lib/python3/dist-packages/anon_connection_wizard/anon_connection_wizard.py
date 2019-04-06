@@ -1307,7 +1307,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 <p>You will not be able to use any network facing application.</p>\
                 <p>You can enable Tor at any moment using <i>Anon Connection Wizard</i> \
                 from your application launcher, or from a terminal:\
-                <blockquote><code>gksudo anon-connection-wizard</code></blockquote> \
+                <blockquote><code>sudo --set-home anon-connection-wizard</code></blockquote> \
                 or even simply press the <i>Back button</i> and select another option right now.')
                 self.show_finish_button()
 
@@ -1648,7 +1648,7 @@ def main():
 
     # root check.
     if os.getuid() != 0:
-        print('ERROR: This must be run as root!\nUse "gksudo".')
+        print('ERROR: This must be run as root!\nUse "sudo --set-home".')
         not_root = gui_message(Common.translations_path, 'not_root')
         sys.exit(1)
 
