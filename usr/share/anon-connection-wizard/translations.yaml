@@ -48,7 +48,7 @@ anon-connection-wizard:
         no_torrc:
             <p>The Tor config file does not exist.</p>
             <p>You can try to manually create it. Open it&#58;
-            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
+            <blockquote>Start Menu -> System -> Tor User Config</blockquote>
             And add.
             <blockquote>#DisableNetwork 0</blockquote>
             Save. Then re-run anon-connection-wizard.</p>
@@ -56,7 +56,7 @@ anon-connection-wizard:
         bad_torrc:
             <p>The line "DisableNetwork 0" does not exist in the Tor config file.</p>
             <p>You can try to manually edit the Tor config file&#58;
-            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
+            <blockquote>Start Menu -> System -> Tor User Config</blockquote>
             <p>Add line containing only "DisableNetwork 0" (without the quotes),
             and re-run anon-connection-wizard.</p>
 
@@ -65,7 +65,7 @@ anon-connection-wizard:
             <p>Maybe your Whonix-Gateway has only one network card attached? Most likely there
             is something wrong with your Tor config.</p>
             <p>You can try to manually edit the Tor config file&#58; </p>
-            <blockquote>Start Menu -> Applications -> System -> Torrc</blockquote>
+            <blockquote>Start Menu -> System -> Tor User Config</blockquote>
             <p>Running&#58; </p>
             <blockquote>sudo service tor@default restart</blockquote>
             <p>might help with troubleshooting.</p>
