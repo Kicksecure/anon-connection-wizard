@@ -14,7 +14,7 @@ Standards-Version: 4.3.0
 
 Package: anon-connection-wizard
 Architecture: all
-Depends: ${misc:Depends}, python3-yaml, python3-pyqt5, python3-stem, python3
+Depends: ${misc:Depends}, lxqt-sudo, python3-yaml, python3-pyqt5, python3-stem, python3
 Recommends: tor, obfs4proxy
 Description: Tor Connection Configuration
  anon-connection-wizard is a Tor-launcher-like application that helps users
