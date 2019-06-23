@@ -1,5 +1,8 @@
 #!/usr/bin/python3 -u
 
+## Copyright (C) 2018 - 2019 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
 # The next two blocks are similar to whonix-setup-wizard. However, it seems to be repetitive, isn't it?
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *

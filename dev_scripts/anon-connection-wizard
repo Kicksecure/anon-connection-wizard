@@ -1,7 +1,9 @@
 #!/usr/bin/python3 -u
-# -*- coding: utf-8 -*-
 
-# Load anon-connection-wizard module and resources from the source code tree
+## Copyright (C) 2018 - 2019 ENCRYPTED SUPPORT LP <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+## Load anon-connection-wizard module and resources from the source code tree
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.anon_connection_wizard_dev_mode = True
