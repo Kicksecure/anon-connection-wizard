@@ -1,11 +1,4 @@
 #!/usr/bin/python3 -u
-# -*- coding: utf-8 -*-
-
-'''
-This product is produced independently from the Tor® anonymity software and carries no guarantee from The Tor Project about quality, suitability or anything else.
-
-You can verify the original source of Tor for yourselves by visiting the official Tor website: https://www.torproject.org/
-'''
 
 # The next two blocks are similar to whonix-setup-wizard. However, it seems to be repetitive, isn't it?
 from PyQt5.QtGui import *
