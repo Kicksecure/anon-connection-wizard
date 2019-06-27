@@ -176,7 +176,7 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.label.setFont(font_description_minor)
 
 
-        self.label_2.setGeometry(QtCore.QRect(10, 65, 431, 21))
+        self.label_2.setGeometry(QtCore.QRect(10, 65, 451, 21))
         self.label_2.setFont(font_description_main)
         self.label_2.setText('Which of the following best describes your situation?')
 
