@@ -1,3 +1,35 @@
+commit d2a66ba67523d4aa8fbb4fca7f28771d1129a69b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jun 27 12:12:44 2019 +0000
+
+    fix geometry truncating
+    Which of the following best describes your situatio
+    ->
+    Which of the following best describes your situation?
+    
+    https://phabricator.whonix.org/T923
+    
+    Thanks to @marmarek for the bug report!
+
+commit b3b672b12d2db7d06f8bf423046598000e9adfca
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Jun 27 12:08:11 2019 +0000
+
+    fix geometry truncating
+    Disable To
+    ->
+    Disable Tor
+    
+    https://phabricator.whonix.org/T923
+    
+    Thanks to @marmarek for the bug report!
+
+commit 7efa7cfb03af3273072fc98a4501fa794aff4c2a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jun 23 19:52:32 2019 +0000
+
+    bumped changelog version
+
 commit 00b0be9206c574963d0ded89abb0d45ca0475a6a
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jun 23 17:32:08 2019 +0000
