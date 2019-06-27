@@ -186,9 +186,9 @@ class ConnectionMainPage(QtWidgets.QWizardPage):
         self.label_3.setText('I would like to connect directly to the Tor network. This will work in most situations.')
         self.label_3.setFont(font_description_minor)
 
-        self.pushButton_1.setGeometry(QtCore.QRect(20, 133, 110, 26))
-        self.pushButton_2.setGeometry(QtCore.QRect(20, 213, 110, 26))
-        self.pushButton_3.setGeometry(QtCore.QRect(20, 288, 110, 26))
+        self.pushButton_1.setGeometry(QtCore.QRect(20, 133, 125, 26))
+        self.pushButton_2.setGeometry(QtCore.QRect(20, 213, 125, 26))
+        self.pushButton_3.setGeometry(QtCore.QRect(20, 288, 125, 26))
         self.pushButton_1.setFont(font_option)
         self.pushButton_1.setText('Connect')
         self.pushButton_1.setChecked(True)
