@@ -43,8 +43,8 @@ class Common:
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
     # well_known_proxy_setting_default_path = '/usr/share/anon-connection-wizard/well_known_proxy_settings'
 
-    control_cookie_path = '/var/run/tor/control.authcookie'
-    control_socket_path = '/var/run/tor/control'
+    control_cookie_path = '/run/tor/control.authcookie'
+    control_socket_path = '/run/tor/control'
 
     use_bridges = False
     use_default_bridge = True
