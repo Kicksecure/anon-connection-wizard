@@ -71,7 +71,6 @@ class Common:
     '''
     command_useBridges = 'UseBridges 1'
     command_use_custom_bridge = '# Custom Bridge is used:'
-    command_obfs3 = 'ClientTransportPlugin obfs2,obfs3 exec /usr/bin/obfs4proxy'
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
     ## ref: https://gitweb.torproject.org/pluggable-transports/snowflake.git/tree/client/torrc
@@ -253,7 +252,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4 (recommended)',
-                        'obfs3',
                         'meek-azure (works in China)',
                         # 'snowflake'
                         # The following will be uncommented as soon as being implemented.
@@ -425,9 +423,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
             if self.default_button.isChecked():
                 bridge_type = str(self.comboBox.currentText())
-                if bridge_type.startswith('obfs3'):
-                    bridge_type = 'obfs3'
-                elif bridge_type.startswith('obfs4'):
+                if bridge_type.startswith('obfs4'):
                     bridge_type = 'obfs4'
                 elif bridge_type.startswith('meek-azure'):
                     bridge_type = 'meek-azure'
@@ -469,7 +465,6 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
     def valid_bridge(self, bridges):
         # TODO: we may use re to check if the bridge input is valid
         # we should examine if every line follows the pattern
-        # obfs3 ip:port
         # obfs4 ip:port
         # ip:port (vanilla bridge)
 
@@ -483,8 +478,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         bridge_defined_type = bridges.split(' ')[0]
         bridge_defined_type = bridge_defined_type.lower()
 
-        if (bridge_defined_type.startswith('obfs3')
-                or bridge_defined_type.startswith('obfs4')
+        if (bridge_defined_type.startswith('obfs4')
                 or bridge_defined_type.startswith('meek_lite')
                 or bridge_defined_type.startswith('snowflake')
             ## This case try to match vanilla bridges.
@@ -543,14 +537,10 @@ addresses, you must send this request from one of the following email providers
 (listed in order of preference):<br>
 https://www.riseup.net, https://mail.google.com, or https://mail.yahoo.com</blockquote>
 
-<p> Notice that when choosing the bridge type, only <b>obfs3</b> and <b>obfs4</b> are supported currently.<br><br>
+<p> Notice that when choosing the bridge type, only <b>obfs4</b> are supported currently.<br><br>
 The bridges you paste into the custom bridge box should look like these:</p>
 
-<blockquote><b>1. For obfs3 bridges</b><br>
-obfs3 204.94.56.79:80 A09D536DD1752D542E1FBB3C9CE4449D51298239<br>
-obfs3 109.105.109.190:6789 1E05F577A0EC0213F971D81BF4D86A9E4E8229ED</blockquote>
-
-<blockquote><b>2. For obfs4 bridges</b><br>
+<blockquote><b>For obfs4 bridges</b><br>
 obfs4 154.35.22.89:80 8FB9F4319E89E5C6223052AA525A192AFBC85D55 cert=GGGS1TX4R81m3r0HBl79wKy1OtPPNR2CZUIrHjkRg65Vc2VR8fOyo64f9kmT1UAFG7j0HQ iat-mode=0<br>
 obfs4 109.15.109.12:10527 8DFCD8FB3285E855F5A55EDDA35696C743ABFC4E cert=Bvg/itxeL4TWKLP6N1MaQzSOC6tcRIBv6q57DYAZc3b2AzuM+/TfB7mqTFEfXILCjEwzVA iat-mode=1</blockquote>
 '''
@@ -1177,18 +1167,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     self.torrc_page.label_5.setText('None Selected')
                 else:
                     if Common.use_default_bridge:
-                        if Common.bridge_type == 'obfs3':
-                            self.torrc_page.label_5.setText('Provided obfs3')
-                        elif Common.bridge_type == 'obfs4':
+                        if Common.bridge_type == 'obfs4':
                             self.torrc_page.label_5.setText('Provided obfs4')
                         elif Common.bridge_type == 'meek-azure':
                             self.torrc_page.label_5.setText('Provided meek-azure')
                         elif Common.bridge_type == 'snowflake':
                             self.torrc_page.label_5.setText('Provided snowflake')
                     else:
-                        if Common.bridge_custom.lower().startswith('obfs3'):
-                            self.torrc_page.label_5.setText('Custom obfs3')
-                        elif Common.bridge_custom.lower().startswith('obfs4'):
+                        if Common.bridge_custom.lower().startswith('obfs4'):
                             self.torrc_page.label_5.setText('Custom obfs4')
                         elif Common.bridge_custom.lower().startswith('meek_lite'):
                             self.torrc_page.label_5.setText('Custom meek_lite')
@@ -1395,9 +1381,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             with open(Common.torrc_tmp_file_path, 'a') as f:
                 f.write(Common.command_useBridges + '\n')
                 if Common.use_default_bridge:
-                    if Common.bridge_type == 'obfs3':
-                        f.write(Common.command_obfs3 + '\n')
-                    elif Common.bridge_type == 'obfs4':
+                    if Common.bridge_type == 'obfs4':
                         f.write(Common.command_obfs4 + '\n')
                     elif Common.bridge_type == 'meek-azure':
                         f.write(Common.command_meek_lite + '\n')
@@ -1413,8 +1397,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     f.write(Common.command_use_custom_bridge + '\n')  # custom bridges mark
                     if Common.bridge_custom.lower().startswith('obfs4'):
                         f.write(Common.command_obfs4 + '\n')
-                    elif Common.bridge_custom.lower().startswith('obfs3'):
-                        f.write(Common.command_obfs3 + '\n')
                     elif Common.bridge_custom.lower().startswith('fte'):
                         f.write(Common.command_fte + '\n')
                     elif Common.bridge_custom.lower().startswith('meek_lite'):
