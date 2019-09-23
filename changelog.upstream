@@ -1,3 +1,15 @@
+commit df44ed86d3346b3b2db7df68cc96a74bcba1266f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 21 07:21:28 2019 +0000
+
+    remove obfs3 since also removed from Tor Browser's tor-launcher
+
+commit acefa06c4c379dd7b6921243c6b57cefc45244bc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Aug 28 11:36:36 2019 +0000
+
+    bumped changelog version
+
 commit f92669b0b7025d31c094108683c1eaaabe283203
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Aug 28 11:34:43 2019 +0000
