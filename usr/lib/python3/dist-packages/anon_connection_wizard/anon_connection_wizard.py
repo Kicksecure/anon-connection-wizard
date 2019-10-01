@@ -1507,6 +1507,7 @@ class TorBootstrap(QtCore.QThread):
         https://gitweb.torproject.org/tor-launcher.git/tree/src/chrome/locale/en/torlauncher.properties
         '''
         self.tag_phase = {'starting': 'Starting',
+                    'conn': 'Connecting to a relay',
                     'conn_dir': 'Connecting to a relay directory',
                     'handshake_dir': 'Finishing handshake with directory server',
                     'onehop_create': 'Establishing an encrypted directory connection',
