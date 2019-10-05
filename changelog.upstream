@@ -1,3 +1,15 @@
+commit f278f1a2b5d47ff3092aa31b8bfe0f7d482aead5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Oct 1 02:43:04 2019 -0400
+
+    add tag 'conn': 'Connecting to a relay',
+
+commit 4287fc014f5111baf1308712a894d67882047c9c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 23 08:38:41 2019 +0000
+
+    bumped changelog version
+
 commit df44ed86d3346b3b2db7df68cc96a74bcba1266f
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Sep 21 07:21:28 2019 +0000
