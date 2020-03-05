@@ -5,7 +5,7 @@
 
 import fileinput, os, shutil
 
-'''repair_torrc() function will be called when we want to gurantee the existence of:
+'''repair_torrc() function will be called when we want to guarantee the existence of:
 1. /etc/torrc.d/95_whonix.conf
 2. /etc/tor/torrc
 3. "%include /etc/torrc.d/95_whonix.conf" line in /etc/tor/torrc file
