@@ -37,6 +37,9 @@ class Common:
         torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
         torrc_user_file_path =  '/usr/local/etc/torrc.d/50_user.conf'
     else:
+        ## TODO: /etc/torrc.d/ does not work with default Tor package from Debian when AppArmor is enabled.
+        ## Needs an AppArmor profile modification.
+        ## https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=866187
         torrc_file_path = '/etc/torrc.d/40_tor_control_panel.conf'
         torrc_user_file_path = '/etc/torrc.d/50_user.conf'
     torrc_tmp_file_path = ''
