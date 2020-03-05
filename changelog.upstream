@@ -1,3 +1,55 @@
+commit 18493726d7bf668fbfad909c483040a9cdd5c14a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 5 08:18:56 2020 -0500
+
+    point out apparmor vs non-Whonix issues with /etc/torrc.d in comment
+
+commit c9c6154890a740b6780658e364fc0fa2b783fde4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 5 08:14:56 2020 -0500
+
+    use /usr/lib/anon-gw-anonymizer-config/tor-config-sane instead to repair Tor config
+    
+    instead of replicating that logic here
+    
+    implemented for Whonix only
+    
+    not implemented for non-Whonix
+    
+    https://forums.whonix.org/t/configuring-onion-service/9042/36
+
+commit a7618850aaee93f55e9743bfe6772d9f78dcd6e4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 5 07:23:30 2020 -0500
+
+    refactoring
+
+commit 2e19758372b01a0f6cc24970670f23879cf08919
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 5 07:22:06 2020 -0500
+
+    towards fixing parsing torrc.d twice bug
+    
+    https://forums.whonix.org/t/configuring-onion-service/9042/29
+
+commit e8266a8d9f676efae4626489216eb968be0fb5f2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 5 07:11:42 2020 -0500
+
+    typo
+
+commit 59783c8e8e99c7d5fb582a25df3c7c5cb7fef00b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 5 07:06:00 2020 -0500
+
+    typo
+
+commit 5381f910ad2a669cae65e984c2f7eb05d1267dfd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 14 10:12:09 2019 +0000
+
+    bumped changelog version
+
 commit d8a1f718f34821f33d08f2502cb1c1e9ca7ecc56
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Oct 8 07:21:40 2019 -0400
