@@ -47,9 +47,9 @@ def repair_torrc():
                 f.write('\n')
 
 
-'''repair_torrc_d() will gurantee the existence of /etc/torrc.d/
+'''repair_torrc_d() will guarantee the existence of /etc/torrc.d/
 and if anon-connection-wizard is in Whonix,
-then also gurantee the existence of /usr/local/etc/torrc.d/
+then also guarantee the existence of /usr/local/etc/torrc.d/
 '''
 def repair_torrc_d():
     if not os.path.exists('/etc/torrc.d/'):
