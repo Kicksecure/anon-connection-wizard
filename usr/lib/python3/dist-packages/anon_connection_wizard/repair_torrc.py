@@ -16,7 +16,11 @@ else:
     whonix=False
 
 def repair_torrc():
-    repair_torrc_d()
+    if not os.path.exists('/etc/torrc.d/'):
+        os.makedirs('/etc/torrc.d/')
+
+    if whonix and not os.path.exists('/usr/local/etc/torrc.d/'):
+        os.makedirs('/usr/local/etc/torrc.d/')
 
     if not os.path.exists('/etc/torrc.d/95_whonix.conf'):
         with open('/etc/torrc.d/95_whonix.conf', "w+") as f:
@@ -42,14 +46,3 @@ def repair_torrc():
             with open('/etc/tor/torrc', "a") as f:
                 f.write("%include /etc/torrc.d/")
                 f.write('\n')
-
-
-'''repair_torrc_d() will guarantee the existence of /etc/torrc.d/
-and if anon-connection-wizard is in Whonix,
-then also guarantee the existence of /usr/local/etc/torrc.d/
-'''
-def repair_torrc_d():
-    if not os.path.exists('/etc/torrc.d/'):
-        os.makedirs('/etc/torrc.d/')
-    if whonix and not os.path.exists('/usr/local/etc/torrc.d/'):
-        os.makedirs('/usr/local/etc/torrc.d/')
