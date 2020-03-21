@@ -1,3 +1,51 @@
+commit d4016b5cc4256a787f305f7bb562fac33735f65c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Mar 21 12:25:11 2020 -0400
+
+    typo
+
+commit 2ff7733db17689234300235e4bfc3ee4f137d427
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Mar 21 12:09:54 2020 -0400
+
+    typo
+
+commit a249136efa928f5a052311044d5612639f4233cc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Mar 21 12:07:25 2020 -0400
+
+    typo
+
+commit b1df3cc8a310a93565060079430e97d8a67a202c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Mar 21 12:00:33 2020 -0400
+
+    typo
+
+commit 34b2d014ef705da5d878aeafc88430dda74a9d37
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Mar 21 11:56:26 2020 -0400
+
+    typo
+
+commit 174162b494843a697cecd3faec24a43bbe29d2cc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Mar 21 11:55:00 2020 -0400
+
+    output
+
+commit aa783dd2d6be08912b899144589d18bda74988d7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Mar 21 11:54:20 2020 -0400
+
+    add new connection tags
+
+commit ae730db23057a8a2bd8588e78f8a88fca61b1d84
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 5 08:33:07 2020 -0500
+
+    bumped changelog version
+
 commit 18493726d7bf668fbfad909c483040a9cdd5c14a
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Mar 5 08:18:56 2020 -0500
