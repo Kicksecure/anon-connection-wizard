@@ -65,9 +65,9 @@ set_enabled() will return a tuple with two value: a string of error type and an 
 
 '''set_enabled() is specified as follows:
 set_enabled() will:
-1. gurantee the existence of 40_tor_control_panel.conf
-2. gurantee the final value of DisableNetwork is 0 in the file
-3. gurantee Tor uses DisableNetwork 0
+1. guarantee the existence of 40_tor_control_panel.conf
+2. guarantee the final value of DisableNetwork is 0 in the file
+3. guarantee Tor uses DisableNetwork 0
 '''
 def set_enabled():
     ## change DisableNetwork line according to tor_status
