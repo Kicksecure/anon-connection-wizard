@@ -60,7 +60,7 @@ set_enabled() and set_disabled() function will try to repair the missing torrc o
 This makes sense because when we call set_enabled() or set_disabled() we really want Tor to work,
 rather than receive a 'no_torrc' or 'missing_disablenetwork_line' complain, which is not helpful for users.
 
-set_enabled() will return a turple with two value: a string of error type and an int of error code.
+set_enabled() will return a tuple with two value: a string of error type and an int of error code.
 '''
 
 '''set_enabled() is specified as follows:
@@ -108,9 +108,9 @@ def set_enabled():
 
 '''set_disabled() is specified as follows:
 set_disabled() will:
-1. gurantee the existence of 40_tor_control_panel.conf
-2. gurantee the final value of DisableNetwork is 1 in the file
-3. gurantee Tor uses DisableNetwork 1
+1. guarantee the existence of 40_tor_control_panel.conf
+2. guarantee the final value of DisableNetwork is 1 in the file
+3. guarantee Tor uses DisableNetwork 1
 '''
 def set_disabled():
     ## change DisableNetwork line according to tor_status
