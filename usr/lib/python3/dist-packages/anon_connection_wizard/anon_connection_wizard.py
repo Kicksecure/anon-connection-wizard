@@ -446,7 +446,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                 Common.use_default_bridge = False
 
                 self.reformat_custom_bridge_input()
-                # TODO: a more general RE will help filter the case where bridge_custom input is invaild
+                # TODO: a more general RE will help filter the case where bridge_custom input is invalid
                 if not self.valid_bridge(Common.bridge_custom):
                     return self.steps.index('bridge_wizard_page_2') # stay at the page until a bridge is given'''
                 else:
@@ -506,10 +506,10 @@ by using Tor Bridges, which are unlisted relays that are more difficult to block
 <p> Using a third-party censorship circumvention tool may harm you security and/or anonymity. However, in case you do need it, the following is an instruction on how to connect to the Tor network using different censorship circumvention tools:</p>
 
 <blockquote><b>1. VPN</b><br>
-1. Establish your connection to the VPN server; 2. Hit the "back" buton on this page, going to the first page; 3. Hit the "Connect" button on the first page.</blockquote>
+1. Establish your connection to the VPN server; 2. Hit the "back" button on this page, going to the first page; 3. Hit the "Connect" button on the first page.</blockquote>
 
 <blockquote><b>2. HTTP/Socks Proxy</b><br>
-1. Choose not using Tor bridges in this page; 2. Hit the "next" buton on this page, going the Proxy Configuration page; 3. Configure a proxy.</blockquote>
+1. Choose not using Tor bridges in this page; 2. Hit the "next" button on this page, going the Proxy Configuration page; 3. Configure a proxy.</blockquote>
 
 <blockquote><b>3. Specialized Tool </b><br>
 1. Figure out the listening port of the tool, including the port protocol and the port number; 2. Choose not using Tor bridges in this page; 3. Hit the "next" buton on this page, going the Proxy Configuration page; 4. Configure a proxy.</blockquote>
@@ -607,7 +607,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.horizontal_line = QFrame(self.groupBox)
 
         self.label_2 = QtWidgets.QLabel(self.groupBox)  # instructions
-        self.label_3 = QtWidgets.QLabel(self.groupBox)  # Proxy type lable
+        self.label_3 = QtWidgets.QLabel(self.groupBox)  # Proxy type label
         self.comboBox = QtWidgets.QComboBox(self.groupBox) # Proxy type comboBox
         self.label_4 = QtWidgets.QLabel(self.groupBox)  # assistance info
         self.label_5 = QtWidgets.QLabel(self.groupBox)  # Address label
@@ -1151,7 +1151,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             self.button(QtWidgets.QWizard.FinishButton).setVisible(False)
             #self.center()
 
-            ''' io() will wirte lines to 40_tor_control_panel.conf
+            ''' io() will write lines to 40_tor_control_panel.conf
             basing on user's selection in anon_connection_wizard
             Here we call the io() so that we can show user the torrc file
             '''
@@ -1332,7 +1332,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 ## it is reasonable to assume user wants to disable Tor
                 tor_status.set_disabled()
 
-            # recover Tor to the intial status before the starting of anon_connection_wizard
+            # recover Tor to the initial status before the starting of anon_connection_wizard
             if Common.init_tor_status == 'tor_enabled':
                 pass
             elif Common.init_tor_status == 'tor_disabled':
@@ -1452,7 +1452,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     elif line.startswith(Common.command_bridgeInfo):
                         ## TODO: bridge_type should be a data
                         ## structure, not a value to correctly show
-                        ## mutilple types of bridges used at the same
+                        ## multiple types of bridges used at the same
                         ## time. Every element should be unique in
                         ## this array and the element should be
                         ## predefined.
@@ -1557,7 +1557,7 @@ class TorBootstrap(QtCore.QThread):
             ## update_bootstrap() will pop the messagebox and quit
             self.signal.emit(bootstrap_phase, bootstrap_percent)
             ## suspend is really useful because we have to wait for our
-            ## emited siganl really reach update_bootstrap()
+            ## emitted signal really reach update_bootstrap()
             time.sleep(10)
 
         '''Step 2: Controller Authentication
