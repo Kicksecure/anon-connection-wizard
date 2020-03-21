@@ -91,7 +91,7 @@ class Common:
     command_sock5Password = 'Socks5ProxyPassword'
 
     ''' The following is a variable serves as a flag to work around the bug
-    that a "blank IP/Port" messgae show up even when switching from proxy_wizard_page_1
+    that a "blank IP/Port" message show up even when switching from proxy_wizard_page_1
     to proxy_wizard_page_2.
     '''
     from_proxy_page_1 = True
@@ -388,7 +388,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
             self.custom_bridges.setText(Common.bridge_custom)  # adjust the line according to value in Common
 
         # TODO: The next statement can not be used yet,
-        # this is because the QTextEdit does not supprot setPlaceholderText.
+        # this is because the QTextEdit does not support setPlaceholderText.
         # More functions need to be added to implement that:
         # https://doc.qt.io/archives/qq/qq21-syntaxhighlighter.html
         # self.custom_bridges.setPlaceholderText('type address:port')
@@ -512,7 +512,7 @@ by using Tor Bridges, which are unlisted relays that are more difficult to block
 1. Choose not using Tor bridges in this page; 2. Hit the "next" button on this page, going the Proxy Configuration page; 3. Configure a proxy.</blockquote>
 
 <blockquote><b>3. Specialized Tool </b><br>
-1. Figure out the listening port of the tool, including the port protocol and the port number; 2. Choose not using Tor bridges in this page; 3. Hit the "next" buton on this page, going the Proxy Configuration page; 4. Configure a proxy.</blockquote>
+1. Figure out the listening port of the tool, including the port protocol and the port number; 2. Choose not using Tor bridges in this page; 3. Hit the "next" button on this page, going the Proxy Configuration page; 4. Configure a proxy.</blockquote>
 ''', QtWidgets.QMessageBox.Ok)
         reply.exec_()
 
@@ -611,7 +611,7 @@ class ProxyWizardPage2(QtWidgets.QWizardPage):
         self.comboBox = QtWidgets.QComboBox(self.groupBox) # Proxy type comboBox
         self.label_4 = QtWidgets.QLabel(self.groupBox)  # assistance info
         self.label_5 = QtWidgets.QLabel(self.groupBox)  # Address label
-        self.label_6 = QtWidgets.QLabel(self.groupBox)  # username lable
+        self.label_6 = QtWidgets.QLabel(self.groupBox)  # username label
         self.label_7 = QtWidgets.QLabel(self.groupBox)  # Port label
         self.label_8 = QtWidgets.QLabel(self.groupBox)  # password label
 
@@ -1116,7 +1116,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             Common.from_proxy_page_1 = True
 
         if self.currentId() == self.steps.index('bridge_wizard_page_2'):
-            # Common.from_bridge_page_1 serves as a falg to work around the bug that
+            # Common.from_bridge_page_1 serves as a flag to work around the bug that
             # message jump out when switching from bridge_wizard_page_1 to bridge_wizard_page_2
             if not Common.from_bridge_page_1:
                 if self.bridge_wizard_page_2.checkBox.isChecked() and self.bridge_wizard_page_2.custom_button.isChecked():
@@ -1130,7 +1130,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             Common.from_proxy_page_1 = True
 
         if self.currentId() == self.steps.index('proxy_wizard_page_2'):
-            # Common.from_proxy_page_1 serves as a falg to work around the bug that
+            # Common.from_proxy_page_1 serves as a flag to work around the bug that
             # message jump out when switching from proxy_wizard_page_1 to proxy_wizard_page_2
             if not Common.from_proxy_page_1:
                 if self.proxy_wizard_page_2.checkBox.isChecked():
@@ -1231,7 +1231,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     ## # TODO: his may overwrite the previous .conf, but it does not matter
                     shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
                     ## we set 40_tor_control_panel.conf as 644
-                    ## so that only root can wirte and read, others can only read,
+                    ## so that only root can write and read, others can only read,
                     ## which prevents the edit by normal user.
                     os.chmod(Common.torrc_file_path, 0o644)
 
@@ -1553,7 +1553,7 @@ class TorBootstrap(QtCore.QThread):
             print('Construct Tor Controller Failed: unable to establish a connection')
             bootstrap_phase =  'no_controller'
             bootstrap_percent = 0
-            ## After emiting the `no_controller`,
+            ## After emitting the `no_controller`,
             ## update_bootstrap() will pop the messagebox and quit
             self.signal.emit(bootstrap_phase, bootstrap_percent)
             ## suspend is really useful because we have to wait for our
