@@ -1520,6 +1520,8 @@ class TorBootstrap(QtCore.QThread):
                     'requesting_descriptors': 'Requesting relay information',
                     'loading_descriptors': 'Loading relay information',
                     'conn_or': 'Connecting to the Tor network',
+                    'conn_done': "Connected to a relay",
+                    'handshake': "Handshaking with a relay",
                     'handshake_or': 'Finishing handshake with first hop',
                     'circuit_create': 'Establishing a Tor circuit',
                     'done': 'Connected to the Tor network!'}
