@@ -1,3 +1,21 @@
+commit 8f65c480f56bed424f2bb7e34979046ffa4ed050
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Mar 22 08:42:07 2020 -0400
+
+    add new connection tags
+
+commit c0c915e3b2c86a406b1fd28d4a5961305a5cdce8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Mar 22 08:39:46 2020 -0400
+
+    add new connection tags
+
+commit 18e9360693f221433f90f51614a35f949af7ce64
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Mar 21 14:54:31 2020 -0400
+
+    bumped changelog version
+
 commit d4016b5cc4256a787f305f7bb562fac33735f65c
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Mar 21 12:25:11 2020 -0400
