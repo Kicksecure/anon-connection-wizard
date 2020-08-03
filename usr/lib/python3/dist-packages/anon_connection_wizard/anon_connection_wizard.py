@@ -76,11 +76,13 @@ class Common:
     command_use_custom_bridge = '# Custom Bridge is used:'
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
+
     ## ref: https://gitweb.torproject.org/pluggable-transports/snowflake.git/tree/client/torrc
-    command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client -url https://snowflake-broker.azureedge.net/ -front ajax.aspnetcdn.com -ice stun:stun.l.google.com:19302 -max 3'
+    ## /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Tor/torrc-defaults
+    command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client -url https://snowflake-broker.azureedge.net/ -front ajax.aspnetcdn.com -ice stun:stun.l.google.com:19302'
+
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
     command_meek_azure_address = 'ajax.aspnetcdn.com\n'
-
     command_bridgeInfo = 'bridge '
 
     command_http = 'HTTPSProxy '
