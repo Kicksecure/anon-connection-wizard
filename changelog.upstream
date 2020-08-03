@@ -1,3 +1,29 @@
+commit e244a794d0133c6cfb0411bc15ac0f85c5e5c9c6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 3 09:39:56 2020 -0400
+
+    comments
+
+commit 905465a4abb0e0305a5b6a502d0979613cc6cd61
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 3 09:36:32 2020 -0400
+
+    update default bridges from https://gitweb.torproject.org/builders/tor-browser-build.git/tree/projects/tor-browser/Bundle-Data/PTConfigs/bridge_prefs.js
+
+commit e0dc506d80186c9edb17329b8fa4870a55c94610
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 3 09:34:18 2020 -0400
+
+    remove '-max 3' from showflake command
+    
+    because not used here anymore either /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Tor/torrc-defaults
+
+commit dc25fe7aefa93b55d3c798badf540b7f8797a7eb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 16 08:19:09 2020 -0400
+
+    bumped changelog version
+
 commit cba864d4e88d98c70d9819cecb7698fa6e9d4dbb
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Apr 15 14:05:26 2020 -0400
