@@ -1,3 +1,21 @@
+commit 7f2237b78aa67e9d960cd790b3f980cf42e9634f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 09:45:59 2021 -0500
+
+    readme
+
+commit 5f10725d19c94f528673621d83536f469438cce1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 26 07:09:32 2021 -0500
+
+    whonixcheck -> systemcheck migration
+
+commit d0b02f9a2755d7a7e90801a349a096503e3367e3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Aug 3 09:42:21 2020 -0400
+
+    bumped changelog version
+
 commit e244a794d0133c6cfb0411bc15ac0f85c5e5c9c6
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Aug 3 09:39:56 2020 -0400
