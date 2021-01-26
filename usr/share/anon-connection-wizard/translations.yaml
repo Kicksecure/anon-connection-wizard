@@ -37,11 +37,11 @@ anon-connection-wizard:
 
         finish_page_ok:
             <p>anon-connection-wizard is completed.</p>
-            <p>Click "Finish" to run whonixcheck.</p>
+            <p>Click "Finish" to run systemcheck.</p>
 
         finish_disabled:
             <p>anon-connection-wizard is completed, but Tor networking is disabled.</p>
-            <p>whonixcheck will <b>not</b> be run.</p>
+            <p>systemcheck will <b>not</b> be run.</p>
 
         something_wrong:
             <p>Something is wrong with torrc!</p>
