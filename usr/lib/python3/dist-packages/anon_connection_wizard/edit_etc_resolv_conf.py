@@ -11,7 +11,7 @@ if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
 else:
     whonix=False
 
-def edit_etc_resolv_conf():
+def edit_etc_resolv_conf_add():
    if not whonix:
       ## Not implemented for non-Whonix.
       return
@@ -21,7 +21,20 @@ def edit_etc_resolv_conf():
       p = Popen(command, stdout=PIPE, stderr=PIPE)
       stdout, stderr = p.communicate()
    except:
-      error_msg = "edit-etc-resolv-conf unexpected error: " + str(sys.exc_info()[0])
+      error_msg = "edit-etc-resolv-conf add unexpected error: " + str(sys.exc_info()[0])
+      print(error_msg)
+
+def edit_etc_resolv_conf_remove():
+   if not whonix:
+      ## Not implemented for non-Whonix.
+      return
+
+   try:
+      command = ['/usr/lib/anon-gw-anonymizer-config/edit-etc-resolv-conf', 'remove']
+      p = Popen(command, stdout=PIPE, stderr=PIPE)
+      stdout, stderr = p.communicate()
+   except:
+      error_msg = "edit-etc-resolv-conf remove unexpected error: " + str(sys.exc_info()[0])
       print(error_msg)
 
 def main():

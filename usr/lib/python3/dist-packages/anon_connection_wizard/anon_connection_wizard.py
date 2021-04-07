@@ -25,6 +25,8 @@ from guimessages.guimessage import gui_message
 
 from anon_connection_wizard import tor_status
 from anon_connection_wizard import repair_torrc
+from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_add
+from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_remove
 
 class Common:
     '''
@@ -443,6 +445,9 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                     bridge_type = 'obfs4'
                 elif bridge_type.startswith('meek-azure'):
                     bridge_type = 'meek-azure'
+                    ## Required for meek only.
+                    ## https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
+                    edit_etc_resolv_conf_add()
                 elif bridge_type.startswith('snowflake'):
                    bridge_type = 'snowflake'
                 ''' TODO: Other options can be implemented once there are supported.
@@ -1299,6 +1304,11 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
             else:
                 self.tor_status = tor_status.set_disabled()
+
+                ## Related to meek only.
+                ## See edit_etc_resolv_conf_add above.
+                edit_etc_resolv_conf_remove()
+
                 self.tor_status_page.bootstrap_progress.setVisible(False)
                 self.tor_status_page.text.setVisible(True)
                 self.tor_status_page.text.setText('<p><b>Tor is disabled.</b></p>\
