@@ -93,7 +93,7 @@ class Common:
     ## /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Tor/torrc-defaults
     command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client -url https://snowflake-broker.azureedge.net/ -front ajax.aspnetcdn.com -ice stun:stun.l.google.com:19302'
 
-    ## The pluggable transport 'meek' requires functional clearnet system DNS.
+    ## The Tor pluggable transport 'meek' requires functional clearnet system DNS.
     ##
     ## See also:
     ## - edit_etc_resolv_conf_add
