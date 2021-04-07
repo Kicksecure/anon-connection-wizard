@@ -3,7 +3,6 @@
 ## Copyright (C) 2018 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-# The next two blocks are similar to whonix-setup-wizard. However, it seems to be repetitive, isn't it?
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
