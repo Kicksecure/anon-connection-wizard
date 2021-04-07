@@ -93,6 +93,13 @@ class Common:
     ## /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Tor/torrc-defaults
     command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client -url https://snowflake-broker.azureedge.net/ -front ajax.aspnetcdn.com -ice stun:stun.l.google.com:19302'
 
+    ## Meek requires functional clearnet system DNS.
+    ##
+    ## See also:
+    ## - edit_etc_resolv_conf_add
+    ## - edit_etc_resolv_conf_remove
+    ##
+    ## https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
     command_meek_azure_address = 'ajax.aspnetcdn.com\n'
     command_bridgeInfo = 'bridge '
