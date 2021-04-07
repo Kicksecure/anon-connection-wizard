@@ -1,3 +1,59 @@
+commit c1dc2e81ef788ea4e7465b4737639a3227404603
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 17:40:15 2021 -0400
+
+    debugging
+
+commit 5f46ec522860848d3c156598d433eccde58ef465
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 17:31:59 2021 -0400
+
+    cleanup
+
+commit 309235c50553c9e79f748b89f4088e913d725983
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 17:28:47 2021 -0400
+
+    improve error handling
+
+commit 3d1d5ad3f5ec5a9da997c248cdc78ad0c8669533
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 17:28:20 2021 -0400
+
+    part of fixing meek lite in Whonix
+    
+    https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
+    
+    https://forums.whonix.org/t/whonix-gateway-cli-15-0-1-5-4-meek-azure-bridge-tls-error/11383
+    
+    Thanks to @Bl3ckJ4ck for the bug report!
+
+commit 2b33df7e051a2d7426b6312ecc9a128f7e7ffa95
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 16:48:05 2021 -0400
+
+    part of fixing meek lite in Whonix
+    
+    add /usr/lib/anon-gw-anonymizer-config/edit-etc-resolv-conf
+    
+    https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
+    
+    https://forums.whonix.org/t/whonix-gateway-cli-15-0-1-5-4-meek-azure-bridge-tls-error/11383
+    
+    Thanks to @Bl3ckJ4ck for the bug report!
+
+commit 6947dd1c41e36e3e53902f5fe675a2ece3442b74
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 13:30:26 2021 -0400
+
+    make executable
+
+commit daf51cb2305273cf9c41a93a9f6de1e3c2257778
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Mar 18 08:58:43 2021 -0400
+
+    bumped changelog version
+
 commit 906e94b98bb52bac9349d4108a0bcc60d260e4d3
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Mar 18 08:57:17 2021 -0400
