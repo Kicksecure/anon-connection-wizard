@@ -3,7 +3,7 @@
 ## Copyright (C) 2018 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-import fileinput, os, shutil
+import fileinput, os, shutil, sys
 from subprocess import check_output, STDOUT, call, Popen, PIPE
 
 if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
@@ -20,6 +20,12 @@ def repair_torrc():
       command = ['/usr/lib/anon-gw-anonymizer-config/tor-config-sane']
       p = Popen(command, stdout=PIPE, stderr=PIPE)
       stdout, stderr = p.communicate()
-   except:
+   except BaseException:
       error_msg = "tor-config-sane unexpected error: " + str(sys.exc_info()[0])
       print(error_msg)
+
+def main():
+   repair_torrc()
+
+if __name__ == "__main__":
+    main()

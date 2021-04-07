@@ -20,7 +20,7 @@ def edit_etc_resolv_conf_add():
       command = ['/usr/lib/anon-gw-anonymizer-config/edit-etc-resolv-conf']
       p = Popen(command, stdout=PIPE, stderr=PIPE)
       stdout, stderr = p.communicate()
-   except:
+   except BaseException:
       error_msg = "edit-etc-resolv-conf add unexpected error: " + str(sys.exc_info()[0])
       print(error_msg)
 
@@ -33,12 +33,12 @@ def edit_etc_resolv_conf_remove():
       command = ['/usr/lib/anon-gw-anonymizer-config/edit-etc-resolv-conf', 'remove']
       p = Popen(command, stdout=PIPE, stderr=PIPE)
       stdout, stderr = p.communicate()
-   except:
+   except BaseException:
       error_msg = "edit-etc-resolv-conf remove unexpected error: " + str(sys.exc_info()[0])
       print(error_msg)
 
 def main():
-   edit_etc_resolv_conf()
+   edit_etc_resolv_conf_add()
 
 if __name__ == "__main__":
     main()
