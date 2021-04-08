@@ -63,8 +63,8 @@ class Common:
 
     use_bridges = False
     use_default_bridge = True
-    bridge_type = 'obfs4'  # default value is 'obfs4 (recommended)', but it does not affect if obsf4 is used or not
-    bridge_type_with_comment = 'obfs4 (recommended)'
+    bridge_type = 'obfs4'  # default value is 'obfs4', but it does not affect if obsf4 is used or not
+    bridge_type_with_comment = 'obfs4'
     bridge_custom = ''  # the bridges info lines
 
     use_proxy = False
@@ -275,7 +275,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.steps = Common.wizard_steps
 
         # self.bridges in consistence with Common.bridge_type_with_comment
-        self.bridges = ['obfs4 (recommended)',
+        self.bridges = ['obfs4',
                         'meek-azure (works in China)',
                         # 'snowflake'
                         # The following will be uncommented as soon as being implemented.
@@ -356,7 +356,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         self.horizontal_line_1.setGeometry(15, 65, 510, 5)
 
         self.default_button.setGeometry(QtCore.QRect(18, 75, 500, 24))
-        self.default_button.setText('Connect with provided bridges')
+        self.default_button.setText('Select a built-in bridge')
         self.default_button.setFont(font_description_minor)
 
         self.horizontal_line_2.setFrameShape(QFrame.HLine)
@@ -365,7 +365,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
 
         self.custom_button.setGeometry(QtCore.QRect(18, 160, 500, 25))
-        self.custom_button.setText('Enter custom bridges')
+        self.custom_button.setText('Provide a bridge I know')
         self.custom_button.setFont(font_description_minor)
 
         if Common.use_default_bridge:
@@ -1518,7 +1518,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                         Common.proxy_password = line.split(' ')[1]
 
         if Common.bridge_type == 'obfs4':
-            Common.bridge_type_with_comment = 'obfs4 (recommended)'
+            Common.bridge_type_with_comment = 'obfs4'
         elif Common.bridge_type == 'meek-azure':
             Common.bridge_type_with_comment = 'meek-azure (works in China)'
 
