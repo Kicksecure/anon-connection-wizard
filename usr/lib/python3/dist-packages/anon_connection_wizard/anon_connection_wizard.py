@@ -18,6 +18,7 @@ import re
 import shutil
 import distutils.spawn
 import tempfile
+from pathlib import Path
 
 from guimessages.translations import _translations
 from guimessages.guimessage import gui_message
@@ -35,12 +36,14 @@ class Common:
 
     translations_path = '/usr/share/anon-connection-wizard/translations.yaml'
     if whonix:
+        etc_torrc_d_folder_path = '/usr/local/etc/torrc.d/'
         torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
         torrc_user_file_path =  '/usr/local/etc/torrc.d/50_user.conf'
     else:
         ## TODO: /etc/torrc.d/ does not work with default Tor package from Debian when AppArmor is enabled.
         ## Needs an AppArmor profile modification.
         ## https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=866187
+        etc_torrc_d_folder_path = '/etc/torrc.d/'
         torrc_file_path = '/etc/torrc.d/40_tor_control_panel.conf'
         torrc_user_file_path = '/etc/torrc.d/50_user.conf'
     torrc_tmp_file_path = ''
@@ -1253,6 +1256,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 if os.path.exists(Common.torrc_tmp_file_path):
                     ## move the tmp file to the real .conf only when user click the connect button
                     ## # TODO: his may overwrite the previous .conf, but it does not matter
+                    Path(Common.etc_torrc_d_folder_path).mkdir(parents=True, exist_ok=True)
                     shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
                     ## we set 40_tor_control_panel.conf as 644
                     ## so that only root can write and read, others can only read,
