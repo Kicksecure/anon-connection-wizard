@@ -1,3 +1,9 @@
+anon-connection-wizard (1:5.3-1) unstable; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@whonix.org>  Fri, 09 Apr 2021 11:40:50 +0000
+
 anon-connection-wizard (1:5.2-1) unstable; urgency=medium
 
   * New upstream version (local package).

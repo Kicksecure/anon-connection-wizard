@@ -1,3 +1,51 @@
+commit 6612253f80836c233288fa1c70b85498bf340742
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Apr 9 07:40:49 2021 -0400
+
+    readme
+
+commit 8b9c0d617a608512247f959a5a1972156466960a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 8 09:40:33 2021 -0400
+
+    description
+
+commit cb20675cecb5c023dc47e3a8df680c98df544501
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 8 09:14:22 2021 -0400
+
+    minor non-Whonix reliability fix
+
+commit 47a9303bcb8c34517c90fb4439e03951a029281b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 8 09:04:06 2021 -0400
+
+    wording similar to newer tor-launcher
+
+commit 99c4cbf9ba3da9dd25d27de7a82c53cc7f11534d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 19:09:56 2021 -0400
+
+    comment
+
+commit 590099db43cc16f59201aea7c0b20552189ebd61
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 19:08:49 2021 -0400
+
+    comment
+
+commit 2864ffe6daaa99e9d73b868c6a1195c02a3b732c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 19:06:41 2021 -0400
+
+    comment
+
+commit ae5a36248def47b3c5f398afac7d0c5681d16e7b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Apr 7 18:41:40 2021 -0400
+
+    bumped changelog version
+
 commit c1dc2e81ef788ea4e7465b4737639a3227404603
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Apr 7 17:40:15 2021 -0400
