@@ -1,11 +1,33 @@
-# Tor Connection Configuration #
+# Tor Connection Configuration (ACW) #
 
-anon-connection-wizard is a Tor-launcher-like application that helps users
-in different Internet environment connect to the Tor network. It helps user
-to configure Tor to use a proxy and/or Tor bridges. This application is
-especially useful for system Tor users who would like to run the standalone
-core Tor with different torified applications. The wizard can be run at any
-time to change the connection configuration.
+WARNING: Not (yet) a standalone ready to use outside of Whonix:
+
+* Non-Whonix (users different distributions): Does not modify Tor
+configuration file `/etc/tor/torrc`. Therefore not effective by itself.
+Useful for developers.
+* Whonix: Fully functional in Whonix thanks to default pre-insatlled package
+`  anon-gw-anonymizer-config` which configured all requirements for ACW.
+
+Creates a Tor settings file:
+
+* Non-Whonix (users different distributions):
+`/etc/torrc.d/40_tor_control_panel.conf`
+* Whonix:
+`/usr/local/etc/torrc.d/40_tor_control_panel.conf`
+
+anon-connection-wizard (ACW) is a Tor-launcher-like application that helps
+users in different Internet environment connect to the Tor network.
+It helps user to configure Tor to use a proxy and/or Tor bridges.
+This application is especially useful for system Tor users who would like
+to run the standalone core Tor with different torified applications.
+The wizard can be run at any time to change the connection configuration.
+
+Creates a Tor settings file:
+
+* Non-Whonix (users different distributions):
+`/etc/torrc.d/40_tor_control_panel.conf`
+* Whonix:
+`/usr/local/etc/torrc.d/40_tor_control_panel.conf`
 
 anon-connection-wizard is produced independently from the Tor anonymity
 software and carries no guarantee from The Tor Project about quality,
