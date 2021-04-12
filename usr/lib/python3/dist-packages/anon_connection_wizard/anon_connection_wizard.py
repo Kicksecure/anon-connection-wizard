@@ -38,7 +38,7 @@ class Common:
     if whonix:
         etc_torrc_d_folder_path = '/usr/local/etc/torrc.d/'
         torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
-        torrc_user_file_path =  '/usr/local/etc/torrc.d/50_user.conf'
+        torrc_user_file_path = '/usr/local/etc/torrc.d/50_user.conf'
     else:
         ## TODO: /etc/torrc.d/ does not work with default Tor package from Debian when AppArmor is enabled.
         ## Needs an AppArmor profile modification.
@@ -1576,7 +1576,7 @@ class TorBootstrap(QtCore.QThread):
         # causing /run/tor/control never be generated.
         # We set up a time counter and hardcode the wait time limitation as 10s.
 
-        bootstrap_phase =  'Constructing Tor Controller...'
+        bootstrap_phase = 'Constructing Tor Controller...'
         bootstrap_percent = 0
         self.signal.emit(bootstrap_phase, bootstrap_percent)
 
@@ -1589,7 +1589,7 @@ class TorBootstrap(QtCore.QThread):
             tor_controller = stem.control.Controller.from_socket_file(Common.control_socket_path)
         except stem.SocketError:
             print('Construct Tor Controller Failed: unable to establish a connection')
-            bootstrap_phase =  'no_controller'
+            bootstrap_phase = 'no_controller'
             bootstrap_percent = 0
             ## After emitting the `no_controller`,
             ## update_bootstrap() will pop the messagebox and quit
@@ -1601,7 +1601,7 @@ class TorBootstrap(QtCore.QThread):
         '''Step 2: Controller Authentication
         In order to interact with Tor, we have to do the authentication.
         '''
-        bootstrap_phase =  'Authenticating the Tor Controller...'
+        bootstrap_phase = 'Authenticating the Tor Controller...'
         bootstrap_percent = 0
         self.signal.emit(bootstrap_phase, bootstrap_percent)
 
@@ -1613,7 +1613,7 @@ class TorBootstrap(QtCore.QThread):
             # TODO: can we let Tor generate a cookie to fix this situation?
             print('Tor allows for authentication by reading it a cookie file, \
             but we cannot read that file (probably due to permissions)')
-            bootstrap_phase =  'cookie_authentication_failed'
+            bootstrap_phase = 'cookie_authentication_failed'
             bootstrap_percent = 0
             self.signal.emit(bootstrap_phase, bootstrap_percent)
             time.sleep(10)
