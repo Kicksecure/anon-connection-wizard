@@ -1607,7 +1607,7 @@ class TorBootstrap(QtCore.QThread):
 
         try:
             tor_controller.authenticate(Common.control_cookie_path)
-        except selftem.connection.IncorrectCookieSize:
+        except stem.connection.IncorrectCookieSize:
             pass  #if # TODO: the cookie file's size is wrong
         except stem.connection.UnreadableCookieFile:
             # TODO: can we let Tor generate a cookie to fix this situation?
