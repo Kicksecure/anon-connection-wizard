@@ -1,3 +1,25 @@
+commit 7f4f2bdce5ce2890c767bea6820b8c857d2b55ab
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Apr 12 14:08:00 2021 -0400
+
+    minor
+
+commit 380b4b3411aa9f8a1a31e8a2b2decedc52d431df
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Apr 12 13:58:24 2021 -0400
+
+    fix error handling
+    
+    Thanks to Bl3ckJ4ck for the bug report!
+    
+    https://forums.whonix.org/t/anon-connection-wizard-py-possible-error-in-the-code/11427
+
+commit 1633426b57b6b831354492a5767ae983dad25b6e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Apr 9 07:40:50 2021 -0400
+
+    bumped changelog version
+
 commit 6612253f80836c233288fa1c70b85498bf340742
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Apr 9 07:40:49 2021 -0400
