@@ -1,3 +1,17 @@
+commit fba74756136ac85b68e64f63311d64107cf5383f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Apr 17 08:37:01 2021 -0400
+
+    update usr/share/anon-connection-wizard/bridges_default
+    
+    from ~/tor-browser/Browser/TorBrowser/Data/Tor/torrc
+
+commit 990d292acb1d603bb184ae039bdf22f33e4a0f43
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Apr 17 08:20:39 2021 -0400
+
+    bumped changelog version
+
 commit 7f4f2bdce5ce2890c767bea6820b8c857d2b55ab
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Apr 12 14:08:00 2021 -0400
