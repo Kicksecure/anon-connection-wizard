@@ -49,7 +49,7 @@ class Common:
     torrc_tmp_file_path = ''
 
     # https://gitweb.torproject.org/builders/tor-browser-build.git/tree/projects/tor-browser/Bundle-Data/PTConfigs/bridge_prefs.js
-    # https://trac.torproject.org/projects/tor/wiki/doc/TorBrowser/DefaultBridges
+    # https://gitlab.torproject.org/legacy/trac/-/wikis/doc/TorBrowser/DefaultBridges
     # https://github.com/OnionBrowser/OnionBrowser/issues/205
     # https://github.com/OnionBrowser/OnionBrowser/commit/c5553060ef4fc7824b4b1575f69c1098880d6e5b
     #
