@@ -48,6 +48,8 @@ class Common:
         torrc_user_file_path = '/etc/torrc.d/50_user.conf'
     torrc_tmp_file_path = ''
 
+    #torrc_file_path = "/etc/tor/torrc"
+
     # https://gitweb.torproject.org/builders/tor-browser-build.git/tree/projects/tor-browser/Bundle-Data/PTConfigs/bridge_prefs.js
     # https://gitlab.torproject.org/legacy/trac/-/wikis/doc/TorBrowser/DefaultBridges
     # https://github.com/OnionBrowser/OnionBrowser/issues/205
@@ -105,7 +107,7 @@ class Common:
     ## https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
     command_meek_azure_address = 'ajax.aspnetcdn.com\n'
-    command_bridgeInfo = 'bridge '
+    command_bridgeInfo = 'Bridge '
 
     command_http = 'HTTPSProxy '
     command_httpAuth = 'HTTPSProxyAuthenticator'
@@ -1410,6 +1412,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 # However, deleting this file will be fine since a new plain file will be generated the next time you run anon-connection-wizard.\n\
 ")
 
+        print("torrc_file_path: " + Common.torrc_file_path)
+
         ''' This part is the IO to torrc for bridges settings.
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
         '''
@@ -1428,7 +1432,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     bridges = json.loads(open(Common.bridges_default_path).read())
                     # The bridges variable are like a multilayer-dictionary
                     for bridge in bridges['bridges'][Common.bridge_type]:
-                        f.write('bridge {0}\n'.format(bridge))
+                        f.write('{0}\n'.format(bridge))
                 else:  # Use custom bridges
                     f.write(Common.command_use_custom_bridge + '\n')  # custom bridges mark
                     if Common.bridge_custom.lower().startswith('obfs4'):
@@ -1443,8 +1447,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     # Write the specific bridge address, port, cert etc.
                     bridge_custom_list = Common.bridge_custom.split('\n')
                     for bridge in bridge_custom_list:
-                        if bridge != '':  # check if the line is actually empty
-                            f.write('bridge {0}\n'.format(bridge))
+                        if bridge == '':
+                            pass
+                        f.write('Bridge {0}\n'.format(bridge))
 
         ''' The part is the IO to torrc for proxy settings.
         Related official docs: https://www.torproject.org/docs/tor-manual.html.en
