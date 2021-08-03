@@ -6,11 +6,12 @@ Section: misc
 Priority: optional
 Maintainer: iry <iry@riseup.net>
 Uploaders: Patrick Schleizer <adrelanos@whonix.org>
-Build-Depends: debhelper (>= 12), python3
+Build-Depends: debhelper (>= 13), debhelper-compat (= 13), python3
 Homepage: https://www.whonix.org/wiki/Anon_Connection_Wizard
 Vcs-Browser: https://github.com/irykoon/anon-connection-wizard
 Vcs-Git: https://github.com/irykoon/anon-connection-wizard.git
-Standards-Version: 4.3.0
+Standards-Version: 4.5.1
+Rules-Requires-Root: no
 
 Package: anon-connection-wizard
 Architecture: all
