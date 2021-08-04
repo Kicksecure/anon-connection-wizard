@@ -4,7 +4,7 @@
 [Desktop Entry]
 Type=Application
 Terminal=false
-Exec=/usr/lib/anon-connection-wizard/anon-connection-wizard
+Exec=/usr/libexec/anon-connection-wizard/anon-connection-wizard
 Name=Anon Connection Wizard
 GenericName=Anon Connection Wizard
 Comment=Tor Connection Configuration
