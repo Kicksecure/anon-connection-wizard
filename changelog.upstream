@@ -1,3 +1,47 @@
+commit 3f3221e99cae87b9ef6bd800fe8743d5f3ac2270
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 4 12:46:56 2021 -0400
+
+    lintian FHS
+
+commit 9bfb937afe74054c03544f12e2eec91db7640df5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 4 12:32:35 2021 -0400
+
+    chmod -x usr/lib/python3/dist-packages/anon_connection_wizard/*
+    
+    lintian FHS
+
+commit 23fd7b466846260a542d00eae57ad884e6a4b7ff
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 3 11:47:31 2021 -0400
+
+    re-generate man pages (generated using "genmkfile manpages")
+
+commit 4644fe4a8cf903bdf8dd9a2d099f67696b871fa6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 3 11:41:10 2021 -0400
+
+    man page
+
+commit 8230eee0d2018c3834c6e259fdacd875f0a1c2e2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 3 05:48:15 2021 -0400
+
+    bullseye
+
+commit 0ec02ac14a5eef945254ed3e6cab82d24d4f948e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 1 16:24:16 2021 -0400
+
+    readme
+
+commit c7bec76a7d22b532691350a2c582cb1c122dd222
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jun 11 03:53:56 2021 -0400
+
+    bumped changelog version
+
 commit a44c9d384c2bb34af0bbb1e10bd2d38396854013
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Jun 11 03:53:43 2021 -0400
