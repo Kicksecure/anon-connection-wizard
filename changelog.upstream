@@ -1,3 +1,21 @@
+commit c6685af1a9fc4bbd1c912e7ff3277538baaff893
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 20 18:14:32 2022 -0500
+
+    add tag ap_conn_done_pt
+
+commit 850604b878fd1208bdb1c6b08324efac717a5285
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jan 19 10:53:12 2022 -0500
+
+    add tag conn_done_pt
+
+commit 1d53d87c74cf36e4ef11c20a0c7a2f07aa15dd38
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jan 19 07:06:54 2022 -0500
+
+    bumped changelog version
+
 commit 54fb98886fcbfbce235633773287cb838d382cb5
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Jan 18 05:47:09 2022 -0500
