@@ -13,10 +13,7 @@ if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
 else:
     whonix=False
 
-if whonix:
-    DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
-else:
-    DisableNetwork_torrc_path = '/etc/torrc.d/40_tor_control_panel.conf'
+DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
 
 def tor_status():
     # Known issue:
