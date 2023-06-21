@@ -1,3 +1,27 @@
+commit 933715f1674dbe5128078e3ccc38e9f591aa7816
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jun 21 10:02:39 2023 +0000
+
+    comment out unnecessary import
+    
+    I: anon-connection-wizard source: uses-python-distutils [usr/lib/python3/dist-packages/anon_connection_wizard/anon_connection_wizard.py:19]
+    N:
+    N:   This package uses the Python distutils module.
+    N:
+    N:   In Python 3.10 and 3.11, distutils has been formally marked as deprecated.
+    N:   Code that imports distutils will no longer work from Python 3.12.
+    N:
+    N:   Please prepare for this deprecation and migrate away from the Python
+    N:   distutils module.
+    N:
+    N:   See-Also: https://peps.python.org/pep-0632
+
+commit 42788b93f8fa2aad4f5c18447d62572d3717474e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jun 21 09:12:05 2023 +0000
+
+    bumped changelog version
+
 commit 87a6f5bdfa618facb1a419529ec87f2a98445ee5
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Jun 21 09:11:24 2023 +0000
