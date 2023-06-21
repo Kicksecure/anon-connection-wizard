@@ -16,7 +16,7 @@ import sys
 import time
 import re
 import shutil
-import distutils.spawn
+#import distutils.spawn
 import tempfile
 from pathlib import Path
 
