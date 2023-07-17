@@ -1,11 +1,11 @@
-## Copyright (C) 2012 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## Copyright (C) 2012 - 2023 ENCRYPTED SUPPORT LP <adrelanos@kicksecure.com>
 ## See the file COPYING for copying conditions.
 
 Source: anon-connection-wizard
 Section: misc
 Priority: optional
 Maintainer: iry <iry@riseup.net>
-Uploaders: Patrick Schleizer <adrelanos@whonix.org>
+Uploaders: Patrick Schleizer <adrelanos@kicksecure.com>
 Build-Depends: debhelper (>= 13), debhelper-compat (= 13), python3
 Homepage: https://www.kicksecure.com/wiki/Anon_Connection_Wizard
 Vcs-Browser: https://github.com/Kicksecure/anon-connection-wizard
