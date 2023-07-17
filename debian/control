@@ -7,9 +7,9 @@ Priority: optional
 Maintainer: iry <iry@riseup.net>
 Uploaders: Patrick Schleizer <adrelanos@whonix.org>
 Build-Depends: debhelper (>= 13), debhelper-compat (= 13), python3
-Homepage: https://www.whonix.org/wiki/Anon_Connection_Wizard
-Vcs-Browser: https://github.com/irykoon/anon-connection-wizard
-Vcs-Git: https://github.com/irykoon/anon-connection-wizard.git
+Homepage: https://www.kicksecure.com/wiki/Anon_Connection_Wizard
+Vcs-Browser: https://github.com/Kicksecure/anon-connection-wizard
+Vcs-Git: https://github.com/Kicksecure/anon-connection-wizard.git
 Standards-Version: 4.6.2
 Rules-Requires-Root: no
 
