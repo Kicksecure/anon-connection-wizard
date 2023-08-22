@@ -93,7 +93,7 @@ class Common:
 
     ## ref: https://gitweb.torproject.org/pluggable-transports/snowflake.git/tree/client/torrc
     ## /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Tor/torrc-defaults
-    command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client -url https://snowflake-broker.azureedge.net/ -front ajax.aspnetcdn.com -ice stun:stun.l.google.com:19302'
+    command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client'
 
     ## The Tor pluggable transport 'meek' requires functional clearnet system DNS.
     ##
@@ -279,7 +279,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4',
                         'meek-azure (works in China)',
-                        # 'snowflake'
+                        'snowflake',
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
                        ]
