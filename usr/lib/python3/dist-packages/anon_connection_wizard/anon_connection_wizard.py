@@ -278,7 +278,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4',
-                        'meek-azure (works in China)',
+                        'meek-azure',
                         'snowflake',
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
@@ -1526,7 +1526,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
         if Common.bridge_type == 'obfs4':
             Common.bridge_type_with_comment = 'obfs4'
         elif Common.bridge_type == 'meek-azure':
-            Common.bridge_type_with_comment = 'meek-azure (works in China)'
+            Common.bridge_type_with_comment = 'meek-azure'
 
 class TorBootstrap(QtCore.QThread):
     '''signal will receive the emit from TorBootstrap with two values:
