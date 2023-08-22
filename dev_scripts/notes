@@ -1,0 +1,4 @@
+## TODO
+cd anon-gw-anonymizer-config
+sudo cp etc/apparmor.d/local/system_tor.anondist /etc/apparmor.d/local/system_tor
+sudo aa-enforce /etc/apparmor.d/system_tor
