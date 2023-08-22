@@ -22,7 +22,7 @@ def tor_status():
     # Tor will fail to start. This problem can be solved by rebooting or doing
     # systemctl restart anon-gw-anonymizer-config.service
     # which runs
-    # ExecStart=/usr/lib/anon-gw-anonymizer-config/make-sure-torrc-exist
+    # ExecStart=/usr/libexec/anon-gw-anonymizer-config/tor-config-sane
     if not os.path.exists(DisableNetwork_torrc_path):
         return "no_torrc"
 

@@ -17,7 +17,7 @@ def repair_torrc():
       return
 
    try:
-      command = ['/usr/lib/anon-gw-anonymizer-config/tor-config-sane']
+      command = ['/usr/libexec/anon-gw-anonymizer-config/tor-config-sane']
       p = Popen(command, stdout=PIPE, stderr=PIPE)
       stdout, stderr = p.communicate()
    except BaseException:
