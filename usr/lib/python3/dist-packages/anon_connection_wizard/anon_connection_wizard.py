@@ -453,11 +453,12 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                     bridge_type = 'obfs4'
                 elif bridge_type.startswith('meek-azure'):
                     bridge_type = 'meek-azure'
-                    ## Required for meek only.
+                    ## Required for meek and snowflake only.
                     ## https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
                     edit_etc_resolv_conf_add()
                 elif bridge_type.startswith('snowflake'):
                    bridge_type = 'snowflake'
+                   edit_etc_resolv_conf_add()
                 ''' TODO: Other options can be implemented once there are supported.
                 elif bridge_type.startswith('fte'):
                 bridge_type = 'fte'
@@ -1314,7 +1315,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             else:
                 self.tor_status = tor_status.set_disabled()
 
-                ## Related to meek only.
+                ## Related to meek and snowflake only.
                 ## See edit_etc_resolv_conf_add above.
                 edit_etc_resolv_conf_remove()
 
