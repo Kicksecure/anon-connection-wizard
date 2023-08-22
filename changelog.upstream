@@ -1,3 +1,63 @@
+commit e8d7f78fa1af5801612a1fd242a191b14825640e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 17:52:37 2023 -0400
+
+    notes
+
+commit b851182691ffb94752aac35c7cbfd9fae19cc670
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 17:35:50 2023 -0400
+
+    snowflake
+
+commit 7310096c47f8f5f8495fd0dc2cf0ffda8e47a7d5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 17:33:26 2023 -0400
+
+    fix path
+
+commit 5ea3b5254253bb9fde516af98939d4b328eec409
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 16:53:28 2023 -0400
+
+    remove unknown country specifics
+
+commit fe66a8ebac67d1a56b88e76c3628295cbc90e631
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 16:37:08 2023 -0400
+
+    fix
+
+commit 6378eea430a92c596461b869003196af9f19a1cb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 16:36:13 2023 -0400
+
+    fix
+
+commit ba7ea81b8e7b97ae8a6b924975f9fed644e29a6c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 16:33:05 2023 -0400
+
+    snowflake
+
+commit 0562b9431d3c05a47a75222e312025dace3820e9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 16:27:29 2023 -0400
+
+    snowflake
+
+commit 8585728dd81dcd7711091c6b7115227047898ce0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 22 16:25:31 2023 -0400
+
+    update default bridges as per Tor Browser 13.0a2
+
+commit 6497acdd6872c31bdac5a6fd6ff47f94d826c3d7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jul 17 11:31:01 2023 -0400
+
+    bumped changelog version
+
 commit 35fde038acc141977215cee496d9b4ae9c9ac818
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Jul 17 11:16:23 2023 -0400
