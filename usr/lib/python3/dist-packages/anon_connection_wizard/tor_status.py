@@ -124,6 +124,11 @@ def set_disabled():
     return 'tor_disabled'
 
 def write_to_temp_then_move(content):
+    print(DisableNetwork_torrc_path)
+    print("before:")
+    cat(DisableNetwork_torrc_path)
+    print("")
+
     handle, temp_file_path = tempfile.mkstemp()
 
     with open(temp_file_path, 'w') as temp_file:
@@ -132,7 +137,23 @@ def write_to_temp_then_move(content):
     subprocess.check_call(['pkexec', 'mv', temp_file_path, DisableNetwork_torrc_path])
     subprocess.check_call(['pkexec', 'chmod', '644', DisableNetwork_torrc_path])
 
+    print("after:")
+    cat(DisableNetwork_torrc_path)
+    print("")
+
+def cat(filename):
+    if not os.path.exists(filename):
+        print("File did not exist.")
+        return
+
+    with open(filename, 'r') as file:
+        for line in file:
+            print(line, end='')
+
 if __name__ == "__main__":
     # Example usage
+    print("Enabling...")
     print(set_enabled())
+    print("Disabling...")
     print(set_disabled())
+    print("Done.")
