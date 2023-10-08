@@ -9,14 +9,12 @@ from PyQt5.QtCore import *
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from subprocess import call, Popen
+import subprocess
 import os, yaml
 import json
 import sys
 import time
 import re
-import shutil
-#import distutils.spawn
 import tempfile
 from pathlib import Path
 
@@ -1254,14 +1252,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
                 if os.path.exists(Common.torrc_tmp_file_path):
-                    ## move the tmp file to the real .conf only when user click the connect button
-                    ## # TODO: his may overwrite the previous .conf, but it does not matter
-                    Path(Common.etc_torrc_d_folder_path).mkdir(parents=True, exist_ok=True)
-                    shutil.move(Common.torrc_tmp_file_path, Common.torrc_file_path)
+                    ## Move the tmp file to the real .conf only when user click the connect button.
+                    ## This may overwrite the previous .conf, but it does not matter.
+                    subprocess.check_call(['pkexec', 'mkdir', '--parents', Common.etc_torrc_d_folder_path])
+                    subprocess.check_call(['pkexec', 'mv', Common.torrc_tmp_file_path, Common.torrc_file_path])
                     ## we set 40_tor_control_panel.conf as 644
                     ## so that only root can write and read, others can only read,
                     ## which prevents the edit by normal user.
-                    os.chmod(Common.torrc_file_path, 0o644)
+                    subprocess.check_call(['pkexec', 'chmod', '644', Common.torrc_file_path])
 
                 self.tor_status_page.bootstrap_progress.setVisible(True)
 
@@ -1398,7 +1396,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
     def io(self):
         repair_torrc.repair_torrc()  # This guarantees a good set of torrc files
         # Creates a file and returns a tuple containing both the handle and the path.
-        # we are responsible for removing tmp file when finished which is the reason we use shutil.move(), not shutil.copy(), below
+        # We are responsible for removing tmp file when finished which is the reason
+        # why 'mv' (move) and not 'cp' (copy) is used below.
         handle, Common.torrc_tmp_file_path = tempfile.mkstemp()
 
         with open(handle, "w") as f:
