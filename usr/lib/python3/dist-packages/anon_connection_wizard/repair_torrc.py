@@ -3,29 +3,31 @@
 ## Copyright (C) 2018 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-import fileinput, os, shutil, sys
-from subprocess import check_output, STDOUT, call, Popen, PIPE
+import os, sys
+import subprocess
 
 if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
-    whonix=True
+    whonix = True
 else:
-    whonix=False
+    whonix = False
 
 def repair_torrc():
-   if not whonix:
-      ## Not implemented for non-Whonix yet.
-      return
+    if not whonix:
+        ## Not implemented for non-Whonix yet.
+        return
 
-   try:
-      command = ['pkexec', '/usr/libexec/anon-gw-anonymizer-config/tor-config-sane']
-      p = Popen(command, stdout=PIPE, stderr=PIPE)
-      stdout, stderr = p.communicate()
-   except BaseException:
-      error_msg = "tor-config-sane unexpected error: " + str(sys.exc_info()[0])
-      print(error_msg)
+    try:
+        command = ['pkexec', '/usr/libexec/anon-gw-anonymizer-config/tor-config-sane']
+        p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = p.communicate()
+        if not p.returncode == 0:
+            print("ERROR: pkexec /usr/libexec/anon-gw-anonymizer-config/tor-config-sane Exit Code:", p.returncode)
+    except Exception as e:
+        error_msg = "tor-config-sane unexpected error: " + str(e)
+        print(error_msg)
 
 def main():
-   repair_torrc()
+    repair_torrc()
 
 if __name__ == "__main__":
     main()
