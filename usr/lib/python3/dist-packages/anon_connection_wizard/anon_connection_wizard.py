@@ -1673,12 +1673,6 @@ def main():
     # TODO: use customized css instead. Take Tor Launcher's css as a reference
     QtWidgets.QApplication.setStyle('cleanlooks')
 
-    # root check.
-    if os.getuid() != 0:
-        print('ERROR: This must be run as root!\nUse "sudo --set-home".')
-        not_root = gui_message(Common.translations_path, 'not_root')
-        sys.exit(1)
-
     wizard = AnonConnectionWizard()
 
 

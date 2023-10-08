@@ -72,15 +72,3 @@ anon-connection-wizard:
             <p>Running&#58; </p>
             <blockquote>sudo service tor@default restart</blockquote>
             <p>might help with troubleshooting.</p>
-
-
-
-not_root:
-    icon: Critical
-    button: Ok
-    position: center
-    en:
-        title: Root privileges required
-        message:
-            <p><B>ERROR. This must be run as root!</B></p>
-            <p>Use a root file manager or "sudo --set-home" in a terminal.</p>
