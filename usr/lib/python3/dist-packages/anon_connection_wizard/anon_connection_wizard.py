@@ -1666,8 +1666,6 @@ class TorBootstrap(QtCore.QThread):
         self.signal.emit(bootstrap_phase, bootstrap_percent)
 
 
-
-
 def main():
     # Available styles: "windows", "motif", "cde", "sgi", "plastique" and "cleanlooks"
     # TODO: use customized css instead. Take Tor Launcher's css as a reference
