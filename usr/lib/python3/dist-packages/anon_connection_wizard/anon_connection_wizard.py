@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 import subprocess
 import os, yaml
+import signal
 import json
 import sys
 import time
@@ -25,6 +26,11 @@ from anon_connection_wizard import tor_status
 from anon_connection_wizard import repair_torrc
 from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_add
 from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_remove
+
+
+def signal_handler(sig, frame):
+   sys.exit(0)
+
 
 class Common:
     '''
@@ -1042,6 +1048,12 @@ class TorStatusPage(QtWidgets.QWizardPage):
 
 app = QtWidgets.QApplication(sys.argv)
 
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
+
+timer = QtCore.QTimer()
+timer.start(500)
+timer.timeout.connect(lambda: None)
 
 
 class AnonConnectionWizard(QtWidgets.QWizard):
