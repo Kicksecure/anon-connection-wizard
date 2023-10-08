@@ -29,7 +29,7 @@ from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_rem
 
 
 def signal_handler(sig, frame):
-   sys.exit(0)
+   sys.exit(128 + sig)
 
 
 class Common:
