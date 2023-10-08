@@ -75,7 +75,7 @@ def set_enabled():
         with open(DisableNetwork_torrc_path,'r') as f:
             content = f.read().replace('DisableNetwork 1', 'DisableNetwork 0')
     elif status == "tor_enabled":
-        return 'tor_enabled', 0
+        return 'tor_enabled'
 
     write_to_temp_then_move(content)
 
@@ -83,7 +83,7 @@ def set_enabled():
     tor_status_code = subprocess.call(command, shell=True)
 
     if tor_status_code != 0:
-        return 'cannot_connect', tor_status_code
+        return 'cannot_connect'
 
     ## we have to reload to open /run/tor/control and create /run/tor/control.authcookie
     command = 'pkexec systemctl reload tor@default.service'
@@ -93,9 +93,9 @@ def set_enabled():
     tor_status_code= subprocess.call(command, shell=True)
 
     if tor_status_code != 0:
-        return 'cannot_connect', tor_status_code
+        return 'cannot_connect'
 
-    return 'tor_enabled', tor_status_code
+    return 'tor_enabled'
 
 '''set_disabled() is specified as follows:
 set_disabled() will:
