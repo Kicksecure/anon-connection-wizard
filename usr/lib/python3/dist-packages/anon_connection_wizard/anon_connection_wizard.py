@@ -1487,6 +1487,9 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
 
     def parseTorrc(self):
+        if not os.path.exists(Common.torrc_file_path):
+            print("Tor config file does not exist yet: " + Common.torrc_file_path)
+
         if os.path.exists(Common.torrc_file_path):
             with open(Common.torrc_file_path, 'r') as f:
                 for line in f:

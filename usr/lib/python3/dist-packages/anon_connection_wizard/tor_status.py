@@ -14,6 +14,8 @@ else:
 DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
 
 def tor_status():
+    print("tor_status was called.")
+
     # Known issue:
     # before torrc.d get used, both 40_tor_control_panel.conf and 50_user.conf
     # are explicitly used in 95_whonix.conf. Therefore, when 50_user.conf is missing,
@@ -22,6 +24,7 @@ def tor_status():
     # which runs
     # ExecStart=/usr/libexec/anon-gw-anonymizer-config/tor-config-sane
     if not os.path.exists(DisableNetwork_torrc_path):
+        print("tor_status status: no_torrc")
         return "no_torrc"
 
     with open(DisableNetwork_torrc_path,'r') as f:
@@ -43,11 +46,14 @@ def tor_status():
             has_diable_network_line = True
 
     if not has_diable_network_line:
+        print("tor_status status: missing_disablenetwork_line")
         return 'missing_disablenetwork_line'
     else:
         if tor_disabled:
+            print("tor_status status: tor_disabled")
             return "tor_disabled"
         else:
+            print("tor_status status: tor_enabled")
             return 'tor_enabled'
 
 '''Unlike tor_status() function which only shows the current state of the anon_connection_wizard.conf,
@@ -65,15 +71,20 @@ set_enabled() will:
 3. guarantee Tor uses DisableNetwork 0
 '''
 def set_enabled():
+    print("set_enabled was called.")
+
     ## change DisableNetwork line according to tor_status
     status = tor_status()
     content = ""
 
-    if status == "no_torrc" or status == "missing_disablenetwork_line":
+    if status == "no_torrc":
         content = 'DisableNetwork 0\n'
     elif status == "tor_disabled":
         with open(DisableNetwork_torrc_path,'r') as f:
             content = f.read().replace('DisableNetwork 1', 'DisableNetwork 0')
+    elif status == "missing_disablenetwork_line":
+        with open(DisableNetwork_torrc_path,'r') as f:
+            content = f.read() + '\n' + 'DisableNetwork 1' + '\n'
     elif status == "tor_enabled":
         return 'tor_enabled', 0
 
@@ -104,6 +115,8 @@ set_disabled() will:
 3. guarantee Tor uses DisableNetwork 1
 '''
 def set_disabled():
+    print("set_disabled was called.")
+
     ## change DisableNetwork line according to tor_status
     status = tor_status()
     content = ""
