@@ -3,10 +3,8 @@
 ## Copyright (C) 2018 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-import sys, fileinput
-import os, time
-from subprocess import call
-from anon_connection_wizard import repair_torrc
+import sys, fileinput, tempfile
+import os, subprocess
 
 if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
     whonix=True
@@ -69,34 +67,30 @@ set_enabled() will:
 def set_enabled():
     ## change DisableNetwork line according to tor_status
     status = tor_status()
-    if status == "no_torrc":
-        with open(DisableNetwork_torrc_path,'w+') as f:
-            f.write('DisableNetwork 0')
-            f.write('\n')
-    elif status == "tor_disabled":
-        for i, line in enumerate(fileinput.input(DisableNetwork_torrc_path, inplace=1)):
-            sys.stdout.write(line.replace('DisableNetwork 1', 'DisableNetwork 0'))
-    elif status == "tor_enabled":
-        # do nothing
-        pass
-    elif status == "missing_disablenetwork_line":
-        with open(DisableNetwork_torrc_path,'a') as f:
-            f.write('DisableNetwork 0')
-            f.write('\n')
+    content = ""
 
-    ## start the Tor now
+    if status == "no_torrc" or status == "missing_disablenetwork_line":
+        content = 'DisableNetwork 0\n'
+    elif status == "tor_disabled":
+        with open(DisableNetwork_torrc_path,'r') as f:
+            content = f.read().replace('DisableNetwork 1', 'DisableNetwork 0')
+    elif status == "tor_enabled":
+        return 'tor_enabled', 0
+
+    write_to_temp_then_move(content)
+
     command = 'pkexec systemctl --no-pager restart tor@default'
-    tor_status_code = call(command, shell=True)
+    tor_status_code = subprocess.call(command, shell=True)
 
     if tor_status_code != 0:
         return 'cannot_connect', tor_status_code
 
     ## we have to reload to open /run/tor/control and create /run/tor/control.authcookie
     command = 'pkexec systemctl reload tor@default.service'
-    tor_status_code = call(command, shell=True)
+    subprocess.call(command, shell=True)
 
     command = 'pkexec systemctl --no-pager status tor@default'
-    tor_status_code= call(command, shell=True)
+    tor_status_code= subprocess.call(command, shell=True)
 
     if tor_status_code != 0:
         return 'cannot_connect', tor_status_code
@@ -112,23 +106,33 @@ set_disabled() will:
 def set_disabled():
     ## change DisableNetwork line according to tor_status
     status = tor_status()
-    if status == "no_torrc":
-        with open(DisableNetwork_torrc_path,'w+') as f:
-            f.write('DisableNetwork 1')
-            f.write('\n')
-    elif status == "tor_disabled":
-        # do nothing
-        pass
-    elif status == "tor_enabled":
-        for i, line in enumerate(fileinput.input(DisableNetwork_torrc_path, inplace=1)):
-            sys.stdout.write(line.replace('DisableNetwork 0', 'DisableNetwork 1'))
-    elif status == "missing_disablenetwork_line":
-        with open(DisableNetwork_torrc_path,'a') as f:
-            f.write('DisableNetwork 1')
-            f.write('\n')
+    content = ""
 
-    ## stop the Tor now
+    if status == "no_torrc" or status == "missing_disablenetwork_line":
+        content = 'DisableNetwork 1\n'
+    elif status == "tor_enabled":
+        with open(DisableNetwork_torrc_path,'r') as f:
+            content = f.read().replace('DisableNetwork 0', 'DisableNetwork 1')
+    elif status == "tor_disabled":
+        return 'tor_disabled'
+
+    write_to_temp_then_move(content)
+
     command = 'pkexec systemctl --no-pager stop tor@default'
-    call(command, shell=True)
+    subprocess.call(command, shell=True)
 
     return 'tor_disabled'
+
+def write_to_temp_then_move(content):
+    handle, temp_file_path = tempfile.mkstemp()
+
+    with open(temp_file_path, 'w') as temp_file:
+        temp_file.write(content)
+
+    subprocess.check_call(['pkexec', 'mv', temp_file_path, DisableNetwork_torrc_path])
+    subprocess.check_call(['pkexec', 'chmod', '644', DisableNetwork_torrc_path])
+
+if __name__ == "__main__":
+    # Example usage
+    print(set_enabled())
+    print(set_disabled())
