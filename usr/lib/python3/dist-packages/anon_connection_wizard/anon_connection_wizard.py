@@ -3,6 +3,9 @@
 ## Copyright (C) 2018 - 2023 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+import sys
+import signal
+
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -10,10 +13,9 @@ from PyQt5.QtCore import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 import subprocess
-import os, yaml
-import signal
+import os
+import yaml
 import json
-import sys
 import time
 import re
 import tempfile
