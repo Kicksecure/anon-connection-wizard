@@ -148,11 +148,11 @@ def write_to_temp_then_move(content):
         temp_file.write(content)
 
     command = ['pkexec', 'mv', temp_file_path, DisableNetwork_torrc_path]
-    print("Executing:", ' '.join(command))
+    print("tor_status.py: executing:", ' '.join(command))
     subprocess.check_call(command)
 
     command = ['pkexec', 'chmod', '644', DisableNetwork_torrc_path]
-    print("Executing:", ' '.join(command))
+    print("tor_status.py: executing:", ' '.join(command))
     subprocess.check_call(command)
 
     print(DisableNetwork_torrc_path)

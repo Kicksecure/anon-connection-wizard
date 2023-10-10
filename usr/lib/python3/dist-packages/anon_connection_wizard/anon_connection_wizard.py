@@ -1274,14 +1274,14 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     #subprocess.check_call(['pkexec', 'mkdir', '--parents', Common.etc_torrc_d_folder_path])
 
                     command = ['pkexec', 'mv', Common.torrc_tmp_file_path, Common.torrc_file_path]
-                    print("Executing:", ' '.join(command))
+                    print("ACW: executing:", ' '.join(command))
                     subprocess.check_call(command)
 
                     ## we set 40_tor_control_panel.conf as 644
                     ## so that only root can write and read, others can only read,
                     ## which prevents the edit by normal user.
                     command = ['pkexec', 'chmod', '644', Common.torrc_file_path]
-                    print("Executing:", ' '.join(command))
+                    print("ACW: executing:", ' '.join(command))
                     subprocess.check_call(command)
 
                 self.tor_status_page.bootstrap_progress.setVisible(True)
