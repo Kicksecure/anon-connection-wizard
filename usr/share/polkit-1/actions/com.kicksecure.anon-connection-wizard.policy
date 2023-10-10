@@ -95,3 +95,34 @@
   </action>
 
 </policyconfig>
+
+<!--
+/usr/share/polkit-1/rules.d/com.kicksecure.anon-connection-wizard.rules
+
+var actions = [
+    "com.kicksecure.anon-connection-wizard.restart-tor",
+    "com.kicksecure.anon-connection-wizard.stop-tor",
+    "com.kicksecure.anon-connection-wizard.status-tor",
+    "com.kicksecure.anon-connection-wizard.tor-config-sane",
+    "com.kicksecure.anon-connection-wizard.edit-etc-resolv-conf-add",
+    "com.kicksecure.anon-connection-wizard.edit-etc-resolv-conf-remove",
+    "com.kicksecure.anon-connection-wizard.acw-write-torrc"
+];
+
+var lastAuthenticationTime = null;
+
+polkit.addRule(function(action, subject) {
+    if (actions.indexOf(action.id) !== -1) {
+        var currentTime = new Date().getTime();
+
+        // If there's been a recent authentication (e.g., within the last 60 seconds), allow the action.
+        if (lastAuthenticationTime && (currentTime - lastAuthenticationTime < 60000)) {
+            return polkit.Result.YES;
+        } else {
+            // Otherwise, if this is the first action, update the lastAuthenticationTime and prompt for authentication.
+            lastAuthenticationTime = currentTime;
+            return polkit.Result.AUTH_ADMIN;
+        }
+    }
+});
+-->
