@@ -147,8 +147,13 @@ def write_to_temp_then_move(content):
     with open(temp_file_path, 'w') as temp_file:
         temp_file.write(content)
 
-    subprocess.check_call(['pkexec', 'mv', temp_file_path, DisableNetwork_torrc_path])
-    subprocess.check_call(['pkexec', 'chmod', '644', DisableNetwork_torrc_path])
+    command = ['pkexec', 'mv', temp_file_path, DisableNetwork_torrc_path]
+    print("Executing:", ' '.join(command))
+    subprocess.check_call(command)
+
+    command = ['pkexec', 'chmod', '644', DisableNetwork_torrc_path]
+    print("Executing:", ' '.join(command))
+    subprocess.check_call(command)
 
     print(DisableNetwork_torrc_path)
     print("after:")
