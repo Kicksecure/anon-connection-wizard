@@ -1,3 +1,81 @@
+commit 8baaa27b44a291a941b9d9336deb773992705523
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:46:24 2023 -0400
+
+    wayland
+
+commit 8c3df6547dac13994b18d713acbf23c466cb6371
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:44:44 2023 -0400
+
+    wayland
+
+commit 4748027db1ea395cd09621f783347ebe8483def0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:42:38 2023 -0400
+
+    wayland
+
+commit 97473df6734c6cd84939bad3e0f6b6bb2de83ea6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:22:53 2023 -0400
+
+    comment
+
+commit 094f949e299f92ed8c5e0b4b55fb09f27aac44c9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:22:21 2023 -0400
+
+    refactoring
+
+commit 02398c4a974ef8f8f9514cce14ff7d103f2a2b30
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:16:39 2023 -0400
+
+    wayland
+
+commit 4574c9792f8f115833bd513c42925cabcf1b013f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:15:27 2023 -0400
+
+    wayland
+
+commit 360fccb497675ea4468da487b68f145a0c97ecf8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:13:08 2023 -0400
+
+    wayland
+
+commit b01bf95e113c33d1c9723305d1720dbdcaf6740d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 08:02:36 2023 -0400
+
+    wayland
+
+commit fdf9e21c22af508d5d273117b19c6c6f61839619
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 07:58:41 2023 -0400
+
+    wayland
+
+commit 40be5293cc184fccc050a2fede832cde26adde99
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 07:53:20 2023 -0400
+
+    wayland
+
+commit 4052be25694a28340d6837a11d72cde99b025547
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 07:52:53 2023 -0400
+
+    fix
+
+commit 024bb4b065099e0890772ad1cc0e1d3a1eb1d6e8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 04:03:55 2023 -0400
+
+    bumped changelog version
+
 commit a29fd28a48b5552b534e96a2322eee5724f1177d
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Oct 10 04:00:34 2023 -0400
