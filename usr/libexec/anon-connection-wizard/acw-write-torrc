@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -x
+set -e
+
+torrc_file_path='/usr/local/etc/torrc.d/40_tor_control_panel.conf'
+
+if [ -z "$1" ]; then
+    echo "$0: Missing argument."
+    exit 1
+fi
+
+if ! test -f "$1" ; then
+  echo "$0: file '$1' is not a file!"
+  exit 1
+fi
+
+if ! test -r "$1" ; then
+  echo "$0: file '$1' is not readable!"
+  exit 1
+fi
+
+mkdir --parents --verbose '/usr/local/etc/torrc.d'
+
+mv --verbose "$1" "$torrc_file_path"
+
+## We set 40_tor_control_panel.conf to chmod 644
+## so that only root can write and read, others can only read,
+## which prevents the edit by normal user.
+chmod --verbose 644 "$torrc_file_path"
+
+exit 0

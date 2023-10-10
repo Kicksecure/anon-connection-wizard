@@ -1268,19 +1268,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 if os.path.exists(Common.torrc_tmp_file_path):
                     ## Move the tmp file to the real .conf only when user click the connect button.
                     ## This may overwrite the previous .conf, but it does not matter.
-
-                    ## tor-config-sane takes care of this. (Whonix only.) Avoiding here to avoid another
-                    ## policykit config entry.
-                    #subprocess.check_call(['pkexec', 'mkdir', '--parents', Common.etc_torrc_d_folder_path])
-
-                    command = ['pkexec', 'mv', Common.torrc_tmp_file_path, Common.torrc_file_path]
-                    print("ACW: executing:", ' '.join(command))
-                    subprocess.check_call(command)
-
-                    ## we set 40_tor_control_panel.conf as 644
-                    ## so that only root can write and read, others can only read,
-                    ## which prevents the edit by normal user.
-                    command = ['pkexec', 'chmod', '644', Common.torrc_file_path]
+                    command = ['pkexec', '/usr/libexec/anon-connection-wizard/acw-write-torrc', Common.torrc_tmp_file_path]
                     print("ACW: executing:", ' '.join(command))
                     subprocess.check_call(command)
 

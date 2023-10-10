@@ -83,4 +83,15 @@
     <annotate key="org.freedesktop.policykit.exec.argv1">remove</annotate>
   </action>
 
+  <action id="com.kicksecure.anon-connection-wizard.acw-write-torrc">
+    <description>acw-write-torrc</description>
+    <message>Authentication is required for anon-connection-wizard writing Tor configuration</message>
+    <defaults>
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-connection-wizard/acw-write-torrc</annotate>
+  </action>
+
 </policyconfig>

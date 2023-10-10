@@ -145,15 +145,10 @@ def write_to_temp_then_move(content):
     print("")
 
     handle, temp_file_path = tempfile.mkstemp()
-
     with open(temp_file_path, 'w') as temp_file:
         temp_file.write(content)
 
-    command = ['pkexec', 'mv', temp_file_path, torrc_file_path]
-    print("tor_status.py: executing:", ' '.join(command))
-    subprocess.check_call(command)
-
-    command = ['pkexec', 'chmod', '644', torrc_file_path]
+    command = ['pkexec', '/usr/libexec/anon-connection-wizard/acw-write-torrc', temp_file_path]
     print("tor_status.py: executing:", ' '.join(command))
     subprocess.check_call(command)
 
