@@ -49,7 +49,7 @@
   </action>
 
   <action id="com.kicksecure.anon-connection-wizard.tor-config-sane">
-    <description>Restart Tor</description>
+    <description>tor-config-sane</description>
     <message>Authentication is required to for anon-connection-wizard (/usr/libexec/anon-gw-anonymizer-config/tor-config-sane)</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
@@ -57,6 +57,30 @@
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-gw-anonymizer-config/tor-config-sane</annotate>
+  </action>
+
+  <action id="com.kicksecure.anon-connection-wizard.edit-etc-resolv-conf-add">
+    <description>edit-etc-resolv-conf-add</description>
+    <message>Authentication is required for anon-connection-wizard (edit /etc/resolv.conf)</message>
+    <defaults>
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-gw-anonymizer-config/edit-etc-resolv-conf</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">add</annotate>
+  </action>
+
+  <action id="com.kicksecure.anon-connection-wizard.edit-etc-resolv-conf-remove">
+    <description>edit-etc-resolv-conf-remove</description>
+    <message>Authentication is required for anon-connection-wizard (edit /etc/resolv.conf)</message>
+    <defaults>
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-gw-anonymizer-config/edit-etc-resolv-conf</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">remove</annotate>
   </action>
 
 </policyconfig>

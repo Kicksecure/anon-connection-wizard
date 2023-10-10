@@ -17,7 +17,7 @@ def edit_etc_resolv_conf_add():
       return
 
    try:
-      command = ['pkexec', '/usr/libexec/anon-gw-anonymizer-config/edit-etc-resolv-conf']
+      command = ['pkexec', '/usr/libexec/anon-gw-anonymizer-config/edit-etc-resolv-conf', 'add']
       p = Popen(command, stdout=PIPE, stderr=PIPE)
       stdout, stderr = p.communicate()
    except BaseException:
