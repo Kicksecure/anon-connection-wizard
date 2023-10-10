@@ -11,7 +11,7 @@ if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
 else:
     whonix=False
 
-DisableNetwork_torrc_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
+torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
 
 def tor_status():
     print("tor_status was called.")
@@ -23,11 +23,11 @@ def tor_status():
     # systemctl restart anon-gw-anonymizer-config.service
     # which runs
     # ExecStart=/usr/libexec/anon-gw-anonymizer-config/tor-config-sane
-    if not os.path.exists(DisableNetwork_torrc_path):
+    if not os.path.exists(torrc_file_path):
         print("tor_status status: no_torrc")
         return "no_torrc"
 
-    with open(DisableNetwork_torrc_path,'r') as f:
+    with open(torrc_file_path,'r') as f:
         lines = f.readlines()
         f.close()
 
@@ -80,10 +80,10 @@ def set_enabled():
     if status == "no_torrc":
         content = 'DisableNetwork 0\n'
     elif status == "tor_disabled":
-        with open(DisableNetwork_torrc_path,'r') as f:
+        with open(torrc_file_path,'r') as f:
             content = f.read().replace('DisableNetwork 1', 'DisableNetwork 0')
     elif status == "missing_disablenetwork_line":
-        with open(DisableNetwork_torrc_path,'r') as f:
+        with open(torrc_file_path,'r') as f:
             content = f.read() + '\n' + 'DisableNetwork 1' + '\n'
     elif status == "tor_enabled":
         return 'tor_enabled', 0
@@ -124,7 +124,7 @@ def set_disabled():
     if status == "no_torrc" or status == "missing_disablenetwork_line":
         content = 'DisableNetwork 1\n'
     elif status == "tor_enabled":
-        with open(DisableNetwork_torrc_path,'r') as f:
+        with open(torrc_file_path,'r') as f:
             content = f.read().replace('DisableNetwork 0', 'DisableNetwork 1')
     elif status == "tor_disabled":
         return 'tor_disabled'
@@ -137,9 +137,9 @@ def set_disabled():
     return 'tor_disabled'
 
 def write_to_temp_then_move(content):
-    print(DisableNetwork_torrc_path)
+    print(torrc_file_path)
     print("before:")
-    cat(DisableNetwork_torrc_path)
+    cat(torrc_file_path)
     print("")
 
     handle, temp_file_path = tempfile.mkstemp()
@@ -147,17 +147,17 @@ def write_to_temp_then_move(content):
     with open(temp_file_path, 'w') as temp_file:
         temp_file.write(content)
 
-    command = ['pkexec', 'mv', temp_file_path, DisableNetwork_torrc_path]
+    command = ['pkexec', 'mv', temp_file_path, torrc_file_path]
     print("tor_status.py: executing:", ' '.join(command))
     subprocess.check_call(command)
 
-    command = ['pkexec', 'chmod', '644', DisableNetwork_torrc_path]
+    command = ['pkexec', 'chmod', '644', torrc_file_path]
     print("tor_status.py: executing:", ' '.join(command))
     subprocess.check_call(command)
 
-    print(DisableNetwork_torrc_path)
+    print(torrc_file_path)
     print("after:")
-    cat(DisableNetwork_torrc_path)
+    cat(torrc_file_path)
     print("")
 
 def cat(filename):
