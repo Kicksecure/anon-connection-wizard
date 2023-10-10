@@ -97,7 +97,7 @@ def set_enabled():
         return 'cannot_connect', tor_status_code
 
     ## we have to reload to open /run/tor/control and create /run/tor/control.authcookie
-    command = 'pkexec systemctl reload tor@default.service'
+    command = 'pkexec systemctl --no-pager reload tor@default.service'
     subprocess.call(command, shell=True)
 
     command = 'pkexec systemctl --no-pager status tor@default'
