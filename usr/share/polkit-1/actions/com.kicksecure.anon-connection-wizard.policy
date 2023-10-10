@@ -61,7 +61,7 @@
 
   <action id="com.kicksecure.anon-connection-wizard.edit-etc-resolv-conf-add">
     <description>edit-etc-resolv-conf-add</description>
-    <message>Authentication is required for anon-connection-wizard (edit /etc/resolv.conf)</message>
+    <message>Authentication is required for anon-connection-wizard (add to /etc/resolv.conf)</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
       <allow_inactive>auth_admin_keep</allow_inactive>
@@ -73,7 +73,7 @@
 
   <action id="com.kicksecure.anon-connection-wizard.edit-etc-resolv-conf-remove">
     <description>edit-etc-resolv-conf-remove</description>
-    <message>Authentication is required for anon-connection-wizard (edit /etc/resolv.conf)</message>
+    <message>Authentication is required for anon-connection-wizard (remove from /etc/resolv.conf)</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
       <allow_inactive>auth_admin_keep</allow_inactive>
