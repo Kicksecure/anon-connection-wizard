@@ -11,6 +11,8 @@ if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
 else:
     whonix=False
 
+## TODO: code duplication
+## Should use same variable as in anon_connection_wizard.py.
 torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
 
 def tor_status():
