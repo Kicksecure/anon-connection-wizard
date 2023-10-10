@@ -10,9 +10,9 @@
     <description>Restart Tor</description>
     <message>Authentication is required to restart Tor (the tor@default service)</message>
     <defaults>
-      <allow_any>auth_admin_keep</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/systemctl</annotate>
     <annotate key="org.freedesktop.policykit.exec.argv1">--no-pager</annotate>
@@ -24,9 +24,9 @@
     <description>Stop Tor</description>
     <message>Authentication is required to stop Tor (the tor@default service)</message>
     <defaults>
-      <allow_any>auth_admin_keep</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/systemctl</annotate>
     <annotate key="org.freedesktop.policykit.exec.argv1">--no-pager</annotate>
@@ -38,9 +38,9 @@
     <description>Status of Tor</description>
     <message>Authentication is required to check the status of Tor (the tor@default service)</message>
     <defaults>
-      <allow_any>auth_admin_keep</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/systemctl</annotate>
     <annotate key="org.freedesktop.policykit.exec.argv1">--no-pager</annotate>
@@ -52,9 +52,9 @@
     <description>Check if Tor configuration is sane</description>
     <message>Authentication is required to for anon-connection-wizard (/usr/libexec/anon-gw-anonymizer-config/tor-config-sane)</message>
     <defaults>
-      <allow_any>auth_admin_keep</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-gw-anonymizer-config/tor-config-sane</annotate>
   </action>
@@ -63,9 +63,9 @@
     <description>edit-etc-resolv-conf-add</description>
     <message>Authentication is required for anon-connection-wizard (add to /etc/resolv.conf)</message>
     <defaults>
-      <allow_any>auth_admin_keep</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-gw-anonymizer-config/edit-etc-resolv-conf</annotate>
     <annotate key="org.freedesktop.policykit.exec.argv1">add</annotate>
@@ -75,9 +75,9 @@
     <description>edit-etc-resolv-conf-remove</description>
     <message>Authentication is required for anon-connection-wizard (remove from /etc/resolv.conf)</message>
     <defaults>
-      <allow_any>auth_admin_keep</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-gw-anonymizer-config/edit-etc-resolv-conf</annotate>
     <annotate key="org.freedesktop.policykit.exec.argv1">remove</annotate>
@@ -87,9 +87,9 @@
     <description>acw-write-torrc</description>
     <message>Authentication is required for anon-connection-wizard writing Tor configuration</message>
     <defaults>
-      <allow_any>auth_admin_keep</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
     </defaults>
     <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-connection-wizard/acw-write-torrc</annotate>
   </action>
@@ -97,7 +97,17 @@
 </policyconfig>
 
 <!--
+SECURITY: <allow_any>yes</allow_any> is being used to avoid to spam the user with too many prompts.
+
+The problem is that PolicyKit does support multiple commands for the same action, which then results
+in several prompts.
+
+Since ACW is primarily used on Whonix-Gateway and not on Whonix-Workstation, this is OK.
+
+Maybe in the future, something similar to this could be used:
+'auth_admin_keep' instead of 'yes' and the following file:
 /usr/share/polkit-1/rules.d/com.kicksecure.anon-connection-wizard.rules
+with the following content (UNTESTED!):
 
 var actions = [
     "com.kicksecure.anon-connection-wizard.restart-tor",
