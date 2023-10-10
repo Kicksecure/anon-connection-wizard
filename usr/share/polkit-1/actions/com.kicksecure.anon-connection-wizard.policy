@@ -21,7 +21,7 @@
   </action>
 
   <action id="com.kicksecure.anon-connection-wizard.stop-tor">
-    <description>Restart Tor</description>
+    <description>Stop Tor</description>
     <message>Authentication is required to stop Tor (the tor@default service)</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
@@ -35,8 +35,8 @@
   </action>
 
   <action id="com.kicksecure.anon-connection-wizard.status-tor">
-    <description>Restart Tor</description>
-    <message>Authentication is required to status Tor (the tor@default service)</message>
+    <description>Status of Tor</description>
+    <message>Authentication is required to check the status of Tor (the tor@default service)</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
       <allow_inactive>auth_admin_keep</allow_inactive>
@@ -49,7 +49,7 @@
   </action>
 
   <action id="com.kicksecure.anon-connection-wizard.tor-config-sane">
-    <description>tor-config-sane</description>
+    <description>Check if Tor configuration is sane</description>
     <message>Authentication is required to for anon-connection-wizard (/usr/libexec/anon-gw-anonymizer-config/tor-config-sane)</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
