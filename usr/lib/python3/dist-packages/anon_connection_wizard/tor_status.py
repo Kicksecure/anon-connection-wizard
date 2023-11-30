@@ -25,42 +25,20 @@ def tor_status():
     # systemctl restart anon-gw-anonymizer-config.service
     # which runs
     # ExecStart=/usr/libexec/anon-gw-anonymizer-config/tor-config-sane
-    if not os.path.exists(torrc_file_path):
-        print("tor_status status: no_torrc")
-        return "no_torrc"
 
-    with open(torrc_file_path,'r') as f:
-        lines = f.readlines()
+    output = subprocess.check_output('/usr/libexec/helper-scripts/tor_enabled_check')
+    output = output.decode("UTF-8")
 
-    ''' Notice that just because we see "DisableNetwork 1" or "DisableNetwork 0"
-    does not mean Tor is really disabled because there may be another line of "DisableNetwork".
-    Therefore, we have to use a flag as follows.
-    '''
-    tor_disabled = True
-    has_diable_network_line = False
-    for line in lines:
-        if line.strip() == 'DisableNetwork 0':
-            tor_disabled = False
-            has_diable_network_line = True
-        elif line.strip() == 'DisableNetwork 1':
-            tor_disabled = True
-            has_diable_network_line = True
-
-    if not has_diable_network_line:
-        print("tor_status status: missing_disablenetwork_line")
-        return 'missing_disablenetwork_line'
-
-    if tor_disabled:
+    if output == "true":
         print("tor_status status: tor_disabled")
         return "tor_disabled"
     else:
         print("tor_status status: tor_enabled")
-        return 'tor_enabled'
+        return "tor_enabled"
 
 '''Unlike tor_status() function which only shows the current state of the anon_connection_wizard.conf,
 set_enabled() and set_disabled() function will try to repair the missing torrc or DisableNetwork line.
-This makes sense because when we call set_enabled() or set_disabled() we really want Tor to work,
-rather than receive a 'no_torrc' or 'missing_disablenetwork_line' complain, which is not helpful for users.
+This makes sense because when we call set_enabled() or set_disabled() we really want Tor to work.
 
 set_enabled() will return a tuple with two value: a string of error type and an int of error code.
 '''
@@ -74,20 +52,27 @@ set_enabled() will:
 def set_enabled():
     print("set_enabled was called.")
 
-    ## change DisableNetwork line according to tor_status
-    status = tor_status()
-    content = ""
+    content = ''
 
-    if status == "no_torrc":
-        content = 'DisableNetwork 0\n'
-    elif status == "tor_disabled":
+    if os.path.exists(torrc_file_path):
+        with open(torrc_file_path, 'r') as f:
+            content = f.readlines()
+
+    disable_network_found = False
+    for line in content:
+        if 'DisableNetwork' in line:
+            disable_network_found = True
+            break
+
+    if disable_network_found:
         with open(torrc_file_path,'r') as f:
             content = f.read().replace('DisableNetwork 1', 'DisableNetwork 0')
-    elif status == "missing_disablenetwork_line":
-        with open(torrc_file_path,'r') as f:
-            content = f.read() + '\n' + 'DisableNetwork 1' + '\n'
-    elif status == "tor_enabled":
-        return 'tor_enabled', 0
+    else:
+        if os.path.exists(torrc_file_path):
+            with open(torrc_file_path,'r') as f:
+                content = f.read() + '\n' + 'DisableNetwork 0' + '\n'
+        else:
+            content = 'DisableNetwork 0'
 
     write_to_temp_then_move(content)
 
@@ -118,17 +103,27 @@ set_disabled() will:
 def set_disabled():
     print("set_disabled was called.")
 
-    ## change DisableNetwork line according to tor_status
-    status = tor_status()
-    content = ""
+    content = ''
 
-    if status == "no_torrc" or status == "missing_disablenetwork_line":
-        content = 'DisableNetwork 1\n'
-    elif status == "tor_enabled":
+    if os.path.exists(torrc_file_path):
+        with open(torrc_file_path, 'r') as f:
+            content = f.readlines()
+
+    disable_network_found = False
+    for line in content:
+        if 'DisableNetwork' in line:
+            disable_network_found = True
+            break
+
+    if disable_network_found:
         with open(torrc_file_path,'r') as f:
             content = f.read().replace('DisableNetwork 0', 'DisableNetwork 1')
-    elif status == "tor_disabled":
-        return 'tor_disabled'
+    else:
+        if os.path.exists(torrc_file_path):
+            with open(torrc_file_path,'r') as f:
+                content = f.read() + '\n' + 'DisableNetwork 1' + '\n'
+        else:
+            content = 'DisableNetwork 1' + '\n'
 
     write_to_temp_then_move(content)
 
