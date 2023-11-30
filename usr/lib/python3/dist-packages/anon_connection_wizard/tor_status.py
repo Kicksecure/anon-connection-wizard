@@ -27,7 +27,7 @@ def tor_status():
     # ExecStart=/usr/libexec/anon-gw-anonymizer-config/tor-config-sane
 
     output = subprocess.check_output('/usr/libexec/helper-scripts/tor_enabled_check')
-    output = output.decode("UTF-8")
+    output = output.decode("UTF-8").strip()
 
     if output == "true":
         print("tor_status status: tor_enabled")
