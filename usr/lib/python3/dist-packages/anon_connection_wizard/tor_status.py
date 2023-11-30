@@ -18,14 +18,6 @@ torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
 def tor_status():
     print("tor_status was called.")
 
-    # Known issue:
-    # before torrc.d get used, both 40_tor_control_panel.conf and 50_user.conf
-    # are explicitly used in 95_whonix.conf. Therefore, when 50_user.conf is missing,
-    # Tor will fail to start. This problem can be solved by rebooting or doing
-    # systemctl restart anon-gw-anonymizer-config.service
-    # which runs
-    # ExecStart=/usr/libexec/anon-gw-anonymizer-config/tor-config-sane
-
     output = subprocess.check_output('/usr/libexec/helper-scripts/tor_enabled_check')
     output = output.decode("UTF-8").strip()
 
