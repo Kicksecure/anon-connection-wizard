@@ -1,3 +1,47 @@
+commit 8fe083e8ae83b8a8a0968164dc4af103177ee7fe
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 30 12:55:01 2023 -0500
+
+    cleanup
+
+commit 11034477fcfeffdea149929f04fd3e59bef3ef46
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 30 12:42:58 2023 -0500
+
+    fix
+
+commit 471b18c96d3216c55a88f86c4bcc92fe8e02914c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 30 12:34:25 2023 -0500
+
+    fix
+
+commit d67067dbf3437541a971f9aaa52b30993ba2787a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 30 12:31:07 2023 -0500
+
+    refactoring
+
+commit 22e4b4b7f6406b62f95664e093060777aa46ce98
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 30 11:24:50 2023 -0500
+
+    remove unnecessary `f.close()`
+    
+    unneeded for `with` statements
+
+commit 727f721ae2749d76c7179e70e1d6373850355024
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 30 11:23:52 2023 -0500
+
+    refactoring
+
+commit b412ba52dbb4c6319e49a6ba1ebf452185d38588
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 11 20:11:15 2023 +0000
+
+    bumped changelog version
+
 commit fa0502dde8db42253921189b49085346461f1212
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 11 14:43:06 2023 -0500
