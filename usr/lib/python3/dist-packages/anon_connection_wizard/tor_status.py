@@ -30,11 +30,11 @@ def tor_status():
     output = output.decode("UTF-8")
 
     if output == "true":
-        print("tor_status status: tor_disabled")
-        return "tor_disabled"
-    else:
         print("tor_status status: tor_enabled")
         return "tor_enabled"
+    else:
+        print("tor_status status: tor_disabled")
+        return "tor_disabled"
 
 '''Unlike tor_status() function which only shows the current state of the anon_connection_wizard.conf,
 set_enabled() and set_disabled() function will try to repair the missing torrc or DisableNetwork line.
