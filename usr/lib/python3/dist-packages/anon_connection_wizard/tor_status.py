@@ -31,7 +31,6 @@ def tor_status():
 
     with open(torrc_file_path,'r') as f:
         lines = f.readlines()
-        f.close()
 
     ''' Notice that just because we see "DisableNetwork 1" or "DisableNetwork 0"
     does not mean Tor is really disabled because there may be another line of "DisableNetwork".
