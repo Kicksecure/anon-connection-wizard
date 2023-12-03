@@ -1648,9 +1648,7 @@ class TorBootstrap(QtCore.QThread):
         because we really want Tor connect to the network'''
         if self.tor_controller.get_conf('DisableNetwork') == '1':
             self.tor_controller.set_conf('DisableNetwork', '0')
-            sys.stdout.write('Toggle DisableNetwork value to 0. Tor is now allowed to connect to the network.\n')
-            sys.stdout.flush()
-
+            print('Toggle DisableNetwork value to 0. Tor is now allowed to connect to the network.')
 
         bootstrap_percent = 0
         while bootstrap_percent < 100:
@@ -1668,10 +1666,8 @@ class TorBootstrap(QtCore.QThread):
                     '''Use a static message to cover unknown bootstrap tag to avoid potential
                     misleading/harmful info shown.'''
                     bootstrap_phase = "Unknown Bootstrap TAG. This is harmless. Please run this program from command line to view console output and report this."
-                    sys.stdout.write('Unknown Bootstrap TAG. Full message is shown in the very next line:\n')
-                    sys.stdout.flush()
-                sys.stdout.write('{0}\n'.format(bootstrap_status))
-                sys.stdout.flush()
+                    print('Unknown Bootstrap TAG. Full message is shown in the very next line:')
+                print(bootstrap_status)
                 self.previous_status = bootstrap_status
                 self.signal.emit(bootstrap_phase, bootstrap_percent)
             time.sleep(0.2)
