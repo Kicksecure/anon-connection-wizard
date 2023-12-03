@@ -1645,6 +1645,10 @@ class TorBootstrap(QtCore.QThread):
         '''if DisableNetwork is 1, then toggle it to 0
         because we really want Tor connect to the network'''
         if self.tor_controller.get_conf('DisableNetwork') == '1':
+            ## TODO: This can be confusing. Config should now have 'DisableNetwork 0',
+            ## Tor already being reload or restarted. If it is still 'DisableNetwork 1',
+            ## then this should be replaced with an error page. This is because Tor would
+            ## refuse to connect after restart without ACW.
             self.tor_controller.set_conf('DisableNetwork', '0')
             print('Toggle DisableNetwork value to 0. Tor is now allowed to connect to the network.')
 
