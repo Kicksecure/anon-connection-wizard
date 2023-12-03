@@ -1298,8 +1298,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     self.bootstrap_thread.signal.connect(self.update_bootstrap)
                     self.bootstrap_thread.start()
                 elif self.tor_status == 'cannot_connect':
-                    # print to the stderr
-                    sys.stderr.write('tor_status: ' + self.tor_status + self.tor_status_code)
+                    print('tor_status: ' + self.tor_status + self.tor_status_code, file=sys.stderr)
                     # display error message on GUI
                     self.tor_status_page.bootstrap_progress.setVisible(False)
                     self.tor_status_page.text.setText('<p><b>Tor failed to (re)start.</b></p>\
@@ -1311,9 +1310,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     "journalctl -xe" for details.</p>\
                     <p>You may not be able to use any network facing application for now.</p>')
                 else:
-                    # print to the stderr
-                    sys.stderr.write('Unexpected tor_status: ' + self.tor_status + '\n'+\
-                                     "Error Code:" + self.tor_status_code)
+                    print('Unexpected tor_status: ' + self.tor_status + '\n' +
+                        "Error Code:" + self.tor_status_code, file=sys.stderr)
                     # display error message on GUI
                     self.tor_status_page.bootstrap_progress.setVisible(False)
                     self.tor_status_page.text.setText('<p><b>Unexpected Exception.</b></p>\
