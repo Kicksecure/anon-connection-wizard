@@ -1,3 +1,27 @@
+commit a3291e545d59c545a64e216b1ccdd06cca938e9b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Dec 3 01:25:08 2023 -0500
+
+    comment
+
+commit 4820147c7390d61677dbf0804805698ab935678b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Dec 3 01:15:12 2023 -0500
+
+    replace sys.stderr.write with print
+
+commit d4b5171a0ef7dde86dadf15f409df035e68ea845
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Dec 3 01:11:52 2023 -0500
+
+    replace sys.stdout.write with print
+
+commit 15b91f2566931a843baee7666cd70b5baa41bf1b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 30 17:55:17 2023 +0000
+
+    bumped changelog version
+
 commit 8fe083e8ae83b8a8a0968164dc4af103177ee7fe
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Nov 30 12:55:01 2023 -0500
