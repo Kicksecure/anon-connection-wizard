@@ -1,3 +1,17 @@
+commit 16ae4c043f944b472348db480c3200d00d3db7b4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Dec 25 15:49:26 2023 -0500
+
+    update snowflake config lines
+    
+    as per TBB
+
+commit 13bedf00d676f991e779b2e1a802436791b73810
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Dec 4 17:01:59 2023 +0000
+
+    bumped changelog version
+
 commit a3291e545d59c545a64e216b1ccdd06cca938e9b
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Dec 3 01:25:08 2023 -0500
