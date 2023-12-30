@@ -1,3 +1,21 @@
+commit bb104135feed6fc0778ef7edb2ecfbbeec898333
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Dec 29 19:32:03 2023 -0500
+
+    wrap-and-sort
+
+commit a1ac8ff04daf84568d4f37f67445e0b34ac03331
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Dec 29 19:31:17 2023 -0500
+
+    Depends: pkexec
+
+commit ead5c2b49ea7726347a3afad2fa19d173bb3c6bc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Dec 25 20:50:59 2023 +0000
+
+    bumped changelog version
+
 commit 16ae4c043f944b472348db480c3200d00d3db7b4
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Dec 25 15:49:26 2023 -0500
