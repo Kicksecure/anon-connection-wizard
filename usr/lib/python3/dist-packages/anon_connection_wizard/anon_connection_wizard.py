@@ -1678,6 +1678,10 @@ class TorBootstrap(QtCore.QThread):
 
 
 def main():
+    if os.geteuid() == 0:
+        print('anon_connection_wizard.py: ERROR: Do not run with sudo / as root!')
+        sys.exit(1)
+
     # Available styles: "windows", "motif", "cde", "sgi", "plastique" and "cleanlooks"
     # TODO: use customized css instead. Take Tor Launcher's css as a reference
     QtWidgets.QApplication.setStyle('cleanlooks')
