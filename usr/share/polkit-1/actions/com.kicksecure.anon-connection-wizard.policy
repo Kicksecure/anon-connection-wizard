@@ -67,7 +67,7 @@
       <allow_inactive>yes</allow_inactive>
       <allow_active>yes</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-gw-anonymizer-config/edit-etc-resolv-conf</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/anon-dns</annotate>
     <annotate key="org.freedesktop.policykit.exec.argv1">add</annotate>
   </action>
 
@@ -79,7 +79,7 @@
       <allow_inactive>yes</allow_inactive>
       <allow_active>yes</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-gw-anonymizer-config/edit-etc-resolv-conf</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/anon-dns</annotate>
     <annotate key="org.freedesktop.policykit.exec.argv1">remove</annotate>
   </action>
 
