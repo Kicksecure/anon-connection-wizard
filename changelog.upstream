@@ -1,3 +1,21 @@
+commit 574d1fbd48c9d009c421be64559758ed019b424c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Sep 11 04:22:38 2024 -0400
+
+    update snowflake config lines
+
+commit 4d61eca2a4dc1c7275b5dcf54eb5fd66034fa00d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Sep 11 04:17:21 2024 -0400
+
+    update path
+
+commit 0d39f21db85da182878fa5a6b4ab816745777256
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 8 17:40:23 2024 +0000
+
+    bumped changelog version
+
 commit cf9e096af933539240053c9a1451c07ac427edba
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Sep 8 13:02:19 2024 -0400
