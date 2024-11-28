@@ -14,10 +14,20 @@
       <allow_inactive>yes</allow_inactive>
       <allow_active>yes</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/systemctl</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv1">--no-pager</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv2">restart</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv3">tor@default</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-connection-wizard/acw-tor-control</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">restart</annotate>
+  </action>
+
+  <action id="com.kicksecure.anon-connection-wizard.reload-tor">
+    <description>Reload Tor</description>
+    <message>Authentication is required to reload Tor (the tor@default service)</message>
+    <defaults>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-connection-wizard/acw-tor-control</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">reload</annotate>
   </action>
 
   <action id="com.kicksecure.anon-connection-wizard.stop-tor">
@@ -28,10 +38,8 @@
       <allow_inactive>yes</allow_inactive>
       <allow_active>yes</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/systemctl</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv1">--no-pager</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv2">stop</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv3">tor@default</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-connection-wizard/acw-tor-control</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">stop</annotate>
   </action>
 
   <action id="com.kicksecure.anon-connection-wizard.status-tor">
@@ -42,10 +50,8 @@
       <allow_inactive>yes</allow_inactive>
       <allow_active>yes</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/systemctl</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv1">--no-pager</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv2">status</annotate>
-    <annotate key="org.freedesktop.policykit.exec.argv3">tor@default</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/anon-connection-wizard/acw-tor-control</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">status</annotate>
   </action>
 
   <action id="com.kicksecure.anon-connection-wizard.tor-config-sane">
