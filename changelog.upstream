@@ -1,3 +1,28 @@
+commit dec4ee80ecfce42d0d2b2ef0b9ae297975e8de7b
+Merge: b0df7d5 e260747
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 28 13:28:21 2024 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/pkexec'
+
+commit e260747194b03cf3761dbc132b59d112ae598780
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Nov 28 11:26:40 2024 -0600
+
+    Require auth to apply Tor config changes
+
+commit 5245fe46480924d8777cce521dd642615f7df387
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Nov 27 18:51:32 2024 -0600
+
+    Fix invalid pkexec configuration
+
+commit b0df7d50fe97f0ccd81ce53d2af2dc682a28dabb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Sep 11 08:41:42 2024 +0000
+
+    bumped changelog version
+
 commit 574d1fbd48c9d009c421be64559758ed019b424c
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Sep 11 04:22:38 2024 -0400
