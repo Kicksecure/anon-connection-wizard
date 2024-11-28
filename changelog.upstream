@@ -1,3 +1,15 @@
+commit f20067a206d50301587569ae0a84bdeb08e909e3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 28 14:33:35 2024 -0500
+
+    add support for reload in acw-tor-control wrapper
+
+commit acc1f745ade8cbce905b4eb475be2d9381472eba
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Nov 28 18:29:12 2024 +0000
+
+    bumped changelog version
+
 commit dec4ee80ecfce42d0d2b2ef0b9ae297975e8de7b
 Merge: b0df7d5 e260747
 Author: Patrick Schleizer <adrelanos@whonix.org>
