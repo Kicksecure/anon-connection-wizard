@@ -17,6 +17,9 @@ if [ -z "${state_arg}" ]; then
 fi
 
 case "${state_arg}" in
+   'reload')
+      /usr/bin/systemctl --no-pager reload tor@default
+      ;;
    'restart')
       /usr/bin/systemctl --no-pager restart tor@default
       ;;
