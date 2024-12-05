@@ -10,6 +10,8 @@ set -o nounset
 set -o errtrace
 set -o pipefail
 
+true "$0: START"
+
 state_arg="${1:-}"
 if [ -z "${state_arg}" ]; then
    echo "$0: Missing argument."
@@ -34,3 +36,5 @@ case "${state_arg}" in
      exit 1
      ;;
 esac
+
+true "$0: END"
