@@ -68,17 +68,17 @@ def set_enabled():
 
     write_to_temp_then_move(content)
 
-    command = 'pkexec /usr/libexec/anon-connection-wizard/acw-tor-control restart'
+    command = 'leaprun acw-tor-control-restart'
     tor_status_code = subprocess.call(command, shell=True)
 
     if tor_status_code != 0:
         return 'cannot_connect', tor_status_code
 
     ## we have to reload to open /run/tor/control and create /run/tor/control.authcookie
-    command = 'pkexec /usr/libexec/anon-connection-wizard/acw-tor-control reload'
+    command = 'leaprun acw-tor-control-reload'
     subprocess.call(command, shell=True)
 
-    command = 'pkexec /usr/libexec/anon-connection-wizard/acw-tor-control status'
+    command = 'leaprun acw-tor-control-status'
     tor_status_code = subprocess.call(command, shell=True)
 
     if tor_status_code != 0:
@@ -119,7 +119,7 @@ def set_disabled():
 
     write_to_temp_then_move(content)
 
-    command = 'pkexec /usr/libexec/anon-connection-wizard/acw-tor-control stop'
+    command = 'leaprun acw-tor-control-stop'
     subprocess.call(command, shell=True)
 
     return 'tor_disabled'
