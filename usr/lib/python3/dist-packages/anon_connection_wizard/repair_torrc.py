@@ -17,11 +17,11 @@ def repair_torrc():
         return
 
     try:
-        command = ['pkexec', '/usr/libexec/anon-gw-anonymizer-config/tor-config-sane']
+        command = ['leaprun', 'tor-config-sane']
         p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = p.communicate()
         if not p.returncode == 0:
-            print("ERROR: pkexec /usr/libexec/anon-gw-anonymizer-config/tor-config-sane Exit Code:", p.returncode)
+            print("ERROR: leaprun tor-config-sane Exit Code:", p.returncode)
     except Exception as e:
         error_msg = "tor-config-sane unexpected error: " + str(e)
         print(error_msg)
