@@ -1,3 +1,22 @@
+commit 4b71d8a6ed6cf8152b598a6b4bfbd508d8b397d3
+Merge: 27df785 081c69f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Feb 24 07:22:18 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/privleap-strict-auth'
+
+commit 081c69f6379fde90b7357fb3305b9595fc539052
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sat Feb 22 19:33:05 2025 -0600
+
+    Add auth info to privleap config
+
+commit 27df785f62e280b9e0a2013e966791c317bac18e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 21 09:47:16 2025 +0000
+
+    bumped changelog version
+
 commit 7333f65f639c821affbf7151900031cc7c0cd6e4
 Merge: 5fbce7c 5de65e3
 Author: Patrick Schleizer <adrelanos@whonix.org>
