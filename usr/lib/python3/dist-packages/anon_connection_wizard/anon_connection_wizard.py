@@ -1464,16 +1464,17 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             with open(Common.torrc_tmp_file_path, 'a') as f:
                 if Common.proxy_type == 'HTTP/HTTPS':
                     f.write('HTTPSProxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                    if (Common.proxy_username != ''):  # there is no need to check password because username is essential
+                    if Common.proxy_username:  # there is no need to check password because username is essential
                         f.write('HTTPSProxyAuthenticator {0}:{1}\n'.format(Common.proxy_username, Common.proxy_password))
                 elif Common.proxy_type == 'SOCKS4':
                     # Notice that SOCKS4 does not support proxy username and password
                     f.write('Socks4Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
                 elif Common.proxy_type == 'SOCKS5':
                     f.write('Socks5Proxy {0}:{1}\n'.format(Common.proxy_ip, Common.proxy_port))
-                    if (Common.proxy_username != ''):
-                        f.write('Socks5ProxyUsername {0}\n'.format(Common.proxy_username))
-                        f.write('Socks5ProxyPassword {0}\n'.format(Common.proxy_password))
+                    if Common.proxy_username:
+                        f.write(f'Socks5ProxyUsername {Common.proxy_username}\n')
+                        if Common.proxy_password:
+                            f.write(f'Socks5ProxyPassword {Common.proxy_password}\n')
 
                 ''' TODO: Another feature can be implemented in the future is auto-configure for well-known third party proxy-based censorship circumvention tools, like Lantern.
                 Uncomment all the fragments to enable it.
