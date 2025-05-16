@@ -1,3 +1,15 @@
+commit a1e3120bc64409af9bed54a50a19a46b43877bb8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri May 16 13:18:09 2025 -0400
+
+    improve robustness of proxy configuration
+
+commit 12fb7c4932aa2cfdc8b269f0efb9e85c3ba6803d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 7 06:38:03 2025 +0000
+
+    bumped changelog version
+
 commit eb6ce888dcd2f587964b683f7329bc52372e01f1
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 7 02:32:28 2025 -0400
