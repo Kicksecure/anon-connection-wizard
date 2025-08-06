@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 13), debhelper-compat (= 13), python3
 Homepage: https://www.kicksecure.com/wiki/Anon_Connection_Wizard
 Vcs-Browser: https://github.com/Kicksecure/anon-connection-wizard
 Vcs-Git: https://github.com/Kicksecure/anon-connection-wizard.git
-Standards-Version: 4.6.2
+Standards-Version: 4.7.2
 Rules-Requires-Root: no
 
 Package: anon-connection-wizard
