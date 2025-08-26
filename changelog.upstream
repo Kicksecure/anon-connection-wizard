@@ -1,3 +1,21 @@
+commit 64156a5c82a8d27cd39c1016b96c6d32e6d3660e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 26 04:32:13 2025 -0400
+
+    re-generate man pages (generated using "genmkfile manpages")
+
+commit 474510a91cf1ce7e87e6b94634d70d91209fb81f
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Tue Aug 5 22:57:55 2025 -0500
+
+    Port to Trixie.
+
+commit 8444a0624d3bccd5d33b78c281d985707a79f914
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jun 11 19:12:52 2025 +0000
+
+    bumped changelog version
+
 commit 69c94274ed3d1ede5e532a066a4f92af9aeaa4f9
 Merge: 8c0dfb9 5556024
 Author: Patrick Schleizer <adrelanos@whonix.org>
