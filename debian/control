@@ -17,7 +17,7 @@ Package: anon-connection-wizard
 Architecture: all
 Depends: helper-scripts,
          pkexec,
-         policykit-1-gnome | polkit-1-auth-agent,
+         mate-polkit,
          privleap,
          python3,
          python3-pyqt5,
