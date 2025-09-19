@@ -1,3 +1,15 @@
+commit ca7dff2708680cc383c8021611ec45e0b1b19eb7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Sep 18 10:04:44 2025 -0400
+
+    add debian install file (generated using "genmkfile debinstfile")
+
+commit 3ddf8eb2c03aab7afba3e4125cfb2e11471abcf0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 9 15:52:39 2025 +0000
+
+    bumped changelog version
+
 commit f9c3f0913b4a4dfee5fbb68c559a940bcaefe70a
 Merge: 3fa39f1 ed7a5a4
 Author: Patrick Schleizer <adrelanos@whonix.org>
