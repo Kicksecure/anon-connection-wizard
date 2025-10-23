@@ -1,3 +1,22 @@
+commit c442728310c0dcde5015b56d6dfe633d72bc340d
+Merge: 03f72d6 ebae7e9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 23 01:11:57 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit ebae7e964dc661279091bffe0adceb993e2ad1b8
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Oct 22 21:04:28 2025 -0500
+
+    Remove remaining pkexec references, use privleap only
+
+commit 03f72d65fc21d37a42c634f9befc5f3aad2d0d3d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 19 16:07:48 2025 +0000
+
+    bumped changelog version
+
 commit ca7dff2708680cc383c8021611ec45e0b1b19eb7
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Sep 18 10:04:44 2025 -0400
