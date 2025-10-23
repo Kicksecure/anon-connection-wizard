@@ -3,8 +3,7 @@
 ## Copyright (C) 2018 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-import sys, fileinput, tempfile
-import os, subprocess
+import os, subprocess, fcntl
 
 if os.path.exists('/usr/share/anon-gw-base-files/gateway'):
     whonix=True
@@ -14,6 +13,8 @@ else:
 ## TODO: code duplication
 ## Should use same variable as in anon_connection_wizard.py.
 torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
+acw_comm_file_path = '/run/anon-connection-wizard/tor.conf'
+
 
 def tor_status():
     print("tor_status was called.")
@@ -130,13 +131,17 @@ def write_to_temp_then_move(content):
     cat(torrc_file_path)
     print("")
 
-    handle, temp_file_path = tempfile.mkstemp()
-    with open(temp_file_path, 'w') as temp_file:
-        temp_file.write(content)
+    with open(acw_comm_file_path, 'w') as comm_file:
+        ## Using flock here prevents another anon-connection-wizard process
+        ## from trying to write to the file until acw-write-torrc is finished
+        ## processing it.
+        fcntl.flock(comm_file, fcntl.LOCK_EX)
+        comm_file.write(content)
 
-    command = ['pkexec', '/usr/libexec/anon-connection-wizard/acw-write-torrc', temp_file_path]
-    print("tor_status.py: executing:", ' '.join(command))
-    subprocess.check_call(command)
+        command = ['leaprun', 'acw-write-torrc']
+        print("tor_status.py: executing:", ' '.join(command))
+        subprocess.check_call(command)
+        ## No need to unlock, acw-write-torrc deletes the original file.
 
     print(torrc_file_path)
     print("after:")
