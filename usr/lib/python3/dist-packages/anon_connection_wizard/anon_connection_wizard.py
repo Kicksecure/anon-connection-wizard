@@ -20,6 +20,8 @@ import time
 import re
 import tempfile
 from pathlib import Path
+import shutil
+import fcntl
 
 from guimessages.translations import _translations
 from guimessages.guimessage import gui_message
@@ -48,6 +50,7 @@ class Common:
 
     etc_torrc_d_folder_path = '/usr/local/etc/torrc.d/'
     torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
+    acw_comm_file_path = '/run/anon-connection-wizard/tor.conf'
     torrc_user_file_path = '/usr/local/etc/torrc.d/50_user.conf'
     torrc_tmp_file_path = ''
 
@@ -1266,11 +1269,23 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
                 if os.path.exists(Common.torrc_tmp_file_path):
-                    ## Move the tmp file to the real .conf only when user click the connect button.
-                    ## This may overwrite the previous .conf, but it does not matter.
-                    command = ['pkexec', '/usr/libexec/anon-connection-wizard/acw-write-torrc', Common.torrc_tmp_file_path]
-                    print("ACW: executing:", ' '.join(command))
-                    subprocess.check_call(command)
+                    ## Move the tmp file to the real .conf only when user
+                    ## clicks the connect button. This may overwrite the
+                    ## previous .conf, but it does not matter.
+                    with open(Common.acw_comm_file_path, 'w') as comm_file:
+                        ## Using flock here prevents another
+                        ## anon-connection-wizard process from trying to write
+                        ## to the file until acw-write-torrc is finished
+                        ## processing it.
+                        fcntl.flock(comm_file, fcntl.LOCK_EX)
+                        with open(Common.torrc_tmp_file_path, 'r') as temp_file:
+                            comm_file.write(temp_file.read())
+
+                        command = ['leaprun', 'acw-write-torrc']
+                        print("ACW: executing:", ' '.join(command))
+                        subprocess.check_call(command)
+                        ## No need to unlock, acw-write-torrc deletes the
+                        ## original file.
 
                 self.tor_status_page.bootstrap_progress.setVisible(True)
 
