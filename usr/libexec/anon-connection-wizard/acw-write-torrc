@@ -23,7 +23,7 @@ fi
 
 mkdir --parents --verbose -- '/usr/local/etc/torrc.d'
 
-contents="$(cat "$acw_comm_file_path")"
+contents="$(cat -- "$acw_comm_file_path")"
 ## Sanity test.
 if [ "$contents" = "" ]; then
   echo "$0: file '$acw_comm_file_path' is empty!" >&2
