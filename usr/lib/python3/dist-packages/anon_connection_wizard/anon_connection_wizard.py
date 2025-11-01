@@ -28,6 +28,8 @@ from guimessages.guimessage import gui_message
 
 from anon_connection_wizard import tor_status
 from anon_connection_wizard import repair_torrc
+from anon_connection_wizard.tor_status import cat
+from anon_connection_wizard.tor_status import write_to_temp_then_move
 from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_add
 from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_remove
 
@@ -1272,20 +1274,10 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     ## Move the tmp file to the real .conf only when user
                     ## clicks the connect button. This may overwrite the
                     ## previous .conf, but it does not matter.
-                    with open(Common.acw_comm_file_path, 'w') as comm_file:
-                        ## Using flock here prevents another
-                        ## anon-connection-wizard process from trying to write
-                        ## to the file until acw-write-torrc is finished
-                        ## processing it.
-                        fcntl.flock(comm_file, fcntl.LOCK_EX)
-                        with open(Common.torrc_tmp_file_path, 'r') as temp_file:
-                            comm_file.write(temp_file.read())
-
-                        command = ['leaprun', 'acw-write-torrc']
-                        print("ACW: executing:", ' '.join(command))
-                        subprocess.check_call(command)
-                        ## No need to unlock, acw-write-torrc deletes the
-                        ## original file.
+                    print(f"Common.acw_comm_file_path: '{Common.acw_comm_file_path}'")
+                    cat(Common.acw_comm_file_path)
+                    content = open(Common.torrc_tmp_file_path).read()
+                    write_to_temp_then_move(content)
 
                 self.tor_status_page.bootstrap_progress.setVisible(True)
 

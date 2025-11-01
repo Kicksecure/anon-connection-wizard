@@ -6,8 +6,10 @@
 set -x
 set -e
 
-torrc_file_path='/usr/local/etc/torrc.d/40_tor_control_panel.conf'
+true "$0: START"
+
 acw_comm_file_path='/run/anon-connection-wizard/tor.conf'
+torrc_file_path='/usr/local/etc/torrc.d/40_tor_control_panel.conf'
 
 if ! test -f "$acw_comm_file_path" ; then
   echo "$0: file '$acw_comm_file_path' is not a file!"
@@ -19,17 +21,19 @@ if ! test -r "$acw_comm_file_path" ; then
   exit 1
 fi
 
-mkdir --parents --verbose '/usr/local/etc/torrc.d'
+mkdir --parents --verbose -- '/usr/local/etc/torrc.d'
 
 ## Do not move the original file, as the creator may have set a lock on it,
 ## which could interfere with other users of the file. Copy and delete the
 ## original instead.
-cp --verbose "$acw_comm_file_path" "$torrc_file_path"
-safe-rm "$acw_comm_file_path"
+cp --verbose -- "$acw_comm_file_path" "$torrc_file_path"
+
+## Disabled for debugging. And not important either.
+#safe-rm -- "$acw_comm_file_path"
 
 ## We set 40_tor_control_panel.conf to chmod 644
 ## so that only root can write and read, others can only read,
 ## which prevents the edit by normal user.
-chmod --verbose 644 "$torrc_file_path"
+chmod --verbose 644 -- "$torrc_file_path"
 
-exit 0
+true "$0: END"

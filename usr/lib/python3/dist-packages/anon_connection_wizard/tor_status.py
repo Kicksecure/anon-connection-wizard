@@ -129,7 +129,9 @@ def write_to_temp_then_move(content):
     print(torrc_file_path)
     print("before:")
     cat(torrc_file_path)
-    print("")
+
+    print(f"acw_comm_file_path: '{acw_comm_file_path}'")
+    print(f"acw_comm_file_path content: '{content}'")
 
     with open(acw_comm_file_path, 'w') as comm_file:
         ## Using flock here prevents another anon-connection-wizard process
@@ -137,6 +139,7 @@ def write_to_temp_then_move(content):
         ## processing it.
         fcntl.flock(comm_file, fcntl.LOCK_EX)
         comm_file.write(content)
+        cat(acw_comm_file_path)
 
         command = ['leaprun', 'acw-write-torrc']
         print("tor_status.py: executing:", ' '.join(command))
@@ -150,7 +153,7 @@ def write_to_temp_then_move(content):
 
 def cat(filename):
     if not os.path.exists(filename):
-        print("File did not exist.")
+        print(f"File did not exist: '{filename}'")
         return
 
     with open(filename, 'r') as file:
