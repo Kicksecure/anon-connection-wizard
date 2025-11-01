@@ -126,12 +126,10 @@ def set_disabled():
     return 'tor_disabled'
 
 def write_to_temp_then_move(content):
-    print(torrc_file_path)
     print("before:")
     cat(torrc_file_path)
-
-    print(f"acw_comm_file_path: '{acw_comm_file_path}'")
-    print(f"acw_comm_file_path content: '{content}'")
+    cat(acw_comm_file_path)
+    print(f"content to write: '{content}'")
 
     with open(acw_comm_file_path, 'w') as comm_file:
         ## Using flock here prevents another anon-connection-wizard process
@@ -139,28 +137,32 @@ def write_to_temp_then_move(content):
         ## processing it.
         fcntl.flock(comm_file, fcntl.LOCK_EX)
         comm_file.write(content)
-        cat(acw_comm_file_path)
-
-        command = ['leaprun', 'acw-write-torrc']
-        print("tor_status.py: executing:", ' '.join(command))
-        subprocess.check_call(command)
         ## No need to unlock, acw-write-torrc deletes the original file.
 
-    print(torrc_file_path)
-    print("after:")
+    print("after 1:")
+    cat(acw_comm_file_path)
+
+    command = ['leaprun', 'acw-write-torrc']
+    print("tor_status.py: executing:", ' '.join(command))
+    subprocess.check_call(command)
+
+    print("after 2:")
     cat(torrc_file_path)
-    print("")
 
 def cat(filename):
-    print(f"filename: '{filename}'")
+    print(f"cat filename: '{filename}'")
     if not os.path.exists(filename):
         print(f"File did not exist: '{filename}'")
         return
-
     with open(filename, 'r') as file:
-        for line in file:
-            print(line, end='')
+        content = file.read()
+        if not content:
+            print(f"File is empty: '{filename}'")
+        else:
+            print(content, end='')  # content already has newlines
+    print("")
 
+## Debugging: Executing this script directly.
 if __name__ == "__main__":
     # Example usage
     print("Enabling...")
