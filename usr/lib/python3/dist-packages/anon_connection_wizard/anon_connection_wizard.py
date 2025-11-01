@@ -1274,7 +1274,6 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     ## Move the tmp file to the real .conf only when user
                     ## clicks the connect button. This may overwrite the
                     ## previous .conf, but it does not matter.
-                    print(f"Common.acw_comm_file_path: '{Common.acw_comm_file_path}'")
                     cat(Common.acw_comm_file_path)
                     content = open(Common.torrc_tmp_file_path).read()
                     write_to_temp_then_move(content)

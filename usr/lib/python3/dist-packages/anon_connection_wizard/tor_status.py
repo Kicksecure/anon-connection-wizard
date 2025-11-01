@@ -152,6 +152,7 @@ def write_to_temp_then_move(content):
     print("")
 
 def cat(filename):
+    print(f"filename: '{filename}'")
     if not os.path.exists(filename):
         print(f"File did not exist: '{filename}'")
         return
