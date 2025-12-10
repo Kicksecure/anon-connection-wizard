@@ -114,7 +114,6 @@ class Common:
     ##
     ## https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
-    command_meek_azure_address = 'ajax.aspnetcdn.com\n'
     command_bridgeInfo = 'Bridge '
 
     command_http = 'HTTPSProxy '
@@ -289,7 +288,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4',
-                        'meek-azure',
+                        'meek',
                         'snowflake',
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
@@ -462,8 +461,8 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                 bridge_type = str(self.comboBox.currentText())
                 if bridge_type.startswith('obfs4'):
                     bridge_type = 'obfs4'
-                elif bridge_type.startswith('meek-azure'):
-                    bridge_type = 'meek-azure'
+                elif bridge_type.startswith('meek'):
+                    bridge_type = 'meek'
                     ## Required for meek and snowflake only.
                     ## https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
                     edit_etc_resolv_conf_add()
@@ -1216,8 +1215,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                     if Common.use_default_bridge:
                         if Common.bridge_type == 'obfs4':
                             self.torrc_page.label_5.setText('Provided obfs4')
-                        elif Common.bridge_type == 'meek-azure':
-                            self.torrc_page.label_5.setText('Provided meek-azure')
+                        elif Common.bridge_type == 'meek':
+                            self.torrc_page.label_5.setText('Provided meek')
                         elif Common.bridge_type == 'snowflake':
                             self.torrc_page.label_5.setText('Provided snowflake')
                     else:
@@ -1435,7 +1434,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 if Common.use_default_bridge:
                     if Common.bridge_type == 'obfs4':
                         f.write(Common.command_obfs4 + '\n')
-                    elif Common.bridge_type == 'meek-azure':
+                    elif Common.bridge_type == 'meek':
                         f.write(Common.command_meek_lite + '\n')
                     elif Common.bridge_type == 'snowflake':
                         f.write(Common.command_snowflake + '\n')
@@ -1544,8 +1543,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
         if Common.bridge_type == 'obfs4':
             Common.bridge_type_with_comment = 'obfs4'
-        elif Common.bridge_type == 'meek-azure':
-            Common.bridge_type_with_comment = 'meek-azure'
+        elif Common.bridge_type == 'meek':
+            Common.bridge_type_with_comment = 'meek'
 
 class TorBootstrap(QtCore.QThread):
     '''signal will receive the emit from TorBootstrap with two values:
