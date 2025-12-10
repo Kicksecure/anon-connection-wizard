@@ -1,3 +1,22 @@
+commit b2816eb33ae2d4bd38fd50f44be75171a341a6d4
+Merge: 945e6a9 9148184
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Dec 10 06:04:15 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 9148184314905c4c31673bc0a1cdcc07ac54c4d3
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Tue Dec 9 23:39:49 2025 -0600
+
+    Sync hardcoded bridges with Tor Browser, rename meek-azure -> meek since the current Meek bridge does not appear to use Azure
+
+commit 945e6a9f3eaa573fe46e96fc72adb1f7cffcaf6f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Nov 1 12:37:40 2025 +0000
+
+    bumped changelog version
+
 commit 2c760bdf1cdb563d9972d0dad7e2e4fd7f494306
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Nov 1 08:32:44 2025 -0400
