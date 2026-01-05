@@ -58,13 +58,13 @@ class Common:
 
     #torrc_file_path = "/etc/tor/torrc"
 
-    # https://gitweb.torproject.org/builders/tor-browser-build.git/tree/projects/tor-browser/Bundle-Data/PTConfigs/bridge_prefs.js
+    # https://web.archive.org/web/20210115184908/https://gitweb.torproject.org/builders/tor-browser-build.git/tree/projects/tor-browser/Bundle-Data/PTConfigs/bridge_prefs.js
     # https://gitlab.torproject.org/legacy/trac/-/wikis/doc/TorBrowser/DefaultBridges
     # https://github.com/OnionBrowser/OnionBrowser/issues/205
     # https://github.com/OnionBrowser/OnionBrowser/commit/c5553060ef4fc7824b4b1575f69c1098880d6e5b
     #
-    # https://tb-manual.torproject.org/bridges/
-    # https://trac.torproject.org/projects/tor/ticket/23136
+    # https://support.torproject.org/tor-browser/circumvention/using-bridges/ (Old: https://web.archive.org/web/20190401134840/https://tb-manual.torproject.org/bridges/)
+    # https://gitlab.torproject.org/legacy/trac/-/issues/23136
     # https://gitlab.tails.boum.org/tails/tails/-/issues/15331
     # https://gitweb.torproject.org/tor-launcher.git/tree/src/defaults/preferences/torlauncher-prefs.js
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
@@ -102,7 +102,7 @@ class Common:
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
 
-    ## ref: https://gitweb.torproject.org/pluggable-transports/snowflake.git/tree/client/torrc
+    ## ref: https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/-/blob/HEAD/client/torrc (Old: https://web.archive.org/web/20211102002634/https://gitweb.torproject.org/pluggable-transports/snowflake.git/tree/client/torrc)
     ## /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Tor/torrc-defaults
     command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client'
 
@@ -1560,7 +1560,7 @@ class TorBootstrap(QtCore.QThread):
         bootstrap_percent = 0
         #self.is_running = False
         '''The TAG to phase mapping is mainly according to:
-        https://gitweb.torproject.org/tor-launcher.git/tree/src/chrome/locale/en/torlauncher.properties
+        https://gitlab.torproject.org/tpo/applications/tor-launcher/-/blob/HEAD/src/chrome/locale/en-US/torlauncher.properties
         '''
         self.tag_phase = {'starting': 'Starting',
                     'conn': 'Connecting to a relay',
@@ -1666,7 +1666,7 @@ class TorBootstrap(QtCore.QThread):
                 bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', bootstrap_status).group(1))
                 bootstrap_tag = re.search(r'TAG=(.*) +SUMMARY', bootstrap_status).group(1)
                 ''' Use TAG= keyword for bootstrap_phase, according to:
-                https://gitweb.torproject.org/tor-launcher.git/plain/README-BOOTSTRAP
+                https://gitlab.torproject.org/tpo/applications/tor-launcher/-/raw/HEAD/README-BOOTSTRAP
                 '''
                 if bootstrap_tag in self.tag_phase:
                     bootstrap_phase = self.tag_phase[bootstrap_tag]
