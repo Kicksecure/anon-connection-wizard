@@ -1,4 +1,4 @@
-anon-connection-wizard(8) -- Anonimity Distribution Connection Wizard
+anon-connection-wizard(8) -- Anonymity Distribution Connection Wizard
 =============================================
 
 <!--
