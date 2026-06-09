@@ -20,12 +20,16 @@ import time
 import re
 import tempfile
 from pathlib import Path
+import shutil
+import fcntl
 
 from guimessages.translations import _translations
 from guimessages.guimessage import gui_message
 
 from anon_connection_wizard import tor_status
 from anon_connection_wizard import repair_torrc
+from anon_connection_wizard.tor_status import cat
+from anon_connection_wizard.tor_status import write_to_temp_then_move
 from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_add
 from anon_connection_wizard.edit_etc_resolv_conf import edit_etc_resolv_conf_remove
 
@@ -48,18 +52,19 @@ class Common:
 
     etc_torrc_d_folder_path = '/usr/local/etc/torrc.d/'
     torrc_file_path = '/usr/local/etc/torrc.d/40_tor_control_panel.conf'
+    acw_comm_file_path = '/run/anon-connection-wizard/tor.conf'
     torrc_user_file_path = '/usr/local/etc/torrc.d/50_user.conf'
     torrc_tmp_file_path = ''
 
     #torrc_file_path = "/etc/tor/torrc"
 
-    # https://gitweb.torproject.org/builders/tor-browser-build.git/tree/projects/tor-browser/Bundle-Data/PTConfigs/bridge_prefs.js
+    # https://web.archive.org/web/20210115184908/https://gitweb.torproject.org/builders/tor-browser-build.git/tree/projects/tor-browser/Bundle-Data/PTConfigs/bridge_prefs.js
     # https://gitlab.torproject.org/legacy/trac/-/wikis/doc/TorBrowser/DefaultBridges
     # https://github.com/OnionBrowser/OnionBrowser/issues/205
     # https://github.com/OnionBrowser/OnionBrowser/commit/c5553060ef4fc7824b4b1575f69c1098880d6e5b
     #
-    # https://tb-manual.torproject.org/bridges/
-    # https://trac.torproject.org/projects/tor/ticket/23136
+    # https://support.torproject.org/tor-browser/circumvention/using-bridges/ (Old: https://web.archive.org/web/20190401134840/https://tb-manual.torproject.org/bridges/)
+    # https://gitlab.torproject.org/legacy/trac/-/issues/23136
     # https://gitlab.tails.boum.org/tails/tails/-/issues/15331
     # https://gitweb.torproject.org/tor-launcher.git/tree/src/defaults/preferences/torlauncher-prefs.js
     bridges_default_path = '/usr/share/anon-connection-wizard/bridges_default'
@@ -97,7 +102,7 @@ class Common:
     command_obfs4 = 'ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy'
     command_fte = 'ClientTransportPlugin fte exec /usr/bin/fteproxy --managed'
 
-    ## ref: https://gitweb.torproject.org/pluggable-transports/snowflake.git/tree/client/torrc
+    ## ref: https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/-/blob/HEAD/client/torrc (Old: https://web.archive.org/web/20211102002634/https://gitweb.torproject.org/pluggable-transports/snowflake.git/tree/client/torrc)
     ## /home/user/.tb/tor-browser/Browser/TorBrowser/Data/Tor/torrc-defaults
     command_snowflake = 'ClientTransportPlugin snowflake exec /usr/bin/snowflake-client'
 
@@ -109,7 +114,6 @@ class Common:
     ##
     ## https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
     command_meek_lite = 'ClientTransportPlugin meek_lite exec /usr/bin/obfs4proxy'
-    command_meek_azure_address = 'ajax.aspnetcdn.com\n'
     command_bridgeInfo = 'Bridge '
 
     command_http = 'HTTPSProxy '
@@ -284,7 +288,7 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
 
         # self.bridges in consistence with Common.bridge_type_with_comment
         self.bridges = ['obfs4',
-                        'meek-azure',
+                        'meek',
                         'snowflake',
                         # The following will be uncommented as soon as being implemented.
                         # 'fte'
@@ -457,8 +461,8 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
                 bridge_type = str(self.comboBox.currentText())
                 if bridge_type.startswith('obfs4'):
                     bridge_type = 'obfs4'
-                elif bridge_type.startswith('meek-azure'):
-                    bridge_type = 'meek-azure'
+                elif bridge_type.startswith('meek'):
+                    bridge_type = 'meek'
                     ## Required for meek and snowflake only.
                     ## https://forums.whonix.org/t/censorship-circumvention-tor-pluggable-transports/2601/9
                     edit_etc_resolv_conf_add()
@@ -517,9 +521,10 @@ class BridgesWizardPage2(QtWidgets.QWizardPage):
         if (bridge_defined_type.startswith('obfs4')
                 or bridge_defined_type.startswith('meek_lite')
                 or bridge_defined_type.startswith('snowflake')
-            ## This case try to match vanilla bridges.
-            ## Example, trying to match "109.23.3.9:8236"
-            ## This is dirty but hopefully it is effective
+                or bridge_defined_type.startswith('webtunnel')
+                ## This case try to match vanilla bridges.
+                ## Example, trying to match "109.23.3.9:8236"
+                ## This is dirty but hopefully it is effective
                 or (('.' in bridge_defined_type) and (':' in bridge_defined_type))):
             return True
         else:
@@ -1208,13 +1213,15 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 if not Common.use_bridges:
                     self.torrc_page.label_5.setText('None Selected')
                 else:
+                    # CHECK IF IT IS A PROVIDED BRIDGE
                     if Common.use_default_bridge:
                         if Common.bridge_type == 'obfs4':
                             self.torrc_page.label_5.setText('Provided obfs4')
-                        elif Common.bridge_type == 'meek-azure':
-                            self.torrc_page.label_5.setText('Provided meek-azure')
+                        elif Common.bridge_type == 'meek':
+                            self.torrc_page.label_5.setText('Provided meek')
                         elif Common.bridge_type == 'snowflake':
                             self.torrc_page.label_5.setText('Provided snowflake')
+                    # OTHERWISE, CHECK CUSTOM BRIDGES
                     else:
                         if Common.bridge_custom.lower().startswith('obfs4'):
                             self.torrc_page.label_5.setText('Custom obfs4')
@@ -1222,6 +1229,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                             self.torrc_page.label_5.setText('Custom meek_lite')
                         elif Common.bridge_custom.lower().startswith('snowflake'):
                             self.torrc_page.label_5.setText('Custom snowflake')
+                        elif Common.bridge_custom.lower().startswith('webtunnel'): 
+                            self.torrc_page.label_5.setText('Custom webtunnel')   
                         else:
                             self.torrc_page.label_5.setText('Custom vanilla')
 
@@ -1266,11 +1275,12 @@ class AnonConnectionWizard(QtWidgets.QWizard):
             '''Arranging different tor_status_page according to the value of disable_tor.'''
             if not Common.disable_tor:
                 if os.path.exists(Common.torrc_tmp_file_path):
-                    ## Move the tmp file to the real .conf only when user click the connect button.
-                    ## This may overwrite the previous .conf, but it does not matter.
-                    command = ['pkexec', '/usr/libexec/anon-connection-wizard/acw-write-torrc', Common.torrc_tmp_file_path]
-                    print("ACW: executing:", ' '.join(command))
-                    subprocess.check_call(command)
+                    ## Move the tmp file to the real .conf only when user
+                    ## clicks the connect button. This may overwrite the
+                    ## previous .conf, but it does not matter.
+                    cat(Common.acw_comm_file_path)
+                    content = open(Common.torrc_tmp_file_path).read()
+                    write_to_temp_then_move(content)
 
                 self.tor_status_page.bootstrap_progress.setVisible(True)
 
@@ -1429,7 +1439,7 @@ class AnonConnectionWizard(QtWidgets.QWizard):
                 if Common.use_default_bridge:
                     if Common.bridge_type == 'obfs4':
                         f.write(Common.command_obfs4 + '\n')
-                    elif Common.bridge_type == 'meek-azure':
+                    elif Common.bridge_type == 'meek':
                         f.write(Common.command_meek_lite + '\n')
                     elif Common.bridge_type == 'snowflake':
                         f.write(Common.command_snowflake + '\n')
@@ -1538,8 +1548,8 @@ class AnonConnectionWizard(QtWidgets.QWizard):
 
         if Common.bridge_type == 'obfs4':
             Common.bridge_type_with_comment = 'obfs4'
-        elif Common.bridge_type == 'meek-azure':
-            Common.bridge_type_with_comment = 'meek-azure'
+        elif Common.bridge_type == 'meek':
+            Common.bridge_type_with_comment = 'meek'
 
 class TorBootstrap(QtCore.QThread):
     '''signal will receive the emit from TorBootstrap with two values:
@@ -1555,7 +1565,7 @@ class TorBootstrap(QtCore.QThread):
         bootstrap_percent = 0
         #self.is_running = False
         '''The TAG to phase mapping is mainly according to:
-        https://gitweb.torproject.org/tor-launcher.git/tree/src/chrome/locale/en/torlauncher.properties
+        https://gitlab.torproject.org/tpo/applications/tor-launcher/-/blob/HEAD/src/chrome/locale/en-US/torlauncher.properties
         '''
         self.tag_phase = {'starting': 'Starting',
                     'conn': 'Connecting to a relay',
@@ -1661,7 +1671,7 @@ class TorBootstrap(QtCore.QThread):
                 bootstrap_percent = int(re.match('.* PROGRESS=([0-9]+).*', bootstrap_status).group(1))
                 bootstrap_tag = re.search(r'TAG=(.*) +SUMMARY', bootstrap_status).group(1)
                 ''' Use TAG= keyword for bootstrap_phase, according to:
-                https://gitweb.torproject.org/tor-launcher.git/plain/README-BOOTSTRAP
+                https://gitlab.torproject.org/tpo/applications/tor-launcher/-/raw/HEAD/README-BOOTSTRAP
                 '''
                 if bootstrap_tag in self.tag_phase:
                     bootstrap_phase = self.tag_phase[bootstrap_tag]
