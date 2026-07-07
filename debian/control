@@ -2,11 +2,11 @@
 ## See the file COPYING for copying conditions.
 
 Source: anon-connection-wizard
-Section: misc
+Section: oldlibs
 Priority: optional
 Maintainer: iry <iry@riseup.net>
 Uploaders: Patrick Schleizer <adrelanos@kicksecure.com>
-Build-Depends: debhelper (>= 13), debhelper-compat (= 13), python3
+Build-Depends: debhelper (>= 13), debhelper-compat (= 13), config-package-dev
 Homepage: https://www.kicksecure.com/wiki/Anon_Connection_Wizard
 Vcs-Browser: https://github.com/Kicksecure/anon-connection-wizard
 Vcs-Git: https://github.com/Kicksecure/anon-connection-wizard.git
@@ -15,33 +15,7 @@ Rules-Requires-Root: no
 
 Package: anon-connection-wizard
 Architecture: all
-Depends: helper-scripts,
-         pkexec,
-         mate-polkit,
-         privleap,
-         python3,
-         python3-pyqt5,
-         python3-stem,
-         python3-yaml,
-         qtwayland5,
-         ${misc:Depends}
-Recommends: obfs4proxy, tor
-Description: Tor Connection Configuration (ACW)
- WARNING: Not (yet) a standalone ready to use outside of Whonix:
- .
- Creates a Tor settings file:
- `/usr/local/etc/torrc.d/40_tor_control_panel.conf`
- .
- anon-connection-wizard (ACW) is a Tor-launcher-like application that helps
- users in different Internet environment connect to the Tor network.
- It helps user to configure Tor to use a proxy and/or Tor bridges.
- This application is especially useful for system Tor users who would like
- to run the standalone core Tor with different torified applications.
- The wizard can be run at any time to change the connection configuration.
- .
- Creates a Tor settings file:
- `/usr/local/etc/torrc.d/40_tor_control_panel.conf`
- .
- anon-connection-wizard is produced independently from the Tor anonymity
- software and carries no guarantee from The Tor Project about quality,
- suitability or anything else.
+Depends: tor-control-panel (>= 1:8.4-1), ${misc:Depends}
+Description: Tor Connection Configuration (ACW) (transitional package)
+ This is a transitional dummy package, it can be safely removed. Its
+ functionality was merged with tor-control-panel.

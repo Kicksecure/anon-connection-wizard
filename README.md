@@ -1,23 +1,7 @@
 # Tor Connection Configuration (ACW) #
 
-WARNING: Not (yet) a standalone ready to use outside of Whonix:
-
-Creates a Tor settings file:
-`/usr/local/etc/torrc.d/40_tor_control_panel.conf`
-
-anon-connection-wizard (ACW) is a Tor-launcher-like application that helps
-users in different Internet environment connect to the Tor network.
-It helps user to configure Tor to use a proxy and/or Tor bridges.
-This application is especially useful for system Tor users who would like
-to run the standalone core Tor with different torified applications.
-The wizard can be run at any time to change the connection configuration.
-
-Creates a Tor settings file:
-`/usr/local/etc/torrc.d/40_tor_control_panel.conf`
-
-anon-connection-wizard is produced independently from the Tor anonymity
-software and carries no guarantee from The Tor Project about quality,
-suitability or anything else.
+This is a transitional dummy package, it can be safely removed. Its
+functionality was merged with tor-control-panel.
 
 ## How to install `anon-connection-wizard` using apt-get ##
 
