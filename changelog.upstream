@@ -1,3 +1,28 @@
+commit 94916d36dfea053f0b11473de63582f9c243e990
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Jul 7 06:32:57 2026 -0400
+
+    add debian install file (generated using "genmkfile debinstfile")
+
+commit 81f872f1fac54d6d6db2bea62b86f64376d3c041
+Merge: 347098b 444f55b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Jul 7 06:02:31 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit 444f55be442798420ac98b144deddad2030ef05c
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Mon Jul 6 00:02:46 2026 -0400
+
+    Make anon-connection-wizard transitional
+
+commit 347098bdd39b4d4a5e1ab1d8006159291a69c263
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 20 21:54:59 2026 +0000
+
+    bumped changelog version
+
 commit 0bc09c12d4bd35d6a7fc306dc812021eecc1b022
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 20 16:56:34 2026 -0400
